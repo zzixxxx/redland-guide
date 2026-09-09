@@ -103,7 +103,42 @@ const pokemon = {
   images: ['img/booths/B02/00.jpg', 'img/booths/B02/01.jpg', 'img/booths/B02/02.jpg', 'img/booths/B02/03.jpg', 'img/booths/B02/04.jpg'],
 }
 
+// 崩坏：星穹铁道：笔记主体是 4.5 版本线上征集活动，只收录其中「REDLAND 参展情报」部分
+const starRail = {
+  source: {
+    title: '独家爆料！砂金总监的特别行程（仅收录 RED LAND 参展情报部分）',
+    url: 'https://xhslink.cn/o/3Uavk4nqdSl',
+    noteId: '6a98e2b30000000011030ca9',
+    author: '崩坏：星穹铁道',
+    publishedAt: '2026-09-03',
+  },
+  boothNo: 'A9',
+  intro: 'RED LAND 行程播报：星际和平公司高管砂金先生和真珠女士，将于 10 月 2 日—10 月 6 日莅临上海复兴岛 RED LAND，视察星际和平公司相关展位。',
+  notes: ['具体参展消息详见活动页面', '展会相关后续活动内容，以 RED LAND 官方消息为准'],
+  activities: [
+    {
+      title: '砂金 & 真珠 确认登岛',
+      desc: '参展内容海报以砂金、真珠为主视觉，「星际和平公司高管砂金先生和真珠女士将莅临复兴岛视察星际和平公司相关展位」。现场形式以官方后续公告为准。',
+    },
+  ],
+  stage: [],
+  tasks: [
+    {
+      title: '互动打卡活动',
+      desc: '参与现场互动打卡，即可领取徽章，详细活动规则请以现场公告为准。',
+      rewards: ['RED LAND 2026 × 崩坏：星穹铁道 联名徽章（2 款：角色款 / 联名 LOGO 款）'],
+    },
+  ],
+  rewards: [
+    { name: '联名徽章 · 角色款', how: '现场互动打卡领取；每日发放数量有限，领取规则以 RED LAND 官方为准', pin: true },
+    { name: '联名徽章 · 联名 LOGO 款', how: '现场互动打卡领取；每日发放数量有限，领取规则以 RED LAND 官方为准', pin: true },
+  ],
+  footnote: '每日发放数量有限，领取规则以 RED LAND 官方为准。笔记中的 4.5 版本线上征集活动与展台无关，未收录。',
+  images: ['img/booths/A09/00.jpg', 'img/booths/A09/01.jpg'],
+}
+
 export default {
+  A09: starRail,
   B02: pokemon,
   C16: { ...pokemon, boothNo: 'C-16（同属宝可梦江畔乐游，详情与 B-02 / B-17 共用）' },
   A06: {
