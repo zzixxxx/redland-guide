@@ -63,15 +63,24 @@ export const eggs = {
   items: [
     {
       name: '老玩家专属款 PIN「初代目回归」',
-      desc: '曾在烈日炎炎下探险的勇士们，你的汗水已经结晶成永恒的纪念，老玩家专属 PIN 等你来领！',
+      desc: '去年登过岛的主角，开局自带「100 经验值」加成，线下可直接兑换「老玩家专属 PIN」。曾在烈日炎炎下探险的勇士们，你的汗水已经结晶成永恒的纪念！',
       note: '1.0 登岛老玩家每人限量领取一个',
+      image: 'img/rules/pin-npc/01.jpg',
     },
     {
-      name: 'NPC 互动款 PIN',
-      desc: '一年一度的限定相遇，岛民们正在期待着主角的到来，积极与岛上 NPC 互动，可能会掉落神秘奖励哦！',
-      note: '只由部分 NPC 角色发放，数量有限、先到先得',
+      name: 'NPC 互动款 PIN（7 款）',
+      desc: '上岛第一件事：直奔 NPC。靠近小岛的 NPC 会有随机惊喜任务掉落，和 TA 们聊天互动、合拍打卡即可获得「NPC 互动 PIN」。',
+      note: 'NPC 互动 PIN 库存有限，先到先得；只由部分 NPC 角色发放',
+      pins: ['AAA农产品批发', '排位连胜', 'CP金婚', '不吃压力', '十抽十金', '一定要CARRY全场吗 SORRY全场不行吗', '第 7 款待公布'],
+      images: ['img/rules/pin-npc/02.jpg', 'img/rules/pin-npc/03.jpg', 'img/rules/pin-npc/04.jpg'],
     },
   ],
+  source: {
+    title: 'PIN竟然还能这样？！集商高的进！',
+    url: 'https://xhslink.cn/o/1JAJZlR3ruk',
+    author: 'RED LAND',
+    publishedAt: '2026-08-25',
+  },
 }
 
 export const places = [

@@ -51,7 +51,8 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
 | `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」笔记 |
 
-- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。
+- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）。
+- `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），UI 尚未接入，是未来「PIN 图鉴」Tab 的数据源。每收录一个带 PIN 的展台详情，就把该 PIN 追加进 `pins[]`（`booth` 指向展位 id，`image` 先指向整张笔记图，后续再裁单枚缩略图）。
 - 术语：官方 8 月攻略半层叫「冒险岛的信物 / 冰箱贴」，8/25 PIN 笔记叫「冒险者拼图 / 冒险岛拼图完整体」，指同一件东西；UI 以「冒险者拼图」为主并括注旧称。PIN 按区域分色：翻身时空港橙 `#f26a2e`（A 区，需 4）、黄金海岸线黄 `#f2c23a`（B 区，需 2）、重生试炼场蓝 `#2f8fe6`（C 区，需 2）、夜间 PIN 黑。已收录展台的 PIN 颜色可用来反推区域。
 
 - **`booths[].xhs`**：`{ uid, name }` 该 IP 小红书官方账号（uid = 抓笔记时 `note.json` 里的 `user.userId`）。有则列表行出现 📕 按钮、详情页出现「小红书主页」按钮，方便用户去核对最新动态；没有的展位只给搜索按钮。每抓一条新 IP 笔记都要顺手把 uid 补进 `booths.js`。RED LAND 官方号 uid `685ce6320000000008039c70`（`src/utils/xhs.js`）。
@@ -148,3 +149,4 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口
 - [ ] 其余 IP 的展台详情（已收录 A06 星布谷地、A09 星穹铁道、A21 三丽鸥、A22 火影忍者、A25 Aniplex、A34 我的世界、B02 / C16 宝可梦、B16 宝藏码头）
 - [ ] 每日时刻横条里 15:00「展台嘉宾刷新」目前只有星布谷地的信息，随详情增多改为按展台聚合
+- [ ] PIN 图鉴功能（用户已提出「后续可能加入」）：数据已在 `pins.js`，待做 UI：按类型 / 区域筹选、每枚 PIN 的获取方式与来源展位、本机「已收集」勾选（可与展位打卡联动）、裁切单枚 PIN 缩略图。可作为第四个 Tab 或放在展位攻略页主线卡下方。

@@ -69,8 +69,15 @@
           <div v-for="e in eggs.items" :key="e.name" class="mt-6 small">
             <b>{{ e.name }}</b>
             <div>{{ e.desc }}</div>
+            <div v-if="e.pins" class="row wrap mt-6">
+              <span v-for="p in e.pins" :key="p" class="pill hot">{{ p }}</span>
+            </div>
             <div class="muted">*{{ e.note }}</div>
+            <div v-if="e.image || e.images" class="mt-6" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+              <img v-for="im in (e.images || [e.image])" :key="im" :src="base + im" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImg(base + im)" />
+            </div>
           </div>
+          <div class="small muted mt-6">图源：{{ eggs.source.author }}「{{ eggs.source.title }}」{{ eggs.source.publishedAt }} · <a :href="eggs.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
           <div class="hr" />
           <div v-for="p in places" :key="p.key" class="mt-6 small">
             <span class="tag text" :class="p.key === 'night' ? 'blue' : p.key === 'camp' ? 'green' : ''">{{ p.tag }}</span>
