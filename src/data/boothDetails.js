@@ -137,7 +137,73 @@ const starRail = {
   images: ['img/booths/A09/00.jpg', 'img/booths/A09/01.jpg'],
 }
 
+// 宝藏码头：RED LAND 官方号发布的集市型展位（黄金海岸线），含 IP 摊位名单与隐藏集章玩法
+const treasureDock = {
+  source: {
+    title: '⚓主角，跟薯一起去宝藏码头整点好物！',
+    url: 'https://xhslink.cn/o/1EgmPlmTPDr',
+    noteId: '6a9d2e7b00000000120259b9',
+    author: 'RED LAND',
+    publishedAt: '2026-09-06',
+  },
+  boothNo: 'B16',
+  hours: '每日 12:30 – 21:30',
+  location: '黄金海岸线「宝藏码头」',
+  intro:
+    '来自各次元的冒险者已经带着宝藏靠岸归港。这里就是传说中号称购“谷”圣地的「宝藏码头」——闪闪发光的限定好物、珍奇好价的宝藏谷、一眼心动的稀奇玩意，都将在这里等主角们亲自来淘！',
+  notes: ['虚拟偶像 Eon 的宝藏仅在 10 月 2–4 日出现', '小象大鹅的宝藏仅在 10 月 5–6 日出现'],
+  activities: [
+    {
+      title: '购“谷”圣地 · IP 周边摊位',
+      desc: '16 个 IP 摊位售卖限定好物与周边（名单见下方「摊位名单」），部分摊位限定日期出现。',
+    },
+    {
+      title: '隐藏玩法 · 神秘印章拼图',
+      desc: '到达宝藏码头入口服务处领取一份「打卡无料」，既能导览摊位也可收藏。逛摊间隙留意码头各个角落：公区堆头旁和各处角落藏着颜色、形状各不相同的神秘印章，集满并在打卡无料上盖章后，所有印章会拼合成一幅完整的隐藏画面。',
+    },
+  ],
+  stage: [],
+  tasks: [
+    {
+      title: '领取打卡无料',
+      desc: '宝藏码头入口服务处领取，可用于导览摊位与集章。',
+      rewards: ['宝藏码头打卡无料 ×1'],
+    },
+    {
+      title: '寻找神秘印章',
+      desc: '在公区堆头旁和各处角落找到全部神秘印章，盖在打卡无料上。',
+      rewards: ['集满后拼合成完整隐藏画面（内容待现场揭晓）'],
+    },
+  ],
+  rewards: [
+    { name: '宝藏码头打卡无料', how: '入口服务处免费领取' },
+    { name: '隐藏画面（印章拼图）', how: '集满码头各处神秘印章并盖章' },
+  ],
+  stalls: [
+    { name: '火影忍者疾风传', featured: true },
+    { name: '闪魂 ShiningSoul', featured: true },
+    { name: '超自然行动组' },
+    { name: '第五人格' },
+    { name: '火影忍者' },
+    { name: 'Lovania' },
+    { name: '漫威 授权商品售卖' },
+    { name: '猛兽派对' },
+    { name: '蓬蓬狗' },
+    { name: 'SEGA STORE SHANGHAI' },
+    { name: '双界引擎' },
+    { name: '王者好物' },
+    { name: '新创华' },
+    { name: '虚拟偶像 Eon', note: '仅 10 月 2–4 日' },
+    { name: '小象大鹅', note: '仅 10 月 5–6 日' },
+    { name: '永劫无间 IP' },
+  ],
+  stallsNote: '所有 IP 按照首字母缩写顺序排列',
+  footnote: '以上为官方 9 月 6 日公布信息，隐藏画面内容需现场揭晓。',
+  images: ['img/booths/B16/00.jpg', 'img/booths/B16/01.jpg'],
+}
+
 export default {
+  B16: treasureDock,
   A09: starRail,
   B02: pokemon,
   C16: { ...pokemon, boothNo: 'C-16（同属宝可梦江畔乐游，详情与 B-02 / B-17 共用）' },

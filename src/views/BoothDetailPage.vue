@@ -29,7 +29,8 @@
           <div class="mt-6">{{ detail.intro }}</div>
           <div class="row wrap mt-6">
             <span class="pill">⏰ {{ event.dateText }}</span>
-            <span class="pill">📍 上海 · 复兴岛</span>
+            <span v-if="detail.hours" class="pill hot">🕒 {{ detail.hours }}</span>
+            <span class="pill">📍 {{ detail.location || '上海 · 复兴岛' }}</span>
             <span class="pill warm">展位号 {{ detail.boothNo }}</span>
           </div>
           <div v-if="detail.notes?.length" class="mt-6">
@@ -54,6 +55,22 @@
             </div>
             <div v-if="i < detail.activities.length - 1" class="hr" />
           </div>
+        </div>
+      </div>
+
+      <!-- 摊位名单（集市型展位） -->
+      <div v-if="detail.stalls?.length" class="pcard mt-14">
+        <div class="pcard-body">
+          <div class="row between">
+            <div class="pcard-title">🛍 摊位名单</div>
+            <span class="tag yellow text" style="font-size:10px;padding:2px 6px">{{ detail.stalls.length }} 个 IP</span>
+          </div>
+          <div class="row wrap mt-6">
+            <span v-for="s in detail.stalls" :key="s.name" class="pill" :class="{ warm: s.featured, hot: s.note }">
+              {{ s.name }}<template v-if="s.note">（{{ s.note }}）</template>
+            </span>
+          </div>
+          <div v-if="detail.stallsNote" class="small muted mt-6">* {{ detail.stallsNote }}</div>
         </div>
       </div>
 
