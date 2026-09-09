@@ -283,6 +283,15 @@ img { max-width: 100%; display: block; }
 .theme-banner.moon { background: linear-gradient(135deg, #3b3a7a 0%, #1f2d5c 100%); color: #fff; }
 .theme-banner.moon .day { color: #ffe27a; }
 
+/* 桌面端（≥600px）：底栏与内容同宽居中；横滑条改为换行（鼠标无法横滑） */
+.tabbar { margin: 0 auto; max-width: 640px; }
+@media (min-width: 600px) {
+  .tabbar { border-left: 3px solid var(--navy); border-right: 3px solid var(--navy); }
+  .timeline, .chips { flex-wrap: wrap; overflow: visible; }
+  .tl-item { max-width: 210px; }
+  .hdr { border-left: 3px solid var(--navy); border-right: 3px solid var(--navy); }
+}
+
 /* 空态 */
 .empty { text-align: center; padding: 20px 10px; color: var(--muted); font-size: 13px; }
 
