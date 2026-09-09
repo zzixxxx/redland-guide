@@ -14,6 +14,19 @@ export const event = {
   address: '杨浦区共青路 130 号（复兴岛地铁站 2 号口步行约 110 米）',
 }
 
+// 场馆导航：用关键词搜索 URI（无需坐标，避免坐标系偏移），手机上会拉起对应 App
+const kw = encodeURIComponent('复兴岛船台PARK')
+export const venueNav = {
+  name: '复兴岛船台 PARK',
+  address: '上海市杨浦区共青路 130 号（地铁 12 号线复兴岛站 2 号口步行约 110 米）',
+  copyText: '上海市杨浦区共青路130号 复兴岛船台PARK',
+  links: [
+    { label: '高德地图', url: `https://uri.amap.com/search?keyword=${kw}&city=${encodeURIComponent('上海')}&view=map&callnative=1&src=redland-guide` },
+    { label: '百度地图', url: `https://map.baidu.com/search/${kw}?querytype=s&c=289&wd=${kw}` },
+    { label: 'Apple 地图', url: `https://maps.apple.com/?q=${kw}` },
+  ],
+}
+
 export const mainline = {
   title: '主线玩法',
   subtitle: '收集 PIN 形态的存档碎片，集齐「冒险者拼图」，解锁完整岛屿地图！',

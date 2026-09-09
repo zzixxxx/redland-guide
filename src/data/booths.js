@@ -1,11 +1,11 @@
 // IP 展位一览（官方「冒险者攻略 · IP展位一览」原文）
 // id 唯一；同一编号多个 IP 用 a/b/c 后缀。no 为官方展位编号。
 // region：官方三大区域名。A / B 来自 IP 官方笔记（三丽鸥 A-21、皮乐火影 A-22 写「翻身时空港」；RED LAND 官方号写宝藏码头 B16 在「黄金海岸线」），
-// C 为排除法推测，官方平面图公布后确认。need = 该区域开图需打卡的 IP 数（官方主线玩法）。
+// C 为排除法得出（三大区域只剩重生试炼场），用户决定 UI 上不再标「推测」。need = 该区域开图需打卡的 IP 数（官方主线玩法）。
 export const zones = [
-  { key: 'A', name: 'A 区', region: '翻身时空港', need: 4, confirmed: true, color: '#f26a2e', count: 0 },
-  { key: 'B', name: 'B 区', region: '黄金海岸线', need: 2, confirmed: true, color: '#f2c23a', count: 0 },
-  { key: 'C', name: 'C 区', region: '重生试炼场', need: 2, confirmed: false, color: '#2f8fe6', count: 0 },
+  { key: 'A', name: 'A 区', region: '翻身时空港', need: 4, color: '#f26a2e', count: 0 },
+  { key: 'B', name: 'B 区', region: '黄金海岸线', need: 2, color: '#f2c23a', count: 0 },
+  { key: 'C', name: 'C 区', region: '重生试炼场', need: 2, color: '#2f8fe6', count: 0 },
 ]
 
 export const booths = [

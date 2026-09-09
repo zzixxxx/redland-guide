@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <PageHeader title="冒险者攻略" :sub="`${event.dateText} · ${event.venue}`">
+    <PageHeader title="冒险者攻略" :sub="`${event.dateText} · 复兴岛船台 PARK`" :venue="venueNav">
       <template #right>
         <span class="tag yellow">{{ count }}/{{ booths.length }}</span>
       </template>
@@ -36,7 +36,7 @@
               </div>
               <div class="bar"><i :style="{ width: Math.min(100, (zoneDone(z.key) / z.need) * 100) + '%', background: z.color }" /></div>
               <div style="font-size:10px;color:var(--brown);margin-top:3px;line-height:1.3">
-                {{ z.region }}<span v-if="!z.confirmed" class="muted">（推测）</span>
+                {{ z.region }}
                 <span :style="{ color: zoneDone(z.key) >= z.need ? 'var(--green-dark)' : 'var(--muted)' }"> · 开图 {{ Math.min(zoneDone(z.key), z.need) }}/{{ z.need }}</span>
               </div>
             </div>
@@ -96,14 +96,13 @@
     <div class="mt-14">
       <div class="row between mb-6">
         <span class="sticker">IP 展位一览</span>
-        <a class="pbtn sm red" :href="profileUrl(REDLAND_XHS.uid)" target="_blank" rel="noopener">📕 RED LAND 官方号</a>
+        <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy);text-align:right">点击展位看活动 / 任务 / 奖励<br />📕 跳转该 IP 小红书主页</span>
       </div>
-      <div class="small mb-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">点击展位查看展台活动 / 任务 / 奖励；带 📕 的展位可跳转该 IP 小红书主页核对最新动态</div>
       <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
       <div class="chips mt-10">
         <button class="chip" :class="{ on: zone === 'ALL' }" @click="zone = 'ALL'">全部<small>{{ booths.length }}</small></button>
         <button v-for="z in zones" :key="z.key" class="chip" :class="{ on: zone === z.key }" @click="zone = z.key">
-          {{ z.name }}<small>{{ z.region }}{{ z.confirmed ? '' : '?' }} · {{ z.count }} IP</small>
+          {{ z.name }}<small>{{ z.region }}（{{ z.count }}）</small>
         </button>
         <button class="chip" :class="{ on: zone === 'DETAIL' }" @click="zone = 'DETAIL'">有攻略<small>{{ detailCount }}</small></button>
         <button class="chip" :class="{ on: zone === 'DONE' }" @click="zone = 'DONE'">已打卡<small>{{ count }}</small></button>
@@ -153,9 +152,9 @@ import { useRouter } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, mainline, eggs, places, dailySchedule } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule } from '../data/rules.js'
 import { useChecked } from '../composables/useStore.js'
-import { profileUrl, REDLAND_XHS } from '../utils/xhs.js'
+import { profileUrl } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()

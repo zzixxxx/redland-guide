@@ -171,6 +171,18 @@ img { max-width: 100%; display: block; }
 }
 .hdr-title { font-family: var(--font-pix); font-size: 20px; color: #fff; letter-spacing: 2px; text-shadow: 2px 2px 0 var(--navy); }
 .hdr-sub { font-size: 11px; color: #e8f3ff; font-weight: 600; }
+.hdr-nav { background: none; border: 0; padding: 0; text-align: left; color: #e8f3ff; display: inline-flex; align-items: center; gap: 6px; max-width: 100%; }
+.hdr-nav-tag {
+  font-family: var(--font-pix); font-size: 11px; letter-spacing: 1px; color: #fff;
+  background: var(--red); border: 1.5px solid var(--red-dark); box-shadow: 1.5px 1.5px 0 var(--red-dark);
+  padding: 1px 6px; border-radius: 2px; flex: 0 0 auto;
+}
+.hdr-navbox {
+  max-width: 640px; margin: 8px auto 0;
+  background: var(--paper); border: 3px solid var(--navy); box-shadow: 3px 3px 0 var(--navy); border-radius: 3px;
+  padding: 10px 12px;
+}
+.logo:hover, .logo:active { filter: brightness(1.08); }
 .hdr-back {
   width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center;
   background: var(--paper); border: 2px solid var(--navy); box-shadow: 2px 2px 0 var(--navy); border-radius: 3px;
