@@ -42,6 +42,11 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
    node scripts/fetch-note.mjs "https://xhslink.cn/o/xxxx" A06
    ```
    图片落在 `public/img/booths/A06/`，控制台打印一段可粘贴的骨架 JSON。
+   如果链接 302 到的是 ditto 专题页（`fe.xiaohongshu.com/ditto/vincent/<id>`，如阅文 A35「读档！就现在」），改用：
+   ```bash
+   node scripts/fetch-ditto.mjs "https://xhslink.com/m/xxxx" public/img/booths/A35/raw --sub
+   ```
+   会把目录页与热区跳转的子页图片、关注组件里的账号 uid 一起落盘到 `ditto.json`。
 3. 看图把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js` 对应 key（key 就是 `booths.js` 里的 `id`）。
 4. 大图建议压到 810px 宽（脚本不压图），列表页会自动出现「攻略」角标。
 
@@ -50,4 +55,4 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
 - 场馆平面图（官方未公布，首页已留占位卡）
 - A/B/C 区 ↔ 翻身时空港 / 重生试炼场 / 黄金海岸线 的映射
 - 夜间模式开启时刻、9 月底活动预约入口
-- 其余 IP 的展台详情（目前已收录：A06 星布谷地、A09 崩坏：星穹铁道、A21 三丽鸥、A22 火影忍者、A25 Aniplex（鬼灭之刃 / 孤独摇滚）、A34 我的世界、B02 / B17 / C16 宝可梦、B16 宝藏码头）
+- 其余 IP 的展台详情（目前已收录：A06 星布谷地、A09 崩坏：星穹铁道、A21 三丽鸥、A22 火影忍者、A25 Aniplex（鬼灭之刃 / 孤独摇滚）、A34 我的世界、A35 阅文（全职高手 / 诡秘之主 / 一人之下 / 道诡异仙 / 狐妖小红娘 / 阅文好物）、B02 / B17 / C16 宝可梦、B16 宝藏码头）

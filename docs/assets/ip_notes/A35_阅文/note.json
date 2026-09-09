@@ -1,0 +1,501 @@
+{
+  "type": "ditto",
+  "title": "读档！就现在（阅文集团 × RED LAND 2026 专题页）",
+  "shareTitle": "读档！就现在",
+  "shareDesc": "五大IP集结！你存过的名场面，当面燃！",
+  "url": "https://xhslink.com/m/5omtDcLqcLl",
+  "hubPageId": "cc6a09bbd38640d995705bed8335cf0c",
+  "hubFinalUrl": "https://ditto.xiaohongshu.net/ditto/vincent/cc6a09bbd38640d995705bed8335cf0c/dynpath8728bb4d?naviHidden=yes&fullscreen=true&source=share",
+  "lastEditTime": "2026-09-04 11:11:49",
+  "startTime": "2026-08-26T16:00:00.000Z",
+  "endTime": "2026-10-12T15:59:59.000Z",
+  "author": "阅文集团 × 小红书 RED LAND",
+  "pages": [
+    {
+      "key": "hub",
+      "pageId": "cc6a09bbd38640d995705bed8335cf0c",
+      "pageName": "测试",
+      "shareTitle": "读档！就现在",
+      "shareDesc": "五大IP集结！你存过的名场面，当面燃！",
+      "lastEditTime": "2026-09-04 11:11:49",
+      "followUserId": null,
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324m9ec497u06il4de8jpk00000000064k1liu",
+          "width": 1125,
+          "height": 738,
+          "kept": null,
+          "skip": "角色拼贴插画"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324m9eem17k06il4de8jpk0000000006th4d6o",
+          "width": 1125,
+          "height": 600,
+          "kept": "img/booths/A35/hub-01.jpg"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvc7bqna06il4de8jpk0000000000132umk",
+          "width": 1124,
+          "height": 675,
+          "kept": "img/booths/A35/hub-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvcaq57u06il4de8jpk0000000001e3d6q2",
+          "width": 1125,
+          "height": 885,
+          "kept": "img/booths/A35/hub-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvcp81na06il4de8jpk0000000003nq216m",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（全职高手）",
+          "subPage": "b839c3ef3a0a4f67935b13efb77d565a"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvcug1ga76il4de8jpk0000000002l0b7gk",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（诡秘之主）",
+          "subPage": "dd18ff09cf7e4c289dec710f28ada5a3"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvd0hvnu06il4de8jpk00000000047jr19s",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（一人之下）",
+          "subPage": "d0f87b18f4d54bbfb3e0a345ab58b4cb"
+        },
+        {
+          "idx": 7,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvd2klnk06il4de8jpk0000000001ad65e4",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（道诡异仙）",
+          "subPage": "521379d04aee479db63060c7fca5a904"
+        },
+        {
+          "idx": 8,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvd4h2go06il4de8jpk0000000007u4r9nm",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（狐妖小红娘）",
+          "subPage": "6931df6c83534e388db00facee8cef22"
+        },
+        {
+          "idx": 9,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvd699go06il4de8jpk00000000053l4mp6",
+          "width": 1125,
+          "height": 366,
+          "kept": null,
+          "skip": "入口横幅（阅文好物）",
+          "subPage": "72824a11520c43e29633aa8b2481bb25"
+        },
+        {
+          "idx": 10,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324jvcmj47a06il4de8jpk0000000005hpmu9q",
+          "width": 1125,
+          "height": 186,
+          "kept": null,
+          "skip": "空白分隔条"
+        }
+      ]
+    },
+    {
+      "key": "sub0",
+      "pageId": "b839c3ef3a0a4f67935b13efb77d565a",
+      "pageName": "全职高手",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-03 17:22:50",
+      "followUserId": "6580114200000000190118cb",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8u1u2nu76il4de8jpk0000000000b8rt3g",
+          "width": 1125,
+          "height": 360,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k16ppd0a06il4de8jpk0000000005sjk110",
+          "width": 1125,
+          "height": 450,
+          "kept": null,
+          "skip": "角色插画"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k16rjqgo06il4de8jpk0000000001fp5nv0",
+          "width": 1125,
+          "height": 345,
+          "kept": null,
+          "skip": "角色插画"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k16tpbga06il4de8jpk0000000004fk5nv8",
+          "width": 1125,
+          "height": 555,
+          "kept": "img/booths/A35/quanzhi-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k18dq07k06il4de8jpk00000000065ovjcu",
+          "width": 1125,
+          "height": 364,
+          "kept": "img/booths/A35/quanzhi-04.jpg"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k18kd07k06il4de8jpk0000000002bdo9jm",
+          "width": 1125,
+          "height": 310,
+          "kept": null,
+          "skip": "「三步通关」段标题"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324laqflpgol6il4de8jpk0000000002elkcno",
+          "width": 1125,
+          "height": 810,
+          "kept": "img/booths/A35/quanzhi-06.jpg"
+        },
+        {
+          "idx": 7,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324laqjionk06il4de8jpk000000000538ofeq",
+          "width": 1125,
+          "height": 975,
+          "kept": "img/booths/A35/quanzhi-07.jpg"
+        }
+      ]
+    },
+    {
+      "key": "sub1",
+      "pageId": "dd18ff09cf7e4c289dec710f28ada5a3",
+      "pageName": "诡秘之主",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-03 16:15:08",
+      "followUserId": "6423c4fd00000000110224d6",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8tqf60a06il4de8jpk0000000007u5bqn6",
+          "width": 1124,
+          "height": 540,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1quov7a06il4de8jpk00000000072lfl7a",
+          "width": 1125,
+          "height": 525,
+          "kept": null,
+          "skip": "角色插画"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1r0ubna76il4de8jpk0000000006enr3t0",
+          "width": 1125,
+          "height": 480,
+          "kept": "img/booths/A35/guimi-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1r7aona06il4de8jpk0000000002pjkaem",
+          "width": 1125,
+          "height": 423,
+          "kept": "img/booths/A35/guimi-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1rd1vgo06il4de8jpk00000000025l065s",
+          "width": 1125,
+          "height": 243,
+          "kept": null,
+          "skip": "「全民淘金」段标题（线上活动）"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1rjlega06il4de8jpk0000000001ibi1ne",
+          "width": 1124,
+          "height": 1320,
+          "kept": null,
+          "skip": "创作者大赛 / 周边预告 / 线上有奖任务（线上活动，不收录）"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1rma1nu76il4de8jpk00000000017e99vi",
+          "width": 1124,
+          "height": 1620,
+          "kept": "img/booths/A35/guimi-06.jpg"
+        }
+      ]
+    },
+    {
+      "key": "sub2",
+      "pageId": "d0f87b18f4d54bbfb3e0a345ab58b4cb",
+      "pageName": "一人之下",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-03 16:14:54",
+      "followUserId": "6075660a000000000101db5f",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8tjgina06il4de8jpk0000000005ob1cta",
+          "width": 1125,
+          "height": 780,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1sqan0a06il4de8jpk00000000010f3csa",
+          "width": 1125,
+          "height": 570,
+          "kept": "img/booths/A35/yiren-01.jpg"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1ssq5ga06il4de8jpk00000000009fc6oc",
+          "width": 1125,
+          "height": 360,
+          "kept": "img/booths/A35/yiren-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1t2450a06il4de8jpk0000000005i13qbc",
+          "width": 1125,
+          "height": 308,
+          "kept": "img/booths/A35/yiren-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1t81k7u06il4de8jpk0000000006qjilr4",
+          "width": 1122,
+          "height": 323,
+          "kept": null,
+          "skip": "「玩法亮点」段标题"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1tcbt7k76il4de8jpk0000000006861412",
+          "width": 1125,
+          "height": 960,
+          "kept": "img/booths/A35/yiren-05.jpg"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1tensga06il4de8jpk0000000004moa5d0",
+          "width": 1125,
+          "height": 626,
+          "kept": "img/booths/A35/yiren-06.jpg"
+        },
+        {
+          "idx": 7,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1tj200a06il4de8jpk0000000000puhk5k",
+          "width": 1125,
+          "height": 1659,
+          "kept": "img/booths/A35/yiren-07.jpg"
+        }
+      ]
+    },
+    {
+      "key": "sub3",
+      "pageId": "521379d04aee479db63060c7fca5a904",
+      "pageName": "道诡异仙",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-03 16:14:40",
+      "followUserId": "66e38d39000000001d023a09",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8tcldnk06il4de8jpk000000000345eg0q",
+          "width": 1125,
+          "height": 450,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1unj8na06il4de8jpk000000000489scf6",
+          "width": 1125,
+          "height": 480,
+          "kept": null,
+          "skip": "角色插画"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1usq77k06il4de8jpk0000000000tc0rlm",
+          "width": 1125,
+          "height": 1119,
+          "kept": "img/booths/A35/daogui-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1v1agnu06il4de8jpk0000000002kgrbsu",
+          "width": 1125,
+          "height": 226,
+          "kept": null,
+          "skip": "「雀馆指南」段标题"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1v6t1na06il4de8jpk0000000000m3v57c",
+          "width": 1125,
+          "height": 1770,
+          "kept": "img/booths/A35/daogui-04.jpg"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1v8rfnu06il4de8jpk0000000001u7a4nk",
+          "width": 1125,
+          "height": 1140,
+          "kept": "img/booths/A35/daogui-05.jpg"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k1vbg70a06il4de8jpk0000000007v2f0uu",
+          "width": 1125,
+          "height": 888,
+          "kept": "img/booths/A35/daogui-06.jpg"
+        }
+      ]
+    },
+    {
+      "key": "sub4",
+      "pageId": "6931df6c83534e388db00facee8cef22",
+      "pageName": "狐妖小红娘",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-03 16:14:26",
+      "followUserId": "60645d67000000000100401a",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8t6blnul6il4de8jpk0000000007dc445s",
+          "width": 1125,
+          "height": 471,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k20akj0a06il4de8jpk0000000002aqdmj0",
+          "width": 1125,
+          "height": 489,
+          "kept": "img/booths/A35/huyao-01.jpg"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k20f21go06il4de8jpk00000000071b8gl4",
+          "width": 1125,
+          "height": 718,
+          "kept": "img/booths/A35/huyao-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k20kla7k06il4de8jpk00000000044p9u7g",
+          "width": 1125,
+          "height": 558,
+          "kept": "img/booths/A35/huyao-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k20qebnk06il4de8jpk000000000751hu4u",
+          "width": 1125,
+          "height": 1200,
+          "kept": "img/booths/A35/huyao-04.jpg"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k20s5nnu06il4de8jpk000000000038iiaa",
+          "width": 1125,
+          "height": 1590,
+          "kept": "img/booths/A35/huyao-05.jpg"
+        }
+      ]
+    },
+    {
+      "key": "sub5",
+      "pageId": "72824a11520c43e29633aa8b2481bb25",
+      "pageName": "阅文好物",
+      "shareTitle": "小红书",
+      "shareDesc": "你的生活指南",
+      "lastEditTime": "2026-09-04 11:09:16",
+      "followUserId": "5f0891770000000001003d1e",
+      "images": [
+        {
+          "idx": 0,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324l8suts7a06il4de8jpk0000000002f3kalg",
+          "width": 1125,
+          "height": 642,
+          "kept": null,
+          "skip": "logo 头图"
+        },
+        {
+          "idx": 1,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k21m1i7u06il4de8jpk0000000006osnuaa",
+          "width": 1125,
+          "height": 504,
+          "kept": null,
+          "skip": "角色拼贴插画"
+        },
+        {
+          "idx": 2,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k21npgna06il4de8jpk0000000000b9r49m",
+          "width": 1125,
+          "height": 525,
+          "kept": "img/booths/A35/haowu-02.jpg"
+        },
+        {
+          "idx": 3,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k21tqfgae6il4de8jpk0000000005591l0m",
+          "width": 1125,
+          "height": 359,
+          "kept": "img/booths/A35/haowu-03.jpg"
+        },
+        {
+          "idx": 4,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324k222cm7a06il4de8jpk0000000003nq217s",
+          "width": 1125,
+          "height": 315,
+          "kept": "img/booths/A35/haowu-04.jpg"
+        },
+        {
+          "idx": 5,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324m9bvtinu06il4de8jpk0000000002isee7u",
+          "width": 1125,
+          "height": 930,
+          "kept": "img/booths/A35/haowu-05.jpg"
+        },
+        {
+          "idx": 6,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0324m9c4qpnu06il4de8jpk00000000005ai52g",
+          "width": 1125,
+          "height": 834,
+          "kept": "img/booths/A35/haowu-06.jpg"
+        }
+      ]
+    }
+  ],
+  "keptOnly": "只保留说明文字 / 玩法 / 任务 / 奖励图；logo 头图、纯角色插画、入口横幅与诡秘之主「全民淘金」线上活动段未收录（各图 skip 字段注明原因）。文件名 = 子页前缀-原图序号。图片转录见 docs/raw/ip_yuewen_*.json 与信息汇总 md 第 13.2 章。"
+}

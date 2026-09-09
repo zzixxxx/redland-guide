@@ -37,6 +37,7 @@ src/
   data/                       所有内容数据，纯 JS 模块，见 §4
 public/img/booths/<展位id>/   各 IP 笔记原图（建议 810px 宽 JPEG）+ note.json（抓取原始数据）
 scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDetails 骨架
+scripts/fetch-ditto.mjs       抓 ditto 专题页（目录页 + --sub 子页）全部图片、热区跳转、关注组件 uid → ditto.json
 docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
 .github/workflows/deploy.yml  push main → build → GitHub Pages
 ```
@@ -86,7 +87,8 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 }
 ```
 
-已收录：`A06` 星布谷地；`B02`（B-02 / B-17）与 `C16` 宝可梦（一条笔记覆盖三个展位，两个 key 共用同一对象，只改 `boothNo`）；`A09` 崩坏：星穹铁道（笔记主体是线上征集，只收录 RED LAND 参展情报两张图）；`B16` 宝藏码头（RED LAND 官方号发布，集市型，用 `hours / location / stalls`）；`A21` 三丽鸥（餐车型，用 `menu`）；`A22` 火影忍者 / 皮乐中国；`A25a`+`A25b` Aniplex（鬼灭之刃 / 孤独摇滚共用）；`A34` 我的世界。其余 IP 详情按 §6 流程补。
+已收录：`A06` 星布谷地；`B02`（B-02 / B-17）与 `C16` 宝可梦（一条笔记覆盖三个展位，两个 key 共用同一对象，只改 `boothNo`）；`A09` 崩坏：星穹铁道（笔记主体是线上征集，只收录 RED LAND 参展情报两张图）；`B16` 宝藏码头（RED LAND 官方号发布，集市型，用 `hours / location / stalls`）；`A21` 三丽鸥（餐车型，用 `menu`）；`A22` 火影忍者 / 皮乐中国；`A25a`+`A25b` Aniplex（鬼灭之刃 / 孤独摇滚共用）；`A34` 我的世界；`A35` 阅文（来源是 ditto 专题页而非笔记，五大 IP + 阅文好物共用展位，活动 / 任务按「IP 名 · 项目」分列，`accounts` 列 6 个官方账号 uid，图片文件名 = 子页前缀-原图序号）。其余 IP 详情按 §6 流程补。
+- **`detail.accounts`**（可选）：多 IP 共用展位时列出各 IP 官方账号 `[{ uid, name }]`，详情页在主账号按钮下方渲染一排「📕 IP 名」按钮（自动去掉与 `booths[].xhs` 重复的那个）。`booths[].xhs` 仍只放一个主账号（阅文取官方页里让用户关注的 @阅文好物）。
 - 链接看不出是哪个 IP 时，先用临时 id（如 `_tmp`）跑脚本，看 `author` 后把 `public/img/booths/_tmp` 改名为正式 id，并同步改 `note.json` 里的 `images` 路径。
 - 笔记里夹带的线上活动（版本征集、抽奖、送票）一律不收；`images` 只保留与展台相关的图，删掉的图在 `note.json` 里加 `keptOnly` 说明。`source.title` 后加「（仅收录 RED LAND 参展情报部分）」提示。
 - 一条笔记覆盖多个展位时：用 `const xxx = {...}` 定义一次，多个 key 引用并用展开覆盖 `boothNo`，不要复制两份数据。
@@ -107,6 +109,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 ## 6. 补充一个 IP 的展台详情（标准流程）
 
 1. 拿到该 IP **官方账号**的小红书笔记链接（`xhslink.cn/o/...` 或 `xiaohongshu.com/discovery/item/...`）。注意：这类笔记是各 IP 自己发的，不是 RED LAND 官方号，只能逐条补。
+   - 若 `fetch-note.mjs` 报「未解析到 noteData」且最终 URL 是 `ditto.xiaohongshu.net/ditto/vincent/<id>`，说明是 **ditto 专题页**（大厂多 IP 展位常用，如阅文 A35），改跑 `node scripts/fetch-ditto.mjs "<链接>" public/img/booths/<id>/raw --sub`：目录页 + 子页图片落 `raw/`、`raw/sub-<n>/`，`ditto.json` 里有每张图 CDN 地址、热区跳转与关注组件 uid（= 各 IP 官方账号）。看完图后把要保留的图压成 `<子页前缀>-<原图序号>.jpg` 放到 `public/img/booths/<id>/`，删掉 `raw/`，`note.json` 记录 54 张原图的取舍（参考 A35）。source.noteId 填 ditto 页 id，publishedAt 填 `pageConfig.lastEditTime`。
 2. 抓正文与图片：
    ```bash
    node scripts/fetch-note.mjs "<链接>" <展位id>     # 例：node scripts/fetch-note.mjs "https://xhslink.cn/o/2KHjtNJUxgl" A06
@@ -140,7 +143,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 ## 9. 资料底稿与抓取技巧
 
 - 官方活动页全部素材与逐图转录在项目内 `docs/`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`，约 42MB，不参与构建）。改数据先查这份底稿，不要凭记忆。`docs/assets/ip_notes/` 与 `public/img/booths/` 是同一批笔记图（前者按「展位号_IP」归档给人看，后者给页面用）。
-- 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。
+- 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。IP 专题页同理（阅文「读档！就现在」hub `cc6a09bbd38640d995705bed8335cf0c`），子页里的 `OnixDittoFollowNew.userId` 就是该 IP 官方账号 uid；主页接口 `xiaohongshu.com/user/profile/<uid>` 无 cookie 会 302 到验证码页，拿不到昵称。
 - 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。
 - 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名，抓到就落盘。
 
@@ -149,6 +152,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - [ ] 场馆平面图（官方未公布）→ 接入首页占位卡，展位挂坐标
 - [x] A / B / C 区 ↔ 三大区域映射：`booths.js zones[].region`（A=翻身时空港、B=黄金海岸线 有官方笔记依据；C=重生试炼场 为排除法）。用户决定 UI 不标「推测」；区域芯片文案格式为「翻身时空港（44）」。开图进度条按 `need`（4/2/2）计算。官方平面图公布后若有出入再改。
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口
-- [ ] 其余 IP 的展台详情（已收录 A06 星布谷地、A09 星穹铁道、A21 三丽鸥、A22 火影忍者、A25 Aniplex、A34 我的世界、B02 / C16 宝可梦、B16 宝藏码头）
+- [ ] 其余 IP 的展台详情（已收录 A06 星布谷地、A09 星穹铁道、A21 三丽鸥、A22 火影忍者、A25 Aniplex、A34 我的世界、A35 阅文、B02 / C16 宝可梦、B16 宝藏码头）
+- [ ] A35 阅文：道诡异仙「PIN 卡」是否为冒险者拼图 PIN 待确认（确认后补进 `pins.js`）；狐妖小红娘集章话题、阅文好物无料详情、王也生日会礼赠均「待公布」，专题页 `endTime` 10/12，10 月前重抓 diff；6 个 IP 账号昵称未核实（用栏目名代替）
 - [ ] 每日时刻横条里 15:00「展台嘉宾刷新」目前只有星布谷地的信息，随详情增多改为按展台聚合
 - [ ] PIN 图鉴功能（用户已提出「后续可能加入」）：数据已在 `pins.js`，待做 UI：按类型 / 区域筹选、每枚 PIN 的获取方式与来源展位、本机「已收集」勾选（可与展位打卡联动）、裁切单枚 PIN 缩略图。可作为第四个 Tab 或放在展位攻略页主线卡下方。
