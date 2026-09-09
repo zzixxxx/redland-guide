@@ -113,6 +113,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 
 - 分支 `main`；push 后 `.github/workflows/deploy.yml` 自动 `npm ci && npm run build` 并发布到 Pages（Pages 源已设为 GitHub Actions）。
 - 提交信息中文，前缀 `feat / fix / data / style / chore / docs`，例：`data: 补充 A10 原神展台详情`。结尾带 `Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>`。
+- 提交用本机全局 git 身份（`xzz <2885017597@qq.com>`），不要用 `-c user.*` 覆盖。（v0.1 的前三次提交邮箱写成了 swift 邮箱，不必改历史。）
 - push `main` 前 review 本次 commit 列表，判断 README 是否需要同步（新增 Tab / 数据文件 / 流程变化都要更新 README 与本文件）。
 - 本机没有 `gh`；需要调 GitHub API 时用 `git credential fill` 取令牌（用户 zzixxxx），不要把令牌打印到输出。
 
