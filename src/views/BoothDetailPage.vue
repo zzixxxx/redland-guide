@@ -18,6 +18,11 @@
         </div>
         <div class="mt-10" style="font-size:15px;color:var(--brown);font-weight:700">{{ booth.blurb }}</div>
         <div class="small muted mt-6">—— 官方「IP 展位一览」</div>
+        <div class="row wrap mt-10" style="gap:8px">
+          <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener">📕 小红书主页 @{{ booth.xhs.name }}</a>
+          <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener">🔍 搜「{{ booth.ip }} RED LAND」</a>
+        </div>
+        <div v-if="!booth.xhs" class="small muted mt-6">尚未记录该 IP 的小红书官方账号，抓到其展台笔记后会补上主页入口。</div>
       </div>
     </div>
 
@@ -175,11 +180,10 @@
     <div v-if="!detail" class="pcard mt-14">
       <div class="pcard-body">
         <div class="pcard-title">📝 展台详情待补充</div>
-        <div class="small mt-6">该 IP 官方账号发布「展台活动详情」笔记后会同步到这里。你也可以直接去小红书搜索：</div>
+        <div class="small mt-6">该 IP 官方账号发布「展台活动详情」笔记后会同步到这里。可先用上方按钮去小红书主页 / 搜索核对最新动态，搜索关键词：</div>
         <div class="pill warm mt-6" style="display:block;word-break:break-all">{{ keyword }}</div>
         <div class="row mt-10">
           <button class="pbtn sm ghost" @click="copy">复制关键词</button>
-          <a class="pbtn sm red" :href="searchUrl" target="_blank" rel="noopener">打开小红书搜索</a>
         </div>
         <div v-if="copied" class="small mt-6" style="color:var(--green-dark)">已复制</div>
       </div>
@@ -212,6 +216,7 @@ import boothDetails from '../data/boothDetails.js'
 import { indieGames } from '../data/indie.js'
 import { event } from '../data/rules.js'
 import { useChecked } from '../composables/useStore.js'
+import { profileUrl, searchUrl, boothSearchKeyword } from '../utils/xhs.js'
 
 const props = defineProps({ id: String })
 const booth = computed(() => boothMap[props.id])
@@ -221,8 +226,7 @@ const base = import.meta.env.BASE_URL
 const lb = ref(null)
 const copied = ref(false)
 
-const keyword = computed(() => `RED LAND2026 ${booth.value?.ip} 展台活动详情`)
-const searchUrl = computed(() => `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(keyword.value)}`)
+const keyword = computed(() => (booth.value ? boothSearchKeyword(booth.value) : ''))
 
 async function copy() {
   try {

@@ -16,21 +16,33 @@ export const event = {
 
 export const mainline = {
   title: '主线玩法',
-  subtitle: '收集 PIN 形态的存档碎片，解锁完整岛屿地图！',
+  subtitle: '收集 PIN 形态的存档碎片，集齐「冒险者拼图」，解锁完整岛屿地图！',
   steps: [
-    '自由探索冒险岛，完成各 IP 展位的任务获得 PIN 形式的「存档碎片」，提升存档进度。',
-    '每个区域打卡对应数量的展位，即可完成该区域开图。前往三大区域结算点，兑换对应区域的「冒险岛的信物」。',
-    '集齐三个区域的信物，即可合成「RED LAND 2026 冒险岛」冰箱贴！',
+    '自由探索小岛，前往各 IP 展位互动点参与互动，即可收获各 IP 限定 PIN（「存档碎片」）。每日数量有限，先到先得。',
+    '完成对应区域所需数量的 PIN 后，前往该区域结算点，兑换对应区域的「冒险者拼图」（8 月攻略半层称「冒险岛的信物」）。',
+    '收集完三个区域的「冒险者拼图」，最终拼成一个完整的 RED LAND 2026 冒险岛拼图完整体，把这份美好的记忆带回家。',
   ],
+  // PIN 按区域分色（官方 8 月 25 日 PIN 收集玩法图）
   regions: [
-    { name: '翻身时空港', need: 4 },
-    { name: '黄金海岸线', need: 2 },
-    { name: '重生试炼场', need: 2 },
+    { name: '翻身时空港', need: 4, zone: 'A', pin: '橙色 PIN', color: '#f26a2e' },
+    { name: '黄金海岸线', need: 2, zone: 'B', pin: '黄色 PIN', color: '#f2c23a' },
+    { name: '重生试炼场', need: 2, zone: 'C', pin: '蓝色 PIN', color: '#2f8fe6' },
   ],
+  nightPin: { name: '夜间 PIN', desc: '黑色夜间限定 PIN，夜间发放；月下模式下将有神秘变体 PIN 掉落，请务必逗留到夜幕降临！', color: '#1f2a1f' },
   tips: [
-    '夜间模式下将有神秘变体 PIN 掉落，请务必逗留到夜幕降临！',
-    '展位 PIN 每日掉落数量有限，先到先得。',
+    '各 IP 展位 PIN 每日数量有限，先到先得。',
+    '已收录的展台详情里，星布谷地 / 星穹铁道 / 我的世界（A 区）PIN 为橙色，宝可梦（B 区）PIN 为黄色，与区域分色一致。',
   ],
+  images: [
+    { src: 'img/rules/pin/01.jpg', alt: '三大区域 PIN 与冒险者拼图兑换规则' },
+    { src: 'img/rules/pin/02.jpg', alt: 'RED LAND 2026 冒险者拼图完整体（岛屿三区域示意）' },
+  ],
+  source: {
+    title: '人是铁！PIN是钢！全部拿下响当当！',
+    url: 'https://xhslink.cn/o/2nRsiczOkgz',
+    author: 'RED LAND',
+    publishedAt: '2026-08-25',
+  },
 }
 
 export const eggs = {

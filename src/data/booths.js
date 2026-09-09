@@ -3,9 +3,9 @@
 // region：官方三大区域名。A / B 来自 IP 官方笔记（三丽鸥 A-21、皮乐火影 A-22 写「翻身时空港」；RED LAND 官方号写宝藏码头 B16 在「黄金海岸线」），
 // C 为排除法推测，官方平面图公布后确认。need = 该区域开图需打卡的 IP 数（官方主线玩法）。
 export const zones = [
-  { key: 'A', name: 'A 区', region: '翻身时空港', need: 4, confirmed: true, count: 0 },
-  { key: 'B', name: 'B 区', region: '黄金海岸线', need: 2, confirmed: true, count: 0 },
-  { key: 'C', name: 'C 区', region: '重生试炼场', need: 2, confirmed: false, count: 0 },
+  { key: 'A', name: 'A 区', region: '翻身时空港', need: 4, confirmed: true, color: '#f26a2e', count: 0 },
+  { key: 'B', name: 'B 区', region: '黄金海岸线', need: 2, confirmed: true, color: '#f2c23a', count: 0 },
+  { key: 'C', name: 'C 区', region: '重生试炼场', need: 2, confirmed: false, color: '#2f8fe6', count: 0 },
 ]
 
 export const booths = [
@@ -16,9 +16,9 @@ export const booths = [
   { id: 'A03a', zone: 'A', no: 'A03', ip: '王者万象棋', blurb: '棋手闺蜜团登岛炸场！' },
   { id: 'A03b', zone: 'A', no: 'A03', ip: '王者荣耀世界', blurb: '世民入镜，你是世界里的风景' },
   { id: 'A05', zone: 'A', no: 'A05', ip: '心动小镇', blurb: '小镇庆典日开张，庆典派对狂欢不停！' },
-  { id: 'A06', zone: 'A', no: 'A06', ip: '星布谷地', blurb: '米哈游最新生活模拟游戏国内首展，感受治愈新生活！' },
+  { id: 'A06', zone: 'A', no: 'A06', ip: '星布谷地', blurb: '米哈游最新生活模拟游戏国内首展，感受治愈新生活！', xhs: { uid: '619603700000000021028fc6', name: '星布谷地' } },
   { id: 'A08', zone: 'A', no: 'A08', ip: '代号如意', blurb: '探索他的生活与秘密，完成只属于妳的心动任务。' },
-  { id: 'A09', zone: 'A', no: 'A09', ip: '崩坏：星穹铁道', blurb: '快来看看银河球棒侠和 TA 的小伙伴们吧！' },
+  { id: 'A09', zone: 'A', no: 'A09', ip: '崩坏：星穹铁道', blurb: '快来看看银河球棒侠和 TA 的小伙伴们吧！', xhs: { uid: '61dd94d3000000001000b155', name: '崩坏：星穹铁道' } },
   { id: 'A10', zone: 'A', no: 'A10', ip: '原神', blurb: '这是于严寒中淬炼的文明，至冬已至' },
   { id: 'A11', zone: 'A', no: 'A11', ip: '绝区零', blurb: '哇哒哇哒嗯呐哒，欢迎来到罗斯凯利法！' },
   { id: 'A12', zone: 'A', no: 'A12', ip: '超自然行动组', blurb: '巨型傩女打破次元壁，中式恐怖氛围拿捏！' },
@@ -33,12 +33,12 @@ export const booths = [
   { id: 'A18', zone: 'A', no: 'A18', ip: '伊莫', blurb: '伊莫的浪漫旅行：花海有莫“巨”梦幻' },
   { id: 'A19', zone: 'A', no: 'A19', ip: '黑神话 BLACKMYTH', blurb: '悟空、钟馗等黑神话海量展品与独家活动等你来打卡' },
   { id: 'A20', zone: 'A', no: 'A20', ip: '上海迪士尼度假区', blurb: '疯狂嚎叫节城外海选，一起来现场放声嚎叫！' },
-  { id: 'A21', zone: 'A', no: 'A21', ip: 'Sanrio', blurb: '速来集结！和大明星们开启快乐的星球漫步之旅吧' },
-  { id: 'A22', zone: 'A', no: 'A22', ip: '皮乐中国｜火影忍者', blurb: '鸣人向你发出吃面邀约！忍者试炼现场开考' },
+  { id: 'A21', zone: 'A', no: 'A21', ip: 'Sanrio', blurb: '速来集结！和大明星们开启快乐的星球漫步之旅吧', xhs: { uid: '5ba9dd7953c4f60001664591', name: 'Sanrio三丽鸥' } },
+  { id: 'A22', zone: 'A', no: 'A22', ip: '皮乐中国｜火影忍者', blurb: '鸣人向你发出吃面邀约！忍者试炼现场开考', xhs: { uid: '628b52ff0000000021024b24', name: '皮乐动漫' } },
   { id: 'A23', zone: 'A', no: 'A23', ip: '航海王', blurb: '会动的千里阳光号，路飞乔巴现身，戴上草帽一起打卡！' },
   { id: 'A24', zone: 'A', no: 'A24', ip: 'SCLA', blurb: '九大经典 IP 集结！勇敢的主角啊快去创造奇迹！' },
-  { id: 'A25a', zone: 'A', no: 'A25', ip: '鬼灭之刃', blurb: '潜入无限城，为鬼杀队传递生死战况' },
-  { id: 'A25b', zone: 'A', no: 'A25', ip: '孤独摇滚', blurb: '打卡 STARRY，解锁乐队开演秘事' },
+  { id: 'A25a', zone: 'A', no: 'A25', ip: '鬼灭之刃', blurb: '潜入无限城，为鬼杀队传递生死战况', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
+  { id: 'A25b', zone: 'A', no: 'A25', ip: '孤独摇滚', blurb: '打卡 STARRY，解锁乐队开演秘事', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
   { id: 'A27', zone: 'A', no: 'A27', ip: '无限暖暖', blurb: '游乐园即将开幕！和暖暖大喵一起进入 Nikki Land' },
   { id: 'A28', zone: 'A', no: 'A28', ip: '代号香', blurb: '以香为媒，众神的气息由你调配' },
   { id: 'A29a', zone: 'A', no: 'A29', ip: '海绵宝宝', blurb: '登陆比奇堡欢乐海滩，坐超大水母秋千，畅享冲浪乐趣，打卡巨型菠萝屋！' },
@@ -47,7 +47,7 @@ export const booths = [
   { id: 'A31', zone: 'A', no: 'A31', ip: 'MOTORSLICE / SILLY POLLY BEAST', alias: '孤女困魇 废都电锯姬', blurb: '（孤女困魇、废都电锯姬）白昼向上，黑夜下坠，在机械 & 迷雾的废墟之间穿行生存！' },
   { id: 'A32', zone: 'A', no: 'A32', ip: '代号：在场证明', blurb: '新游首展！五位男主初次现身，寻找属于你的在场证明' },
   { id: 'A33', zone: 'A', no: 'A33', ip: '光·遇', blurb: '去离天空最近的地方' },
-  { id: 'A34', zone: 'A', no: 'A34', ip: '我的世界', blurb: '5 米苦力怕国内首秀，肌肉史蒂夫空降生日派对' },
+  { id: 'A34', zone: 'A', no: 'A34', ip: '我的世界', blurb: '5 米苦力怕国内首秀，肌肉史蒂夫空降生日派对', xhs: { uid: '5f97cb00000000000101c46e', name: '我的世界Minecraft' } },
   { id: 'A35', zone: 'A', no: 'A35', ip: '阅文', alias: '全职高手 诡秘之主 一人之下 狐妖小红娘 道诡异仙', blurb: '顶级 ip 读档重启，史诗名场面尽数登岛' },
   { id: 'A36', zone: 'A', no: 'A36', ip: '如鸢', blurb: '肥鸟又扭屁股！鸢影流转展台恭迎广陵王' },
   { id: 'A37', zone: 'A', no: 'A37', ip: '动物城模拟生活新游（Partopia）', blurb: '新游首次线下试玩！和毛茸茸室友一起解锁动物城奇遇' },
@@ -57,7 +57,7 @@ export const booths = [
 
   // ---------- B 区 ----------
   { id: 'B01', zone: 'B', no: 'B01', ip: '蛋仔派对', blurb: '蛋仔制造工厂首次开放参观，现场体验“蛋生”全链路！' },
-  { id: 'B02', zone: 'B', no: 'B02 / B17', ip: '宝可梦', blurb: '史诗级扩容！走不出超 5000 平米的宝可梦主题集装箱区域！' },
+  { id: 'B02', zone: 'B', no: 'B02 / B17', ip: '宝可梦', blurb: '史诗级扩容！走不出超 5000 平米的宝可梦主题集装箱区域！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },
   { id: 'B03', zone: 'B', no: 'B03', ip: 'Lovania', blurb: '新场景首曝！海兔巴士治愈登岛！邀你不忘乡旅行，漫步心灵绘本~' },
   { id: 'B04a', zone: 'B', no: 'B04', ip: '永劫无间', blurb: '永劫无间首个沉浸式片场，好“菜”坞公开招募特邀主演！' },
   { id: 'B04b', zone: 'B', no: 'B04', ip: '暴雪游戏', blurb: '巨型吉安娜雕塑落地上海，快来重温你的赛博初恋！' },
@@ -71,7 +71,7 @@ export const booths = [
   { id: 'B12', zone: 'B', no: 'B12', ip: '鸣潮', blurb: '心月狐降临！和众多“玩偶”一起开蹦！' },
   { id: 'B14', zone: 'B', no: 'B14', ip: '暗影成双', blurb: '回到 1941，请和 TA 抽取角色一秒入戏' },
   { id: 'B15', zone: 'B', no: 'B15', ip: '逆水寒', blurb: '星梦乐园 5A 景区开业，流派狂欢，一起开舞' },
-  { id: 'B16', zone: 'B', no: 'B16', ip: '宝藏码头', blurb: '各世界的冒险者在此归港，听说他们带来了不少宝藏……' },
+  { id: 'B16', zone: 'B', no: 'B16', ip: '宝藏码头', blurb: '各世界的冒险者在此归港，听说他们带来了不少宝藏……', xhs: { uid: '685ce6320000000008039c70', name: 'RED LAND' } },
   { id: 'B18', zone: 'B', no: 'B18', ip: '火影忍者手游', blurb: '《火影忍者》手游启动！这一次，你就是主角！' },
   { id: 'B19', zone: 'B', no: 'B19', ip: 'CLUTCH', blurb: '摩纳哥海岸的昼夜双面世界，解锁速度与激情！' },
   { id: 'B22', zone: 'B', no: 'B22', ip: '心「DONG」冰品补给点', alias: '代号神不言 冰淇淋', blurb: '火热解冻中！@代号神不言 为主角输送冰淇淋！' },
@@ -91,7 +91,7 @@ export const booths = [
   { id: 'C13', zone: 'C', no: 'C13', ip: '任天堂 GSE', blurb: '乘着节奏，听从指令向前进吧~！！' },
   { id: 'C14', zone: 'C', no: 'C14', ip: '声探疑云', blurb: '首创声音探案体验馆，化身声探，推理破案！' },
   { id: 'C15', zone: 'C', no: 'C15', ip: '神界（拉瑞安）', alias: '神界原罪2 Larian', blurb: '闯入地图外的阿克斯市集，开启一场奇货冒险' },
-  { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！' },
+  { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },
   { id: 'C17', zone: 'C', no: 'C17', ip: '航海王卡牌对战', blurb: '让我们一起扬帆出海开启冒险之旅！' },
   { id: 'C18', zone: 'C', no: 'C18', ip: '闪魂', blurb: '穿越次元裂缝，觉醒你的主角之魂' },
 ]

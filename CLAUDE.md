@@ -49,8 +49,12 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 | `indie.js` | C04 独立游戏试玩名单（按首字母） | 官方独立游戏聚合页 |
 | `parade.js` | `paradeInfo` / `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats` / `playerSquad` | 官方「花车巡礼」半层 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
-| `rules.js` | `event`（含 `days[]`）/ `mainline` / `eggs` / `places` / `dailySchedule` | 官方「冒险者攻略」半层 + 主会场 |
+| `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」笔记 |
 
+- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。
+- 术语：官方 8 月攻略半层叫「冒险岛的信物 / 冰箱贴」，8/25 PIN 笔记叫「冒险者拼图 / 冒险岛拼图完整体」，指同一件东西；UI 以「冒险者拼图」为主并括注旧称。PIN 按区域分色：翻身时空港橙 `#f26a2e`（A 区，需 4）、黄金海岸线黄 `#f2c23a`（B 区，需 2）、重生试炼场蓝 `#2f8fe6`（C 区，需 2）、夜间 PIN 黑。已收录展台的 PIN 颜色可用来反推区域。
+
+- **`booths[].xhs`**：`{ uid, name }` 该 IP 小红书官方账号（uid = 抓笔记时 `note.json` 里的 `user.userId`）。有则列表行出现 📕 按钮、详情页出现「小红书主页」按钮，方便用户去核对最新动态；没有的展位只给搜索按钮。每抓一条新 IP 笔记都要顺手把 uid 补进 `booths.js`。RED LAND 官方号 uid `685ce6320000000008039c70`（`src/utils/xhs.js`）。
 - **展位 id 规则**：`区字母 + 两位编号`，如 `A06`；同一编号多个 IP 用 `a/b/c` 后缀（`A01a` 王者荣耀、`A01b` 盛世天下）。`no` 是官方展位号原文（如 `B02 / B17`）。id 一旦发布不要改（用户本机打卡记录按 id 存）。
 - `day` 统一用 1–5 对应 10/2–10/6；日期文案从 `event.days` 取，不要各处手写。
 - 官方原文尽量**逐字保留**（含标点与「」），只做全角 / 半角与空格规范；补充说明用括号或 `note` 字段，不混进原文。

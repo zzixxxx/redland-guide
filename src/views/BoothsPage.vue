@@ -34,7 +34,7 @@
               <div class="row between" style="font-size:11px">
                 <b>{{ z.name }}</b><span class="muted">{{ zoneDone(z.key) }}/{{ z.count }}</span>
               </div>
-              <div class="bar"><i :style="{ width: Math.min(100, (zoneDone(z.key) / z.need) * 100) + '%' }" /></div>
+              <div class="bar"><i :style="{ width: Math.min(100, (zoneDone(z.key) / z.need) * 100) + '%', background: z.color }" /></div>
               <div style="font-size:10px;color:var(--brown);margin-top:3px;line-height:1.3">
                 {{ z.region }}<span v-if="!z.confirmed" class="muted">（推测）</span>
                 <span :style="{ color: zoneDone(z.key) >= z.need ? 'var(--green-dark)' : 'var(--muted)' }"> · 开图 {{ Math.min(zoneDone(z.key), z.need) }}/{{ z.need }}</span>
@@ -48,10 +48,22 @@
             <li v-for="(s, i) in mainline.steps" :key="i">{{ s }}</li>
           </ul>
           <div class="row wrap mt-6">
-            <span v-for="r in mainline.regions" :key="r.name" class="pill warm">{{ r.name }} · 打卡 {{ r.need }} 个 IP</span>
+            <span v-for="r in mainline.regions" :key="r.name" class="pill warm">
+              <i :style="{ display: 'inline-block', width: '9px', height: '9px', background: r.color, border: '1px solid #5a3e2b', marginRight: '4px', verticalAlign: '-1px' }" />
+              {{ r.name }}（{{ r.zone }} 区）· {{ r.pin }} × {{ r.need }} → 冒险者拼图
+            </span>
+            <span class="pill hot">
+              <i :style="{ display: 'inline-block', width: '9px', height: '9px', background: mainline.nightPin.color, border: '1px solid #5a3e2b', marginRight: '4px', verticalAlign: '-1px' }" />
+              {{ mainline.nightPin.name }} · 夜间发放
+            </span>
           </div>
+          <div class="small mt-6" style="color:var(--brown)">🌙 {{ mainline.nightPin.desc }}</div>
           <div class="hr" />
           <div v-for="t in mainline.tips" :key="t" class="small" style="color:var(--brown)">💡 {{ t }}</div>
+          <div class="mt-10" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <img v-for="im in mainline.images" :key="im.src" :src="base + im.src" :alt="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImg(base + im.src)" />
+          </div>
+          <div class="small muted mt-6">图源：{{ mainline.source.author }}「{{ mainline.source.title }}」{{ mainline.source.publishedAt }} · <a :href="mainline.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
           <div class="hr" />
           <div class="pcard-title" style="font-size:15px">🎈 {{ eggs.title }}</div>
           <div v-for="e in eggs.items" :key="e.name" class="mt-6 small">
@@ -84,8 +96,9 @@
     <div class="mt-14">
       <div class="row between mb-6">
         <span class="sticker">IP 展位一览</span>
-        <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">点击展位查看展台活动 / 任务 / 奖励</span>
+        <a class="pbtn sm red" :href="profileUrl(REDLAND_XHS.uid)" target="_blank" rel="noopener">📕 RED LAND 官方号</a>
       </div>
+      <div class="small mb-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">点击展位查看展台活动 / 任务 / 奖励；带 📕 的展位可跳转该 IP 小红书主页核对最新动态</div>
       <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
       <div class="chips mt-10">
         <button class="chip" :class="{ on: zone === 'ALL' }" @click="zone = 'ALL'">全部<small>{{ booths.length }}</small></button>
@@ -108,7 +121,10 @@
               </div>
               <div class="blurb">{{ b.blurb }}</div>
             </div>
-            <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
+            <div style="display:flex;flex-direction:column;gap:6px;flex:0 0 auto">
+              <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
+              <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop :title="`小红书 @${b.xhs.name}`">📕</a>
+            </div>
           </div>
         </template>
         <div v-else class="empty">没有匹配的展位</div>
@@ -117,6 +133,13 @@
         * 展位编号以官方「IP 展位一览」为准；★ 可标记已完成任务 / 已领 PIN，仅保存在本机。
       </div>
     </div>
+
+    <Teleport to="body">
+      <div v-if="bigImg" class="lightbox" @click="bigImg = null">
+        <img :src="bigImg" />
+        <div class="nav"><button class="pbtn sm red" @click.stop="bigImg = null">关闭</button></div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -132,12 +155,16 @@ import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, mainline, eggs, places, dailySchedule } from '../data/rules.js'
 import { useChecked } from '../composables/useStore.js'
+import { profileUrl, REDLAND_XHS } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
+const base = import.meta.env.BASE_URL
+const bigImg = ref(null)
+const openImg = (src) => (bigImg.value = src)
 
 const hasDetail = (id) => !!boothDetails[id]
 const detailCount = Object.keys(boothDetails).length
