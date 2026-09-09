@@ -22,6 +22,12 @@
           <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener">📕 小红书主页 @{{ booth.xhs.name }}</a>
           <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener">🔍 搜「{{ booth.ip }} RED LAND」</a>
         </div>
+        <div v-if="extraAccounts.length" class="mt-10">
+          <div class="small muted">各 IP 官方账号</div>
+          <div class="row wrap mt-6" style="gap:6px">
+            <a v-for="a in extraAccounts" :key="a.uid" class="pbtn sm ghost" :href="profileUrl(a.uid)" target="_blank" rel="noopener">📕 {{ a.name }}</a>
+          </div>
+        </div>
         <div v-if="!booth.xhs" class="small muted mt-6">尚未记录该 IP 的小红书官方账号，抓到其展台笔记后会补上主页入口。</div>
       </div>
     </div>
@@ -227,6 +233,8 @@ const lb = ref(null)
 const copied = ref(false)
 
 const keyword = computed(() => (booth.value ? boothSearchKeyword(booth.value) : ''))
+// 多 IP 共用展位的其他官方账号（去掉与 booth.xhs 重复的主账号）
+const extraAccounts = computed(() => (detail.value?.accounts || []).filter((a) => a.uid !== booth.value?.xhs?.uid))
 
 async function copy() {
   try {
