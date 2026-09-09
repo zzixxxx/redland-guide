@@ -2,6 +2,9 @@
 
 小红书 RED LAND 2026（2026.10.02 – 10.06 · 上海复兴岛）的手机端快速查询页，视觉参考官方活动页的像素海岛风。
 
+- 在线访问：**https://zzixxxx.github.io/redland-guide/** （手机浏览器打开，可「添加到主屏幕」）
+- 开发约定见 [CLAUDE.md](./CLAUDE.md)，后续开发以其为准。
+
 三个 Tab：
 
 | Tab | 内容 |
