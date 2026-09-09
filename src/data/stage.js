@@ -1,0 +1,110 @@
+// 冒险者营地 · 月光舞台（官方「冒险者营地上线」半层原文整理）
+export const campInfo = {
+  title: '冒险者营地上线！',
+  desc: '白天，神秘大神与主角们在这里相见；入夜后，各大 IP 限定演出、音乐狂欢轮番上演。在冒险者营地，热爱永不落幕！',
+  sun: {
+    name: '日光舞台',
+    desc: '主角们可以换上最喜欢的冒险皮肤来到这里，和同好一起定格美好记忆时刻～「冒险者营地」可能会因为存档的影响每天焕新哦！',
+  },
+  moon: {
+    name: '月光舞台',
+    time: '19:00 – 21:00（90 – 120 分钟）',
+    desc: '夜色降临，属于 RED LAND 的狂欢才刚刚开始。不同主题舞台，每天都是绝不重样的限定 LIVE！',
+  },
+  disclaimer:
+    '本次活动相关内容可能受不可控因素影响作相应调整，最终以官方公告为准；演出节目和节目顺序以实际演出为准；现场演出可能由于天气或其他不可预见原因暂停或取消。',
+}
+
+// items: { performer, songs[], ip? , note? }
+export const stageDays = [
+  {
+    day: 1,
+    date: '10月2日',
+    theme: '国漫古风日',
+    hint: '一日江湖悠哉，请以国风角色赴约',
+    items: [
+      { performer: 'KBShinya', songs: ['对酒', '千秋令', '青衫薄'] },
+      { performer: 'KBShinya', songs: ['飞雪落红尘', '红尘共长生'], ip: '未定事件簿同人曲' },
+      { performer: '云之泣', songs: ['青玉案', '锦鲤抄'] },
+      { performer: '云之泣', songs: ['如寄', '伴我'], ip: '剑网3' },
+      { performer: '李蚊香', songs: ['春日不迟', '青山予我', '不谓侠'] },
+      { performer: '陈亦洺', songs: ['不及', '千秋迭梦', '晚夜微雨问海棠'] },
+      { performer: '陈亦洺', songs: ['满庭芳'], ip: '狐妖小红娘' },
+      { performer: '小时姑娘', songs: ['溯洄', '同簪', '爱殇'] },
+      { performer: '小时姑娘', songs: ['母神傀'], ip: '以闪亮之名' },
+      { performer: '排骨教主', songs: ['入画', '伶人'] },
+      { performer: '排骨教主', songs: ['有人赴约', '此夜记侠名'], ip: '剑网3' },
+    ],
+  },
+  {
+    day: 2,
+    date: '10月3日',
+    theme: '热血竞技日',
+    hint: '竞技副本即将开始，请以战斗角色入场',
+    items: [
+      { performer: '犬舍乐队', songs: ['本色出演', '战歌'] },
+      { performer: '犬舍乐队', songs: ['星之火～awake～'], ip: '大王饶命' },
+      { performer: '犬舍乐队', songs: ['未归人'], ip: '狐妖小红娘' },
+      { performer: '犬舍乐队', songs: ['决斗场见'], ip: '《火影忍者》手游' },
+      { performer: '夏句Natsuki', songs: ['一舞翩翩', '与我对望的光', '逆光之上'], ip: '王者荣耀' },
+      { performer: '钱润玉', songs: ['待春归'], ip: '鸣潮' },
+      { performer: '钱润玉', songs: ['妄梦', '向黑夜发问'], ip: '第五人格' },
+      { performer: 'i-Link 心跳连结女团', songs: ['冒险岛版·庄园女团出道'], ip: '第五人格' },
+      { performer: '第五人格', songs: ['庄园 QQ 人登岛'], ip: '第五人格' },
+      { performer: '拳头游戏音乐', songs: ['演出曲目待公布'], ip: '无畏契约 / 英雄联盟' },
+    ],
+  },
+  {
+    day: 3,
+    date: '10月4日',
+    theme: '经典共鸣日',
+    hint: '熟悉的 BGM 响起，请带经典角色再次登场',
+    items: [
+      { performer: 'DOUDOU', songs: ['A Rusty Dream'], ip: '赛博朋克：边缘行者2', note: 'RED LAND 2026 首席次元歌者' },
+      { performer: '和音社交响乐团', songs: ["Ezio's Family", 'Assassin\'s Creed Rogue Main Theme'], ip: '刺客信条' },
+      { performer: '和音社交响乐团', songs: ['永劫无间音乐组曲（交响乐演绎）'], ip: '永劫无间' },
+      { performer: '大门E', songs: ['导火索', '入尘', '同生'] },
+      { performer: '和音社交响乐团', songs: ['新世纪福音战士(EVA) 组曲', 'JOJO 的奇妙冒险 组曲'] },
+    ],
+  },
+  {
+    day: 4,
+    date: '10月5日',
+    theme: '青春治愈日',
+    hint: '捕获心动瞬间，请以青春角色赴约',
+    items: [
+      { performer: '扭蛋姬乐队', songs: ['夏之羽翼 Summer wings', '黑夜燃尽之时'] },
+      { performer: '扭蛋姬乐队', songs: ['溃围'], ip: '斗罗大陆' },
+      { performer: '幽舞越山', songs: ['出发！奇想大冒险', '折纸向飞（Find My Way）', 'Collide'], ip: '无限暖暖' },
+      { performer: '星布谷地', songs: ['敬请期待'], ip: '星布谷地' },
+      { performer: '蛋仔派对', songs: ['蛋仔成团曲'], ip: '蛋仔派对', note: '所有人举起手，一起嘎达嘎达！' },
+      { performer: '伊莫', songs: ['接着奏乐接着舞 伊莫扭动小屁股'], ip: '伊莫' },
+      { performer: 'OPG 舞团', songs: ['扶摇直上', '异人 Disco'], ip: '一人之下', note: '节目名《可恶！身为异人世界的青年翘楚们却被拐来 REDLAND 月光舞台表演，现世吧，扶摇 Disco！》' },
+      { performer: '呦猫UNEKO', songs: ['予光'] },
+      { performer: '呦猫UNEKO', songs: ['愿我', '铭记'], ip: '狐妖小红娘' },
+      { performer: '祈Inory', songs: ['Glimmer', '唤梦', '命运之镰', 'Keep On Fighting'] },
+      { performer: 'Loger_陈乐一', songs: ['月下逢', '只为情故', '重逢'], ip: '诛仙' },
+    ],
+  },
+  {
+    day: 5,
+    date: '10月6日',
+    theme: '我们相遇在此刻',
+    hint: '请以你最爱的角色赴约，把美好的记忆再次存档',
+    items: [
+      { performer: 'ChiliChill 乐团', songs: ['pinKing'], ip: '绝区零' },
+      { performer: 'ChiliChill 乐团', songs: ['Pink Flavor', '飞鸟说', '别让我担心', '我不曾忘记'] },
+      { performer: '茶理理', songs: ['星间旅行'], ip: '崩坏：星穹铁道' },
+      { performer: '茶理理', songs: ['荆棘鸟', 'ROVE'] },
+      { performer: 'DMYoung', songs: ['极限委托 2026'], ip: '绝区零' },
+      {
+        performer: '伍六七剧组',
+        songs: ['我想和你一起去海边', '陪在你左右', '连备胎都不是', '相遇就是好天气', '暗影刺客', '无论你多怪异我还是会喜欢你'],
+        ip: '伍六七',
+        note: '节目《伍六七：登岛吧！见想念的人！》歌手：皮怡然、向桓册、杨振宇；乐队：张紫程、孟振宇、陈威宇、吴量、任斯睿',
+      },
+      { performer: '小缘', songs: ['那颗星梦见的春日', '定玄'], ip: '鸣潮' },
+      { performer: '上海迪士尼度假区', songs: ['惊喜节目即将揭晓'], ip: '疯狂动物城明星居民' },
+    ],
+  },
+]
