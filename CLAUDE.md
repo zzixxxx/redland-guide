@@ -114,6 +114,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 3. 逐张看图，把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js`（key = 展位 id）。看图时**边看边写**，一批不超过 10 张，防止上下文里旧图被裁掉。
 4. 图片压到 810px 宽 JPEG（质量 82，Pillow：`Image.open(...).convert('RGB').resize(...)`），避免仓库和首屏过大。
 5. `npm run build` 通过后按 §8 提交；列表页会自动出现「攻略」角标，`有攻略` 筹选自动计数。
+6. **同步底稿**：把该展台要点追加到 `C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026\REDLAND2026_信息汇总.md` 第 13 章（13.2 展台详情、13.3 账号表、附录 A 链接），压缩后的图片复制到 `assets/ip_notes/<展位号_IP>/`。用户会以这份 md 作为总资料查阅，不能只改项目数据。
 
 ## 7. 验收方法
 
