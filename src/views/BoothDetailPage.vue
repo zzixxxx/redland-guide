@@ -74,6 +74,18 @@
         </div>
       </div>
 
+      <!-- 菜单 / 售卖品（餐车型展位） -->
+      <div v-if="detail.menu?.length" class="pcard mt-14">
+        <div class="pcard-body">
+          <div class="pcard-title">🍱 菜单</div>
+          <div v-for="m in detail.menu" :key="m.name" class="row between small" style="padding:6px 0;border-top:1.5px dashed #eadfc4">
+            <span><b>{{ m.name }}</b><span v-if="m.note" class="muted" style="margin-left:6px">{{ m.note }}</span></span>
+            <span class="tag yellow" style="font-size:9px">{{ m.price }}</span>
+          </div>
+          <div v-if="detail.menuNote" class="small muted mt-6">* {{ detail.menuNote }}</div>
+        </div>
+      </div>
+
       <!-- 舞台活动 -->
       <div v-if="detail.stage?.length" class="pcard mt-14">
         <div class="pcard-body">

@@ -29,12 +29,16 @@
             <b>我的存档进度</b>
             <span class="muted">已打卡 {{ count }} 个展位</span>
           </div>
-          <div class="row mt-6" style="gap:6px">
-            <div v-for="z in zones" :key="z.key" style="flex:1">
+          <div class="row mt-6" style="gap:6px;align-items:flex-start">
+            <div v-for="z in zones" :key="z.key" style="flex:1;min-width:0">
               <div class="row between" style="font-size:11px">
                 <b>{{ z.name }}</b><span class="muted">{{ zoneDone(z.key) }}/{{ z.count }}</span>
               </div>
-              <div class="bar"><i :style="{ width: (zoneDone(z.key) / z.count) * 100 + '%' }" /></div>
+              <div class="bar"><i :style="{ width: Math.min(100, (zoneDone(z.key) / z.need) * 100) + '%' }" /></div>
+              <div style="font-size:10px;color:var(--brown);margin-top:3px;line-height:1.3">
+                {{ z.region }}<span v-if="!z.confirmed" class="muted">（推测）</span>
+                <span :style="{ color: zoneDone(z.key) >= z.need ? 'var(--green-dark)' : 'var(--muted)' }"> · 开图 {{ Math.min(zoneDone(z.key), z.need) }}/{{ z.need }}</span>
+              </div>
             </div>
           </div>
         </div>
@@ -86,7 +90,7 @@
       <div class="chips mt-10">
         <button class="chip" :class="{ on: zone === 'ALL' }" @click="zone = 'ALL'">全部<small>{{ booths.length }}</small></button>
         <button v-for="z in zones" :key="z.key" class="chip" :class="{ on: zone === z.key }" @click="zone = z.key">
-          {{ z.name }}<small>{{ z.count }} 个 IP</small>
+          {{ z.name }}<small>{{ z.region }}{{ z.confirmed ? '' : '?' }} · {{ z.count }} IP</small>
         </button>
         <button class="chip" :class="{ on: zone === 'DETAIL' }" @click="zone = 'DETAIL'">有攻略<small>{{ detailCount }}</small></button>
         <button class="chip" :class="{ on: zone === 'DONE' }" @click="zone = 'DONE'">已打卡<small>{{ count }}</small></button>
