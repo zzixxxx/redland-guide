@@ -5,7 +5,7 @@
     <DayChips v-model="day" />
 
     <div class="theme-banner moon">
-      <div class="day">DAY{{ current.day }} · {{ current.date }} · {{ campInfo.moon.time }}</div>
+      <div class="day">DAY{{ current.day }} · {{ current.date }} · {{ campInfo.moon.short }}</div>
       <div class="name">{{ current.theme }}</div>
       <div class="hint">👗 {{ current.hint }}</div>
     </div>

@@ -9,6 +9,7 @@ export const campInfo = {
   moon: {
     name: '月光舞台',
     time: '19:00 – 21:00（90 – 120 分钟）',
+    short: '19:00-21:00',
     desc: '夜色降临，属于 RED LAND 的狂欢才刚刚开始。不同主题舞台，每天都是绝不重样的限定 LIVE！',
   },
   disclaimer:
