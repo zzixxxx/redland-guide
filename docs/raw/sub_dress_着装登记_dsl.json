@@ -1,0 +1,315 @@
+{
+ "DSL": {
+  "componentsMap": [
+   {
+    "componentName": "OnixBarleyHeaderBar",
+    "exportName": "OnixBarleyHeaderBar",
+    "package": "@xhs/onix-barley-header-bar",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/css/main.css"
+    ],
+    "version": "11.1.24-release-redland2.0"
+   },
+   {
+    "componentName": "OnixDittoBackgroundMusic",
+    "exportName": "OnixDittoBackgroundMusic",
+    "package": "@xhs/onix-ditto-background-music",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/css/main.css"
+    ],
+    "version": "0.0.32"
+   },
+   {
+    "componentName": "OnixDittoBanner",
+    "exportName": "OnixDittoBanner",
+    "package": "@xhs/onix-ditto-banner",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/css/main.css"
+    ],
+    "version": "11.0.16"
+   },
+   {
+    "componentName": "OnixDittoFormV2",
+    "exportName": "OnixDittoFormV2",
+    "package": "@xhs/onix-ditto-form-v2",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-form-v2/0.0.11/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-form-v2/0.0.11/public/css/main.css"
+    ],
+    "version": "0.0.11"
+   }
+  ],
+  "componentsTree": [
+   {
+    "children": [
+     {
+      "componentMetaTitle": "标题栏",
+      "componentName": "OnixBarleyHeaderBar",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "da662656",
+      "name": "@xhs/onix-barley-header-bar",
+      "props": {
+       "bgColor": "#FFFFFF",
+       "color": "#333333",
+       "isShowTitleDefault": false,
+       "key": "5",
+       "needCustomClose": false,
+       "needCustomIcon": false,
+       "needCustomShare": false,
+       "needCustomTitle": false,
+       "needStatusBarTextWhite": false,
+       "scrollDistance": 88,
+       "shareIconUrl": "",
+       "showShareIcon": true,
+       "showTitle": true,
+       "startColor": "#333333",
+       "title": "RED LAND",
+       "transparentOnScroll": true
+      },
+      "title": "标题栏"
+     },
+     {
+      "componentMetaTitle": "页面背景音乐",
+      "componentName": "OnixDittoBackgroundMusic",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "6f14b162",
+      "name": "@xhs/onix-ditto-background-music",
+      "props": {
+       "bgmSetting": {
+        "isAutoPlay": true,
+        "isLoop": true,
+        "musicItem": {},
+        "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+        "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+       },
+       "key": "4"
+      },
+      "title": "全局音乐配置"
+     },
+     {
+      "componentMetaTitle": "自定义图片",
+      "componentName": "OnixDittoBanner",
+      "extra": {
+       "canvasHeight": 730.84,
+       "hasError": false,
+       "isFirstPrint": true,
+       "remarkName": "自定义图片-1"
+      },
+      "id": "24db5446",
+      "name": "@xhs/onix-ditto-banner",
+      "props": {
+       "commonStyle": {
+        "padding": "0 0px 0"
+       },
+       "eventInfo": {
+        "configs": {
+         "query": {
+          "source": "ditto_c5abc6e466b1435d9fb747f1dbb033e9"
+         }
+        },
+        "keyPath": [
+         "onClick",
+         ""
+        ]
+       },
+       "height": 0,
+       "imgUrl": {
+        "cropImgInfo": [
+         {
+          "height": 1124,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nkg2ao7u06inokj8jp60000000005n4e1pa",
+          "width": 1124
+         },
+         {
+          "height": 743,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nkg28gga76inokj8jp60000000006o0rbt8",
+          "width": 1124
+         }
+        ],
+        "originImgInfo": {
+         "height": 1867,
+         "size": 401767,
+         "url": "https://growth-img.xhscdn.com/ditto/104100n0323nkg29rna06inokj8jp60000000004tslnf8",
+         "width": 1124
+        }
+       },
+       "intrinsicHeight": 1867,
+       "intrinsicWidth": 1124,
+       "key": "29",
+       "selectedInCanvas": true
+      }
+     },
+     {
+      "componentMetaTitle": "表单 2.0",
+      "componentName": "OnixDittoFormV2",
+      "extra": {
+       "canvasHeight": 1143.92,
+       "hasError": false,
+       "isFirstPrint": true,
+       "remarkName": "表单 2.0-1"
+      },
+      "id": "52424636",
+      "name": "@xhs/onix-ditto-form-v2",
+      "props": {
+       "availableBtnStyle": {
+        "btnBgColor": "#FF2442",
+        "btnTextColor": "#FFFFFF"
+       },
+       "btnText": "提交",
+       "btnType": "text",
+       "disabledBtnStyle": {
+        "btnBgColor": "#F1F1F1",
+        "btnTextColor": "#A3A3A3"
+       },
+       "formSection": {
+        "activityId": 43738,
+        "formId": "138057755499420673"
+       },
+       "formStyle": {
+        "areaBgColor": {
+         "backgroundColor": "rgba(60,165,255,1)"
+        },
+        "cardBgColor": "#FFFFFF",
+        "cardRadius": 16,
+        "isBtnFixed": false,
+        "isDisplaySerial": true
+       },
+       "key": "79",
+       "selectedInCanvas": false
+      }
+     },
+     {
+      "componentMetaTitle": "自定义图片",
+      "componentName": "OnixDittoBanner",
+      "extra": {
+       "canvasHeight": 716.76,
+       "hasError": false,
+       "remarkName": "自定义图片-2"
+      },
+      "id": "2454652b",
+      "name": "@xhs/onix-ditto-banner",
+      "props": {
+       "commonStyle": {
+        "padding": "0 0px 0"
+       },
+       "eventInfo": {
+        "configs": {
+         "query": {
+          "source": "ditto_c5abc6e466b1435d9fb747f1dbb033e9"
+         }
+        },
+        "keyPath": [
+         "onClick",
+         ""
+        ]
+       },
+       "height": 0,
+       "imgUrl": {
+        "cropImgInfo": [
+         {
+          "height": 1124,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323ot7hnago06inokj8jp60000000005apl5ko",
+          "width": 1124
+         },
+         {
+          "height": 707,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323ot7hmgna06inokj8jp60000000006fsrmai",
+          "width": 1124
+         }
+        ],
+        "originImgInfo": {
+         "height": 1831,
+         "size": 439516,
+         "url": "https://growth-img.xhscdn.com/ditto/104100n0323ot7hlr0o06inokj8jp6000000000368m2hu",
+         "width": 1124
+        }
+       },
+       "intrinsicHeight": 1831,
+       "intrinsicWidth": 1124,
+       "key": "11",
+       "selectedInCanvas": false
+      }
+     }
+    ],
+    "componentName": "Page",
+    "css": "body #template, #canvas-container {background-size: 100%;background-repeat: no-repeat;}",
+    "name": "div"
+   }
+  ],
+  "dslStatus": 0,
+  "pageConfig": {
+   "activityId": 43738,
+   "attrConfig": {
+    "backgroundConfig": {
+     "backgroundImage": {},
+     "backgroundRepeat": false,
+     "bgmSetting": {
+      "isAutoPlay": true,
+      "isLoop": true,
+      "musicItem": {},
+      "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+      "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+     }
+    },
+    "headerConfig": {
+     "bgColor": "#FFFFFF",
+     "color": "#333333",
+     "isShowTitleDefault": false,
+     "needCustomClose": false,
+     "needCustomIcon": false,
+     "needCustomShare": false,
+     "needCustomTitle": false,
+     "needStatusBarTextWhite": false,
+     "scrollDistance": 88,
+     "shareIconUrl": "",
+     "showShareIcon": true,
+     "showTitle": true,
+     "startColor": "#333333",
+     "title": "RED LAND",
+     "transparentOnScroll": true
+    }
+   },
+   "currentUseDesignVersion": 1,
+   "desc": "",
+   "designInfo": {
+    "designVersion": 1,
+    "outlineVersion": 17
+   },
+   "disabledIOSSlide": false,
+   "endTime": "2026-10-15T15:59:59.000Z",
+   "fmpComp": {
+    "id": "24db5446",
+    "imageColor": "",
+    "imgSrcData": "data:image/webp;base64,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",
+    "imgUrl": "//growth-img.xhscdn.com/ditto/104100n0323nkg2ao7u06inokj8jp60000000005n4e1pa?nativeImg=true&imageView2/2/w/1125/q/65/format/webp",
+    "label": "自定义图片-1",
+    "manual": false,
+    "name": "@xhs/onix-ditto-banner",
+    "useImgSrcData": 1
+   },
+   "imgUrl": "https://growth-img.xhscdn.com/ditto/104100n0323nl73bp7u069ip3a5i000000000045kre5uq",
+   "isJoinWeChatBanDetection": true,
+   "lastEditTime": "2026-08-12 15:29:23",
+   "level": "S",
+   "pageName": "RL2026-着装登记",
+   "shareDesc": "若主角想cos/特殊着装上岛，请提前填写申请哦～",
+   "shareImage": "https://growth-img.xhscdn.com/ditto/104100n0323nl73bp7u069ip3a5i000000000045kre5uq",
+   "shareTitle": "RED LAND特殊着装申请通道",
+   "startTime": "2026-08-03T16:00:00.000Z",
+   "title": "RED LAND",
+   "useCacheOutDatedToast": 1
+  }
+ },
+ "reds-status-bar": 44
+}

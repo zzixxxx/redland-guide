@@ -32,7 +32,7 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
 | `stage.js` | 月光舞台 5 日节目单、营地主题 | 官方「冒险者营地」半层 |
 | `rules.js` | 活动基本信息、主线 / 彩蛋玩法、新地图 / 夜间模式、每日时刻 | 官方「冒险者攻略」半层 + 主会场 |
 
-原始素材（官方页面全部图片、DSL JSON、逐图转录）在 `C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026\`。
+原始素材（官方页面全部图片、DSL JSON、逐图转录、各 IP 笔记归档）在 [`docs/`](./docs/)，总资料见 [`docs/REDLAND2026_信息汇总.md`](./docs/REDLAND2026_信息汇总.md)。
 
 ## 补充一个 IP 的展台详情
 

@@ -1,0 +1,243 @@
+{
+  "DSL": {
+    "componentsMap": [
+      {
+        "componentName": "OnixBarleyHeaderBar",
+        "exportName": "OnixBarleyHeaderBar",
+        "package": "@xhs/onix-barley-header-bar",
+        "urls": [
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/main.js",
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/css/main.css"
+        ],
+        "version": "11.1.24-release-redland2.0"
+      },
+      {
+        "componentName": "OnixDittoBackgroundMusic",
+        "exportName": "OnixDittoBackgroundMusic",
+        "package": "@xhs/onix-ditto-background-music",
+        "urls": [
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/main.js",
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/css/main.css"
+        ],
+        "version": "0.0.32"
+      },
+      {
+        "componentName": "OnixDittoBanner",
+        "exportName": "OnixDittoBanner",
+        "package": "@xhs/onix-ditto-banner",
+        "urls": [
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/main.js",
+          "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/css/main.css"
+        ],
+        "version": "11.0.16"
+      }
+    ],
+    "componentsTree": [
+      {
+        "children": [
+          {
+            "componentMetaTitle": "标题栏",
+            "componentName": "OnixBarleyHeaderBar",
+            "extra": {
+              "canvasHeight": 0,
+              "isFirstPrint": true,
+              "remarkName": ""
+            },
+            "id": "56461344",
+            "name": "@xhs/onix-barley-header-bar",
+            "props": {
+              "bgColor": "#FFFFFF",
+              "color": "#333333",
+              "isShowTitleDefault": false,
+              "key": "21",
+              "needCustomClose": false,
+              "needCustomIcon": false,
+              "needCustomShare": false,
+              "needStatusBarTextWhite": false,
+              "scrollDistance": 88,
+              "shareIconUrl": "",
+              "showShareIcon": true,
+              "showTitle": true,
+              "startColor": "#333333",
+              "title": "小红书",
+              "transparentOnScroll": true
+            },
+            "title": "标题栏"
+          },
+          {
+            "componentMetaTitle": "页面背景音乐",
+            "componentName": "OnixDittoBackgroundMusic",
+            "extra": {
+              "canvasHeight": 0,
+              "isFirstPrint": true,
+              "remarkName": ""
+            },
+            "id": "23334122",
+            "name": "@xhs/onix-ditto-background-music",
+            "props": {
+              "bgmSetting": {
+                "isAutoPlay": true,
+                "isLoop": true,
+                "musicItem": {},
+                "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+                "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+              },
+              "key": "20"
+            },
+            "title": "全局音乐配置"
+          },
+          {
+            "componentMetaTitle": "自定义图片",
+            "componentName": "OnixDittoBanner",
+            "extra": {
+              "canvasHeight": 2807.77,
+              "hasError": false,
+              "isFirstPrint": true,
+              "remarkName": "自定义图片-1"
+            },
+            "id": "543433e2",
+            "name": "@xhs/onix-ditto-banner",
+            "props": {
+              "commonStyle": {
+                "padding": "0 0px 0"
+              },
+              "eventInfo": {
+                "configs": {
+                  "query": {
+                    "source": "ditto_3f84c8f5514f4bf9bb8636b2fe83072e"
+                  }
+                },
+                "keyPath": [
+                  "onClick",
+                  ""
+                ]
+              },
+              "height": 0,
+              "imgUrl": {
+                "cropImgInfo": [
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt3onk06d0gib0r00000000001ibhuuqk",
+                    "width": 1125
+                  },
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt40nk06d0gib0r00000000001k22bkkg",
+                    "width": 1125
+                  },
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt48na76d0gib0r00000000001h7n5474",
+                    "width": 1125
+                  },
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt4h7a06d0gib0r00000000001kpjl7e6",
+                    "width": 1125
+                  },
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt4tnke6d0gib0r00000000001j0pl9us",
+                    "width": 1125
+                  },
+                  {
+                    "height": 1125,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt5d7k06d0gib0r00000000001mpsorm2",
+                    "width": 1125
+                  },
+                  {
+                    "height": 429,
+                    "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt5ugo06d0gib0r00000000001n3d7nfq",
+                    "width": 1125
+                  }
+                ],
+                "originImgInfo": {
+                  "height": 7179,
+                  "size": 1320937,
+                  "url": "https://growth-img.xhscdn.com/ditto/104100n0323nvvt3e7ue6d0gib0r00000000001hshluvq",
+                  "width": 1125
+                }
+              },
+              "intrinsicHeight": 7179,
+              "intrinsicWidth": 1125,
+              "key": "22",
+              "selectedInCanvas": true
+            }
+          }
+        ],
+        "componentName": "Page",
+        "css": "body #template, #canvas-container {background-size: 100%;background-repeat: no-repeat;}",
+        "name": "div"
+      }
+    ],
+    "dslStatus": 0,
+    "pageConfig": {
+      "activityId": 43738,
+      "attrConfig": {
+        "backgroundConfig": {
+          "backgroundImage": {},
+          "backgroundRepeat": false,
+          "bgmSetting": {
+            "isAutoPlay": true,
+            "isLoop": true,
+            "musicItem": {},
+            "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+            "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+          }
+        },
+        "displayConfig": {
+          "callbackH5Link": "https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true",
+          "callbackLink": "https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true",
+          "callbackLinkType": 0,
+          "teenageAbort": false
+        },
+        "headerConfig": {
+          "bgColor": "#FFFFFF",
+          "color": "#333333",
+          "isShowTitleDefault": false,
+          "needCustomClose": false,
+          "needCustomIcon": false,
+          "needCustomShare": false,
+          "needStatusBarTextWhite": false,
+          "scrollDistance": 88,
+          "shareIconUrl": "",
+          "showShareIcon": true,
+          "showTitle": true,
+          "startColor": "#333333",
+          "title": "小红书",
+          "transparentOnScroll": true
+        }
+      },
+      "currentUseDesignVersion": 1,
+      "desc": "",
+      "designInfo": {
+        "designVersion": 1,
+        "outlineVersion": 6
+      },
+      "disabledIOSSlide": false,
+      "endTime": "2026-10-15T15:59:59.000Z",
+      "fmpComp": {
+        "id": "543433e2",
+        "imageColor": "",
+        "imgSrcData": "data:image/webp;base64,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",
+        "imgUrl": "//growth-img.xhscdn.com/ditto/104100n0323nvvt3onk06d0gib0r00000000001ibhuuqk?nativeImg=true&imageView2/2/w/1125/q/65/format/webp",
+        "label": "自定义图片-1",
+        "manual": false,
+        "name": "@xhs/onix-ditto-banner",
+        "useImgSrcData": 1
+      },
+      "imgUrl": "https://ci.xiaohongshu.com/e81c8344-e2b2-4bca-96ee-da56a8ffdaca",
+      "isJoinWeChatBanDetection": true,
+      "lastEditTime": "2026-08-11 22:27:03",
+      "level": "S",
+      "pageName": "主会场站外分享",
+      "shareDesc": "你的生活指南",
+      "shareImage": "https://ci.xiaohongshu.com/e81c8344-e2b2-4bca-96ee-da56a8ffdaca",
+      "shareTitle": "小红书",
+      "startTime": "2026-08-03T16:00:00.000Z",
+      "title": "小红书",
+      "useCacheOutDatedToast": 1
+    }
+  },
+  "reds-status-bar": 44
+}

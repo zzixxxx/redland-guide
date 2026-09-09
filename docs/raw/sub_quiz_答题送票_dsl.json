@@ -1,0 +1,214 @@
+{
+ "DSL": {
+  "componentsMap": [
+   {
+    "componentName": "OnixBarleyHeaderBar",
+    "exportName": "OnixBarleyHeaderBar",
+    "package": "@xhs/onix-barley-header-bar",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/css/main.css"
+    ],
+    "version": "11.1.24-release-redland2.0"
+   },
+   {
+    "componentName": "OnixDittoRedLand2",
+    "exportName": "OnixDittoRedLand2",
+    "package": "@xhs/onix-ditto-red-land2",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-red-land2/0.0.6-release-redland2.1/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-red-land2/0.0.6-release-redland2.1/public/css/main.css"
+    ],
+    "version": "0.0.6-release-redland2.1"
+   },
+   {
+    "componentName": "OnixDittoBackgroundMusic",
+    "exportName": "OnixDittoBackgroundMusic",
+    "package": "@xhs/onix-ditto-background-music",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/css/main.css"
+    ],
+    "version": "0.0.32"
+   }
+  ],
+  "componentsTree": [
+   {
+    "children": [
+     {
+      "componentMetaTitle": "标题栏",
+      "componentName": "OnixBarleyHeaderBar",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "24c34244",
+      "name": "@xhs/onix-barley-header-bar",
+      "props": {
+       "backArrowAfterUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmtrh7a06cn9518r00000000001cvclb5e",
+       "backArrowUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmr0o7a06cn9518r0000000000186dg9de",
+       "bgColor": "rgba(255,255,255,0)",
+       "color": "rgba(51,51,51,0)",
+       "isShowTitleDefault": false,
+       "key": "5",
+       "needCustomClose": true,
+       "needCustomIcon": false,
+       "needCustomShare": true,
+       "needCustomTitle": false,
+       "needStatusBarTextWhite": false,
+       "scrollDistance": 88,
+       "shareIconAfterUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmp1qna06cn9518r00000000001enk1cs4",
+       "shareIconUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmlte7a06cn9518r00000000001bti2vp2",
+       "showShareIcon": true,
+       "showTitle": true,
+       "startColor": "rgba(51,51,51,0)",
+       "title": "RED LAND",
+       "transparentOnScroll": true
+      },
+      "title": "标题栏"
+     },
+     {
+      "componentMetaTitle": "RedLand答题",
+      "componentName": "OnixDittoRedLand2",
+      "extra": {
+       "canvasHeight": 1198,
+       "hasError": false,
+       "isFirstPrint": true,
+       "remarkName": "RedLand答题-1"
+      },
+      "id": "34f233f4",
+      "name": "@xhs/onix-ditto-red-land2",
+      "props": {
+       "config": {
+        "modeSelectSubTitleImg": "https://fe-platform.xhscdn.com/platform/104101l03240at4m17a06cptjqct00000000000r81485a",
+        "teamShareLink": "https://ditto.xiaohongshu.net/ditto/vincent/c4ea95867e924c8ea30d251bb53b3857?naviHidden=yes&fullscreen=true&source=share",
+        "waitlistSubText": "主角的冒险未完待续！"
+       },
+       "key": "13",
+       "selectedInCanvas": true
+      }
+     },
+     {
+      "componentMetaTitle": "页面背景音乐",
+      "componentName": "OnixDittoBackgroundMusic",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "81f23634",
+      "name": "@xhs/onix-ditto-background-music",
+      "props": {
+       "bgmSetting": {
+        "isAutoPlay": true,
+        "isLoop": true,
+        "musicItem": {},
+        "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+        "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+       },
+       "key": "4"
+      },
+      "title": "全局音乐配置"
+     }
+    ],
+    "componentName": "Page",
+    "css": "body #template, #canvas-container {background-size: 100%;background-repeat: no-repeat;}",
+    "name": "div",
+    "scripts": [
+     {
+      "content": "var style=document.createElement(\"style\");style.type=\"text/css\";style.appendChild(document.createTextNode(\".icon-box,.icon-top,.icon-bottom{height:34px}html, body {overscroll-behavior: none;}\"));document.head.appendChild(style);",
+      "position": "head"
+     },
+     {
+      "content": "window.addEventListener('DOMContentLoaded',function(){var probe=document.createElement('span');probe.style.cssText='position:absolute;left:-9999px;line-height:1;font-size:20px';probe.textContent='M';document.body.appendChild(probe);var scale=probe.getBoundingClientRect().height/20;document.body.removeChild(probe);if(scale<1.05)return;var st=document.createElement('style');st.appendChild(document.createTextNode('.answer__title{font-size:calc(0.32rem / '+scale.toFixed(4)+')!important;line-height:calc(0.48rem / '+scale.toFixed(4)+')!important;}'));document.head.appendChild(st);});",
+      "position": "head"
+     },
+     {
+      "content": "var style=document.createElement(\"style\");style.type=\"text/css\";style.appendChild(document.createTextNode(\"@media screen and (min-aspect-ratio:4/3){.onix-common-modal{--modal-scale:1 !important}}\"));document.head.appendChild(style);",
+      "position": "head"
+     },
+     {
+      "content": "var style=document.createElement(\"style\");style.type=\"text/css\";style.appendChild(document.createTextNode(\".ticket-bar__btn{display:none !important}\"));document.head.appendChild(style);",
+      "position": "head"
+     },
+     {
+      "content": "var style=document.createElement(\"style\");style.type=\"text/css\";style.appendChild(document.createTextNode(\".mode-select__sub-title img{object-fit:contain !important}\"));document.head.appendChild(style);",
+      "position": "head"
+     },
+     {
+      "content": "var style=document.createElement(\"style\");style.type=\"text/css\";style.appendChild(document.createTextNode(\".ticket-bar__desc{text-align:center !important}\"));document.head.appendChild(style);",
+      "position": "head"
+     }
+    ]
+   }
+  ],
+  "dslStatus": 0,
+  "pageConfig": {
+   "activityId": 43738,
+   "attrConfig": {
+    "backgroundConfig": {
+     "backgroundImage": {},
+     "backgroundRepeat": false,
+     "bgmSetting": {
+      "isAutoPlay": true,
+      "isLoop": true,
+      "musicItem": {},
+      "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+      "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+     }
+    },
+    "headerConfig": {
+     "backArrowAfterUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmtrh7a06cn9518r00000000001cvclb5e",
+     "backArrowUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmr0o7a06cn9518r0000000000186dg9de",
+     "bgColor": "rgba(255,255,255,0)",
+     "color": "rgba(51,51,51,0)",
+     "isShowTitleDefault": false,
+     "needCustomClose": true,
+     "needCustomIcon": false,
+     "needCustomShare": true,
+     "needCustomTitle": false,
+     "needStatusBarTextWhite": false,
+     "scrollDistance": 88,
+     "shareIconAfterUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmp1qna06cn9518r00000000001enk1cs4",
+     "shareIconUrl": "https://growth-img.xhscdn.com/ditto/104100n03239dmlte7a06cn9518r00000000001bti2vp2",
+     "showShareIcon": true,
+     "showTitle": true,
+     "startColor": "rgba(51,51,51,0)",
+     "title": "RED LAND",
+     "transparentOnScroll": true
+    }
+   },
+   "currentUseDesignVersion": 1,
+   "desc": "",
+   "designInfo": {
+    "designVersion": 1,
+    "outlineVersion": 126
+   },
+   "disabledIOSSlide": false,
+   "endTime": "2026-12-30T15:59:59.000Z",
+   "fmpComp": {
+    "id": "34f233f4",
+    "imageColor": "",
+    "imgSrcData": "",
+    "imgUrl": "//fe-platform.xhscdn.com/platform/104101l03239drph20206cn9518r00000000001cnkt3rs?imageView2/1/format/webp&nativeImg=true",
+    "label": "RedLand答题-1",
+    "manual": true,
+    "name": "@xhs/onix-ditto-red-land2",
+    "useImgSrcData": 0
+   },
+   "imgUrl": "https://growth-img.xhscdn.com/ditto/104100n0323ionq7u7a169ip3a5i000000000042rjaafm",
+   "isJoinWeChatBanDetection": true,
+   "lastEditTime": "2026-08-21 15:41:17",
+   "level": "SS",
+   "pageName": "RL2026答题送票",
+   "shareDesc": "RED LAND 2026，答题冒险赢免费通行证",
+   "shareImage": "https://growth-img.xhscdn.com/ditto/104100n0323ionq7u7a169ip3a5i000000000042rjaafm",
+   "shareTitle": "主角回归，免费登岛！",
+   "startTime": "2026-07-23T16:00:00.000Z",
+   "title": "RED LAND",
+   "useCacheOutDatedToast": 1
+  }
+ },
+ "reds-status-bar": 44
+}

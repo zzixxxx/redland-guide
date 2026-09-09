@@ -1,0 +1,288 @@
+{
+ "DSL": {
+  "componentsMap": [
+   {
+    "componentName": "OnixBarleyHeaderBar",
+    "exportName": "OnixBarleyHeaderBar",
+    "package": "@xhs/onix-barley-header-bar",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-barley-header-bar/11.1.24-release-redland2.0/public/css/main.css"
+    ],
+    "version": "11.1.24-release-redland2.0"
+   },
+   {
+    "componentName": "OnixDittoBackgroundMusic",
+    "exportName": "OnixDittoBackgroundMusic",
+    "package": "@xhs/onix-ditto-background-music",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-background-music/0.0.32/public/css/main.css"
+    ],
+    "version": "0.0.32"
+   },
+   {
+    "componentName": "OnixDittoBanner",
+    "exportName": "OnixDittoBanner",
+    "package": "@xhs/onix-ditto-banner",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-banner/11.0.16/public/css/main.css"
+    ],
+    "version": "11.0.16"
+   },
+   {
+    "componentName": "OnixDittoHotArea",
+    "exportName": "OnixDittoHotArea",
+    "package": "@xhs/onix-ditto-hot-area",
+    "urls": [
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-hot-area/11.0.23/public/main.js",
+     "https://fe-static.xhscdn.com/formula-static/onix-packages/@xhs/onix-ditto-hot-area/11.0.23/public/css/main.css"
+    ],
+    "version": "11.0.23"
+   }
+  ],
+  "componentsTree": [
+   {
+    "children": [
+     {
+      "componentMetaTitle": "标题栏",
+      "componentName": "OnixBarleyHeaderBar",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "37566421",
+      "name": "@xhs/onix-barley-header-bar",
+      "props": {
+       "bgColor": "#FFFFFF",
+       "color": "#333333",
+       "isShowTitleDefault": false,
+       "key": "5",
+       "needCustomClose": false,
+       "needCustomIcon": false,
+       "needCustomShare": false,
+       "needCustomTitle": false,
+       "needStatusBarTextWhite": false,
+       "scrollDistance": 88,
+       "shareIconUrl": "",
+       "showShareIcon": true,
+       "showTitle": true,
+       "startColor": "#333333",
+       "title": "RED LAND",
+       "transparentOnScroll": true
+      },
+      "title": "标题栏"
+     },
+     {
+      "componentMetaTitle": "页面背景音乐",
+      "componentName": "OnixDittoBackgroundMusic",
+      "extra": {
+       "canvasHeight": 0,
+       "isFirstPrint": true,
+       "remarkName": ""
+      },
+      "id": "e546533f",
+      "name": "@xhs/onix-ditto-background-music",
+      "props": {
+       "bgmSetting": {
+        "isAutoPlay": true,
+        "isLoop": true,
+        "musicItem": {},
+        "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+        "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+       },
+       "key": "4"
+      },
+      "title": "全局音乐配置"
+     },
+     {
+      "componentMetaTitle": "自定义图片",
+      "componentName": "OnixDittoBanner",
+      "extra": {
+       "canvasHeight": 560.87,
+       "hasError": false,
+       "isFirstPrint": true,
+       "remarkName": "自定义图片-1"
+      },
+      "id": "5334a243",
+      "name": "@xhs/onix-ditto-banner",
+      "props": {
+       "commonStyle": {
+        "padding": "0 0px 0"
+       },
+       "eventInfo": {
+        "configs": {
+         "query": {
+          "source": "ditto_a9b6461ae75b4059a70c39cca7ea5035"
+         }
+        },
+        "keyPath": [
+         "onClick",
+         ""
+        ]
+       },
+       "height": 0,
+       "imgUrl": {
+        "cropImgInfo": [
+         {
+          "height": 1125,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvgs6ga06inokj8jp60000000006bugipa",
+          "width": 1125
+         },
+         {
+          "height": 309,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvgt37k06inokj8jp60000000003slctgg",
+          "width": 1125
+         }
+        ],
+        "originImgInfo": {
+         "height": 1434,
+         "size": 252165,
+         "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvgr8nu06inokj8jp600000000055hcbi4",
+         "width": 1125
+        }
+       },
+       "intrinsicHeight": 1434,
+       "intrinsicWidth": 1125,
+       "key": "13",
+       "selectedInCanvas": false
+      }
+     },
+     {
+      "componentMetaTitle": "热区图",
+      "componentName": "OnixDittoHotArea",
+      "extra": {
+       "canvasHeight": 863.19,
+       "hasError": false,
+       "isFirstPrint": true,
+       "remarkName": "热区图-1"
+      },
+      "id": "134469ad",
+      "name": "@xhs/onix-ditto-hot-area",
+      "props": {
+       "areaLinkList": [
+        {
+         "eventInfo": {
+          "configs": {
+           "imgInfo": "https://growth-img.xhscdn.com/ditto/104100n0323nn01m6nu06inokj8jp60000000002or67ik",
+           "query": {
+            "source": "ditto_a9b6461ae75b4059a70c39cca7ea5035"
+           }
+          },
+          "keyPath": [
+           "onClick",
+           "save",
+           "img"
+          ]
+         },
+         "height": 91,
+         "id": "xfh1ju",
+         "left": 271,
+         "top": 0,
+         "width": 94
+        }
+       ],
+       "commonStyle": {
+        "padding": "0 0px 0"
+       },
+       "imgInfo": {
+        "cropImgInfo": [
+         {
+          "height": 1125,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvjr17u06inokj8jp60000000007llp8t8",
+          "width": 1125
+         },
+         {
+          "height": 1082,
+          "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvjs17u06inokj8jp60000000000efot52",
+          "width": 1125
+         }
+        ],
+        "originImgInfo": {
+         "height": 2207,
+         "size": 510143,
+         "url": "https://growth-img.xhscdn.com/ditto/104100n0323nmvjq40o06inokj8jp60000000006cv87eo",
+         "width": 1125
+        }
+       },
+       "intrinsicHeight": 2207,
+       "intrinsicWidth": 1125,
+       "key": "20",
+       "selectedInCanvas": true,
+       "type": "static"
+      }
+     }
+    ],
+    "componentName": "Page",
+    "css": "body #template, #canvas-container {background-size: 100%;background-repeat: no-repeat;}",
+    "name": "div"
+   }
+  ],
+  "dslStatus": 0,
+  "pageConfig": {
+   "activityId": 43738,
+   "attrConfig": {
+    "backgroundConfig": {
+     "backgroundImage": {},
+     "backgroundRepeat": false,
+     "bgmSetting": {
+      "isAutoPlay": true,
+      "isLoop": true,
+      "musicItem": {},
+      "pauseIcon": "https://picasso-static.xiaohongshu.com/fe-platform/71fe698622aee0384f5a100b60e38bd4214ae1fb/pause.png",
+      "playIcon": "https://picasso-static.xiaohongshu.com/fe-platform/f16ab9977a29ed5c843babf8fac9775f5420e5df/play.png"
+     }
+    },
+    "headerConfig": {
+     "bgColor": "#FFFFFF",
+     "color": "#333333",
+     "isShowTitleDefault": false,
+     "needCustomClose": false,
+     "needCustomIcon": false,
+     "needCustomShare": false,
+     "needCustomTitle": false,
+     "needStatusBarTextWhite": false,
+     "scrollDistance": 88,
+     "shareIconUrl": "",
+     "showShareIcon": true,
+     "showTitle": true,
+     "startColor": "#333333",
+     "title": "RED LAND",
+     "transparentOnScroll": true
+    }
+   },
+   "currentUseDesignVersion": 1,
+   "desc": "",
+   "designInfo": {
+    "designVersion": 1,
+    "outlineVersion": 11
+   },
+   "disabledIOSSlide": false,
+   "endTime": "2026-10-15T15:59:59.000Z",
+   "fmpComp": {
+    "id": "134469ad",
+    "imageColor": "",
+    "imgSrcData": "data:image/webp;base64,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",
+    "imgUrl": "//growth-img.xhscdn.com/ditto/104100n0323nmvjr17u06inokj8jp60000000007llp8t8?imageView2/2/w/1125/q/65/format/webp",
+    "label": "热区图-1",
+    "manual": false,
+    "name": "@xhs/onix-ditto-hot-area",
+    "useImgSrcData": 1
+   },
+   "imgUrl": "https://growth-img.xhscdn.com/ditto/104100n0323nn7c8dnu069ip3a5i000000000042j2vtf2",
+   "isJoinWeChatBanDetection": true,
+   "lastEditTime": "2026-08-11 17:20:43",
+   "level": "S",
+   "pageName": "RL2026-安全承诺",
+   "shareDesc": "14-18岁的未成年冒险者，请向REDLAND项目组提交申请",
+   "shareImage": "https://growth-img.xhscdn.com/ditto/104100n0323nn7c8dnu069ip3a5i000000000042j2vtf2",
+   "shareTitle": "RED LAND未成年人上岛通道",
+   "startTime": "2026-08-03T16:00:00.000Z",
+   "title": "小红书",
+   "useCacheOutDatedToast": 1
+  }
+ },
+ "reds-status-bar": 44
+}

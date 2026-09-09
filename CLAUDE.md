@@ -37,6 +37,7 @@ src/
   data/                       所有内容数据，纯 JS 模块，见 §4
 public/img/booths/<展位id>/   各 IP 笔记原图（建议 810px 宽 JPEG）+ note.json（抓取原始数据）
 scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDetails 骨架
+docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
 .github/workflows/deploy.yml  push main → build → GitHub Pages
 ```
 
@@ -114,7 +115,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 3. 逐张看图，把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js`（key = 展位 id）。看图时**边看边写**，一批不超过 10 张，防止上下文里旧图被裁掉。
 4. 图片压到 810px 宽 JPEG（质量 82，Pillow：`Image.open(...).convert('RGB').resize(...)`），避免仓库和首屏过大。
 5. `npm run build` 通过后按 §8 提交；列表页会自动出现「攻略」角标，`有攻略` 筹选自动计数。
-6. **同步底稿**：把该展台要点追加到 `C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026\REDLAND2026_信息汇总.md` 第 13 章（13.2 展台详情、13.3 账号表、附录 A 链接），压缩后的图片复制到 `assets/ip_notes/<展位号_IP>/`。用户会以这份 md 作为总资料查阅，不能只改项目数据。
+6. **同步底稿**：把该展台要点追加到项目内 `docs/REDLAND2026_信息汇总.md` 第 13 章（13.2 展台详情、13.3 账号表、附录 A 链接），压缩后的图片复制到 `docs/assets/ip_notes/<展位号_IP>/`。用户会以这份 md 作为总资料查阅，不能只改项目数据。（`C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026` 是 9/9 之前的历史快照，不再维护。）
 
 ## 7. 验收方法
 
@@ -138,7 +139,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDe
 
 ## 9. 资料底稿与抓取技巧
 
-- 官方活动页全部素材与逐图转录：`C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026\`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`）。改数据先查这份底稿，不要凭记忆。
+- 官方活动页全部素材与逐图转录在项目内 `docs/`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`，约 42MB，不参与构建）。改数据先查这份底稿，不要凭记忆。`docs/assets/ip_notes/` 与 `public/img/booths/` 是同一批笔记图（前者按「展位号_IP」归档给人看，后者给页面用）。
 - 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。
 - 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。
 - 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名，抓到就落盘。
