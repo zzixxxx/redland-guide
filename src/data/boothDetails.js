@@ -732,7 +732,39 @@ const shenbuyan = {
   images: ['img/booths/B22/00.jpg'],
 }
 
+// 火影忍者手游（腾讯，与 A22 皮乐火影是不同展位）：官方情报号 9/10 预告，只公布了时间地点与 5 款限定周边，玩法「更多玩法解锁，敬请期待」
+const narutoMobile = {
+  source: {
+    title: '上海·复兴岛上集合！RED LAND情报一览~（仅收录展台情报，末尾抽门票不收录）',
+    url: 'https://xhslink.cn/o/4WCh1sZ2VcI',
+    noteId: '6aa270580000000011032da7',
+    author: '火影忍者手游情报君',
+    publishedAt: '2026-09-10',
+  },
+  boothNo: 'B18（笔记未写展位号，取自官方 IP 展位一览）',
+  intro: '火影忍者手游即将登岛 RED LAND！向各位学员发出假期逛展邀请！速来 RED LAND 火影忍者手游展台集合~ 现场限定谷子也别错过！',
+  notes: ['更多惊喜玩法等你解锁，敬请期待（活动 / 任务详情待官方公布）'],
+  activities: [
+    {
+      title: '参与活动免费领限定周边',
+      desc: '「火影忍者手游启动，这一次你就是主角」参与展台活动免费领限定精美周边；具体活动内容与领取条件官方尚未公布，待补充。',
+    },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [
+    { name: '鸣佐亚克力砖（随机一款）', how: '参与展台活动免费领；鸣人 / 佐助两款随机' },
+    { name: '摸头气球', how: '参与展台活动免费领' },
+    { name: '写轮眼刘海贴（随机送）', how: '参与展台活动免费领；图中三款写轮眼图案随机' },
+    { name: '秘卷大吧唧（随机送）', how: '参与展台活动免费领；蓝 / 橙两款随机' },
+    { name: '飞雷神发光发箍（夜间模式特供）', how: '夜间模式特殊周边，参与展台活动免费领；发放时段待公布' },
+  ],
+  footnote: '以上为 9/10 预告，领取条件与限量均待官方公布。笔记末尾「点击活动参与抽奖得随机单日门票」属票务内容，未收录。',
+  images: ['img/booths/B18/00.jpg', 'img/booths/B18/01.jpg', 'img/booths/B18/02.jpg', 'img/booths/B18/03.jpg'],
+}
+
 export default {
+  B18: narutoMobile,
   B01: eggy,
   B22: shenbuyan,
   A24: scla,
