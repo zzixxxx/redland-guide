@@ -30,7 +30,7 @@ CROPS = {
     'puzzle-C': ('public/img/rules/pin/01.jpg', (550, 560, 665, 700)),
     'puzzle-all': ('public/img/rules/pin/02.jpg', (145, 280, 670, 730)),
     # 三区通用「?」软盘，给未公布展位占位
-    'zone-A': ('public/img/rules/pin/01.jpg', (150, 221, 227, 306)),
+    'zone-A': ('public/img/rules/pin/01.jpg', (150, 227, 227, 306)),
     'zone-B': ('public/img/rules/pin/01.jpg', (151, 411, 229, 495)),
     'zone-C': ('public/img/rules/pin/01.jpg', (148, 583, 228, 659)),
 }
