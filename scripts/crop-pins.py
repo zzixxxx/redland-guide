@@ -11,13 +11,13 @@ CROPS = {
     'A06': ('public/img/booths/A06/07.jpg', (555, 850, 665, 970)),
     'A09-1': ('public/img/booths/A09/01.jpg', (125, 730, 398, 1008)),
     'A09-2': ('public/img/booths/A09/01.jpg', (425, 730, 698, 1008)),
-    'A24-1': ('public/img/booths/A24/02.jpg', (515, 610, 705, 765)),
-    'A24-2': ('public/img/booths/A24/02.jpg', (515, 775, 705, 965)),
+    'A24-1': ('public/img/booths/A24/02.jpg', (516, 608, 702, 792)),
+    'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),
     'A34-1': ('public/img/booths/A34/01.jpg', (108, 635, 368, 895)),
     'A34-2': ('public/img/booths/A34/01.jpg', (432, 635, 698, 895)),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480)),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630)),
-    'night': ('public/img/rules/pin/01.jpg', (150, 785, 240, 865)),
+    'night': ('public/img/rules/pin/01.jpg', (148, 755, 232, 861)),
     'veteran': ('public/img/rules/pin-npc/01.jpg', (220, 375, 560, 685)),
     'npc-1': ('public/img/rules/pin-npc/02.jpg', (150, 380, 440, 680)),
     'npc-2': ('public/img/rules/pin-npc/02.jpg', (390, 375, 660, 695)),
@@ -30,9 +30,9 @@ CROPS = {
     'puzzle-C': ('public/img/rules/pin/01.jpg', (550, 560, 665, 700)),
     'puzzle-all': ('public/img/rules/pin/02.jpg', (145, 280, 670, 730)),
     # 三区通用「?」软盘，给未公布展位占位
-    'zone-A': ('public/img/rules/pin/01.jpg', (155, 222, 245, 308)),
-    'zone-B': ('public/img/rules/pin/01.jpg', (155, 410, 245, 495)),
-    'zone-C': ('public/img/rules/pin/01.jpg', (155, 580, 245, 665)),
+    'zone-A': ('public/img/rules/pin/01.jpg', (150, 221, 227, 306)),
+    'zone-B': ('public/img/rules/pin/01.jpg', (151, 411, 229, 495)),
+    'zone-C': ('public/img/rules/pin/01.jpg', (148, 583, 228, 659)),
 }
 
 MAX_SIDE = 320
