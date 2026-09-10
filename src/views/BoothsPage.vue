@@ -99,15 +99,18 @@
           <span class="tag gray" style="flex:none">LOADING</span>
         </div>
         <div class="hr" style="border-color:#4a4980" />
-        <div class="row between">
+        <div class="row between wrap">
           <span class="tag yellow text">{{ venueMapRef.title }}</span>
-          <button class="pbtn sm ghost" @click="openMap = !openMap">{{ openMap ? '收起要点 ▴' : '2025 交通要点 ▾' }}</button>
+          <div class="row" style="gap:6px;flex:none;margin-left:auto">
+            <button class="pbtn sm ghost" @click="openMap = !openMap">{{ openMap ? '收起要点 ▴' : '2025 交通要点 ▾' }}</button>
+            <button class="pbtn sm ghost" @click="openMapImgs = !openMapImgs">{{ openMapImgs ? '收起地图 ▴' : `2025 地图 ${venueMapRef.images.length} 张 ▾` }}</button>
+          </div>
         </div>
         <ul v-if="openMap" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
           <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
         </ul>
-        <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
-        <div class="gallery mt-10">
+        <div v-if="openMap || openMapImgs" class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
+        <div v-if="openMapImgs" class="gallery mt-10">
           <img v-for="m in venueMapRef.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImg(base + m.src)" />
         </div>
         <div class="small mt-6" style="color:#a9a8cc">
@@ -221,6 +224,7 @@ const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
 const openMap = ref(false)
+const openMapImgs = ref(false)
 const base = import.meta.env.BASE_URL
 const bigImg = ref(null)
 const openImg = (src) => (bigImg.value = src)
