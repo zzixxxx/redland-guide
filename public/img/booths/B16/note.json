@@ -21,5 +21,14 @@
   "images": [
     "img/booths/B16/00.jpg",
     "img/booths/B16/01.jpg"
-  ]
+  ],
+  "fileIds": [
+    "notes_pre_post/1040g3k8324p64cd11g705q2ssop2773g3fod7qg",
+    "notes_pre_post/1040g3k8324p64cd11g7g5q2ssop2773gbgq22co"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1
+  }
 }

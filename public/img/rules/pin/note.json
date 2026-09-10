@@ -22,5 +22,16 @@
     "img/rules/pin/00.jpg",
     "img/rules/pin/01.jpg",
     "img/rules/pin/02.jpg"
-  ]
+  ],
+  "fileIds": [
+    "notes_pre_post/1040g3k83248ou79sgm9g5q2ssop2773g3nkgm30",
+    "notes_pre_post/1040g3k83248ou79sgma05q2ssop2773g385jvfg",
+    "notes_pre_post/1040g3k83248ou79sgmag5q2ssop2773gev7m0fg"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1,
+    "02.jpg": 2
+  }
 }

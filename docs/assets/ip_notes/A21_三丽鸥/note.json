@@ -23,5 +23,14 @@
   "images": [
     "img/booths/A21/00.jpg",
     "img/booths/A21/01.jpg"
-  ]
+  ],
+  "fileIds": [
+    "spectrum/1040g34o324m7rlee6u2g4b5cv6enihchio4ofo8",
+    "spectrum/1040g34o324m7rlee6u204b5cv6enihch896vjuo"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1
+  }
 }

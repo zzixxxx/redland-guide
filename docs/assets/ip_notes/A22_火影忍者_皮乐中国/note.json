@@ -21,5 +21,12 @@
   "finalUrl": "https://www.xiaohongshu.com/discovery/item/6a9e64c4000000002a005210?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBAwIUCd1rbfhJmzGCf3Jv0uhHmjUYNnZ8OU6XUGJzz_k=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1788921671&share_id=59528c82f6154230bad838402571523e",
   "images": [
     "img/booths/A22/00.jpg"
-  ]
+  ],
+  "fileIds": [
+    "spectrum/1040g0k0324q9mhqo6u005okbabvocip4isvj5c0"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0
+  }
 }

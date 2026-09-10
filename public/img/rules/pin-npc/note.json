@@ -24,5 +24,20 @@
     "img/rules/pin-npc/02.jpg",
     "img/rules/pin-npc/03.jpg",
     "img/rules/pin-npc/04.jpg"
-  ]
+  ],
+  "fileIds": [
+    "notes_pre_post/1040g3k83248ou79sgm705q2ssop2773g3ibbobo",
+    "notes_pre_post/1040g3k83248ou79sgm7g5q2ssop2773g73gnc38",
+    "notes_pre_post/1040g3k83248ou79sgm805q2ssop2773g71o327g",
+    "notes_pre_post/1040g3k83248ou79sgm8g5q2ssop2773gqfgmj60",
+    "notes_pre_post/1040g3k83248ou79sgm905q2ssop2773gqk07t7o"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1,
+    "02.jpg": 2,
+    "03.jpg": 3,
+    "04.jpg": 4
+  }
 }

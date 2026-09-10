@@ -25,5 +25,21 @@
     "img/booths/A09/00.jpg",
     "img/booths/A09/01.jpg"
   ],
-  "keptOnly": "仅保留 RED LAND 参展情报两张图（原第 7、8 张）"
+  "keptOnly": "仅保留 RED LAND 参展情报两张图（原第 7、8 张）",
+  "fileIds": [
+    "spectrum/1040g0k0324l0kdqnmu005oetij9k1caljkd8hug",
+    "spectrum/1040g0k0324kuer4gn4005oetij9k1calnflanv8",
+    "spectrum/1040g0k0324kuerufn2005oetij9k1cal8kdmqg0",
+    "spectrum/1040g0k0324kuesptn2005oetij9k1cal36btd28",
+    "spectrum/1040g0k0324kuetjqgs005oetij9k1calru54dt8",
+    "spectrum/1040g0k0324kueujh72005oetij9k1cal300jhd0",
+    "spectrum/1040g0k0324kuevg772005oetij9k1cal8qqecvo",
+    "spectrum/1040g0k0324kuf0degm005oetij9k1cal1e892u0",
+    "spectrum/1040g0k0324kuf1argm005oetij9k1calln2c2f8"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 6,
+    "01.jpg": 7
+  }
 }

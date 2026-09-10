@@ -24,5 +24,15 @@
     "img/booths/A34/00.jpg",
     "img/booths/A34/01.jpg"
   ],
-  "keptOnly": "删除第 3 张（发笔记送门票），仅保留 KV 与参展信息"
+  "keptOnly": "删除第 3 张（发笔记送门票），仅保留 KV 与参展信息",
+  "fileIds": [
+    "spectrum/1040g34o324ma3nven2305nsnpc00bh3em4f9550",
+    "spectrum/1040g34o324ma3nven23g5nsnpc00bh3eq899usg",
+    "spectrum/1040g34o324ma3nven2405nsnpc00bh3est02c7g"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1
+  }
 }

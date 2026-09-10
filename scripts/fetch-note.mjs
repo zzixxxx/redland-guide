@@ -46,10 +46,16 @@ if (!note) {
 const outDir = path.resolve('public/img/booths', boothId)
 fs.mkdirSync(outDir, { recursive: true })
 
+// 无水印原图：分享页给的 !h5_1080jpg 样式会在图中央叠「小红书」水印；
+// 用 fileId 直接拼 ci.xiaohongshu.com 的 imageView2 地址可拿到同尺寸（1080 宽）无水印 JPEG。没有 fileId 时回退到带水印地址。
+const cleanUrl = (im) => (im.fileId ? `https://ci.xiaohongshu.com/${im.fileId}?imageView2/2/w/1080/format/jpg` : null)
+
 const images = []
+const fileIds = []
 for (const [i, im] of (note.imageList || []).entries()) {
-  const url = im.urlDefault || im.url || im.infoList?.[0]?.url
+  const url = cleanUrl(im) || im.urlDefault || im.url || im.infoList?.[0]?.url
   if (!url) continue
+  fileIds.push(im.fileId || null)
   const name = `${String(i).padStart(2, '0')}.jpg`
   try {
     const r = await fetch(url, { headers: { 'User-Agent': UA, Referer: 'https://www.xiaohongshu.com/' } })
@@ -71,6 +77,7 @@ const meta = {
   time: note.time,
   finalUrl: res.url,
   images,
+  fileIds, // 各图 fileId，可用 scripts/refetch-clean.mjs 重新拉无水印原图
 }
 fs.writeFileSync(path.join(outDir, 'note.json'), JSON.stringify(meta, null, 2), 'utf8')
 

@@ -28,5 +28,28 @@
     "img/rules/map-2025/04.jpg",
     "img/rules/map-2025/08.jpg"
   ],
-  "keptOnly": "网友整理的 2025 年（RED LAND 1.0）资料，非官方账号，仅作 2026 官方平面图公布前的参照。保留 00 交通攻略图、01 登岛详细路线图（均为网友在 2025 官方地图上标注）、02–04 2025 官方电子地图三段（北 发呆小森林 C 区 / 中 重生试炼场 B 区 / 南 翻身时空港 A 区）、08 全岛总览 + 三区展位清单；05–07 为 2025 Echo Project 音乐节节目单、09–11 为 2025 各展位无料领取攻略，与 2026 无关未收录。地图类图保留 1080 宽（需看清文字），只压质量 82。"
+  "keptOnly": "网友整理的 2025 年（RED LAND 1.0）资料，非官方账号，仅作 2026 官方平面图公布前的参照。保留 00 交通攻略图、01 登岛详细路线图（均为网友在 2025 官方地图上标注）、02–04 2025 官方电子地图三段（北 发呆小森林 C 区 / 中 重生试炼场 B 区 / 南 翻身时空港 A 区）、08 全岛总览 + 三区展位清单；05–07 为 2025 Echo Project 音乐节节目单、09–11 为 2025 各展位无料领取攻略，与 2026 无关未收录。地图类图保留 1080 宽（需看清文字），只压质量 82。",
+  "fileIds": [
+    "1040g00831ksj0jg3io005oeu59ok10a6fpu7at0",
+    "notes_pre_post/1040g3k031ks8ffts322g5oeu59ok10a66gf8a6g",
+    "notes_pre_post/1040g3k031ks8ffts32305oeu59ok10a6qsn23b8",
+    "notes_pre_post/1040g3k031ks8ffts323g5oeu59ok10a651s1c6o",
+    "notes_pre_post/1040g3k031ks8ffts32405oeu59ok10a6pqb28r0",
+    "notes_pre_post/1040g3k031ks8ffts324g5oeu59ok10a6ei2nj7o",
+    "notes_pre_post/1040g3k031ks8ffts32505oeu59ok10a69ngu6m8",
+    "notes_pre_post/1040g3k031ks8ffts325g5oeu59ok10a6dtq9g70",
+    "notes_pre_post/1040g3k031ks8ffts32605oeu59ok10a6ad2b1f8",
+    "notes_pre_post/1040g3k031ks8ffts326g5oeu59ok10a6nalthm8",
+    "notes_pre_post/1040g3k031ks8jcvq34005oeu59ok10a6lplk7ug",
+    "notes_pre_post/1040g3k031ks8jcvq340g5oeu59ok10a6ldkvkdo"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1,
+    "02.jpg": 2,
+    "03.jpg": 3,
+    "04.jpg": 4,
+    "08.jpg": 8
+  }
 }

@@ -23,5 +23,20 @@
     "img/booths/B02/02.jpg",
     "img/booths/B02/03.jpg",
     "img/booths/B02/04.jpg"
-  ]
+  ],
+  "fileIds": [
+    "spectrum/1040g34o324r9hpnrhk105pel9ok5qgj28omue2g",
+    "spectrum/1040g34o324r9hs9a1m0g5pel9ok5qgj2kl7mhgo",
+    "spectrum/1040g34o324r9hti21o0g5pel9ok5qgj2sc2vji0",
+    "spectrum/1040g0k0324r9hv0lhm005pel9ok5qgj2gc3ueg8",
+    "spectrum/1040g0k0324r9i08c1m005pel9ok5qgj27630pt0"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1,
+    "02.jpg": 2,
+    "03.jpg": 3,
+    "04.jpg": 4
+  }
 }

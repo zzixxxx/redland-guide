@@ -23,5 +23,16 @@
   "images": [
     "img/booths/A24/eva-00.jpg"
   ],
-  "keptOnly": "仅保留 00 封面（9 大 IP 卡片新版式，写明 上海·杨浦区·复兴岛·A24）；原图 01–04 与新创华SCLA 主笔记（noteId 6aa12518000000002902d03f）的 01–04 完全相同，未重复收录。EVA 专属信息（同步率任务 / yurushito 场次 / MEDM×EVA 潮服）均在正文。"
+  "keptOnly": "仅保留 00 封面（9 大 IP 卡片新版式，写明 上海·杨浦区·复兴岛·A24）；原图 01–04 与新创华SCLA 主笔记（noteId 6aa12518000000002902d03f）的 01–04 完全相同，未重复收录。EVA 专属信息（同步率任务 / yurushito 场次 / MEDM×EVA 潮服）均在正文。",
+  "fileIds": [
+    "spectrum/1040g0k0324t18e6i32005q4712bms81vvalmnbo",
+    "spectrum/1040g0k0324t18e6i320g5q4712bms81v7pr3u48",
+    "spectrum/1040g0k0324t18e6i32105q4712bms81vnb8k798",
+    "spectrum/1040g0k0324t18e6i321g5q4712bms81voto4amo",
+    "spectrum/1040g0k0324t18e6i32205q4712bms81vv6eg67o"
+  ],
+  "clean": true,
+  "keptIndex": {
+    "eva-00.jpg": 0
+  }
 }
