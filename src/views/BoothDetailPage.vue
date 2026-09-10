@@ -166,6 +166,10 @@
           <div class="small muted">来源：{{ detail.source.author }} · {{ detail.source.publishedAt }}</div>
           <div class="small mt-6"><b>{{ detail.source.title }}</b></div>
           <a class="pbtn red block mt-10" :href="detail.source.url" target="_blank" rel="noopener">去小红书看原笔记</a>
+          <template v-if="detail.moreSources?.length">
+            <div class="small muted mt-10">同展位其他官方笔记</div>
+            <a v-for="m in detail.moreSources" :key="m.url" class="pbtn block mt-6" :href="m.url" target="_blank" rel="noopener">{{ m.author }} · {{ m.title }}</a>
+          </template>
         </div>
       </div>
     </template>
