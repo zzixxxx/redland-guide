@@ -567,6 +567,7 @@
 | A21 三丽鸥 | Sanrio三丽鸥 | 5ba9dd7953c4f60001664591 |
 | A22 火影忍者 | 皮乐动漫 | 628b52ff0000000021024b24 |
 | A24 SCLA / 新创华 | 新创华SCLA | 5c73e184000000001000fa72 |
+| A24 SCLA / 新创华（第二官方号，关注有礼需同时关注） | SCLA招聘 | 69cf57f60000000033020c71 |
 | A25 鬼灭之刃 / 孤独摇滚 | Aniplex | 6253b084000000001000a1aa |
 | A34 我的世界 | 我的世界Minecraft | 5f97cb00000000000101c46e |
 | B02 / B17 / C16 宝可梦 | Pokemon宝可梦 | 65d54e280000000017014262 |
@@ -614,6 +615,7 @@ IP 官方笔记（2026-09-09 增补，均为 xhslink 短链，App 内打开）
 - https://xhslink.cn/o/59SWOYsvyZX （Aniplex A25 次元管理局入队指南）
 - https://xhslink.cn/o/dpKxwGccEO （我的世界 A34，仅参展信息部分）
 - https://xhslink.cn/o/9hScRpSULVx （新创华 SCLA A24 登岛攻略，2026-09-10 增补）
+- https://xhslink.cn/o/8Q6qPmoDsgH （SCLA招聘 8/20「官宣 新创华 RED LAND 登岛确认」，仅用于补账号 uid；该笔记写展台 A27，以 9/10 攻略的 A24 为准）
 - https://xhslink.cn/o/2nRsiczOkgz （RED LAND 官方：PIN 收集玩法 / 区域分色 / 冒险者拼图）
 - https://xhslink.cn/o/1JAJZlR3ruk （RED LAND 官方：NPC & 老玩家 PIN 图鉴）
 - https://xhslink.com/m/5omtDcLqcLl （阅文 A35「读档！就现在」专题页，302 → ditto cc6a09bbd38640d995705bed8335cf0c；子页 b839c3ef…全职高手 / dd18ff09…诡秘之主 / d0f87b18…一人之下 / 521379d0…道诡异仙 / 6931df6c…狐妖小红娘 / 72824a11…阅文好物，完整 id 见 raw/ip_yuewen_*_dsl.json）

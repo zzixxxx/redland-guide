@@ -535,6 +535,7 @@ const scla = {
     publishedAt: '2026-09-10',
   },
   boothNo: 'A24',
+  accounts: [{ uid: '69cf57f60000000033020c71', name: 'SCLA招聘' }], // 关注有礼需同时关注的第二个官方号（8/20 官宣笔记，当时写展台 A27，以 9/10 攻略与官方展位一览的 A24 为准）
   hours: '每日 13:00 – 22:00',
   location: '上海 · 复兴岛 A24',
   intro:
