@@ -5,13 +5,14 @@
 - 在线访问：**https://zzixxxx.github.io/redland-guide/** （手机浏览器打开，可「添加到主屏幕」）
 - 开发约定见 [CLAUDE.md](./CLAUDE.md)，后续开发以其为准。
 
-三个 Tab：
+四个 Tab：
 
 | Tab | 内容 |
 |---|---|
 | 展位攻略 | 每日时刻表 · 主线玩法（PIN 分区分色 / 区域开图 / 冒险者拼图）· A/B/C 区（翻身时空港 / 黄金海岸线 / 重生试炼场）IP 展位一览 · 点击展位看展台活动 / 舞台活动 / 展台任务 / 奖励 · 一键跳转 IP 小红书主页核对最新动态 · 本机打卡进度 |
 | 花车巡礼 | 花车打卡 / 巡游时间 · 每日头号花车出场角色（DAY1–5）· IP 主题花车 · 主角方阵 |
 | 月光舞台 | 每日节目单（歌手 / 曲目 / 来源 IP）· 营地每日主题 · 日光 / 月光舞台说明 |
+| PIN 图鉴 | 三区冒险者拼图进度 · 已公布 PIN 的单枚缩略图（按展位号占位编号）· 未公布展位「?」占位 · 夜间 / NPC / 老玩家 PIN · 本机「已收集」 |
 
 ## 运行
 
@@ -30,7 +31,8 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
 | `indie.js` | C04 独立游戏试玩名单 | 官方独立游戏聚合页 |
 | `parade.js` | 花车时间、每日头车角色、主题花车、主角方阵 | 官方「花车巡礼」半层 |
 | `stage.js` | 月光舞台 5 日节目单、营地主题 | 官方「冒险者营地」半层 |
-| `rules.js` | 活动基本信息、主线 / 彩蛋玩法、新地图 / 夜间模式、每日时刻 | 官方「冒险者攻略」半层 + 主会场 |
+| `rules.js` | 活动基本信息、主线 / 彩蛋玩法、新地图 / 夜间模式、每日时刻、2025 年参考地图 | 官方「冒险者攻略」半层 + 主会场（参考地图为网友整理，标注非官方） |
+| `pins.js` | PIN 图鉴：区域 / 夜间 / 老玩家 / NPC / 拼图，占位编号、缩略图、获取方式 | RED LAND 官方 PIN 笔记 + 各 IP 展台详情笔记 |
 
 原始素材（官方页面全部图片、DSL JSON、逐图转录、各 IP 笔记归档）在 [`docs/`](./docs/)，总资料见 [`docs/REDLAND2026_信息汇总.md`](./docs/REDLAND2026_信息汇总.md)。
 
@@ -41,7 +43,7 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
    ```bash
    node scripts/fetch-note.mjs "https://xhslink.cn/o/xxxx" A06
    ```
-   图片落在 `public/img/booths/A06/`，控制台打印一段可粘贴的骨架 JSON。
+   图片落在 `public/img/booths/A06/`（按 fileId 拉的无水印原图），控制台打印一段可粘贴的骨架 JSON。
    如果链接 302 到的是 ditto 专题页（`fe.xiaohongshu.com/ditto/vincent/<id>`，如阅文 A35「读档！就现在」），改用：
    ```bash
    node scripts/fetch-ditto.mjs "https://xhslink.com/m/xxxx" public/img/booths/A35/raw --sub
@@ -49,10 +51,12 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
    会把目录页与热区跳转的子页图片、关注组件里的账号 uid 一起落盘到 `ditto.json`。
 3. 看图把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js` 对应 key（key 就是 `booths.js` 里的 `id`）。
 4. 大图建议压到 810px 宽（脚本不压图），列表页会自动出现「攻略」角标。
+5. 笔记里有 PIN 的话，把裁切框加进 `scripts/crop-pins.py` 跑一下抠出缩略图，再追加进 `src/data/pins.js`，PIN 图鉴页自动出现。
 
 ## 待补充
 
 - 场馆平面图（官方未公布，首页暂以 2025 年网友整理的参考图过渡，已标注非官方）
 - A/B/C 区 ↔ 翻身时空港 / 重生试炼场 / 黄金海岸线 的映射
 - 夜间模式开启时刻、9 月底活动预约入口
+- PIN 官方正式编号（目前按展位号占位）、NPC 第 7 款与夜间 PIN 实图
 - 其余 IP 的展台详情（目前已收录：A06 星布谷地、A09 崩坏：星穹铁道、A21 三丽鸥、A22 火影忍者、A24 SCLA / 新创华（假面骑士 / 奥特曼 / 面包超人 / 超级战队 / 柯南 / EVA / 初音未来 / 哥斯拉 / 犬夜叉）、A25 Aniplex（鬼灭之刃 / 孤独摇滚）、A34 我的世界、A35 阅文（全职高手 / 诡秘之主 / 一人之下 / 道诡异仙 / 狐妖小红娘 / 阅文好物）、B02 / B17 / C16 宝可梦、B16 宝藏码头）

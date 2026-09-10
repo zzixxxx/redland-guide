@@ -7,10 +7,11 @@
 - 小红书 **RED LAND 2026** 线下活动（2026-10-02 ~ 10-06，上海杨浦复兴岛船台 PARK）的**手机端快速查询攻略**。
 - 线上地址：https://zzixxxx.github.io/redland-guide/ （GitHub Pages，push `main` 自动部署）
 - 仓库：https://github.com/zzixxxx/redland-guide
-- 三个底部 Tab：
+- 四个底部 Tab：
   1. **展位攻略**（`/booths`）：每日时刻横条 → 主线玩法折叠卡（含本机打卡进度）→ 场馆平面图占位卡 → A/B/C 区 IP 展位列表（搜索 / 区域筹选 / 有攻略 / 已打卡）。点展位进 **展位详情**（`/booth/:id`）：官方一句话、展会信息、展台活动、舞台活动、展台任务、奖励一览、官方笔记原图、来源链接；无详情时给小红书搜索关键词。
   2. **花车巡礼**（`/parade`）：打卡 / 巡游时间 → DAY1–5 切换的头号花车出场角色 → IP 主题花车 → 主角方阵。
   3. **月光舞台**（`/stage`）：DAY1–5 切换 → 主题横幅 → 节目单（歌手 / 曲目 / 来源 IP）→ 营地说明 → 五日主题总览。
+  4. **PIN 图鉴**（`/pins`）：三区拼图进度 → 区域 / 夜间 NPC 老玩家 / 拼图筹选 + 「只看已公布」→ 2 列图鉴卡（抠出的单枚 PIN 缩略图、占位编号、获取方式、跳展位、本机「已收集」）。未公布 PIN 的展位按 `booths.js` 自动生成「?」占位卡。
 
 ## 2. 用户硬性口径（不要违反）
 
@@ -32,12 +33,15 @@ src/
   main.js / App.vue           入口；App 里 keep-alive 三个列表页（按组件 name 匹配）
   router/index.js             /booths  /booth/:id  /parade  /stage
   style.css                   全部样式（设计 token 在 :root；像素组件类见 §5）
-  composables/useStore.js     useChecked（展位打卡，localStorage rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）
+  composables/useStore.js     useChecked（展位打卡，localStorage rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）
   components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）
-  views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage
+  views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage / PinsPage
   data/                       所有内容数据，纯 JS 模块，见 §4
-public/img/booths/<展位id>/   各 IP 笔记原图（建议 810px 宽 JPEG）+ note.json（抓取原始数据）
-scripts/fetch-note.mjs        抓小红书笔记正文 + 图片，打印 boothDetails 骨架
+public/img/booths/<展位id>/   各 IP 笔记原图（810px 宽 JPEG，无水印版）+ note.json（抓取原始数据，含 fileIds / keptIndex）
+public/img/pins/              从笔记图抠出的单枚 PIN 缩略图（<pin id>.jpg，最长边 320px）+ zone-A/B/C 通用占位软盘
+scripts/fetch-note.mjs        抓小红书笔记正文 + 图片（按 fileId 拉无水印原图），打印 boothDetails 骨架
+scripts/refetch-clean.mjs     把已抓的带水印图按 note.json 的 fileIds 重拉成无水印版（历史目录一次性用过，新目录不需要）
+scripts/crop-pins.py          按裁切框从笔记图抠单枚 PIN 缩略图到 public/img/pins/
 scripts/fetch-ditto.mjs       抓 ditto 专题页（目录页 + --sub 子页）全部图片、热区跳转、关注组件 uid → ditto.json
 docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
 .github/workflows/deploy.yml  push main → build → GitHub Pages
@@ -55,7 +59,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 | `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMapRef`（2025 年参考图 + 交通要点，非官方过渡） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」笔记；`venueMapRef` 来自网友「星辰大海」2025-08-07 笔记 |
 
 - 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）、`rules/map-2025/`（2025 年场地参考图，网友整理非官方，地图类图保留 1080 宽只压质量）。
-- `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），UI 尚未接入，是未来「PIN 图鉴」Tab 的数据源。每收录一个带 PIN 的展台详情，就把该 PIN 追加进 `pins[]`（`booth` 指向展位 id，`image` 先指向整张笔记图，后续再裁单枚缩略图）。
+- `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），由 `PinsPage` 渲染。字段：`no` 占位编号（区域 PIN = 展位 id[-序号]，如 `A09-1`；夜间 `N-01`、老玩家 `V-01`、NPC `NPC-01`、拼图 `R-A/R-B/R-C/R-ALL`，官方公布正式编号后再换）、`thumb` 抠出的单枚缩略图、`image` 所在整张笔记图、`booth`。每收录一个带 PIN 的展台详情：在 `scripts/crop-pins.py` 的 CROPS 加裁切框（坐标基于 810px 宽图）→ `python scripts/crop-pins.py <id>` → 追加进 `pins[]`。没公布 PIN 的展位不用写，页面自动生成占位卡。`zoneThumbs` 是三区通用「?」软盘图。
 - 术语：官方 8 月攻略半层叫「冒险岛的信物 / 冰箱贴」，8/25 PIN 笔记叫「冒险者拼图 / 冒险岛拼图完整体」，指同一件东西；UI 以「冒险者拼图」为主并括注旧称。PIN 按区域分色：翻身时空港橙 `#f26a2e`（A 区，需 4）、黄金海岸线黄 `#f2c23a`（B 区，需 2）、重生试炼场蓝 `#2f8fe6`（C 区，需 2）、夜间 PIN 黑。已收录展台的 PIN 颜色可用来反推区域。
 
 - **`booths[].xhs`**：`{ uid, name }` 该 IP 小红书官方账号（uid = 抓笔记时 `note.json` 里的 `user.userId`）。有则列表行出现 📕 按钮、详情页出现「小红书主页」按钮，方便用户去核对最新动态；没有的展位只给搜索按钮。每抓一条新 IP 笔记都要顺手把 uid 补进 `booths.js`。RED LAND 官方号 uid `685ce6320000000008039c70`（`src/utils/xhs.js`）。
@@ -101,12 +105,12 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 - 设计 token 全在 `style.css :root`：`--sky #4da6ff` 底、`--paper #fffdf6` 卡、`--cream` 暖卡、`--navy #1f2d5c` 描边与阴影、`--red #ff4b4b` 编号标签 / 选中态、`--yellow #ffd23f` 星标、`--night #2b2a55` 夜间 / 提示卡、`--brown #5a3e2b` 标题文字。
 - 字体：标题 `--font-pix`（ZCOOL QingKe HuangYou）、编号 / 时间 `--font-num`（Press Start 2P，只用于短的数字字母，10px 左右）、正文系统字体。字体走 Google Fonts，离线自动回退。
-- 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`。新组件先复用这些类，再考虑加新类。
+- 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）。新组件先复用这些类，再考虑加新类。
 - 顶栏 `PageHeader`：左上 RED LAND 2026 logo 是 RED LAND 小红书官方号的链接（不要再在页面里另放官方号按钮）；传 `venue`（`rules.js` 的 `venueNav`）时副标题变成「导航」按钮，展开高德 / 百度 / Apple 地图搜索链接与复制地址。导航用关键词搜索 URI，不用坐标（避免 GCJ-02 / WGS-84 偏移）。
 - 底栏 `TabBar` 固定，页面底部 padding 预留 `--tab-h + safe-area`；详情页不显示底栏。桌面端（≥600px）底栏与内容同宽居中，`.timeline / .chips` 改为换行而不是横滑（鼠标无法横滑）。
 - `dailySchedule[].kind` 会直接作为 `.tl-item` 的附加 class，取值只能是 `parade / stage / night / ip`，**不要用 `booth`**（与展位卡 `.booth` 类撞名会打乱布局）。新增 kind 前先 grep style.css 确认没有同名类。
 - 列表页用 `keep-alive`，组件必须有 `name`（单独 `<script>` 导出），否则筹选状态会丢。
-- 本机状态只用 localStorage（打卡 `rl26.checked`、当前 DAY `rl26.day`），不引入登录 / 云同步。
+- 本机状态只用 localStorage（打卡 `rl26.checked`、当前 DAY `rl26.day`、PIN 已收集 `rl26.pins`），不引入登录 / 云同步。
 - 中文与英文 / 数字之间留一个空格；官方专有名词不改写（「存档碎片」「冒险者营地」「月下模式」等）。
 
 ## 6. 补充一个 IP 的展台详情（标准流程）
@@ -117,11 +121,13 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
    ```bash
    node scripts/fetch-note.mjs "<链接>" <展位id>     # 例：node scripts/fetch-note.mjs "https://xhslink.cn/o/2KHjtNJUxgl" A06
    ```
-   图片落到 `public/img/booths/<id>/`，`note.json` 保存原始数据，控制台打印 `boothDetails` 骨架。
+   图片落到 `public/img/booths/<id>/`（已是无水印版：脚本用 imageList 里的 `fileId` 拼 `ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg`，分享页默认的 `!h5_1080jpg` 样式会在图中央叠「小红书」水印），`note.json` 保存原始数据（含 `fileIds`），控制台打印 `boothDetails` 骨架。
+   - 只保留部分图并重命名为 00/01… 时，务必在 `note.json` 写 `keptIndex: { '00.jpg': 原下标 }`，否则以后按序号重抓会错位（A09 曾因此抠错 PIN）。
 3. 逐张看图，把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js`（key = 展位 id）。看图时**边看边写**，一批不超过 10 张，防止上下文里旧图被裁掉。
 4. 图片压到 810px 宽 JPEG（质量 82，Pillow：`Image.open(...).convert('RGB').resize(...)`），避免仓库和首屏过大。
-5. `npm run build` 通过后按 §8 提交；列表页会自动出现「攻略」角标，`有攻略` 筹选自动计数。
-6. **同步底稿**：把该展台要点追加到项目内 `docs/REDLAND2026_信息汇总.md` 第 13 章（13.2 展台详情、13.3 账号表、附录 A 链接），压缩后的图片复制到 `docs/assets/ip_notes/<展位号_IP>/`。用户会以这份 md 作为总资料查阅，不能只改项目数据。（`C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026` 是 9/9 之前的历史快照，不再维护。）
+5. 若笔记里有 PIN：把裁切框加进 `scripts/crop-pins.py`，跑一下生成缩略图，再把 PIN 追加进 `src/data/pins.js`（见 §4）。
+6. `npm run build` 通过后按 §8 提交；列表页会自动出现「攻略」角标，`有攻略` 筹选自动计数。
+7. **同步底稿**：把该展台要点追加到项目内 `docs/REDLAND2026_信息汇总.md` 第 13 章（13.2 展台详情、13.3 账号表、附录 A 链接），压缩后的图片复制到 `docs/assets/ip_notes/<展位号_IP>/`。用户会以这份 md 作为总资料查阅，不能只改项目数据。（`C:\Users\JSB\Downloads\ClaudeCodeDocs\RedLand2026` 是 9/9 之前的历史快照，不再维护。）
 
 ## 7. 验收方法
 
@@ -148,7 +154,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 官方活动页全部素材与逐图转录在项目内 `docs/`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`，约 42MB，不参与构建）。改数据先查这份底稿，不要凭记忆。`docs/assets/ip_notes/` 与 `public/img/booths/` 是同一批笔记图（前者按「展位号_IP」归档给人看，后者给页面用）。
 - 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。IP 专题页同理（阅文「读档！就现在」hub `cc6a09bbd38640d995705bed8335cf0c`），子页里的 `OnixDittoFollowNew.userId` 就是该 IP 官方账号 uid；主页接口 `xiaohongshu.com/user/profile/<uid>` 无 cookie 会 302 到验证码页，拿不到昵称。
 - 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。
-- 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名，抓到就落盘。
+- 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名且中央有「小红书」水印，**无水印原图**用 `imageList[].fileId`（形如 `spectrum/1040g0k…`）拼 `https://ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg`（或 `sns-img-qc.xhscdn.com/<fileId>` 取原始 PNG），带 iPhone UA + Referer 即可，9/10 已把全部历史图换成无水印版。
 
 ## 10. 待办 / 已知空缺
 
@@ -159,4 +165,4 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - [x] A24 SCLA：「复兴岛 IP 售卖区」摊位 NO.05 按用户 9/10 决定视为黄金海岸线 B16 宝藏码头名单中的「新创华」摊位（两边官方文案未互相点名，属推断；B16 stalls 已加 note）。SCLA招聘 8/20 官宣笔记曾写展台 A27，以 9/10 攻略的 A24 为准。其余 8 个 SCLA IP 官方号的分 IP 攻略待发
 - [ ] A35 阅文：道诡异仙「PIN 卡」是否为冒险者拼图 PIN 待确认（确认后补进 `pins.js`）；狐妖小红娘集章话题、阅文好物无料详情、王也生日会礼赠均「待公布」，专题页 `endTime` 10/12，10 月前重抓 diff；6 个 IP 账号昵称未核实（用栏目名代替）
 - [ ] 每日时刻横条里 15:00「展台嘉宾刷新」目前只有星布谷地的信息，随详情增多改为按展台聚合（A24 SCLA 已有每日 14:00–19:30 六场见面会时间表，是首个候选）
-- [ ] PIN 图鉴功能（用户已提出「后续可能加入」）：数据已在 `pins.js`，待做 UI：按类型 / 区域筹选、每枚 PIN 的获取方式与来源展位、本机「已收集」勾选（可与展位打卡联动）、裁切单枚 PIN 缩略图。可作为第四个 Tab 或放在展位攻略页主线卡下方。
+- [x] PIN 图鉴（第四个 Tab `/pins`，9/10 上线）：区域 / 类型筹选、抠图缩略图、占位编号、本机「已收集」。待办：官方公布 PIN 正式编号后替换 `no`；NPC 第 7 款、夜间 PIN 实图待公布；「已收集」与展位打卡暂不联动（用户未要求）。

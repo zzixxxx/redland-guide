@@ -14,5 +14,6 @@ const tabs = [
   { to: '/booths', match: '/booth', icon: '🗺️', label: '展位攻略' },
   { to: '/parade', match: '/parade', icon: '🎠', label: '花车巡礼' },
   { to: '/stage', match: '/stage', icon: '🎤', label: '月光舞台' },
+  { to: '/pins', match: '/pins', icon: '📀', label: 'PIN 图鉴' },
 ]
 </script>

@@ -591,6 +591,11 @@
 
 > 资料来源：assets/ip_notes/ 下各目录（含 note.json 原始正文）；各笔记链接见附录 A「IP 官方笔记」。
 
+### 13.6 PIN 图鉴与图片无水印化（2026-09-10）
+
+- 项目新增第四个 Tab「PIN 图鉴」：已公布的 PIN 从各笔记图抠成单枚缩略图（`assets/` 同批图；项目内 `public/img/pins/`，裁切框在 `scripts/crop-pins.py`）；官方未给 PIN 编号，先按展位号占位编码（A06、A09-1 / A09-2、A24-1 / A24-2、A34-1 / A34-2、B02-1 / B02-2；夜间 N-01、老玩家 V-01、NPC-01–07、拼图 R-A / R-B / R-C / R-ALL），未公布 PIN 的展位用官方规则图里的「?」软盘占位。
+- 本目录 `assets/ip_notes/`、`assets/ref_map_2025/` 的笔记图已全部替换为**无水印版**：小红书分享页默认图带中央「小红书」水印，用 imageList 的 `fileId` 拼 `ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg` 可得同尺寸无水印原图；各目录 `note.json` 新增 `fileIds`（全部原图）与 `keptIndex`（保留文件名 → 原图下标，A09 的 00/01 对应原图 06/07）。
+
 ### 13.5 2025 年场地参考图（网友整理，非官方；2026-09-10 增补）
 
 2026 官方平面图未公布，用户决定先以网友「星辰大海」2025-08-07 笔记「Redland交通攻略更新版👉一张图带你不迷路」作过渡参照，UI 标明「2025 年」「非官方」。素材在 `assets/ref_map_2025/`（保留 1080 宽），项目内 `rules.js venueMapRef`，首页平面图卡展示。
@@ -654,7 +659,7 @@ IP 官方笔记（2026-09-09 增补，均为 xhslink 短链，App 内打开）
 - `assets/share_page/`：用户链接长图原图（origin_full.png）与 7 段切片、分享封面
 - `assets/main_venue/`：主会场全部素材，文件名即含义（01 KV … 62 NEW 角标）
 - `assets/sub_pages/`：独立游戏聚合页、冒险者伙伴页、着装登记页、安全承诺页图片
-- `assets/ip_notes/`：第 13 章各 IP 官方笔记图片（810px 压缩版，目录名含展位号与 IP）及 `note.json` 原始正文；`RULES_PIN分区规则/`、`RULES_NPC与老玩家PIN图鉴/` 为 RED LAND 官方 PIN 笔记
+- `assets/ip_notes/`：第 13 章各 IP 官方笔记图片（810px 压缩版、无水印，目录名含展位号与 IP）及 `note.json` 原始正文（含 fileIds / keptIndex）；`RULES_PIN分区规则/`、`RULES_NPC与老玩家PIN图鉴/` 为 RED LAND 官方 PIN 笔记
 - `assets/ref_map_2025/`：13.5 节 2025 年场地参考图（网友整理，非官方，1080 宽）及 note.json
 - `assets/图片索引.md`：文件名 ↔ CDN 原始 URL
 - `raw/*_dsl.json`：各页面完整配置（含全部图片 URL、热区坐标与跳转）；`raw/ip_yuewen_*_dsl.json` 为阅文 A35 专题页目录页 + 6 个子页

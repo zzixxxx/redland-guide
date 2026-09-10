@@ -6,6 +6,7 @@ const routes = [
   { path: '/booth/:id', name: 'booth', component: () => import('../views/BoothDetailPage.vue'), props: true },
   { path: '/parade', name: 'parade', component: () => import('../views/ParadePage.vue') },
   { path: '/stage', name: 'stage', component: () => import('../views/StagePage.vue') },
+  { path: '/pins', name: 'pins', component: () => import('../views/PinsPage.vue') },
   { path: '/:pathMatch(.*)*', redirect: '/booths' },
 ]
 

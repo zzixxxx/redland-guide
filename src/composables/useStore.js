@@ -33,6 +33,21 @@ export function useChecked() {
   return { checked, isChecked, toggle, count }
 }
 
+// ---- PIN 图鉴「已收集」（按 pin id；未公布展位的占位卡用 'booth:<id>'）----
+const collected = ref(new Set(load('rl26.pins', [])))
+watch(collected, (v) => save('rl26.pins', [...v]), { deep: true })
+
+export function useCollected() {
+  const has = (id) => collected.value.has(id)
+  const toggle = (id) => {
+    const s = new Set(collected.value)
+    s.has(id) ? s.delete(id) : s.add(id)
+    collected.value = s
+  }
+  const count = computed(() => collected.value.size)
+  return { collected, has, toggle, count }
+}
+
 // ---- 当前选中日期（花车 / 舞台共用）----
 function guessToday() {
   // 活动期间自动定位到当天，其余时间默认 DAY1
