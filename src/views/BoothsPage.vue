@@ -158,6 +158,39 @@
       </div>
     </div>
 
+    <!-- 无固定展位、场内自由游荡的 IP -->
+    <div v-if="roaming.length" class="mt-14">
+      <div class="row between mb-6">
+        <span class="sticker">自由游荡的 IP</span>
+        <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">无固定展位 · 场内分发物料</span>
+      </div>
+      <div v-for="r in roaming" :key="r.id" class="pcard sand">
+        <div class="pcard-body">
+          <div class="row between">
+            <div>
+              <div class="pcard-title" style="font-size:15px">{{ r.name }}</div>
+              <div class="small muted">{{ r.chars }}</div>
+            </div>
+            <span class="tag blue text" style="flex:none">{{ r.dateText }}</span>
+          </div>
+          <div class="row mt-10" style="gap:10px;align-items:flex-start">
+            <img :src="base + r.image" :alt="r.name" loading="lazy" style="width:96px;flex:none;border:2px solid var(--navy);border-radius:2px" @click="openImg(base + r.image)" />
+            <div style="flex:1;min-width:0">
+              <div class="small">{{ r.where }}</div>
+              <div class="row wrap mt-6" style="gap:0">
+                <span v-for="it in r.items" :key="it.name" class="pill" :class="{ warm: /读者|关注/.test(it.how) }">{{ it.name }} · {{ it.how }}</span>
+              </div>
+              <div v-if="r.note" class="small muted mt-6">* {{ r.note }}</div>
+            </div>
+          </div>
+          <div class="row mt-10" style="gap:8px">
+            <a v-if="r.xhs" class="pbtn sm" :href="profileUrl(r.xhs.uid)" target="_blank" rel="noopener">📕 @{{ r.xhs.name }}</a>
+            <a class="pbtn sm ghost" :href="r.source.url" target="_blank" rel="noopener">原笔记 · {{ r.source.publishedAt }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <Teleport to="body">
       <div v-if="bigImg" class="lightbox" @click="bigImg = null">
         <img :src="bigImg" />
@@ -178,6 +211,7 @@ import PageHeader from '../components/PageHeader.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMapRef } from '../data/rules.js'
+import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
 import { profileUrl } from '../utils/xhs.js'
 

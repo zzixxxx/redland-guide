@@ -1,0 +1,30 @@
+{
+  "noteId": "6a9e88900000000028028357",
+  "title": "来Redland吃一大口章鱼鼠鼠&小熊橙子！",
+  "desc": "#公用冰箱里有什么[话题]# #REDLAND[话题]# #漫画[话题]# #原创漫画[话题]#\n最新的线下活动无料领取信息来啦～\n【小红书Redland2026×公用冰箱】\n时间：10月4日\n\t\n本次的无料有：\n老师的小签绘、扇子、小毛巾、行李牌\n数量有限 准备去的朋友们可以安排起来啦！",
+  "user": {
+    "userId": "5cce6553000000001103fece",
+    "nickName": "鼠记私房菜",
+    "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo324qbt8667a005n6ecl9kfvme99ll5so?imageView2/2/w/120/format/jpg",
+    "redOfficialVerifyType": 0
+  },
+  "tags": [
+    "公用冰箱里有什么",
+    "REDLAND",
+    "漫画",
+    "原创漫画"
+  ],
+  "time": 1788774544000,
+  "finalUrl": "https://www.xiaohongshu.com/discovery/item/6a9e88900000000028028357?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBAwIUCd1rbfhJmzGCf3Jv0u_4QFD5568mepQbBuqwKd4=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1789030950&share_id=a388ab6b0d7d4900bec2dc2fb3204c07",
+  "images": [
+    "img/roaming/gongyongbingxiang/00.jpg"
+  ],
+  "fileIds": [
+    "notes_pre_post/1040g3k8324qga6u8i4005n6ecl9kfvmesab10qg",
+    "notes_pre_post/1040g3k8324qga6u8i40g5n6ecl9kfvmeim5qt40"
+  ],
+  "keptIndex": {
+    "00.jpg": 0
+  },
+  "keptOnly": "保留 00 线下物料领取海报；01 为小熊表情图，与活动无关未收录。该 IP 无固定展位（用户 9/10 说明会有自由游荡的 IP），数据进 src/data/roaming.js。"
+}
