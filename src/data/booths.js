@@ -36,7 +36,7 @@ export const booths = [
   { id: 'A21', zone: 'A', no: 'A21', ip: 'Sanrio', blurb: '速来集结！和大明星们开启快乐的星球漫步之旅吧', xhs: { uid: '5ba9dd7953c4f60001664591', name: 'Sanrio三丽鸥' } },
   { id: 'A22', zone: 'A', no: 'A22', ip: '皮乐中国｜火影忍者', blurb: '鸣人向你发出吃面邀约！忍者试炼现场开考', xhs: { uid: '628b52ff0000000021024b24', name: '皮乐动漫' } },
   { id: 'A23', zone: 'A', no: 'A23', ip: '航海王', blurb: '会动的千里阳光号，路飞乔巴现身，戴上草帽一起打卡！' },
-  { id: 'A24', zone: 'A', no: 'A24', ip: 'SCLA', blurb: '九大经典 IP 集结！勇敢的主角啊快去创造奇迹！' },
+  { id: 'A24', zone: 'A', no: 'A24', ip: 'SCLA', blurb: '九大经典 IP 集结！勇敢的主角啊快去创造奇迹！', alias: '新创华 假面骑士 奥特曼 面包超人 超级战队 柯南 EVA 初音未来 哥斯拉 犬夜叉', xhs: { uid: '5c73e184000000001000fa72', name: '新创华SCLA' } },
   { id: 'A25a', zone: 'A', no: 'A25', ip: '鬼灭之刃', blurb: '潜入无限城，为鬼杀队传递生死战况', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
   { id: 'A25b', zone: 'A', no: 'A25', ip: '孤独摇滚', blurb: '打卡 STARRY，解锁乐队开演秘事', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
   { id: 'A27', zone: 'A', no: 'A27', ip: '无限暖暖', blurb: '游乐园即将开幕！和暖暖大喵一起进入 Nikki Land' },

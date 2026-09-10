@@ -17,6 +17,8 @@ export const pins = [
   { id: 'A09-pin-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', image: 'img/booths/A09/01.jpg' },
   { id: 'A34-pin-1', type: 'region', zone: 'A', name: '我的世界联名徽章 · 苦力怕款', booth: 'A34', how: '现场互动打卡', image: 'img/booths/A34/01.jpg' },
   { id: 'A34-pin-2', type: 'region', zone: 'A', name: '我的世界联名徽章 · LOGO 款', booth: 'A34', how: '现场互动打卡', image: 'img/booths/A34/01.jpg' },
+  { id: 'A24-pin-1', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 假面骑士 / 奥特曼 / 哥斯拉 / 超级战队款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', image: 'img/booths/A24/02.jpg' },
+  { id: 'A24-pin-2', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 犬夜叉 / 初音未来 / EVA / 面包超人 / 柯南款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', image: 'img/booths/A24/02.jpg' },
   { id: 'B02-pin-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', image: 'img/booths/B02/04.jpg' },
   { id: 'B02-pin-2', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 谜拟丘款', booth: 'B02', how: '护照集章任务 1·2·3·6，17:30–21:30 领，每日 2000', image: 'img/booths/B02/04.jpg' },
 

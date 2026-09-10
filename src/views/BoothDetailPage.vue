@@ -105,9 +105,11 @@
             <b style="font-size:15px;color:var(--brown)">{{ s.title }}</b>
             <div class="small mt-6">{{ s.desc }}</div>
             <div v-if="s.schedule?.length" class="mt-6">
-              <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4">
-                <span class="tag blue" style="font-size:9px">{{ g.day }}</span>
-                <span>{{ g.guests.join(' & ') }}</span>
+              <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4;align-items:flex-start">
+                <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
+                <span class="row wrap" style="gap:0">
+                  <span v-for="name in g.guests" :key="name" class="pill" :class="{ warm: /神秘|人气|待/.test(name), hot: /夜间/.test(name) }">{{ name }}</span>
+                </span>
               </div>
             </div>
             <div v-if="i < detail.stage.length - 1" class="hr" />
