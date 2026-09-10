@@ -18,6 +18,7 @@
 - **主要目标用户是手机端**：一切布局先保证 375–430px 宽度可用，桌面端只要不坏即可（`.page` 已限 max-width 640）。
 - **视觉参考 RED LAND 官方活动页的像素海岛风**：天蓝格纹底、奶白像素描边卡、红色编号标签、黄色星标、导航深蓝描边。不要改成通用 Material / iOS 风。
 - **数据只来自官方**：小红书 RED LAND 官方活动页、各 IP 官方账号的「RED LAND2026 | XX展台活动详情」笔记、官方新闻稿。不编造、不猜测；未公布的写「待补充 / 待确认」。
+  - 唯一例外：首页「场馆平面图」卡在 2026 官方图公布前放 **2025 年**网友整理的参考图（`rules.js venueMapRef`，用户 9/10 决定），UI 与数据必须标明「2025 年」「非官方」，官方图公布后整块替换。
 - 后续会增加**场馆平面图**（官方尚未公布），首页已留 `LOADING` 占位卡；公布后接进 `BoothsPage.vue` 并给每个展位挂坐标。
 - 多步任务默认直接推进，不逐步确认；只在需要业务口径 / 方案取舍时停下问。
 
@@ -51,9 +52,9 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 | `indie.js` | C04 独立游戏试玩名单（按首字母） | 官方独立游戏聚合页 |
 | `parade.js` | `paradeInfo` / `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats` / `playerSquad` | 官方「花车巡礼」半层 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
-| `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」笔记 |
+| `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMapRef`（2025 年参考图 + 交通要点，非官方过渡） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」笔记；`venueMapRef` 来自网友「星辰大海」2025-08-07 笔记 |
 
-- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）。
+- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）、`rules/map-2025/`（2025 年场地参考图，网友整理非官方，地图类图保留 1080 宽只压质量）。
 - `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），UI 尚未接入，是未来「PIN 图鉴」Tab 的数据源。每收录一个带 PIN 的展台详情，就把该 PIN 追加进 `pins[]`（`booth` 指向展位 id，`image` 先指向整张笔记图，后续再裁单枚缩略图）。
 - 术语：官方 8 月攻略半层叫「冒险岛的信物 / 冰箱贴」，8/25 PIN 笔记叫「冒险者拼图 / 冒险岛拼图完整体」，指同一件东西；UI 以「冒险者拼图」为主并括注旧称。PIN 按区域分色：翻身时空港橙 `#f26a2e`（A 区，需 4）、黄金海岸线黄 `#f2c23a`（B 区，需 2）、重生试炼场蓝 `#2f8fe6`（C 区，需 2）、夜间 PIN 黑。已收录展台的 PIN 颜色可用来反推区域。
 
@@ -151,7 +152,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 ## 10. 待办 / 已知空缺
 
-- [ ] 场馆平面图（官方未公布）→ 接入首页占位卡，展位挂坐标
+- [ ] 场馆平面图（官方未公布）→ 首页占位卡下已接 2025 年参考图 `venueMapRef` 过渡（2025 三区字母 A 翻身时空港 / B 重生试炼场 / C 发呆小森林，与 2026 不同）；官方图公布后替换并给展位挂坐标
 - [x] A / B / C 区 ↔ 三大区域映射：`booths.js zones[].region`（A=翻身时空港、B=黄金海岸线 有官方笔记依据；C=重生试炼场 为排除法）。用户决定 UI 不标「推测」；区域芯片文案格式为「翻身时空港（44）」。开图进度条按 `need`（4/2/2）计算。官方平面图公布后若有出入再改。
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口
 - [ ] 其余 IP 的展台详情（已收录 A06 星布谷地、A09 星穹铁道、A21 三丽鸥、A22 火影忍者、A24 SCLA / 新创华、A25 Aniplex、A34 我的世界、A35 阅文、B02 / C16 宝可梦、B16 宝藏码头）

@@ -88,14 +88,32 @@
       </div>
     </div>
 
-    <!-- 场馆平面图占位 -->
+    <!-- 场馆平面图：2026 官方未公布，先放 2025 年参考图 -->
     <div class="pcard dark mt-14">
-      <div class="pcard-body row between">
-        <div>
-          <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-          <div class="small" style="color:#c9c8ea">官方尚未公布，公布后将在此处展示区域 / 展位分布</div>
+      <div class="pcard-body">
+        <div class="row between">
+          <div>
+            <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
+            <div class="small" style="color:#c9c8ea">2026 官方平面图尚未公布，公布后在此展示区域 / 展位分布</div>
+          </div>
+          <span class="tag gray" style="flex:none">LOADING</span>
         </div>
-        <span class="tag gray">LOADING</span>
+        <div class="hr" style="border-color:#4a4980" />
+        <div class="row between">
+          <span class="tag yellow text">{{ venueMapRef.title }}</span>
+          <button class="pbtn sm ghost" @click="openMap = !openMap">{{ openMap ? '收起要点' : '2025 交通要点' }}</button>
+        </div>
+        <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
+        <div class="gallery mt-10">
+          <img v-for="m in venueMapRef.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImg(base + m.src)" />
+        </div>
+        <ul v-if="openMap" class="dot-list small mt-6" style="color:#e8e7ff">
+          <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
+        </ul>
+        <div class="small mt-6" style="color:#a9a8cc">
+          来源：网友 @{{ venueMapRef.source.author }} 整理 · {{ venueMapRef.source.publishedAt }}（非官方）
+          <a :href="venueMapRef.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
+        </div>
       </div>
     </div>
 
@@ -159,7 +177,7 @@ import { useRouter } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, venueNav, mainline, eggs, places, dailySchedule } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule, venueMapRef } from '../data/rules.js'
 import { useChecked } from '../composables/useStore.js'
 import { profileUrl } from '../utils/xhs.js'
 
@@ -168,6 +186,7 @@ const { isChecked, toggle, count, checked } = useChecked()
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
+const openMap = ref(false)
 const base = import.meta.env.BASE_URL
 const bigImg = ref(null)
 const openImg = (src) => (bigImg.value = src)
