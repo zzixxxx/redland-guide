@@ -236,6 +236,15 @@ const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, captio
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 
 const hasDetail = (id) => !!boothDetails[id]
+// 搜索附加关键词：主账号昵称 + 详情里各 IP 官方账号 / 其他官方笔记作者（多 IP 共用展位时能搜到子 IP，如搜「魔兽」「炉石」出暴雪游戏，搜「假面骑士」出 SCLA）
+const extraKeys = Object.fromEntries(
+  booths.map((b) => {
+    const d = boothDetails[b.id]
+    const parts = [b.xhs?.name, ...(d?.accounts || []).map((a) => a.name), ...(d?.moreSources || []).map((m) => m.author)]
+    return [b.id, parts.filter(Boolean).join(' ').toLowerCase()]
+  }),
+)
+const searchExtra = (b) => extraKeys[b.id] || ''
 const detailCount = Object.keys(boothDetails).length
 const zoneDone = (z) => booths.filter((b) => b.zone === z && checked.value.has(b.id)).length
 
@@ -250,6 +259,7 @@ const list = computed(() => {
       b.ip.toLowerCase().includes(k) ||
       b.no.toLowerCase().replace(/\s/g, '').includes(k.replace(/\s|-/g, '')) ||
       (b.alias || '').toLowerCase().includes(k) ||
+      searchExtra(b).includes(k) ||
       b.blurb.includes(k),
     )
   }
