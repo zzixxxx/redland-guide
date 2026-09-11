@@ -140,7 +140,10 @@
       <div class="pcard mt-6">
         <template v-if="list.length">
           <div v-for="b in list" :key="b.id" class="booth" :class="{ done: isChecked(b.id) }" @click="go(b)">
-            <span class="tag no">{{ b.no }}</span>
+            <!-- 展位号；「B02 / B17」这类共用编号拆成上下两个标签，保证 IP 名与其他行对齐 -->
+            <div class="no-col">
+              <span v-for="n in b.no.split(/\s*\/\s*/)" :key="n" class="tag no">{{ n }}</span>
+            </div>
             <div class="body">
               <div class="ip">
                 {{ b.ip }}
