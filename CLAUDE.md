@@ -34,7 +34,8 @@ src/
   router/index.js             /booths  /booth/:id  /parade  /stage
   style.css                   全部样式（设计 token 在 :root；像素组件类见 §5）
   composables/useStore.js     useChecked（展位打卡，localStorage rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）
-  components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）
+  components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）Lightbox（多图灯箱：左右滑动翻页、长图按宽铺满上下滚动、← → Esc）StepList（活动 / 任务的分步列表）PostCopyBtn（带话题任务的「复制发帖文案」）
+  utils/xhs.js                小红书链接：主页 / 搜索 URL；openProfile 在手机端先唤起 App（xhsdiscover://user/<uid>，Android Chrome 走 intent://），未安装 / 取消再退回网页，PC 不拦截
   views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage / PinsPage
   data/                       所有内容数据，纯 JS 模块，见 §4（含 roaming.js：无固定展位、场内游荡分发物料的 IP）
 public/img/booths/<展位id>/   各 IP 笔记原图（810px 宽 JPEG，无水印版）+ note.json（抓取原始数据，含 fileIds / keptIndex）
@@ -78,12 +79,15 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
   boothNo: 'A-06',                                       // 笔记里写的展位号原文
   intro: '',                                             // 欢迎语
   notes: [],                                             // 笔记里 * 开头的注意事项
-  activities: [{ title, desc, partner?, needBooking?, rewards?[] }],
+  activities: [{ title, desc?, items?, ordered?, note?, partner?, needBooking?, rewards?[] }],
   stage:      [{ title, desc, schedule?: [{ day: '10月2日', guests: [] }] }],
-  tasks:      [{ title, desc, tags?[], rewards[] }],
-  rewards:    [{ name, how, pin?: true }],               // 去重后的奖励一览；PIN（存档碎片）标 pin
+  tasks:      [{ title, desc?, items?, ordered?, note?, tags?[], post?, rewards[] }],
+  //   items：官方原文里 Step1 / 01 / 任务 1 这类分步内容，每步一项 { no?, title?, desc, tags?, post?, rewards?, note? } 或纯字符串，
+  //          由 StepList 逐行渲染（no 保留官方序号，没有则自动编号；ordered: false 为无序「•」）。不要再把多步拼成一段 desc
+  //   tags：要带的小红书话题；post：自定义发帖文案模板（有字数 / 张数要求时写占位提示），没有 post 时按话题自动生成；有 tags 或 post 就出现「复制发帖文案」按钮
+  rewards:    [{ name, how, pin?: true, pinId?: 'A06-pin' | pinIds?: [] }],  // 去重后的奖励一览；PIN 标 pin，并用 pinId 指向 pins.js 的 id，详情页点「PIN 🔍」预览缩略图（无 thumb 的显示区域「?」软盘并注明待公布）
   footnote: '',                                          // 奖励限量说明
-  images: ['img/booths/A06/00.jpg', ...],                // 相对 public 的路径
+  images: ['img/booths/A06/00.jpg', { src, caption }],   // 相对 public 的路径；可用对象带说明（阅文 A35 每张拼接长图标注子页名）
   // 以下为可选字段（集市型 / 有独立营业时间的展位）
   hours: '每日 12:30 – 21:30',                            // 展位自己的营业时间，有则在展会信息里显示红色胶囊
   location: '黄金海岸线「宝藏码头」',                      // 展位所在区域名（官方原文），默认显示「上海 · 复兴岛」
@@ -95,9 +99,12 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 }
 ```
 
-已收录：`A06` 星布谷地；`B02`（B-02 / B-17）与 `C16` 宝可梦（一条笔记覆盖三个展位，两个 key 共用同一对象，只改 `boothNo`）；`A09` 崩坏：星穹铁道（笔记主体是线上征集，只收录 RED LAND 参展情报两张图）；`B16` 宝藏码头（RED LAND 官方号发布，集市型，用 `hours / location / stalls`）；`A21` 三丽鸥（餐车型，用 `menu`）；`A22` 火影忍者 / 皮乐中国；`A25a`+`A25b` Aniplex（鬼灭之刃 / 孤独摇滚共用）；`A34` 我的世界；`A35` 阅文（来源是 ditto 专题页而非笔记，五大 IP + 阅文好物共用展位，活动 / 任务按「IP 名 · 项目」分列，`accounts` 列 6 个官方账号 uid，图片文件名 = 子页前缀-原图序号）；`A24` SCLA / 新创华（9 大 IP 共用一个授权商展位，`accounts` 只放「关注有礼」要求同时关注的第二个官方号 SCLA招聘；BINGO 集章进 `tasks`，每日 6 场见面会用 `stage.schedule`，`guests` 每项带时间前缀如「14:00 假面骑士麦斯」，夜间场写「19:30 夜间 · XX」。SCLA 旗下各 IP 官方号会各发一条「XX | REDLAND登岛攻略！」：图 01–04 与主笔记相同，只把新封面存为 `<ip>-00.jpg`、原始数据存 `note-<ip>.json` 并写 `keptOnly`；IP 专属任务以「IP 名 · 项目」加进 `tasks`，账号进 `accounts`，链接进 `moreSources`。已并入 EVA；其余 8 个 IP 待发）；`B01` 蛋仔派对（车间认证四步进 `tasks`，13 位 Coser 到场日按天进 `stage.schedule`，guests 写「角色 · Coser」；笔记里的赠票征集 / 图鉴征集不收）；`B18` 火影忍者手游（腾讯手游情报号 9/10 预告，只有时间地点与 5 款限定周边，玩法待公布，无 PIN；与 A22 皮乐火影是两个不同展位）；`B22` 心「DONG」冰品补给点（RED LAND 官方号发布，官方明确暂无周边与活动，只留海报与说明）。其余 IP 详情按 §6 流程补。
+已收录：`A06` 星布谷地；`B02`（B-02 / B-17）与 `C16` 宝可梦（一条笔记覆盖三个展位，两个 key 共用同一对象，只改 `boothNo`；任务按官方图三层：Step1 领护照 → Step2 六个集章任务（`items`）→ Step3 领周边，皮卡丘 / 谜拟丘 PIN 与冰箱贴要求的任务组合不同，写在 Step3 的 `items` 里）；`A09` 崩坏：星穹铁道（笔记主体是线上征集，只收录 RED LAND 参展情报两张图）；`B16` 宝藏码头（RED LAND 官方号发布，集市型，用 `hours / location / stalls`）；`A21` 三丽鸥（餐车型，用 `menu`）；`A22` 火影忍者 / 皮乐中国；`A25a`+`A25b` Aniplex（鬼灭之刃 / 孤独摇滚共用）；`A34` 我的世界；`A35` 阅文（来源是 ditto 专题页而非笔记，五大 IP + 阅文好物共用展位，活动 / 任务按「IP 名 · 项目」分列，`accounts` 列 6 个官方账号 uid；9/11 起每个子页保留的切片竖向拼成一张长图 `<子页前缀>.jpg`（hub / quanzhi / guimi / yiren / daogui / huyao / haowu），`images` 用 `{ src, caption }` 标子页名，`note.json.stitched` 记录拼接来源，灯箱里按宽铺满上下滚动）；`A24` SCLA / 新创华（9 大 IP 共用一个授权商展位，`accounts` 只放「关注有礼」要求同时关注的第二个官方号 SCLA招聘；BINGO 集章进 `tasks`，每日 6 场见面会用 `stage.schedule`，`guests` 每项带时间前缀如「14:00 假面骑士麦斯」，夜间场写「19:30 夜间 · XX」。SCLA 旗下各 IP 官方号会各发一条「XX | REDLAND登岛攻略！」：图 01–04 与主笔记相同，只把新封面存为 `<ip>-00.jpg`、原始数据存 `note-<ip>.json` 并写 `keptOnly`；IP 专属任务以「IP 名 · 项目」加进 `tasks`，账号进 `accounts`，链接进 `moreSources`。已并入 EVA；其余 8 个 IP 待发）；`B01` 蛋仔派对（车间认证四步进 `tasks`，13 位 Coser 到场日按天进 `stage.schedule`，guests 写「角色 · Coser」；笔记里的赠票征集 / 图鉴征集不收）；`B18` 火影忍者手游（腾讯手游情报号 9/10 预告，只有时间地点与 5 款限定周边，玩法待公布，无 PIN；与 A22 皮乐火影是两个不同展位）；`B22` 心「DONG」冰品补给点（RED LAND 官方号发布，官方明确暂无周边与活动，只留海报与说明）。其余 IP 详情按 §6 流程补。
 - 无固定展位的 IP（如「公用冰箱里有什么」）不进 `booths.js` / `boothDetails.js`，进 `src/data/roaming.js`，图放 `public/img/roaming/<id>/`；首页展位列表下方自动渲染。
-- **`stage[].schedule[].guests`** 在详情页逐项渲染为 `.pill`（不再用「&」拼成一句）；匹配 `/神秘|人气|待/` 的用 `warm`，含「夜间」的用 `hot`。多场次的展台把时间写进每个 guest 字符串前缀即可，不要另加 schema。
+- **`stage[].schedule[].guests`** 在详情页逐项渲染为 `.pill`（不再用「&」拼成一句）；匹配 `/神秘|人气|待/` 的用 `warm`，含「夜间」的用 `hot`。多场次的展台把时间写进每个 guest 字符串前缀（`HH:MM `）即可，不要另加 schema：详情页检测到时间前缀会**按整点时段分行**（17:00 与 17:30 同一行，行标 17:00；行内所有嘉宾同一时刻时行标就是该时刻并去掉前缀），升序排列；没有时间前缀的照旧一行横排。
+- **分步内容进 `items`**：官方原文里出现 Step1 / STEP 1 / 01 / 任务 1 / 车间名｜项目 这类枚举时，活动或任务要拆成 `items`（每步一项，`no` 填官方序号），不能拼成一段。已改：B02 宝可梦、A21 三丽鸥排队 / 打包区、A25 Aniplex 入队 5 步、A24 SCLA BINGO STEP 1–4、A35 阅文各 IP 01–03、B01 蛋仔 Step1 / Step2 各车间。
+- **带话题的任务**（`tags` 或 `post`）自动出现「📋 复制发帖文案 / 预览文案」（`PostCopyBtn`）：默认文案 = `【RED LAND 2026 · IP 名】展台打卡✨ + 占位提示 + 话题`；有字数 / 张数 / 内容要求的写 `post` 自定义模板（道诡异仙长评 100 字、SCLA 须含 3 个 IP 展位图）。话题名以官方原文为准，不自行加话题。
+- **奖励里的 PIN 预览**：`rewards[].pin: true` 且能在 `pins.js` 找到对应项（`pinId` / `pinIds`，没有则取 `booth === 展位 id` 的全部 PIN）时，PIN 标签变成可点按钮，灯箱显示缩略图 + `no · name`；`thumb: null` 的显示区域「?」软盘并注明待公布。新增 PIN 时同时给 reward 补 `pinId`。
 - **`detail.accounts`**（可选）：多 IP 共用展位时列出各 IP 官方账号 `[{ uid, name }]`，详情页在主账号按钮下方渲染一排「📕 IP 名」按钮（自动去掉与 `booths[].xhs` 重复的那个）。`booths[].xhs` 仍只放一个主账号（阅文取官方页里让用户关注的 @阅文好物）。
 - 链接看不出是哪个 IP 时，先用临时 id（如 `_tmp`）跑脚本，看 `author` 后把 `public/img/booths/_tmp` 改名为正式 id，并同步改 `note.json` 里的 `images` 路径。
 - 笔记里夹带的线上活动（版本征集、抽奖、送票）一律不收；`images` 只保留与展台相关的图，删掉的图在 `note.json` 里加 `keptOnly` 说明。`source.title` 后加「（仅收录 RED LAND 参展情报部分）」提示。
@@ -108,7 +115,10 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 - 设计 token 全在 `style.css :root`：`--sky #4da6ff` 底、`--paper #fffdf6` 卡、`--cream` 暖卡、`--navy #1f2d5c` 描边与阴影、`--red #ff4b4b` 编号标签 / 选中态、`--yellow #ffd23f` 星标、`--night #2b2a55` 夜间 / 提示卡、`--brown #5a3e2b` 标题文字。
 - 字体：标题 `--font-pix`（ZCOOL QingKe HuangYou）、编号 / 时间 `--font-num`（Press Start 2P，只用于短的数字字母，10px 左右）、正文系统字体。字体走 Google Fonts，离线自动回退。
-- 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）。新组件先复用这些类，再考虑加新类。
+- 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）、`.steps / .step-no(.cjk) / .step-body / .step-title`（分步列表，`.steps.plain` 无序黄标）、`.sched-day / .sched-row / .sched-time`（舞台时间表按时段分行）、`.lb-stage(.tall) / .lb-cap`（灯箱）、`.post-preview / .linkbtn`（发帖文案预览）、`.tag.btn`（可点击标签）。新组件先复用这些类，再考虑加新类。
+- **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；图片高宽比超过视口 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）。首页主线图 / 彩蛋图 / 2025 地图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）都已接入。
+- 首页「场馆平面图」卡内的 2025 年参考图：只有一个可点的黄色标签「🗺 2025 年场地参考图 ▾」（`.tag.yellow.text.btn`），点开依次显示免责说明 → 「2025 交通要点」列表 → 6 张地图缩略图；默认收起，来源行常显。不要再拆成多个按钮。
+- 所有 📕 小红书主页按钮（首页列表行、详情页主账号 / `accounts`、游荡 IP、顶栏 logo）保留 `<a :href="profileUrl(uid)" target="_blank">`，再挂 `@click="openProfile($event, uid)"`：手机端拦截后先唤起小红书 App（系统弹「是否打开」），App 内直接看主页可绕过网页版滑块验证；PC 端不拦截。「去小红书看原笔记」短链保持网页跳转（笔记页本身有打开 App 入口，无验证墙）。
 - 顶栏 `PageHeader`：左上 RED LAND 2026 logo 是 RED LAND 小红书官方号的链接（不要再在页面里另放官方号按钮）；传 `venue`（`rules.js` 的 `venueNav`）时副标题变成「导航」按钮，展开高德 / 百度 / Apple 地图搜索链接与复制地址。导航用关键词搜索 URI，不用坐标（避免 GCJ-02 / WGS-84 偏移）。
 - 底栏 `TabBar` 固定，页面底部 padding 预留 `--tab-h + safe-area`；详情页不显示底栏。桌面端（≥600px）底栏与内容同宽居中，`.timeline / .chips` 改为换行而不是横滑（鼠标无法横滑）。
 - `dailySchedule[].kind` 会直接作为 `.tl-item` 的附加 class，取值只能是 `parade / stage / night / ip`，**不要用 `booth`**（与展位卡 `.booth` 类撞名会打乱布局）。新增 kind 前先 grep style.css 确认没有同名类。
@@ -126,7 +136,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
    ```
    图片落到 `public/img/booths/<id>/`（已是无水印版：脚本用 imageList 里的 `fileId` 拼 `ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg`，分享页默认的 `!h5_1080jpg` 样式会在图中央叠「小红书」水印），`note.json` 保存原始数据（含 `fileIds`），控制台打印 `boothDetails` 骨架。
    - 只保留部分图并重命名为 00/01… 时，务必在 `note.json` 写 `keptIndex: { '00.jpg': 原下标 }`，否则以后按序号重抓会错位（A09 曾因此抠错 PIN）。
-3. 逐张看图，把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js`（key = 展位 id）。看图时**边看边写**，一批不超过 10 张，防止上下文里旧图被裁掉。
+3. 逐张看图，把「展台活动 / 舞台活动 / 展台任务 / 奖励」填进 `src/data/boothDetails.js`（key = 展位 id）。看图时**边看边写**，一批不超过 10 张，防止上下文里旧图被裁掉。图里的 Step / 01 / 任务 N 分步写成 `items`；要带话题的任务填 `tags`（有额外要求再写 `post`）；见面会 / 嘉宾有时刻的写进 guest 前缀；PIN 奖励补 `pinId`（见 §4）。
 4. 图片压到 810px 宽 JPEG（质量 82，Pillow：`Image.open(...).convert('RGB').resize(...)`），避免仓库和首屏过大。
 5. 若笔记里有 PIN：把裁切框加进 `scripts/crop-pins.py`，跑一下生成缩略图，再把 PIN 追加进 `src/data/pins.js`（见 §4）。
 6. `npm run build` 通过后按 §8 提交；列表页会自动出现「攻略」角标，`有攻略` 筹选自动计数。
