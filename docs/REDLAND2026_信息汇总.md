@@ -631,6 +631,7 @@
 | C04 独立游戏 · 地狱不空 | 地狱不空TillHellisEmpty | 6a28e39d0000000002002801 |
 | C04 独立游戏 · 落日山丘 | 落日山丘SunsetHills | 5f05f66d00000000010003d4 |
 | C04 独立游戏 · 白烬之兔 | 白烬之兔 | 68ff075600000000310130b5 |
+| C17 航海王卡牌对战 | 航海王卡牌对战 | 680dbd12000000000a03c298 |
 | A28 代号：香 | 代号：香 | 695a2d64000000000b03b2d0 |
 | A29b 忍者神龟官方 | 忍者神龟官方 | 63f4b9df000000001001e513 |
 | B10 明日方舟Arknights | 明日方舟Arknights | 5f8d8e990000000001001484 |
@@ -763,6 +764,7 @@
 - **第三批（同日）67 条链接**：新增展位账号 30 个（A12 超自然行动组、A13 PlayStation、A14a/b/c CD PROJEKT RED、A17a 奥星热浪、A17b 归环、A17c 命运扳机、A18 伊莫、A20 上海迪士尼度假区、A23 航海王、A27 无限暖暖、A30 七界梦谭、A33 光·遇、A36 如鸢、A38 剑网3、A40 光与夜之恋、B06 无畏契约、B07 第五人格、B09 重返未来：1999、B12 鸣潮、B14 暗影成双、B15 逆水寒、C01 UBISOFT育碧、C03b 沉星之序（Gamirror Games）、C05 ATLUS、C06 锈湖（湖之仆从）、C12 hololive、C15 拉瑞安工作室、C18 闪魂），独立游戏账号 36 个（含 505 Games 对应 神力科莎：拉力 / 神力科莎EVO / 尼瓦利斯之夜 / 超能蕾雅的异次元之旅 / 节奏狗狗 五款，UBISOFT育碧 对应 异变金属，Mecrew games 对应 睡个好觉 / 玄玉劫 / 列乌尼斯的挽歌 / 柠檬先生 / 小熊牌屋 / 节奏汪星 六款）。有内容的：A33 光·遇 建详情；柯南 / 初音 / 面包超人 分攻略并入 A24；小甜甜 / 蓬蓬狗 挂到 A22。排除 2 条 2025 年旧笔记（天国：拯救 II、重返未来：1999 8 月旧文），1 条 ChinaJoy（超自然行动组，只取账号）。展位账号进度 64 / 81；独立游戏 84 款已有账号 41 个。
 - **第四批（同日）12 条**：新增账号 8 个（B05 漫威影业＝迪士尼中国号、B10 明日方舟Arknights、B11 明日方舟终末地、B22 代号：神不言、C02 灰烬之国Cinderia、C03a 乌合之众＝开发商南斋工作室、C08 猛兽派对、C09 世界之外）；剑网3 9/11 详情建 A38 并新增 PIN A38；航海王分会场 ditto 页只有参展信息（翻身时空港 A-23）。「最终幻想14」官方号与 C10 FINAL FANTASY RESONANCE 不是同一款游戏，未填。展位账号进度 72 / 81，剩 9 个：A28 代号：香、A29b 忍者神龟、A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE、C17 航海王卡牌对战。
 - **第五批（同日）4 条**：A28 代号：香、A29b 忍者神龟官方 账号；哥斯拉 / 犬夜叉分攻略并入 A24（9 个 IP 任务全部公布）。展位账号进度 74 / 81，剩 7 个：A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE、C17 航海王卡牌对战。
+- **第六批（同日）1 条**：C17 航海王卡牌对战 账号（日常卡牌帖，只取账号）。展位账号进度 75 / 81，剩 6 个：A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE。
 
 ### 13.5 2025 年场地参考图（网友整理，非官方；2026-09-10 增补）
 
@@ -849,6 +851,7 @@ IP 官方笔记（2026-09-09 增补，均为 xhslink 短链，App 内打开）
 - https://xhslink.cn/o/7psmJ5QXISt （忍者神龟官方 09/11「加载完成提示：忍者神龟已登陆RED LAND2026」，A29b 忍者神龟 预告（账号））
 - https://xhslink.cn/o/3XNwutZhknO （哥斯拉中国官方 09/11「哥斯拉 | REDLAND登岛攻略！」，A24 哥斯拉 分攻略）
 - https://xhslink.cn/o/8IrqSK6yMjF （新创华SCLA 09/10「犬夜叉 | REDLAND登岛攻略！」，A24 犬夜叉 分攻略（新创华SCLA 发布））
+- https://xhslink.cn/o/A7LrKMOIvQH （航海王卡牌对战 08/20 日常卡牌介绍，C17 账号补录，与 RED LAND 无关）
 - https://xhslink.cn/o/9Yd4V1BeDG7 （倍儿哏儿工作室 08/27「《天津1924》已进入RED LAND 2026 🎮✨」，C04_天津1924）
 - https://xhslink.cn/o/6lPZg4dtkYL （IndieArk 08/27「动物骰 DiceWood × REDLAND 2026 确认登岛」，C04_动物骰）
 - https://xhslink.cn/o/8TaHzg8mBNt （小苔屋 08/27「加载完成提示：小苔屋已进入RED LAND2026」，C04_小苔屋）

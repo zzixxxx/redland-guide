@@ -93,7 +93,7 @@ export const booths = [
   { id: 'C14', zone: 'C', no: 'C14', ip: '声探疑云', blurb: '首创声音探案体验馆，化身声探，推理破案！', xhs: { uid: '6180bffe000000000201f379', name: '声探疑云SoundAgent' } },
   { id: 'C15', zone: 'C', no: 'C15', ip: '拉瑞安工作室', alias: '神界 神界原罪2 Larian', blurb: '闯入地图外的阿克斯市集，开启一场奇货冒险', xhs: { uid: '6870fe9b000000000d02fd5a', name: '拉瑞安工作室' } },
   { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },
-  { id: 'C17', zone: 'C', no: 'C17', ip: '航海王卡牌对战', blurb: '让我们一起扬帆出海开启冒险之旅！' },
+  { id: 'C17', zone: 'C', no: 'C17', ip: '航海王卡牌对战', blurb: '让我们一起扬帆出海开启冒险之旅！', xhs: { uid: '680dbd12000000000a03c298', name: '航海王卡牌对战' } },
   { id: 'C18', zone: 'C', no: 'C18', ip: '闪魂', blurb: '穿越次元裂缝，觉醒你的主角之魂', xhs: { uid: '64be22f6000000002b00b37a', name: '闪魂ShiningSoul' } },
 ]
 
