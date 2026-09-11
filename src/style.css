@@ -365,11 +365,6 @@ img { max-width: 100%; display: block; }
   background: #fff8e6; border: 2px dashed #f0c877; border-radius: 2px;
 }
 
-/* 舞台时间表：按天分组，每个整点时段一行 */
-.sched-day { padding: 6px 0; border-top: 1.5px dashed #eadfc4; }
-.sched-row { display: flex; align-items: flex-start; gap: 6px; padding: 2px 0 2px 4px; }
-.sched-time { flex: none; width: 46px; padding-top: 6px; font-family: var(--font-num); font-size: 9px; color: var(--navy); }
-
 /* 可点击的标签（PIN 预览 / 地图折叠） */
 .tag.btn { cursor: pointer; }
 .tag.btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--red-dark); }

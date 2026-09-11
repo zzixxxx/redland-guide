@@ -20,7 +20,7 @@
         <div class="small muted mt-6">—— 官方「IP 展位一览」</div>
         <div class="row wrap mt-10" style="gap:8px">
           <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, booth.xhs.uid)">📕 小红书主页 @{{ booth.xhs.name }}</a>
-          <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener">🔍 搜「{{ booth.ip }} RED LAND」</a>
+          <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener" @click="openSearch($event, keyword)">🔍 搜「{{ booth.ip }} RED LAND」</a>
         </div>
         <div v-if="extraAccounts.length" class="mt-10">
           <div class="small muted">各 IP 官方账号</div>
@@ -29,7 +29,7 @@
           </div>
         </div>
         <div v-if="!booth.xhs" class="small muted mt-6">尚未记录该 IP 的小红书官方账号，抓到其展台笔记后会补上主页入口。</div>
-        <div v-else-if="mobile" class="small muted mt-6">手机端点主页按钮会先询问是否打开小红书 App，在 App 内直接看主页可跳过网页验证。</div>
+        <div v-else-if="mobile" class="small muted mt-6">手机端点主页 / 搜索按钮会先询问是否打开小红书 App，在 App 内直接看主页、搜结果可跳过网页验证。</div>
       </div>
     </div>
 
@@ -42,8 +42,8 @@
           <div class="row wrap mt-6">
             <span class="pill">⏰ {{ event.dateText }}</span>
             <span v-if="detail.hours" class="pill hot">🕒 {{ detail.hours }}</span>
-            <span class="pill">📍 {{ detail.location || '上海 · 复兴岛' }}</span>
-            <span class="pill warm">展位号 {{ detail.boothNo }}</span>
+            <span class="pill warm">📍 展位号 {{ detail.boothNo }}</span>
+            <span v-if="regionText" class="pill">{{ regionText }}</span>
           </div>
           <div v-if="detail.notes?.length" class="mt-6">
             <div v-for="n in detail.notes" :key="n" class="small muted">* {{ n }}</div>
@@ -108,22 +108,13 @@
             <b style="font-size:15px;color:var(--brown)">{{ s.title }}</b>
             <div class="small mt-6">{{ s.desc }}</div>
             <div v-if="s.schedule?.length" class="mt-6">
-              <div v-for="g in s.schedule" :key="g.day" class="sched-day">
-                <!-- 带时间前缀的嘉宾：按整点时段分行 -->
-                <template v-if="g.rows">
-                  <span class="tag blue" style="font-size:9px">{{ g.day }}</span>
-                  <div v-for="h in g.rows" :key="h.label" class="sched-row">
-                    <span class="sched-time">{{ h.label }}</span>
-                    <span class="row wrap" style="gap:0">
-                      <span v-for="it in h.items" :key="it.raw" class="pill" :class="pillCls(it.raw)">{{ it.text }}</span>
-                    </span>
+              <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4;align-items:flex-start">
+                <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
+                <!-- 嘉宾带时间前缀时按整点时段分行（17:00 与 17:30 同一行），胶囊样式与不分行时一致 -->
+                <div style="flex:1;min-width:0">
+                  <div v-for="(names, ri) in g.rows" :key="ri" class="row wrap" style="gap:0">
+                    <span v-for="name in names" :key="name" class="pill" :class="pillCls(name)">{{ name }}</span>
                   </div>
-                </template>
-                <div v-else class="row small" style="align-items:flex-start">
-                  <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
-                  <span class="row wrap" style="gap:0">
-                    <span v-for="name in g.guests" :key="name" class="pill" :class="pillCls(name)">{{ name }}</span>
-                  </span>
                 </div>
               </div>
             </div>
@@ -143,11 +134,11 @@
             <div v-if="t.tags?.length" class="row wrap">
               <span v-for="tg in t.tags" :key="tg" class="pill hot">{{ tg }}</span>
             </div>
-            <PostCopyBtn v-if="t.tags?.length || t.post" :ip="booth.ip" :tags="t.tags || []" :post="t.post" />
             <div v-if="t.note" class="small muted mt-4">* {{ t.note }}</div>
             <div v-if="t.rewards?.length" class="row wrap">
               <span v-for="r in t.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
             </div>
+            <PostCopyBtn v-if="t.tags?.length || t.post" :ip="booth.ip" :tags="t.tags || []" :post="t.post" :min-chars="t.minChars" />
             <div v-if="i < detail.tasks.length - 1" class="hr" />
           </div>
         </div>
@@ -163,7 +154,7 @@
           <div v-for="r in detail.rewards" :key="r.name" class="row between small" style="padding:6px 0;border-top:1.5px dashed #eadfc4">
             <span>
               <b>{{ r.name }}</b>
-              <button v-if="r.pin && pinsFor(r).length" class="tag text btn" style="font-size:10px;padding:1px 5px;margin-left:4px" @click="showPins(r)">PIN 🔍</button>
+              <button v-if="r.pin && pinsFor(r).length" class="tag text btn" style="font-size:10px;padding:1px 5px;margin-left:4px" @click="showPins(r)">PIN</button>
               <span v-else-if="r.pin" class="tag text" style="font-size:10px;padding:1px 5px;margin-left:4px">PIN</span>
             </span>
             <span class="muted" style="text-align:right;flex:0 0 45%">{{ r.how }}</span>
@@ -255,7 +246,7 @@ import { indieGames, indieSource, indieCount } from '../data/indie.js'
 import { event } from '../data/rules.js'
 import { pins, zoneThumbs } from '../data/pins.js'
 import { useChecked } from '../composables/useStore.js'
-import { profileUrl, searchUrl, boothSearchKeyword, openProfile, isMobile } from '../utils/xhs.js'
+import { profileUrl, searchUrl, boothSearchKeyword, openProfile, openSearch, isMobile } from '../utils/xhs.js'
 
 const props = defineProps({ id: String })
 const booth = computed(() => boothMap[props.id])
@@ -295,32 +286,37 @@ function showPins(r) {
   if (list.length) openImgs(list, 0)
 }
 
-// ---- 舞台时间表：嘉宾字符串带「HH:MM 」前缀时，按整点时段分行（17:00 / 17:30 同一行） ----
+// ---- 舞台时间表：嘉宾字符串带「HH:MM 」前缀时按整点时段分行（17:00 / 17:30 同一行），否则全部一行；胶囊文字保持原文 ----
 const TIME_RE = /^(\d{1,2}):(\d{2})\s*/
 function byHour(guests) {
-  if (!guests?.some((g) => TIME_RE.test(g))) return null
+  if (!guests?.some((g) => TIME_RE.test(g))) return [guests || []]
   const groups = new Map()
   for (const g of guests) {
     const m = g.match(TIME_RE)
     const hh = m ? m[1].padStart(2, '0') : '99'
     if (!groups.has(hh)) groups.set(hh, [])
-    groups.get(hh).push({ raw: g, time: m ? `${hh}:${m[2]}` : null, rest: m ? g.slice(m[0].length) : g })
+    groups.get(hh).push(g)
   }
-  return [...groups.entries()]
-    .sort((a, b) => a[0].localeCompare(b[0]))
-    .map(([hh, list]) => {
-      const sameTime = list.every((x) => x.time && x.time === list[0].time)
-      const label = hh === '99' ? '其他' : sameTime ? list[0].time : `${hh}:00`
-      return {
-        label,
-        // 与行标时间相同的嘉宾去掉时间前缀，其余保留精确时间（如 17:30）
-        items: list.map((x) => ({ raw: x.raw, text: x.time === label ? x.rest : x.raw })),
-      }
-    })
+  return [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0])).map(([, list]) => list)
 }
 const stageView = computed(() =>
   (detail.value?.stage || []).map((s) => ({ ...s, schedule: s.schedule?.map((g) => ({ ...g, rows: byHour(g.guests) })) })),
 )
+
+// ---- 展会信息：「📍 展位号 X」一枚胶囊；location 去掉展位号后若还有区域信息（翻身时空港 / 黄金海岸线「宝藏码头」…）再单独一枚 ----
+const regionText = computed(() => {
+  const d = detail.value
+  if (!d?.location) return ''
+  let r = d.location
+  const nos = String(d.boothNo).split(/[（(]/)[0].split('/')
+  for (const n of nos) {
+    const t = n.trim()
+    if (t) r = r.replace(new RegExp(t.replace(/-/g, '-?') + '\\s*$'), '')
+  }
+  r = r.trim()
+  return /^上海\s*[·・]?\s*复兴岛$/.test(r) ? '' : r
+})
+
 const pillCls = (s) => ({ warm: /神秘|人气|待/.test(s), hot: /夜间/.test(s) })
 
 async function copy() {

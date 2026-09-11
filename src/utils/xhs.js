@@ -6,8 +6,9 @@ export const profileUrl = (uid) => `https://www.xiaohongshu.com/user/profile/${u
 export const searchUrl = (keyword) => `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(keyword)}`
 export const boothSearchKeyword = (booth) => `${booth.ip} RED LAND2026`
 
-// 小红书 App 的 URL Scheme：主页 xhsdiscover://user/<uid>
+// 小红书 App 的 URL Scheme：主页 xhsdiscover://user/<uid>；搜索结果 xhsdiscover://search/result?keyword=<关键词>
 export const profileDeepLink = (uid) => `xhsdiscover://user/${uid}`
+export const searchDeepLink = (keyword) => `xhsdiscover://search/result?keyword=${encodeURIComponent(keyword)}`
 
 const ua = () => (typeof navigator === 'undefined' ? '' : navigator.userAgent || '')
 export const isMobile = () => /iPhone|iPad|iPod|Android|HarmonyOS|Mobile/i.test(ua())
@@ -24,6 +25,21 @@ export function openProfile(e, uid) {
   if (!isMobile()) return
   e.preventDefault()
   openInApp(profileDeepLink(uid), profileUrl(uid))
+}
+
+/**
+ * 「搜 xxx RED LAND」按钮：手机端先把关键词复制到剪贴板（唤起失败时可手动粘贴），再唤起小红书 App 直接打开搜索结果页；
+ * 未安装 / 取消则退回网页版搜索。PC 端不拦截，走网页版搜索。
+ */
+export function openSearch(e, keyword) {
+  if (!isMobile()) return
+  e.preventDefault()
+  try {
+    navigator.clipboard?.writeText(keyword)
+  } catch {
+    /* ignore */
+  }
+  openInApp(searchDeepLink(keyword), searchUrl(keyword))
 }
 
 function openInApp(deepLink, webUrl) {
