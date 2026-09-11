@@ -1,0 +1,42 @@
+{
+  "pageId": "d8835550a82541e88219107081790179",
+  "finalUrl": "https://fe.xiaohongshu.com/ditto/vincent/d8835550a82541e88219107081790179?naviHidden=yes&fullscreen=true",
+  "pageName": "航海王分会场H5",
+  "shareTitle": "航海王确认登岛REDLAND",
+  "shareDesc": "航海王确认登岛，千里·阳光号起航！丰富赠品等你来拿！",
+  "lastEditTime": "2026-09-08 16:15:24",
+  "startTime": "2026-09-09T16:00:00.000Z",
+  "endTime": "2026-10-25T15:59:59.000Z",
+  "follow": [],
+  "images": [
+    {
+      "file": "00.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-1",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0324rmokj72m06ka67qgjp60000000007uhc1b6",
+      "width": 1125,
+      "height": 1800,
+      "links": []
+    },
+    {
+      "file": "01.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-2",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0324rmoqvo2a06ka67qgjp6000000000088a8qe",
+      "width": 1125,
+      "height": 466,
+      "links": []
+    },
+    {
+      "file": "02.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-3",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0324qq9d55ig06ka67qgjp60000000006mi83da",
+      "width": 1125,
+      "height": 788,
+      "links": []
+    }
+  ],
+  "boothId": "A23",
+  "keptOnly": "航海王分会场 ditto 页（d8835550a82541e88219107081790179，9/8 编辑）：只有参展信息——2026.10.2–10.6，上海·复兴岛，展台位置 翻身时空港 A-23；shareDesc「千里·阳光号起航！丰富赠品等你来拿」但页内无活动细节；无关注组件。账号已由 9/8 笔记取得。"
+}
