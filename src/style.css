@@ -209,11 +209,11 @@ img { max-width: 100%; display: block; }
 
 /* 展位卡 */
 .booth {
-  display: flex; gap: 10px; align-items: flex-start;
+  display: flex; gap: 10px; align-items: center; /* 编号 / 名称描述 / 右侧按钮相对整行上下居中（用户 9/11） */
   padding: 10px 12px;
 }
 .booth + .booth { border-top: 2px dashed #e6d6b2; }
-.booth .no-col { display: flex; flex-direction: column; gap: 4px; flex: 0 0 auto; margin-top: 2px; }
+.booth .no-col { display: flex; flex-direction: column; gap: 4px; flex: 0 0 auto; }
 .booth .no { flex: 0 0 auto; }
 .booth .body { flex: 1; min-width: 0; }
 .booth .ip { font-weight: 800; font-size: 15px; color: var(--brown); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
