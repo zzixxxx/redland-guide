@@ -61,7 +61,7 @@
           <div class="hr" />
           <div v-for="t in mainline.tips" :key="t" class="small" style="color:var(--brown)">💡 {{ t }}</div>
           <div class="mt-10" style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-            <img v-for="im in mainline.images" :key="im.src" :src="base + im.src" :alt="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImg(base + im.src)" />
+            <img v-for="(im, i) in mainline.images" :key="im.src" :src="base + im.src" :alt="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(mainlineImages, i)" />
           </div>
           <div class="small muted mt-6">图源：{{ mainline.source.author }}「{{ mainline.source.title }}」{{ mainline.source.publishedAt }} · <a :href="mainline.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
           <div class="hr" />
@@ -74,7 +74,7 @@
             </div>
             <div class="muted">*{{ e.note }}</div>
             <div v-if="e.image || e.images" class="mt-6" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-              <img v-for="im in (e.images || [e.image])" :key="im" :src="base + im" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImg(base + im)" />
+              <img v-for="(im, i) in (e.images || [e.image])" :key="im" :src="base + im" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs((e.images || [e.image]).map((x) => base + x), i)" />
             </div>
           </div>
           <div class="small muted mt-6">图源：{{ eggs.source.author }}「{{ eggs.source.title }}」{{ eggs.source.publishedAt }} · <a :href="eggs.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
@@ -99,19 +99,20 @@
           <span class="tag gray" style="flex:none">LOADING</span>
         </div>
         <div class="hr" style="border-color:#4a4980" />
-        <div class="row between wrap">
-          <span class="tag yellow text">{{ venueMapRef.title }}</span>
-          <div class="row" style="gap:6px;flex:none;margin-left:auto">
-            <button class="pbtn sm ghost" @click="openMap = !openMap">{{ openMap ? '收起要点 ▴' : '2025 交通要点 ▾' }}</button>
-            <button class="pbtn sm ghost" @click="openMapImgs = !openMapImgs">{{ openMapImgs ? '收起地图 ▴' : `2025 地图 ${venueMapRef.images.length} 张 ▾` }}</button>
-          </div>
+        <div class="row between">
+          <button class="tag yellow text btn" @click="openMap = !openMap">🗺 {{ venueMapRef.title }} {{ openMap ? '▴' : '▾' }}</button>
+          <span class="small" style="color:#a9a8cc;flex:none">交通要点 · {{ venueMapRef.images.length }} 张图</span>
         </div>
-        <ul v-if="openMap" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
-          <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
-        </ul>
-        <div v-if="openMap || openMapImgs" class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
-        <div v-if="openMapImgs" class="gallery mt-10">
-          <img v-for="m in venueMapRef.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImg(base + m.src)" />
+        <div v-if="openMap">
+          <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
+          <div class="small mt-10" style="color:#ffe27a;font-weight:700">🚇 2025 交通要点</div>
+          <ul class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
+            <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
+          </ul>
+          <div class="small mt-10" style="color:#ffe27a;font-weight:700">🗺 2025 场地图（点击放大，左右滑动翻页）</div>
+          <div class="gallery mt-6">
+            <img v-for="(m, i) in venueMapRef.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImgs(mapImages, i)" />
+          </div>
         </div>
         <div class="small mt-6" style="color:#a9a8cc">
           来源：网友 @{{ venueMapRef.source.author }} 整理 · {{ venueMapRef.source.publishedAt }}（非官方）
@@ -150,7 +151,7 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:6px;flex:0 0 auto">
               <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
-              <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop :title="`小红书 @${b.xhs.name}`">📕</a>
+              <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop="openProfile($event, b.xhs.uid)" :title="`小红书 @${b.xhs.name}`">📕</a>
             </div>
           </div>
         </template>
@@ -177,7 +178,7 @@
             <span class="tag blue text" style="flex:none">{{ r.dateText }}</span>
           </div>
           <div class="row mt-10" style="gap:10px;align-items:flex-start">
-            <img :src="base + r.image" :alt="r.name" loading="lazy" style="width:96px;flex:none;border:2px solid var(--navy);border-radius:2px" @click="openImg(base + r.image)" />
+            <img :src="base + r.image" :alt="r.name" loading="lazy" style="width:96px;flex:none;border:2px solid var(--navy);border-radius:2px" @click="openImgs([base + r.image], 0)" />
             <div style="flex:1;min-width:0">
               <div class="small">{{ r.where }}</div>
               <div class="row wrap mt-6" style="gap:0">
@@ -187,19 +188,14 @@
             </div>
           </div>
           <div class="row mt-10" style="gap:8px">
-            <a v-if="r.xhs" class="pbtn sm" :href="profileUrl(r.xhs.uid)" target="_blank" rel="noopener">📕 @{{ r.xhs.name }}</a>
+            <a v-if="r.xhs" class="pbtn sm" :href="profileUrl(r.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, r.xhs.uid)">📕 @{{ r.xhs.name }}</a>
             <a class="pbtn sm ghost" :href="r.source.url" target="_blank" rel="noopener">原笔记 · {{ r.source.publishedAt }}</a>
           </div>
         </div>
       </div>
     </div>
 
-    <Teleport to="body">
-      <div v-if="bigImg" class="lightbox" @click="bigImg = null">
-        <img :src="bigImg" />
-        <div class="nav"><button class="pbtn sm red" @click.stop="bigImg = null">关闭</button></div>
-      </div>
-    </Teleport>
+    <Lightbox :items="lb.items" v-model:index="lb.i" />
   </div>
 </template>
 
@@ -208,15 +204,16 @@ export default { name: 'BoothsPage' }
 </script>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
+import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMapRef } from '../data/rules.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
-import { profileUrl } from '../utils/xhs.js'
+import { profileUrl, openProfile } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()
@@ -224,10 +221,15 @@ const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
 const openMap = ref(false)
-const openMapImgs = ref(false)
 const base = import.meta.env.BASE_URL
-const bigImg = ref(null)
-const openImg = (src) => (bigImg.value = src)
+// 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
+const lb = reactive({ items: [], i: null })
+const openImgs = (items, i) => {
+  lb.items = items
+  lb.i = i
+}
+const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
+const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 
 const hasDetail = (id) => !!boothDetails[id]
 const detailCount = Object.keys(boothDetails).length

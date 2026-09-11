@@ -2,7 +2,7 @@
   <header class="hdr">
     <div class="hdr-inner">
       <button v-if="back" class="hdr-back" @click="goBack" aria-label="返回">&lt;</button>
-      <a v-else class="logo" :href="profileUrl(REDLAND_XHS.uid)" target="_blank" rel="noopener" title="RED LAND 小红书官方号">RED<br />LAND<br />2026</a>
+      <a v-else class="logo" :href="profileUrl(REDLAND_XHS.uid)" target="_blank" rel="noopener" title="RED LAND 小红书官方号" @click="openProfile($event, REDLAND_XHS.uid)">RED<br />LAND<br />2026</a>
       <div style="flex:1;min-width:0">
         <div class="hdr-title">{{ title }}</div>
         <button v-if="venue" class="hdr-sub hdr-nav" @click="showNav = !showNav">
@@ -26,7 +26,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { profileUrl, REDLAND_XHS } from '../utils/xhs.js'
+import { profileUrl, openProfile, REDLAND_XHS } from '../utils/xhs.js'
 
 const props = defineProps({ title: String, sub: String, back: Boolean, venue: Object })
 const router = useRouter()

@@ -19,16 +19,17 @@
         <div class="mt-10" style="font-size:15px;color:var(--brown);font-weight:700">{{ booth.blurb }}</div>
         <div class="small muted mt-6">—— 官方「IP 展位一览」</div>
         <div class="row wrap mt-10" style="gap:8px">
-          <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener">📕 小红书主页 @{{ booth.xhs.name }}</a>
+          <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, booth.xhs.uid)">📕 小红书主页 @{{ booth.xhs.name }}</a>
           <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener">🔍 搜「{{ booth.ip }} RED LAND」</a>
         </div>
         <div v-if="extraAccounts.length" class="mt-10">
           <div class="small muted">各 IP 官方账号</div>
           <div class="row wrap mt-6" style="gap:6px">
-            <a v-for="a in extraAccounts" :key="a.uid" class="pbtn sm ghost" :href="profileUrl(a.uid)" target="_blank" rel="noopener">📕 {{ a.name }}</a>
+            <a v-for="a in extraAccounts" :key="a.uid" class="pbtn sm ghost" :href="profileUrl(a.uid)" target="_blank" rel="noopener" @click="openProfile($event, a.uid)">📕 {{ a.name }}</a>
           </div>
         </div>
         <div v-if="!booth.xhs" class="small muted mt-6">尚未记录该 IP 的小红书官方账号，抓到其展台笔记后会补上主页入口。</div>
+        <div v-else-if="mobile" class="small muted mt-6">手机端点主页按钮会先询问是否打开小红书 App，在 App 内直接看主页可跳过网页验证。</div>
       </div>
     </div>
 
@@ -59,8 +60,10 @@
               <b style="font-size:15px;color:var(--brown)">{{ a.title }}</b>
               <span v-if="a.needBooking" class="tag yellow text" style="font-size:10px;padding:2px 6px">需预约</span>
             </div>
-            <div class="small mt-6">{{ a.desc }}</div>
+            <div v-if="a.desc" class="small mt-6">{{ a.desc }}</div>
+            <StepList v-if="a.items?.length" :items="a.items" :ordered="a.ordered !== false" :ip="booth.ip" />
             <div v-if="a.partner" class="small muted">合作伙伴：{{ a.partner }}</div>
+            <div v-if="a.note" class="small muted mt-4">* {{ a.note }}</div>
             <div v-if="a.rewards?.length" class="row wrap">
               <span v-for="r in a.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
             </div>
@@ -98,21 +101,33 @@
       </div>
 
       <!-- 舞台活动 -->
-      <div v-if="detail.stage?.length" class="pcard mt-14">
+      <div v-if="stageView.length" class="pcard mt-14">
         <div class="pcard-body">
           <div class="pcard-title">🎤 舞台活动</div>
-          <div v-for="(s, i) in detail.stage" :key="i" class="mt-10">
+          <div v-for="(s, i) in stageView" :key="i" class="mt-10">
             <b style="font-size:15px;color:var(--brown)">{{ s.title }}</b>
             <div class="small mt-6">{{ s.desc }}</div>
             <div v-if="s.schedule?.length" class="mt-6">
-              <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4;align-items:flex-start">
-                <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
-                <span class="row wrap" style="gap:0">
-                  <span v-for="name in g.guests" :key="name" class="pill" :class="{ warm: /神秘|人气|待/.test(name), hot: /夜间/.test(name) }">{{ name }}</span>
-                </span>
+              <div v-for="g in s.schedule" :key="g.day" class="sched-day">
+                <!-- 带时间前缀的嘉宾：按整点时段分行 -->
+                <template v-if="g.rows">
+                  <span class="tag blue" style="font-size:9px">{{ g.day }}</span>
+                  <div v-for="h in g.rows" :key="h.label" class="sched-row">
+                    <span class="sched-time">{{ h.label }}</span>
+                    <span class="row wrap" style="gap:0">
+                      <span v-for="it in h.items" :key="it.raw" class="pill" :class="pillCls(it.raw)">{{ it.text }}</span>
+                    </span>
+                  </div>
+                </template>
+                <div v-else class="row small" style="align-items:flex-start">
+                  <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
+                  <span class="row wrap" style="gap:0">
+                    <span v-for="name in g.guests" :key="name" class="pill" :class="pillCls(name)">{{ name }}</span>
+                  </span>
+                </div>
               </div>
             </div>
-            <div v-if="i < detail.stage.length - 1" class="hr" />
+            <div v-if="i < stageView.length - 1" class="hr" />
           </div>
         </div>
       </div>
@@ -123,10 +138,13 @@
           <div class="pcard-title">✅ 展台任务</div>
           <div v-for="(t, i) in detail.tasks" :key="i" class="mt-10">
             <b style="font-size:15px;color:var(--brown)">{{ t.title }}</b>
-            <div class="small mt-6">{{ t.desc }}</div>
+            <div v-if="t.desc" class="small mt-6">{{ t.desc }}</div>
+            <StepList v-if="t.items?.length" :items="t.items" :ordered="t.ordered !== false" :ip="booth.ip" />
             <div v-if="t.tags?.length" class="row wrap">
               <span v-for="tg in t.tags" :key="tg" class="pill hot">{{ tg }}</span>
             </div>
+            <PostCopyBtn v-if="t.tags?.length || t.post" :ip="booth.ip" :tags="t.tags || []" :post="t.post" />
+            <div v-if="t.note" class="small muted mt-4">* {{ t.note }}</div>
             <div v-if="t.rewards?.length" class="row wrap">
               <span v-for="r in t.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
             </div>
@@ -138,9 +156,16 @@
       <!-- 奖励一览 -->
       <div v-if="detail.rewards?.length" class="pcard sand mt-14">
         <div class="pcard-body">
-          <div class="pcard-title">🎁 展台奖励一览</div>
+          <div class="row between">
+            <div class="pcard-title">🎁 展台奖励一览</div>
+            <span v-if="detail.rewards.some((r) => r.pin && pinsFor(r).length)" class="small muted">点 PIN 标签看预览图</span>
+          </div>
           <div v-for="r in detail.rewards" :key="r.name" class="row between small" style="padding:6px 0;border-top:1.5px dashed #eadfc4">
-            <span><b>{{ r.name }}</b> <span v-if="r.pin" class="tag text" style="font-size:10px;padding:1px 5px;margin-left:4px">PIN</span></span>
+            <span>
+              <b>{{ r.name }}</b>
+              <button v-if="r.pin && pinsFor(r).length" class="tag text btn" style="font-size:10px;padding:1px 5px;margin-left:4px" @click="showPins(r)">PIN 🔍</button>
+              <span v-else-if="r.pin" class="tag text" style="font-size:10px;padding:1px 5px;margin-left:4px">PIN</span>
+            </span>
             <span class="muted" style="text-align:right;flex:0 0 45%">{{ r.how }}</span>
           </div>
           <div v-if="detail.footnote" class="small muted mt-6">* {{ detail.footnote }}</div>
@@ -152,10 +177,10 @@
         <div class="pcard-body">
           <div class="row between">
             <div class="pcard-title">🖼 官方笔记原图</div>
-            <span class="small muted">点击放大</span>
+            <span class="small muted">点击放大 · 左右滑动翻页</span>
           </div>
           <div class="gallery mt-10">
-            <img v-for="(img, i) in detail.images" :key="img" :src="base + img" loading="lazy" @click="lb = i" />
+            <img v-for="(img, i) in detail.images" :key="imgSrc(img)" :src="imgSrc(img)" :alt="imgCap(img)" :title="imgCap(img)" loading="lazy" @click="openImgs(noteImages, i)" />
           </div>
         </div>
       </div>
@@ -201,18 +226,7 @@
       </div>
     </div>
 
-    <!-- 灯箱 -->
-    <Teleport to="body">
-      <div v-if="lb !== null" class="lightbox" @click="lb = null">
-        <img :src="base + detail.images[lb]" />
-        <div class="nav" @click.stop>
-          <button class="pbtn sm ghost" :disabled="lb === 0" @click="lb = Math.max(0, lb - 1)">上一张</button>
-          <span class="tag yellow">{{ lb + 1 }}/{{ detail.images.length }}</span>
-          <button class="pbtn sm ghost" :disabled="lb === detail.images.length - 1" @click="lb = Math.min(detail.images.length - 1, lb + 1)">下一张</button>
-          <button class="pbtn sm red" @click="lb = null">关闭</button>
-        </div>
-      </div>
-    </Teleport>
+    <Lightbox :items="lb.items" v-model:index="lb.i" />
   </div>
   <div v-else class="page">
     <PageHeader title="未找到展位" back />
@@ -221,26 +235,84 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
+import Lightbox from '../components/Lightbox.vue'
+import StepList from '../components/StepList.vue'
+import PostCopyBtn from '../components/PostCopyBtn.vue'
 import { boothMap } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { indieGames } from '../data/indie.js'
 import { event } from '../data/rules.js'
+import { pins, zoneThumbs } from '../data/pins.js'
 import { useChecked } from '../composables/useStore.js'
-import { profileUrl, searchUrl, boothSearchKeyword } from '../utils/xhs.js'
+import { profileUrl, searchUrl, boothSearchKeyword, openProfile, isMobile } from '../utils/xhs.js'
 
 const props = defineProps({ id: String })
 const booth = computed(() => boothMap[props.id])
 const detail = computed(() => boothDetails[props.id])
 const { isChecked, toggle } = useChecked()
 const base = import.meta.env.BASE_URL
-const lb = ref(null)
+const mobile = isMobile()
 const copied = ref(false)
 
 const keyword = computed(() => (booth.value ? boothSearchKeyword(booth.value) : ''))
 // 多 IP 共用展位的其他官方账号（去掉与 booth.xhs 重复的主账号）
 const extraAccounts = computed(() => (detail.value?.accounts || []).filter((a) => a.uid !== booth.value?.xhs?.uid))
+
+// ---- 灯箱：笔记原图 / PIN 预览共用 ----
+const lb = reactive({ items: [], i: null })
+const openImgs = (items, i) => {
+  lb.items = items
+  lb.i = i
+}
+// images 每项可以是路径字符串，或 { src, caption }（阅文拼接长图带子页说明）
+const imgSrc = (x) => base + (typeof x === 'string' ? x : x.src)
+const imgCap = (x) => (typeof x === 'string' ? '' : x.caption || '')
+const noteImages = computed(() => (detail.value?.images || []).map((x) => ({ src: imgSrc(x), caption: imgCap(x) })))
+
+// ---- 奖励里的 PIN 预览：优先按 reward.pinId / pinIds 精确匹配，否则取该展位全部 PIN ----
+const boothPins = computed(() => pins.filter((p) => p.booth === props.id))
+function pinsFor(r) {
+  const ids = r.pinIds || (r.pinId ? [r.pinId] : null)
+  if (ids) return ids.map((id) => pins.find((p) => p.id === id)).filter(Boolean)
+  return boothPins.value
+}
+function showPins(r) {
+  const list = pinsFor(r).map((p) => ({
+    src: base + (p.thumb || zoneThumbs[p.zone]),
+    caption: `${p.no} · ${p.name}${p.thumb ? '' : '（官方样式待公布，此为区域通用「?」软盘示意）'}`,
+  }))
+  if (list.length) openImgs(list, 0)
+}
+
+// ---- 舞台时间表：嘉宾字符串带「HH:MM 」前缀时，按整点时段分行（17:00 / 17:30 同一行） ----
+const TIME_RE = /^(\d{1,2}):(\d{2})\s*/
+function byHour(guests) {
+  if (!guests?.some((g) => TIME_RE.test(g))) return null
+  const groups = new Map()
+  for (const g of guests) {
+    const m = g.match(TIME_RE)
+    const hh = m ? m[1].padStart(2, '0') : '99'
+    if (!groups.has(hh)) groups.set(hh, [])
+    groups.get(hh).push({ raw: g, time: m ? `${hh}:${m[2]}` : null, rest: m ? g.slice(m[0].length) : g })
+  }
+  return [...groups.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([hh, list]) => {
+      const sameTime = list.every((x) => x.time && x.time === list[0].time)
+      const label = hh === '99' ? '其他' : sameTime ? list[0].time : `${hh}:00`
+      return {
+        label,
+        // 与行标时间相同的嘉宾去掉时间前缀，其余保留精确时间（如 17:30）
+        items: list.map((x) => ({ raw: x.raw, text: x.time === label ? x.rest : x.raw })),
+      }
+    })
+}
+const stageView = computed(() =>
+  (detail.value?.stage || []).map((s) => ({ ...s, schedule: s.schedule?.map((g) => ({ ...g, rows: byHour(g.guests) })) })),
+)
+const pillCls = (s) => ({ warm: /神秘|人气|待/.test(s), hot: /夜间/.test(s) })
 
 async function copy() {
   try {

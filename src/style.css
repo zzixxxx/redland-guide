@@ -279,10 +279,23 @@ img { max-width: 100%; display: block; }
 .gallery img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border: 2px solid var(--navy); border-radius: 2px; background: #eee; }
 .lightbox {
   position: fixed; inset: 0; z-index: 50; background: rgba(10, 12, 30, 0.92);
-  display: flex; align-items: center; justify-content: center; padding: 12px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 12px 12px calc(64px + var(--safe-b));
 }
-.lightbox img { max-height: 100%; max-width: 100%; object-fit: contain; border: 3px solid #fff; }
-.lightbox .nav { position: absolute; bottom: calc(18px + var(--safe-b)); left: 0; right: 0; display: flex; justify-content: center; gap: 12px; }
+/* 灯箱舞台：默认整图适配；.tall（长图）改为按宽度铺满、竖向滚动 */
+.lb-stage {
+  flex: 1; min-height: 0; width: 100%; max-width: 720px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; overscroll-behavior: contain; touch-action: pan-y pinch-zoom;
+}
+.lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border: 3px solid #fff; background: #fff; }
+.lb-stage.tall { overflow-y: auto; align-items: flex-start; -webkit-overflow-scrolling: touch; }
+.lb-stage.tall img { width: 100%; height: auto; max-height: none; }
+.lb-cap { color: #fff; font-size: 12px; text-align: center; margin-top: 8px; max-width: 720px; text-shadow: 1px 1px 0 #000; }
+.lightbox .nav {
+  position: absolute; bottom: calc(14px + var(--safe-b)); left: 0; right: 0;
+  display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 12px;
+}
 
 /* 主题横幅 */
 .theme-banner {
@@ -327,3 +340,37 @@ img { max-width: 100%; display: block; }
 .pin-name { font-weight: 700; font-size: 13px; margin-top: 6px; line-height: 1.3; color: var(--brown); }
 .pin-how { flex: 1; margin-top: 2px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .pin-card.unknown .pin-thumb img { image-rendering: pixelated; box-sizing: border-box; padding: 18%; }
+
+/* 分步列表（展台活动 / 任务里的 Step1 / 01 / 任务 1 …） */
+.steps { list-style: none; margin: 6px 0 0; padding: 0; }
+.steps li { display: flex; gap: 8px; align-items: flex-start; padding: 7px 0; border-top: 1.5px dashed #eadfc4; }
+.steps li:first-child { border-top: 0; padding-top: 2px; }
+.step-no {
+  flex: none; min-width: 22px; height: 22px; padding: 0 6px; margin-top: 1px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-num); font-size: 9px; line-height: 1; white-space: nowrap;
+  color: #fff; background: var(--sky-deep); border: 2px solid var(--navy); box-shadow: 2px 2px 0 var(--navy); border-radius: 2px;
+}
+.step-no.cjk { font-family: var(--font-body); font-size: 11px; font-weight: 700; }
+.steps.plain .step-no { background: var(--yellow); color: var(--brown); border-color: #b98b00; box-shadow: 2px 2px 0 #b98b00; }
+.step-body { flex: 1; min-width: 0; }
+.step-title { font-size: 13px; color: var(--brown); }
+.mt-4 { margin-top: 4px; }
+
+/* 发帖文案预览 */
+.linkbtn { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; cursor: pointer; font-family: var(--font-body); }
+.post-preview {
+  white-space: pre-wrap; word-break: break-all; margin: 6px 0 0; padding: 8px 10px;
+  font: 12px/1.6 var(--font-body); color: var(--brown);
+  background: #fff8e6; border: 2px dashed #f0c877; border-radius: 2px;
+}
+
+/* 舞台时间表：按天分组，每个整点时段一行 */
+.sched-day { padding: 6px 0; border-top: 1.5px dashed #eadfc4; }
+.sched-row { display: flex; align-items: flex-start; gap: 6px; padding: 2px 0 2px 4px; }
+.sched-time { flex: none; width: 46px; padding-top: 6px; font-family: var(--font-num); font-size: 9px; color: var(--navy); }
+
+/* 可点击的标签（PIN 预览 / 地图折叠） */
+.tag.btn { cursor: pointer; }
+.tag.btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--red-dark); }
+.tag.yellow.btn:active { box-shadow: 1px 1px 0 #b98b00; }

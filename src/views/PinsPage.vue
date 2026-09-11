@@ -26,7 +26,7 @@
     <!-- 图鉴网格 -->
     <div class="pin-grid mt-10">
       <div v-for="p in list" :key="p.id" class="pin-card" :class="{ got: has(p.id), unknown: !p.thumb }">
-        <div class="pin-thumb" @click="p.thumb && (big = p.thumb)">
+        <div class="pin-thumb" @click="p.thumb && openPin(p)">
           <img v-if="p.thumb" :src="base + p.thumb" :alt="p.name" loading="lazy" />
           <img v-else-if="p.zone" :src="base + zoneThumbs[p.zone]" :alt="p.name" loading="lazy" style="opacity:.55" />
           <div v-else class="q">?</div>
@@ -47,12 +47,7 @@
       * 区域 PIN 按官方规则分色：翻身时空港 橙 / 黄金海岸线 黄 / 重生试炼场 蓝，夜间 PIN 黑。缩略图裁自各 IP 官方笔记，点击可看大图。
     </div>
 
-    <Teleport to="body">
-      <div v-if="big" class="lightbox" @click="big = null">
-        <img :src="base + big" />
-        <div class="nav"><button class="pbtn sm red" @click.stop="big = null">关闭</button></div>
-      </div>
-    </Teleport>
+    <Lightbox :items="lb.items" v-model:index="lb.i" />
   </div>
 </template>
 
@@ -61,8 +56,9 @@ export default { name: 'PinsPage' }
 </script>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
+import Lightbox from '../components/Lightbox.vue'
 import { pins, pinTypes, zoneThumbs } from '../data/pins.js'
 import { booths, zones as boothZones } from '../data/booths.js'
 import { useCollected } from '../composables/useStore.js'
@@ -71,7 +67,13 @@ const base = import.meta.env.BASE_URL
 const { has, toggle } = useCollected()
 const filter = ref('ALL')
 const onlyKnown = ref(false)
-const big = ref(null)
+// 灯箱：当前筛选下所有已公布 PIN 的缩略图，左右滑动切换
+const lb = reactive({ items: [], i: null })
+function openPin(p) {
+  const known = list.value.filter((x) => x.thumb)
+  lb.items = known.map((x) => ({ src: base + x.thumb, caption: `${x.no} · ${x.name}` }))
+  lb.i = Math.max(0, known.indexOf(p))
+}
 
 // 区域信息（名称 / 颜色 / 兑换所需 PIN 数）直接用 booths.js zones
 const zones = boothZones
