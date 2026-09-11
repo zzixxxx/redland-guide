@@ -45,6 +45,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片（按 fileId 拉
 scripts/refetch-clean.mjs     把已抓的带水印图按 note.json 的 fileIds 重拉成无水印版（历史目录一次性用过，新目录不需要）
 scripts/crop-pins.py          按裁切框从笔记图抠单枚 PIN 缩略图到 public/img/pins/
 scripts/fetch-ditto.mjs       抓 ditto 专题页（目录页 + --sub 子页）全部图片、热区跳转、关注组件 uid → ditto.json
+scripts/xhs-profile.mjs       按 uid 读小红书主页公开信息（昵称 / 小红书号 / 认证类型 2=官方 / 粉丝），`--all` 核对 booths.js 里已填账号；有风控，连续约 3 个后要等
 docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
 .github/workflows/deploy.yml  push main → build → GitHub Pages
 ```
@@ -168,7 +169,8 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 - 官方活动页全部素材与逐图转录在项目内 `docs/`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`，约 42MB，不参与构建）。改数据先查这份底稿，不要凭记忆。`docs/assets/ip_notes/` 与 `public/img/booths/` 是同一批笔记图（前者按「展位号_IP」归档给人看，后者给页面用）。
 - 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。**diff 方法**：保存原始 state 到 `docs/raw/main_venue_dsl_<日期>.json`，比较两版 `growth-img.xhscdn.com/ditto/<id>` 列表，只有换了 id 的图才需要重新看（9/9 版只换了攻略半层 5 张：主线玩法、A 区 ×2、B 区、C 区；展位文字全在图里，state 里搜不到）。看图时把 1125 宽长图切成 1100px 段再看。9/9 版已同步进 `booths.js`（B16 IP贩售·宝藏码头、C02 去掉摩登天空、新增 C06 湖之仆从、C04 试玩区、C13 GSE、C15 拉瑞安工作室、B18 文案），旧名放 `alias` 供搜索。IP 专题页同理（阅文「读档！就现在」hub `cc6a09bbd38640d995705bed8335cf0c`），子页里的 `OnixDittoFollowNew.userId` 就是该 IP 官方账号 uid；主页接口 `xiaohongshu.com/user/profile/<uid>` 无 cookie 会 302 到验证码页，拿不到昵称。
-- 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。
+- 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。`atUserList` 一般为空（官方号的「@XX」多是纯文本），拿不到被 @ 账号的 uid。
+- **IP 账号只能「按 uid 查、不能按名字搜」**（9/11 验证过的死路，别再试）：主会场页「登岛 IP 阵容」走 `edith.xiaohongshu.com/api/sns/v1/activity_platform/redland/main_venue`（返回 game_list：game_name / game_cover / link / tier / is_new），无 App 登录态时 406 且 data 为空；站内用户搜索页、话题页（`page/topics/v2/<id>`）、主页笔记列表都要登录（headless Chrome 渲染后只有登录弹窗 / 「IP 存在风险」）；Bing / 百度 / DDG 对 `xiaohongshu.com/user/profile` 基本不收录或被合规过滤；聚光 MAPI（ad-market 文档）只有广告投放 / 报表接口，没有按名字搜账号的能力。可行的发现渠道仍是：该 IP 官方号的笔记链接（`fetch-note.mjs` → `user.userId`）、用户在 App 里分享的主页链接、ditto 专题页的关注组件。已知 uid 的核实用 `scripts/xhs-profile.mjs`（桌面 Chrome UA 可读主页 SSR，`redOfficialVerifyType` 2 = 官方认证）。
 - 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名且中央有「小红书」水印，**无水印原图**用 `imageList[].fileId`（形如 `spectrum/1040g0k…`）拼 `https://ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg`（或 `sns-img-qc.xhscdn.com/<fileId>` 取原始 PNG），带 iPhone UA + Referer 即可，9/10 已把全部历史图换成无水印版。
 
 ## 10. 待办 / 已知空缺
