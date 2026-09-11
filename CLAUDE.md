@@ -55,7 +55,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 |---|---|---|
 | `booths.js` | `booths[]`：`{ id, zone, no, ip, blurb, alias? }`；`zones[]`；`boothMap` | 官方「冒险者攻略 · IP展位一览」 |
 | `boothDetails.js` | `{ [boothId]: detail }`，schema 见下 | 各 IP 官方账号「展台活动详情」笔记 |
-| `indie.js` | C04 独立游戏试玩名单（按首字母） | 官方独立游戏聚合页 |
+| `indie.js` | C04 独立游戏试玩名单：`indieGames[{ letter, games[{ name, en?, xhs?: { uid, name }, url? }] }]` + `indieSource`；有 `xhs` 详情页渲染 📕 跳主页，有 `url` 名字可点开攻略（目前都待补） | 官方「独立游戏聚合页」ditto 93f070416d60405ea59f29bb691a0df3（9/9 版 84 款，页上无关注组件 / 热区） |
 | `parade.js` | `paradeInfo` / `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats` / `playerSquad` | 官方「花车巡礼」半层 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
 | `roaming.js` | `roaming[]`：`{ id, name, chars, xhs, days[], dateText, where, items[{ name, how }], note, image, source }` 无固定展位的游荡 IP，首页展位列表下方「自由游荡的 IP」卡 | 该 IP 官方账号笔记（已收录：公用冰箱里有什么 / 鼠记私房菜，10/4） |
@@ -165,7 +165,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 ## 9. 资料底稿与抓取技巧
 
 - 官方活动页全部素材与逐图转录在项目内 `docs/`（`REDLAND2026_信息汇总.md` + `assets/` + `raw/`，约 42MB，不参与构建）。改数据先查这份底稿，不要凭记忆。`docs/assets/ip_notes/` 与 `public/img/booths/` 是同一批笔记图（前者按「展位号_IP」归档给人看，后者给页面用）。
-- 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。IP 专题页同理（阅文「读档！就现在」hub `cc6a09bbd38640d995705bed8335cf0c`），子页里的 `OnixDittoFollowNew.userId` 就是该 IP 官方账号 uid；主页接口 `xiaohongshu.com/user/profile/<uid>` 无 cookie 会 302 到验证码页，拿不到昵称。
+- 小红书 ditto H5（`fe.xiaohongshu.com/ditto/vincent/<id>`）的页面配置内联在 `window.__SETUP_SERVER_STATE__`，含全部图片 CDN 地址与热区跳转；主会场页 id `1875a92b788843718d0b335dd77b1a41`，9 月仍在更新，需要时重抓做 diff。**diff 方法**：保存原始 state 到 `docs/raw/main_venue_dsl_<日期>.json`，比较两版 `growth-img.xhscdn.com/ditto/<id>` 列表，只有换了 id 的图才需要重新看（9/9 版只换了攻略半层 5 张：主线玩法、A 区 ×2、B 区、C 区；展位文字全在图里，state 里搜不到）。看图时把 1125 宽长图切成 1100px 段再看。9/9 版已同步进 `booths.js`（B16 IP贩售·宝藏码头、C02 去掉摩登天空、新增 C06 湖之仆从、C04 试玩区、C13 GSE、C15 拉瑞安工作室、B18 文案），旧名放 `alias` 供搜索。IP 专题页同理（阅文「读档！就现在」hub `cc6a09bbd38640d995705bed8335cf0c`），子页里的 `OnixDittoFollowNew.userId` 就是该 IP 官方账号 uid；主页接口 `xiaohongshu.com/user/profile/<uid>` 无 cookie 会 302 到验证码页，拿不到昵称。
 - 小红书笔记分享页：iPhone UA 直接请求，正文 / 图片在 `window.__INITIAL_STATE__.noteData.data.noteData`（JSON 里的 `undefined` 要先替换成 `null`）。
 - 图片 CDN：`growth-img.xhscdn.com/ditto/<id>?imageView2/2/w/1125/format/png`；笔记图 `sns-webpic-qc.xhscdn.com` 带时效签名且中央有「小红书」水印，**无水印原图**用 `imageList[].fileId`（形如 `spectrum/1040g0k…`）拼 `https://ci.xiaohongshu.com/<fileId>?imageView2/2/w/1080/format/jpg`（或 `sns-img-qc.xhscdn.com/<fileId>` 取原始 PNG），带 iPhone UA + Referer 即可，9/10 已把全部历史图换成无水印版。
 
@@ -174,6 +174,8 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - [ ] 场馆平面图（官方未公布）→ 首页占位卡下已接 2025 年参考图 `venueMapRef` 过渡（2025 三区字母 A 翻身时空港 / B 重生试炼场 / C 发呆小森林，与 2026 不同）；官方图公布后替换并给展位挂坐标
 - [x] A / B / C 区 ↔ 三大区域映射：`booths.js zones[].region`（A=翻身时空港、B=黄金海岸线 有官方笔记依据；C=重生试炼场 为排除法）。用户决定 UI 不标「推测」；区域芯片文案格式为「翻身时空港（44）」。开图进度条按 `need`（4/2/2）计算。官方平面图公布后若有出入再改。
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口
+- [ ] C04 独立游戏：84 款名单已与官方 9/9 版一致；每款的小红书账号 uid / 攻略链接待补（`indie.js` 的 `xhs` / `url` 字段，官方页拿不到，需逐个找）
+- [ ] 官方主会场页 10 月前再 diff 一次（上次 9/9 版，见 docs 13.8）
 - [ ] 其余 IP 的展台详情（已收录 A06 星布谷地、A09 星穹铁道、A21 三丽鸥、A22 火影忍者、A24 SCLA / 新创华、A25 Aniplex、A34 我的世界、A35 阅文、B01 蛋仔派对、B02 / C16 宝可梦、B16 宝藏码头、B18 火影忍者手游、B22 冰品补给点）
 - [ ] B01 蛋仔派对：小红书 PIN 样式待公布（pins.js 已占位 thumb: null）；水友赛预约入口、各车间周边实物待官方后续；B22 冰品补给点补给详情「待解冻」
 - [x] A24 SCLA：「复兴岛 IP 售卖区」摊位 NO.05 按用户 9/10 决定视为黄金海岸线 B16 宝藏码头名单中的「新创华」摊位（两边官方文案未互相点名，属推断；B16 stalls 已加 note）。SCLA招聘 8/20 官宣笔记曾写展台 A27，以 9/10 攻略的 A24 为准。其余 8 个 SCLA IP 官方号的分 IP 攻略待发
