@@ -19,8 +19,8 @@
 - **主要目标用户是手机端**：一切布局先保证 375–430px 宽度可用，桌面端只要不坏即可（`.page` 已限 max-width 640）。
 - **视觉参考 RED LAND 官方活动页的像素海岛风**：天蓝格纹底、奶白像素描边卡、红色编号标签、黄色星标、导航深蓝描边。不要改成通用 Material / iOS 风。
 - **数据只来自官方**：小红书 RED LAND 官方活动页、各 IP 官方账号的「RED LAND2026 | XX展台活动详情」笔记、官方新闻稿。不编造、不猜测；未公布的写「待补充 / 待确认」。
-  - （历史）2026 官方图公布前首页放过 2025 年网友整理的参考图 `venueMapRef`；官方图 9/11 公布后已整块替换并删除，不要再引用。
-- **场馆平面图已是官方图**（`rules.js venueMap`，RED LAND 官方号 9/11 笔记）：首页「场馆平面图」卡，6 张图在 `public/img/rules/map-2026/`。给每个展位挂坐标（点展位在图上定位）仍未做——官方图没有网格，要逐个量展位框中心点。
+  - 唯一例外：首页「场馆平面图」卡下半部分保留 **2025 年**网友整理的参考图（`rules.js venueMapRef`，用户 9/10 决定放、9/11 官方图出来后决定继续保留），UI 与数据必须标明「2025 年」「非官方」。
+- **场馆平面图官方图已接入**（`rules.js venueMap`，RED LAND 官方号 9/11 笔记）：放在首页「场馆平面图」卡上半部分（原 LOADING 占位处），5 张图在 `public/img/rules/map-2026/`。给每个展位挂坐标（点展位在图上定位）仍未做——官方图没有网格，要逐个量展位框中心点。
 - 多步任务默认直接推进，不逐步确认；只在需要业务口径 / 方案取舍时停下问。
 
 ## 3. 技术栈与目录
@@ -60,10 +60,10 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 | `parade.js` | `paradeInfo` / `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats` / `playerSquad` | 官方「花车巡礼」半层 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
 | `roaming.js` | `roaming[]`：`{ id, name, chars, xhs, days[], dateText, where, items[{ name, how }], note, image, source }` 无固定展位的游荡 IP，首页展位列表下方「自由游荡的 IP」卡 | 该 IP 官方账号笔记（已收录：公用冰箱里有什么 / 鼠记私房菜，10/4） |
-| `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMap`（官方平面图：`images` / `routes` 路线图例 / `routeTip` / `tips` 交通与点位 / `facilities` 回血点位 / `source`） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」、9/11「登岛地图已解锁」笔记 |
+| `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMap`（官方平面图：`images` / `routes` 路线图例 / `routeTip` / `tips` 交通与点位 / `facilities` 回血点位 / `source`）/ `venueMapRef`（2025 年参考图 + 交通要点，非官方，保留） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」、9/11「登岛地图已解锁」笔记；`venueMapRef` 来自网友「星辰大海」2025-08-07 笔记 |
 
-- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）、`rules/map-2026/`（官方场馆平面图，6 张均由同一张 14412×5854 原图裁切，裁切框记在 `note.json.crops`）。**地图类图不套 810 宽的规矩**：按可读性给宽度（总览 3200 / 分区 1800 / 图例 1100），只压质量。`rules/map-2025/` 已被官方图取代并删除。
-- `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），由 `PinsPage` 渲染。字段：`no` 占位编号（区域 PIN = 展位 id[-序号]，如 `A09-1`；夜间 `N-01`、老玩家 `V-01`、NPC `NPC-01`、拼图 `R-A/R-B/R-C/R-ALL`，官方公布正式编号后再换）、`thumb` 抠出的单枚缩略图、`image` 所在整张笔记图、`booth`。每收录一个带 PIN 的展台详情：在 `scripts/crop-pins.py` 的 CROPS 加裁切框（坐标基于 810px 宽图）→ `python scripts/crop-pins.py <id>` → 追加进 `pins[]`。没公布 PIN 的展位不用写，页面自动生成占位卡。`zoneThumbs` 是三区通用「?」软盘图。
+- 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）、`rules/map-2025/`（2025 年场地参考图，网友整理非官方，保留 1080 宽）、`rules/map-2026/`（官方场馆平面图，5 张均由同一张 14412×5854 原图裁切，裁切框记在 `note.json.crops`；00 全图 / 01 A 区含东侧与南侧入口 / 02 B 区 / 03 C 区 / 04 图例栏）。**地图类图不套 810 宽的规矩**：按可读性给宽度（总览 3200 / A 区 2200 / B、C 区 1800 / 图例 1100），只压质量。
+- `src/data/pins.js`：PIN 图鉴数据（type: region / night / veteran / npc / reward），由 `PinsPage` 渲染。字段：`no` 占位编号（区域 PIN = 展位 id[-序号]，如 `A09-1`；夜间 `N-01`、老玩家 `V-01`、NPC `NPC-01`、拼图 `R-A/R-B/R-C/R-ALL`，官方公布正式编号后再换）、`thumb` 抠出的单枚缩略图、`image` 所在整张笔记图、`booth`。每收录一个带 PIN 的展台详情：在 `scripts/crop-pins.py` 的 CROPS 加裁切框（坐标基于 810px 宽图）→ `python scripts/crop-pins.py <id>` → 追加进 `pins[]`。PIN 在图里不到 150px 时（C07 这种）给 opts `{ fileId, upscale: true }`：脚本按 `note.json.fileIds` 拉 sns-img-qc 原始分辨率图再裁并放大锐化到 320，否则缩略图会糊。没公布 PIN 的展位不用写，页面自动生成占位卡。`zoneThumbs` 是三区通用「?」软盘图。
 - 术语：官方 8 月攻略半层叫「冒险岛的信物 / 冰箱贴」，8/25 PIN 笔记叫「冒险者拼图 / 冒险岛拼图完整体」，指同一件东西；UI 以「冒险者拼图」为主并括注旧称。PIN 按区域分色：翻身时空港橙 `#f26a2e`（A 区，需 4）、黄金海岸线黄 `#f2c23a`（B 区，需 2）、重生试炼场蓝 `#2f8fe6`（C 区，需 2）、夜间 PIN 黑。已收录展台的 PIN 颜色可用来反推区域。
 
 - **`booths[].xhs`**：`{ uid, name }` 该 IP 小红书官方账号（uid = 抓笔记时 `note.json` 里的 `user.userId`）。**作者必须是该 IP 自己的官方号**：RED LAND 官方号发的「xx 确认登岛」是主办方账号，不能填成该 IP 的 `xhs`（唯一例外 B16 宝藏码头是主办方自营集市）。只有「确认登岛」预告、线上征集这类没有展台玩法的笔记：只补 `xhs`，不建 `boothDetails`，封面压 810 宽归档到 `docs/assets/ip_notes/PREVIEWS_确认登岛预告/<展位号_IP>.jpg` + 同名 json（`keptOnly` 写明缘由），`public/img` 不留文件。有则列表行出现 📕 按钮、详情页出现「小红书主页」按钮，方便用户去核对最新动态；没有的展位只给搜索按钮。每抓一条新 IP 笔记都要顺手把 uid 补进 `booths.js`。RED LAND 官方号 uid `685ce6320000000008039c70`（`src/utils/xhs.js`）。
@@ -121,8 +121,8 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 设计 token 全在 `style.css :root`：`--sky #4da6ff` 底、`--paper #fffdf6` 卡、`--cream` 暖卡、`--navy #1f2d5c` 描边与阴影、`--red #ff4b4b` 编号标签 / 选中态、`--yellow #ffd23f` 星标、`--night #2b2a55` 夜间 / 提示卡、`--brown #5a3e2b` 标题文字。
 - 字体：标题 `--font-pix`（ZCOOL QingKe HuangYou）、编号 / 时间 `--font-num`（Press Start 2P，只用于短的数字字母，10px 左右）、正文系统字体。字体走 Google Fonts，离线自动回退。
 - 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）、`.steps / .step-no(.cjk) / .step-body / .step-title`（分步列表，`.steps.plain` 无序黄标）、`.sched-day / .sched-row / .sched-time`（舞台时间表按时段分行）、`.lb-stage(.tall/.wide) / .lb-cap`（灯箱）、`.post-preview / .linkbtn`（发帖文案预览）、`.tag.btn`（可点击标签）。新组件先复用这些类，再考虑加新类。
-- **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；图片高宽比超过视口 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）；反过来宽高比超过视口 1.2 倍时加 `.wide` 按高铺满、横向滚动并自动滚到中间（场馆平面图），此时横滑留给滚动、不翻页。首页主线图 / 彩蛋图 / 官方平面图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）都已接入。
-- 首页「场馆平面图」卡：只有一个可点的黄色标签「🗺 官方场馆平面图 ▾」（`.tag.yellow.text.btn`），点开依次显示路线图例（3 枚 `.pill` + 色块）→ 官方提示语 → 「交通与点位」折叠列表（含回血点位一行）→ 6 张地图缩略图；默认收起，来源行常显。不要再拆成多个按钮。
+- **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；图片高宽比超过视口 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）；反过来宽高比超过视口 1.2 倍时加 `.wide` 按高铺满、横向滚动并自动滚到中间（场馆平面图），此时横滑留给滚动、不翻页。首页主线图 / 彩蛋图 / 官方平面图 / 2025 地图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）都已接入。
+- 首页「场馆平面图」卡分上下两段（用户 9/11 定）：**上段 2026 官方图常显**——标题右侧红色「官方」中文标签（原 LOADING 处），画廊第一行全图占满三格（`.gallery img.span-all`，横图按原比例），第二行 A / B / C 三区图，第三行图例栏一格；下面是路线图例 3 枚 `.pill` + 色块、官方提示语、「交通与点位」折叠列表（含回血点位一行）、来源行。**下段 2025 网友参考图保持原样**——只有一个黄色标签「🗺 2025 年场地参考图 ▾」（`.tag.yellow.text.btn`），点开依次显示免责说明 → 「2025 交通要点」→ 6 张缩略图；默认收起，来源行常显。不要再拆成多个按钮。
 - 所有 📕 小红书主页按钮（首页列表行、详情页主账号 / `accounts`、游荡 IP、顶栏 logo）保留 `<a :href="profileUrl(uid)" target="_blank">`，再挂 `@click="openProfile($event, uid)"`：手机端拦截后先唤起小红书 App（系统弹「是否打开」），App 内直接看主页可绕过网页版滑块验证；PC 端不拦截。详情页「🔍 搜「IP RED LAND」」同理挂 `openSearch`：手机端先把关键词写入剪贴板再唤起 `xhsdiscover://search/result?keyword=`，直接落到 App 搜索结果页，失败退回网页搜索；PC 走网页版搜索。「去小红书看原笔记」短链保持网页跳转（笔记页本身有打开 App 入口，无验证墙）。
 - **没有明确要求就不要改已有样式**（用户 9/11 反馈：把见面会胶囊改成时间列 + 去前缀被要求改回）。功能性改动（分行、可点击、折叠）要在保留原有视觉的前提下做；新增元素复用现有类，不给旧元素加图标 / 换布局。
 - 顶栏 `PageHeader`：左上 RED LAND 2026 logo 是 RED LAND 小红书官方号的链接（不要再在页面里另放官方号按钮）；传 `venue`（`rules.js` 的 `venueNav`）时副标题变成「导航」按钮，展开高德 / 百度 / Apple 地图搜索链接与复制地址。导航用关键词搜索 URI，不用坐标（避免 GCJ-02 / WGS-84 偏移）。
@@ -178,7 +178,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 ## 10. 待办 / 已知空缺
 
-- [x] 场馆平面图：RED LAND 官方号 9/11「登岛地图已解锁」官方功能地图已接入（`rules.js venueMap` + `public/img/rules/map-2026/`，2025 参考图已整块替换并删除）。**剩余**：给每个展位挂坐标做「点展位在图上定位」——官方图无网格，需逐个量 81+ 个展位框中心点，未做
+- [x] 场馆平面图：RED LAND 官方号 9/11「登岛地图已解锁」官方功能地图已接入（`rules.js venueMap` + `public/img/rules/map-2026/`；2025 网友参考图 `venueMapRef` 按用户要求保留在卡片下段）。**剩余**：给每个展位挂坐标做「点展位在图上定位」——官方图无网格，需逐个量 81+ 个展位框中心点，未做
 - [x] A / B / C 区 ↔ 三大区域映射：**9/11 官方平面图右栏 LAYOUT OF ZONE A/B/C 已逐一确认**（A 翻身时空港 / B 黄金海岸线 / C 重生试炼场），此前 C 区的排除法推断正确。区域芯片文案格式为「翻身时空港（48）」，开图进度条按 `need`（4/2/2）计算。
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口
 - [ ] 平面图新增的待解锁展位 A04 / A26 / B20 官方公布 IP 后补；A16「光夜展陈」与 A40 光与夜之恋的关系待官方确认

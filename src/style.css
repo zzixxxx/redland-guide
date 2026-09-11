@@ -278,6 +278,8 @@ img { max-width: 100%; display: block; }
 /* 图片画廊 */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .gallery img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border: 2px solid var(--navy); border-radius: 2px; background: #eee; }
+/* 横向大图（官方平面图全图）占满一行、按原始比例显示 */
+.gallery img.span-all { grid-column: 1 / -1; aspect-ratio: auto; }
 .lightbox {
   position: fixed; inset: 0; z-index: 50; background: rgba(10, 12, 30, 0.92);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
