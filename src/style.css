@@ -223,7 +223,8 @@ img { max-width: 100%; display: block; }
   font-size: 15px; color: var(--brown);
 }
 .booth .star.off { background: #f3f3f6; border-color: #b7bbc9; box-shadow: 2px 2px 0 #b7bbc9; color: #b7bbc9; }
-.booth .star.xhs { background: #fff0f0; border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); font-size: 14px; }
+/* IP 名同一行的小红书主页入口（跟在「攻略」标签后面，行高与标签一致） */
+.booth .ip .tag.xhs { background: #fff0f0; border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); font-size: 11px; padding: 1px 4px; line-height: 1.2; text-decoration: none; }
 .booth.done .ip { color: var(--green-dark); }
 
 /* 进度条 */

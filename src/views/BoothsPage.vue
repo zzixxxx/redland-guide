@@ -145,14 +145,12 @@
               <div class="ip">
                 {{ b.ip }}
                 <span v-if="hasDetail(b.id)" class="tag green text" style="font-size:10px;padding:2px 5px">攻略</span>
+                <a v-if="b.xhs" class="tag text xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop="openProfile($event, b.xhs.uid)" :title="`小红书 @${b.xhs.name}`">📕</a>
                 <span v-if="isChecked(b.id)" class="tag yellow text" style="font-size:10px;padding:2px 5px">已打卡</span>
               </div>
               <div class="blurb">{{ b.blurb }}</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:6px;flex:0 0 auto">
-              <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
-              <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop="openProfile($event, b.xhs.uid)" :title="`小红书 @${b.xhs.name}`">📕</a>
-            </div>
+            <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
           </div>
         </template>
         <div v-else class="empty">没有匹配的展位</div>
