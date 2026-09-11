@@ -31,7 +31,7 @@
         <div class="small mt-6">{{ campInfo.desc }}</div>
         <div class="hr" />
         <div class="row wrap">
-          <span class="tag yellow text">☀ {{ campInfo.sun.name }}</span>
+          <span class="tag yellow text">☀ {{ campInfo.sun.name }} {{ campInfo.sun.time }}</span>
         </div>
         <div class="small mt-6">{{ campInfo.sun.desc }}</div>
         <div class="row wrap mt-10">

@@ -1,0 +1,91 @@
+{
+  "noteId": "6aa3a8aa00000000260175ec",
+  "title": "系统提示：主角！你的登岛地图已解锁！",
+  "desc": "系统提示：恭喜主角获得限定道具「功能地图」×1，请速速装备至你们的登岛小背包~\n\t\n🚩各大IP展位精准定位\n主角们！你们喜欢的各个IP将会分布在翻身时空港、黄金海岸线、重生试炼场这三个区域，赶紧来一眼锁定自推展位！\n地图还附带NPC图标，主角们别忘了在小岛上偶遇NPC，触发互动玩法~\n所有主角，拿到这份「功能地图」，快快严肃规划起来！对心仪的点位说all in！\n\t\n💪已标记岛上多处回血回蓝据点\n冒险者营地、医疗点、充电宝点位、卫生间、餐饮区、换装区、安检区、寄存处、装备区、服务台、结算点、无料交换点、零食/饮品贩卖机点位等回血点位薯已标记完成！\n主角们无论是临时休整、设备补电，还是换装整理都能通过这份「功能地图」快速找到点位，冒险途中随时补给状态，无需手忙脚乱啦~\n\t\n🗺 全岛探索动线梳理完毕\n地铁点位、接驳车点信息、逛展探索路线、给主角的花车巡礼路线一览无余！高效穿梭冒险岛，薯一整个防走冤枉路于未然！\n\t\n主角们准备开启怎样的冒险探索路线呢？欢迎在评论区分享，一起交换冒险攻略吧！\n\t\n搜索🔍【RED LAND2026】进入话题页，了解更多登岛资讯！\n📅 2026.10.02-10.06\n📍 上海杨浦·复兴岛\n\t\n#REDLAND2026[话题]# #上海[话题]# #上海杨浦复兴岛[话题]# #欢迎上岛[话题]# #永远的主角[话题]# #REDLAND[话题]#",
+  "user": {
+    "userId": "685ce6320000000008039c70",
+    "nickName": "RED LAND",
+    "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo323rlnhb0n0005q2ssop2773gbb59v10?imageView2/2/w/120/format/jpg",
+    "redOfficialVerifyType": 0
+  },
+  "tags": [
+    "REDLAND2026",
+    "上海",
+    "上海杨浦复兴岛",
+    "欢迎上岛",
+    "永远的主角",
+    "REDLAND"
+  ],
+  "time": 1789110442000,
+  "finalUrl": "https://www.xiaohongshu.com/discovery/item/6aa3a8aa00000000260175ec?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBGxmw2q4e0JHY--IpJFZK7puJjq03PX5joGe9Ks9i29w=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1789112903&share_id=6fb2da13113e484894a83a6bad885ec2",
+  "fileIds": [
+    "spectrum/1040g0k0324vgi0ofis005q2ssop2773go0j112o"
+  ],
+  "images": [
+    "img/rules/map-2026/00.jpg",
+    "img/rules/map-2026/01.jpg",
+    "img/rules/map-2026/02.jpg",
+    "img/rules/map-2026/03.jpg",
+    "img/rules/map-2026/04.jpg",
+    "img/rules/map-2026/05.jpg"
+  ],
+  "keptOnly": "笔记只有 1 张图（官方 2026 功能地图）。原图 14412×5854，按 fileId 从 sns-img-qc.xhscdn.com 取原始 JPEG；分享页默认的 1080 宽版本（439px 高）展位编号不可读，故本目录 6 张均由同一张原图裁切 / 缩放而来，非 6 张原图。",
+  "crops": {
+    "说明": "裁切框坐标以 1500 宽的概览图为基准（原图 ÷ 9.608）",
+    "00.jpg": {
+      "box": "整张原图",
+      "width": 3200,
+      "name": "全岛总览（含左侧标题卡、右侧图例栏）"
+    },
+    "01.jpg": {
+      "box": [
+        645,
+        262,
+        985,
+        528
+      ],
+      "width": 1800,
+      "name": "A 区 翻身时空港"
+    },
+    "02.jpg": {
+      "box": [
+        630,
+        42,
+        1015,
+        272
+      ],
+      "width": 1800,
+      "name": "B 区 黄金海岸线"
+    },
+    "03.jpg": {
+      "box": [
+        390,
+        258,
+        705,
+        530
+      ],
+      "width": 1800,
+      "name": "C 区 重生试炼场"
+    },
+    "04.jpg": {
+      "box": [
+        1188,
+        18,
+        1492,
+        582
+      ],
+      "width": 1100,
+      "name": "右侧图例栏：路线图例 / 接驳车点位信息 / 三区色块 / 功能点位"
+    },
+    "05.jpg": {
+      "box": [
+        690,
+        462,
+        1195,
+        588
+      ],
+      "width": 2000,
+      "name": "南侧出入口：地铁 12 号线复兴岛站、577 中华船厂站、接驳车上下车点"
+    }
+  }
+}

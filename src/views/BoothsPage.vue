@@ -88,35 +88,41 @@
       </div>
     </div>
 
-    <!-- 场馆平面图：2026 官方未公布，先放 2025 年参考图 -->
+    <!-- 场馆平面图：RED LAND 官方号 2026-09-11 公布的官方功能地图 -->
     <div class="pcard dark mt-14">
       <div class="pcard-body">
         <div class="row between">
           <div>
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-            <div class="small" style="color:#c9c8ea">2026 官方平面图尚未公布，公布后在此展示区域 / 展位分布</div>
+            <div class="small" style="color:#c9c8ea">官方功能地图 · 点开看三区展位编号与回血点位</div>
           </div>
-          <span class="tag gray" style="flex:none">LOADING</span>
+          <span class="tag text" style="flex:none">官方</span>
         </div>
         <div class="hr" style="border-color:#4a4980" />
         <div class="row between">
-          <button class="tag yellow text btn" @click="openMap = !openMap">🗺 {{ venueMapRef.title }} {{ openMap ? '▴' : '▾' }}</button>
-          <span class="small" style="color:#a9a8cc;flex:none">交通要点 · {{ venueMapRef.images.length }} 张图</span>
+          <button class="tag yellow text btn" @click="openMap = !openMap">🗺 {{ venueMap.title }} {{ openMap ? '▴' : '▾' }}</button>
+          <span class="small" style="color:#a9a8cc;flex:none">交通要点 · {{ venueMap.images.length }} 张图</span>
         </div>
         <div v-if="openMap">
-          <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
-          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips = !openTips">🚇 2025 交通要点（{{ venueMapRef.tips.length }} 条）{{ openTips ? '▴' : '▾' }}</button>
+          <div class="row wrap mt-10" style="gap:6px">
+            <span v-for="r in venueMap.routes" :key="r.name" class="pill">
+              <i :style="{ display: 'inline-block', width: '10px', height: '10px', background: r.color, border: '1px solid var(--navy)', verticalAlign: '-1px', marginRight: '5px' }" />{{ r.name }}
+            </span>
+          </div>
+          <div class="small mt-6" style="color:#c9c8ea">{{ venueMap.routeTip }}</div>
+          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips = !openTips">🚇 交通与点位（{{ venueMap.tips.length }} 条）{{ openTips ? '▴' : '▾' }}</button>
           <ul v-if="openTips" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
-            <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
+            <li v-for="t in venueMap.tips" :key="t">{{ t }}</li>
+            <li>地图已标出的回血点位：{{ venueMap.facilities.join('、') }}</li>
           </ul>
-          <div class="small mt-10" style="color:#ffe27a;font-weight:700">🗺 2025 场地图（点击放大，左右滑动翻页）</div>
+          <div class="small mt-10" style="color:#ffe27a;font-weight:700">🗺 官方地图（点击放大，左右滑动翻页）</div>
           <div class="gallery mt-6">
-            <img v-for="(m, i) in venueMapRef.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImgs(mapImages, i)" />
+            <img v-for="(m, i) in venueMap.images" :key="m.src" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImgs(mapImages, i)" />
           </div>
         </div>
         <div class="small mt-6" style="color:#a9a8cc">
-          来源：网友 @{{ venueMapRef.source.author }} 整理 · {{ venueMapRef.source.publishedAt }}（非官方）
-          <a :href="venueMapRef.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
+          来源：RED LAND 官方号 · {{ venueMap.source.publishedAt }}
+          <a :href="venueMap.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
         </div>
       </div>
     </div>
@@ -213,7 +219,7 @@ import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, venueNav, mainline, eggs, places, dailySchedule, venueMapRef } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap } from '../data/rules.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
 import { profileUrl, openProfile } from '../utils/xhs.js'
@@ -233,7 +239,7 @@ const openImgs = (items, i) => {
   lb.i = i
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
-const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const mapImages = venueMap.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 
 const hasDetail = (id) => !!boothDetails[id]
 // 搜索附加关键词：主账号昵称 + 详情里各 IP 官方账号 / 其他官方笔记作者（多 IP 共用展位时能搜到子 IP，如搜「魔兽」「炉石」出暴雪游戏，搜「假面骑士」出 SCLA）

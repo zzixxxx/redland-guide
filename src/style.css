@@ -283,7 +283,7 @@ img { max-width: 100%; display: block; }
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 12px 12px calc(64px + var(--safe-b));
 }
-/* 灯箱舞台：默认整图适配；.tall（长图）改为按宽度铺满、竖向滚动 */
+/* 灯箱舞台：默认整图适配；.tall（长图）改为按宽度铺满、竖向滚动；.wide（宽图，如场馆平面图）按高度铺满、横向滚动 */
 .lb-stage {
   flex: 1; min-height: 0; width: 100%; max-width: 720px;
   display: flex; align-items: center; justify-content: center;
@@ -292,6 +292,8 @@ img { max-width: 100%; display: block; }
 .lb-stage img { max-width: 100%; max-height: 100%; object-fit: contain; border: 3px solid #fff; background: #fff; }
 .lb-stage.tall { overflow-y: auto; align-items: flex-start; -webkit-overflow-scrolling: touch; }
 .lb-stage.tall img { width: 100%; height: auto; max-height: none; }
+.lb-stage.wide { overflow-x: auto; justify-content: flex-start; touch-action: pan-x pinch-zoom; -webkit-overflow-scrolling: touch; }
+.lb-stage.wide img { height: 100%; width: auto; max-width: none; }
 .lb-cap { color: #fff; font-size: 12px; text-align: center; margin-top: 8px; max-width: 720px; text-shadow: 1px 1px 0 #000; }
 .lightbox .nav {
   position: absolute; bottom: calc(14px + var(--safe-b)); left: 0; right: 0;

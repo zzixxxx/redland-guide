@@ -28,6 +28,7 @@ export const pins = [
   { id: 'B01-pin', no: 'B01', type: 'region', zone: 'B', name: '蛋仔派对 小红书 PIN（样式待公布）', booth: 'B01', how: '完成工厂打卡：拍摄蛋仔工厂场景并带话题发布小红书，与活动限定外观 CDK 一同领取', thumb: null, image: 'img/booths/B01/16.jpg' },
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'B02-pin-2', no: 'B02-2', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 谜拟丘款', booth: 'B02', how: '护照集章任务 1·2·3·6，17:30–21:30 领，每日 2000', thumb: 'img/pins/B02-2.jpg', image: 'img/booths/B02/04.jpg' },
+  { id: 'C07-pin', no: 'C07', type: 'region', zone: 'C', name: '苏丹的游戏徽章', booth: 'C07', how: '走完舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座全流程，向苏丹献上美味大餐；参与互动的玩家均可获得', thumb: 'img/pins/C07.jpg', image: 'img/booths/C07/02.jpg' },
 
   // ---- 夜间 ----
   { id: 'night', no: 'N-01', type: 'night', name: '夜间 PIN（待解锁）', how: '夜间发放，月下模式神秘变体', thumb: 'img/pins/night.jpg', image: 'img/rules/pin/01.jpg' },

@@ -1,7 +1,7 @@
 // IP 展位一览（官方「冒险者攻略 · IP展位一览」原文）
 // id 唯一；同一编号多个 IP 用 a/b/c 后缀。no 为官方展位编号。
-// region：官方三大区域名。A / B 来自 IP 官方笔记（三丽鸥 A-21、皮乐火影 A-22 写「翻身时空港」；RED LAND 官方号写宝藏码头 B16 在「黄金海岸线」），
-// C 为排除法得出（三大区域只剩重生试炼场），用户决定 UI 上不再标「推测」。need = 该区域开图需打卡的 IP 数（官方主线玩法）。
+// region：官方三大区域名。A 翻身时空港 / B 黄金海岸线 / C 重生试炼场，由 RED LAND 官方号 2026-09-11 的官方场馆平面图
+// 右栏「LAYOUT OF ZONE A / B / C」逐一确认（此前 C 区为排除法推断）。need = 该区域开图需打卡的 IP 数（官方主线玩法）。
 export const zones = [
   { key: 'A', name: 'A 区', region: '翻身时空港', need: 4, color: '#f26a2e', count: 0 },
   { key: 'B', name: 'B 区', region: '黄金海岸线', need: 2, color: '#f2c23a', count: 0 },
@@ -15,8 +15,10 @@ export const booths = [
   { id: 'A02', zone: 'A', no: 'A02', ip: '三角洲行动', blurb: '来洲洲大红街区观光做客，解锁干员撤离后的另一种生活', xhs: { uid: '63205dd8000000002303aaa7', name: '三角洲行动' } },
   { id: 'A03a', zone: 'A', no: 'A03', ip: '王者万象棋', blurb: '棋手闺蜜团登岛炸场！', xhs: { uid: '62da1715000000000e00fae1', name: '王者万象棋' } },
   { id: 'A03b', zone: 'A', no: 'A03', ip: '王者荣耀世界', blurb: '世民入镜，你是世界里的风景', xhs: { uid: '653a085e00000000020106cc', name: '王者荣耀世界' } },
+  { id: 'A04', zone: 'A', no: 'A04', ip: '待解锁', blurb: '官方场馆平面图标注「待解锁」，IP 待公布' },
   { id: 'A05', zone: 'A', no: 'A05', ip: '心动小镇', blurb: '小镇庆典日开张，庆典派对狂欢不停！', xhs: { uid: '60e29bf70000000020029ea6', name: '心动小镇' } },
   { id: 'A06', zone: 'A', no: 'A06', ip: '星布谷地', blurb: '米哈游最新生活模拟游戏国内首展，感受治愈新生活！', xhs: { uid: '619603700000000021028fc6', name: '星布谷地' } },
+  { id: 'A07', zone: 'A', no: 'A07', ip: '京东 101HOME', alias: 'JD 京东101HOME', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
   { id: 'A08', zone: 'A', no: 'A08', ip: '代号如意', blurb: '探索他的生活与秘密，完成只属于妳的心动任务。', xhs: { uid: '64a191bc000000000b01488b', name: '代号如意' } },
   { id: 'A09', zone: 'A', no: 'A09', ip: '崩坏：星穹铁道', blurb: '快来看看银河球棒侠和 TA 的小伙伴们吧！', xhs: { uid: '61dd94d3000000001000b155', name: '崩坏：星穹铁道' } },
   { id: 'A10', zone: 'A', no: 'A10', ip: '原神', blurb: '这是于严寒中淬炼的文明，至冬已至', xhs: { uid: '5eb67f19000000000100787f', name: '原神' } },
@@ -27,6 +29,7 @@ export const booths = [
   { id: 'A14b', zone: 'A', no: 'A14', ip: '赛博朋克2077', blurb: '草薙、超梦、夜之城的好东西都到齐了。野狼酒吧见！', xhs: { uid: '6454bb20000000000f004026', name: 'CD PROJEKT RED' } },
   { id: 'A14c', zone: 'A', no: 'A14', ip: '赛博朋克：边缘行者2', blurb: '第二季即将推出！来展台参与惊喜投票，与制作人见面！', xhs: { uid: '6454bb20000000000f004026', name: 'CD PROJEKT RED' } },
   { id: 'A15', zone: 'A', no: 'A15', ip: '古剑', blurb: '长生酒肆限时开张！司判计时擂台赛，速胜老牛夺头彩。', xhs: { uid: '67f50003000000000700346d', name: '古剑奇谭' } },
+  { id: 'A16', zone: 'A', no: 'A16', ip: '光夜展陈', alias: '光与夜之恋 展陈', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
   { id: 'A17a', zone: 'A', no: 'A17', ip: '奥星热浪', blurb: '真实“人肉”摸金，让你笑发财的搜打撤', xhs: { uid: '6607c77e000000000d025131', name: '奥星热浪' } },
   { id: 'A17b', zone: 'A', no: 'A17', ip: '归环', blurb: '勇哥，你看我的这个又有高跷又有透卡的咖啡厅能开下去吗？', xhs: { uid: '66da6905000000001d023703', name: '归环' } },
   { id: 'A17c', zone: 'A', no: 'A17', ip: '命运扳机', blurb: '端枪闯异境摸金，回宿舍找 TA 贴贴！', xhs: { uid: '60e947520000000001003ba3', name: '命运扳机' } },
@@ -39,6 +42,7 @@ export const booths = [
   { id: 'A24', zone: 'A', no: 'A24', ip: 'SCLA', blurb: '九大经典 IP 集结！勇敢的主角啊快去创造奇迹！', alias: '新创华 假面骑士 奥特曼 面包超人 超级战队 柯南 EVA 初音未来 哥斯拉 犬夜叉', xhs: { uid: '5c73e184000000001000fa72', name: '新创华SCLA' } },
   { id: 'A25a', zone: 'A', no: 'A25', ip: '鬼灭之刃', blurb: '潜入无限城，为鬼杀队传递生死战况', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
   { id: 'A25b', zone: 'A', no: 'A25', ip: '孤独摇滚', blurb: '打卡 STARRY，解锁乐队开演秘事', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
+  { id: 'A26', zone: 'A', no: 'A26', ip: '待解锁', blurb: '官方场馆平面图标注「待解锁」，IP 待公布' },
   { id: 'A27', zone: 'A', no: 'A27', ip: '无限暖暖', blurb: '游乐园即将开幕！和暖暖大喵一起进入 Nikki Land', xhs: { uid: '634652ac000000001802fce3', name: '无限暖暖' } },
   { id: 'A28', zone: 'A', no: 'A28', ip: '代号：香', alias: '代号香', blurb: '以香为媒，众神的气息由你调配', xhs: { uid: '695a2d64000000000b03b2d0', name: '代号：香' } },
   { id: 'A29a', zone: 'A', no: 'A29', ip: '海绵宝宝', blurb: '登陆比奇堡欢乐海滩，坐超大水母秋千，畅享冲浪乐趣，打卡巨型菠萝屋！', xhs: { uid: '6399dab2000000002702acfc', name: '海绵宝宝SpongeBob' } },
@@ -73,7 +77,12 @@ export const booths = [
   { id: 'B15', zone: 'B', no: 'B15', ip: '逆水寒', blurb: '星梦乐园 5A 景区开业，流派狂欢，一起开舞', xhs: { uid: '60d00070000000002002b9de', name: '逆水寒' } },
   { id: 'B16', zone: 'B', no: 'B16', ip: 'IP 贩售 · 宝藏码头', alias: '宝藏码头 IP贩售 谷子 集市', blurb: '各世界的冒险者在此归港，听说他们带来了不少宝藏……', xhs: { uid: '685ce6320000000008039c70', name: 'RED LAND' } },
   { id: 'B18', zone: 'B', no: 'B18', ip: '火影忍者手游', blurb: '《火影忍者》手游启动！来修炼你的忍道，成为最强忍者学员！', xhs: { uid: '650b9eb20000000012007285', name: '火影忍者手游情报君' } },
-  { id: 'B19', zone: 'B', no: 'B19', ip: 'CLUTCH', blurb: '摩纳哥海岸的昼夜双面世界，解锁速度与激情！' },
+  { id: 'B19', zone: 'B', no: 'B19', ip: 'CLUTCH', alias: '离合：红线 离合红线', blurb: '摩纳哥海岸的昼夜双面世界，解锁速度与激情！' },
+  { id: 'B20', zone: 'B', no: 'B20', ip: '待解锁', blurb: '官方场馆平面图标注「待解锁」，IP 待公布' },
+  { id: 'B21a', zone: 'B', no: 'B21', ip: '华硕 a豆', alias: 'ASUS adol 华硕', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'B21b', zone: 'B', no: 'B21', ip: 'Danisa 皇冠丹麦曲奇', alias: '丹麦曲奇 饼干', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'B21c', zone: 'B', no: 'B21', ip: '中国银联', alias: 'UnionPay 云闪付', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'B21d', zone: 'B', no: 'B21', ip: '康师傅冰红茶', alias: '冰红茶 饮料', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
   { id: 'B22', zone: 'B', no: 'B22', ip: '心「DONG」冰品补给点', alias: '代号神不言 冰淇淋', blurb: '火热解冻中！@代号神不言 为主角输送冰淇淋！', xhs: { uid: '69df3c6c00000000330389e3', name: '代号：神不言' } },
 
   // ---------- C 区 ----------
@@ -88,6 +97,7 @@ export const booths = [
   { id: 'C08', zone: 'C', no: 'C08', ip: '猛兽派对', blurb: '这里有一只小黄狗，嗷', xhs: { uid: '610911670000000001016cbc', name: '猛兽派对' } },
   { id: 'C09', zone: 'C', no: 'C09', ip: '世界之外', blurb: '踏进黄金之地，书写你的权欲篇章', xhs: { uid: '6246c1690000000021028819', name: '世界之外' } },
   { id: 'C10', zone: 'C', no: 'C10', ip: 'FINAL FANTASY RESONANCE', alias: '最终幻想 共鸣', blurb: '（最终幻想：共鸣）历代系列主角集结，幻兵水晶之中召唤共鸣记忆！' },
+  { id: 'C11', zone: 'C', no: 'C11', ip: 'MARD', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
   { id: 'C12', zone: 'C', no: 'C12', ip: 'MoeLive / hololive production', blurb: '偶像降临！解锁专属你的跨次元羁绊', xhs: { uid: '6535efeb000000000301ca6b', name: 'hololive' } },
   { id: 'C13', zone: 'C', no: 'C13', ip: 'GSE', alias: '任天堂 斯普拉遁 啦嗒铛 Splatoon', blurb: '等身比充气啦嗒铛打卡，斯普拉遁 涂击队合照区以及多款游戏试玩' },
   { id: 'C14', zone: 'C', no: 'C14', ip: '声探疑云', blurb: '首创声音探案体验馆，化身声探，推理破案！', xhs: { uid: '6180bffe000000000201f379', name: '声探疑云SoundAgent' } },
@@ -95,6 +105,8 @@ export const booths = [
   { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },
   { id: 'C17', zone: 'C', no: 'C17', ip: '航海王卡牌对战', blurb: '让我们一起扬帆出海开启冒险之旅！', xhs: { uid: '680dbd12000000000a03c298', name: '航海王卡牌对战' } },
   { id: 'C18', zone: 'C', no: 'C18', ip: '闪魂', blurb: '穿越次元裂缝，觉醒你的主角之魂', xhs: { uid: '64be22f6000000002b00b37a', name: '闪魂ShiningSoul' } },
+  { id: 'C19', zone: 'C', no: 'C19', ip: '高达汇战', alias: 'GUNDAM 敢达', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'C20', zone: 'C', no: 'C20', ip: '符文战场', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
 ]
 
 for (const z of zones) z.count = booths.filter((b) => b.zone === z.key).length

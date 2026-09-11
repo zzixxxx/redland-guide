@@ -16,6 +16,7 @@ CROPS = {
     'A34-1': ('public/img/booths/A34/01.jpg', (108, 635, 368, 895)),
     'A34-2': ('public/img/booths/A34/01.jpg', (432, 635, 698, 895)),
     'A38': ('public/img/booths/A38/02.jpg', (482, 729, 718, 948)),
+    'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140)),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480)),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630)),
     'night': ('public/img/rules/pin/01.jpg', (148, 755, 232, 861)),
