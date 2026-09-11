@@ -1,0 +1,32 @@
+{
+  "noteId": "6a7be883000000002403e71b",
+  "title": "王者荣耀已进入RED LAND2026",
+  "desc": "[派对R]小王向你发出登岛度假邀请！\n[清单R]度假日历：2026.10.02-10.06\n📍度假坐标：上海杨浦·复兴岛\n\t\n[向右R]搜索🔍【RED LAND2026】进入话题页，参与答题试炼，即有机会零氪解锁登岛通行证！\n[向右R] @RED LAND（蹲答题搭子版）\n\t\n[得意R]记得约上好农友们，一起奔赴王者假日自在冒险！\n#REDLAND2026[话题]# #上海[话题]# #复兴岛[话题]# #王者荣耀[话题]# #REDLAND[话题]# #王者[话题]#",
+  "user": {
+    "userId": "5f0ea3bc000000000101c742",
+    "nickName": "王者荣耀",
+    "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo323i6003a0a605noekeu0bhq26us0tn0?imageView2/2/w/120/format/jpg",
+    "redOfficialVerifyType": 0
+  },
+  "tags": [
+    "REDLAND2026",
+    "上海",
+    "复兴岛",
+    "王者荣耀",
+    "REDLAND",
+    "王者"
+  ],
+  "time": 1786507297000,
+  "finalUrl": "https://www.xiaohongshu.com/discovery/item/6a7be883000000002403e71b?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBO8N7EsubsxUgNsjfWjhK71jg6iS44VGjKNjaUG954bQ=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1789093825&share_id=3b7c6f5e97ab402c8a42a1b4b652bbb4",
+  "images": [
+    "docs/assets/ip_notes/PREVIEWS_确认登岛预告/A01_王者荣耀.jpg"
+  ],
+  "fileIds": [
+    "spectrum/1040g0k0323om8jnnmu005noekeu0bhq2acejh4g"
+  ],
+  "keptIndex": {
+    "A01_王者荣耀.jpg": 0
+  },
+  "boothId": "A01a",
+  "keptOnly": "确认登岛海报（5v5 头套主角 + 英雄），正文只有日期地点与答题送票引导。该笔记只用于补 booths.js 的 xhs 账号，未建 boothDetails。"
+}
