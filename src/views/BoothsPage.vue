@@ -256,7 +256,7 @@ const openImgs = (items, i) => {
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
 // 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
-const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt }))
+const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt, full: m.full ? base + m.full : undefined }))
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 
 const hasDetail = (id) => !!boothDetails[id]

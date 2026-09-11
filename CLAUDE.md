@@ -9,7 +9,7 @@
 - 仓库：https://github.com/zzixxxx/redland-guide
 - 四个底部 Tab：
   1. **展位攻略**（`/booths`）：每日时刻横条 → 主线玩法折叠卡（含本机打卡进度）→ 官方场馆平面图卡 → A/B/C 区 IP 展位列表（搜索 / 区域筹选 / 有攻略 / 已打卡）。点展位进 **展位详情**（`/booth/:id`）：官方一句话、展会信息、展台活动、舞台活动、展台任务、奖励一览、官方笔记原图、来源链接；无详情时给小红书搜索关键词。
-  2. **花车巡礼**（`/parade`）：打卡 / 巡游时间 → DAY1–5 切换的头号花车出场角色 → IP 主题花车 → 主角方阵。
+  2. **花车巡礼**（`/parade`）：打卡 / 巡游时间 → 官方花车巡礼路线图卡 → DAY1–5 切换的头号花车出场角色 → IP 主题花车（7 台专属花车：效果图 + 按当前 DAY 的出席嘉宾名单 + 笔记图）→ 主角方阵。
   3. **月光舞台**（`/stage`）：DAY1–5 切换 → 主题横幅 → 节目单（歌手 / 曲目 / 来源 IP）→ 营地说明 → 五日主题总览。
   4. **PIN 图鉴**（`/pins`）：三区拼图进度 → 区域 / 夜间 NPC 老玩家 / 拼图筹选 + 「只看已公布」→ 2 列图鉴卡（抠出的单枚 PIN 缩略图、占位编号、获取方式、跳展位、本机「已收集」）。未公布 PIN 的展位按 `booths.js` 自动生成「?」占位卡。
 
@@ -20,7 +20,7 @@
 - **视觉参考 RED LAND 官方活动页的像素海岛风**：天蓝格纹底、奶白像素描边卡、红色编号标签、黄色星标、导航深蓝描边。不要改成通用 Material / iOS 风。
 - **数据只来自官方**：小红书 RED LAND 官方活动页、各 IP 官方账号的「RED LAND2026 | XX展台活动详情」笔记、官方新闻稿。不编造、不猜测；未公布的写「待补充 / 待确认」。
   - 唯一例外：首页「场馆平面图」卡下半部分保留 **2025 年**网友整理的参考图（`rules.js venueMapRef`，用户 9/10 决定放、9/11 官方图出来后决定继续保留），UI 与数据必须标明「2025 年」「非官方」。
-- **场馆平面图官方图已接入**（`rules.js venueMap`，RED LAND 官方号 9/11 笔记）：放在首页「场馆平面图」卡上半部分（原 LOADING 占位处），5 张图在 `public/img/rules/map-2026/`。给每个展位挂坐标（点展位在图上定位）仍未做——官方图没有网格，要逐个量展位框中心点。
+- **场馆平面图官方图已接入**（`rules.js venueMap`，RED LAND 官方号 9/11 笔记）：放在首页「场馆平面图」卡上半部分（原 LOADING 占位处），5 张图在 `public/img/rules/map-2026/`。**全图必须原像素**（用户 9/11）：缩略图 `00.jpg` 3200 宽，灯箱打开加载 `00-full.jpg` 14412×5854（q88 约 5.5MB），走 `Lightbox` 的 `item.full`。给每个展位挂坐标（点展位在图上定位）仍未做——官方图没有网格，要逐个量展位框中心点。
 - 多步任务默认直接推进，不逐步确认；只在需要业务口径 / 方案取舍时停下问。
 
 ## 3. 技术栈与目录
@@ -41,6 +41,7 @@ src/
 public/img/booths/<展位id>/   各 IP 笔记原图（810px 宽 JPEG，无水印版）+ note.json（抓取原始数据，含 fileIds / keptIndex）
 public/img/pins/              从笔记图抠出的单枚 PIN 缩略图（<pin id>.jpg，最长边 320px）+ zone-A/B/C 通用占位软盘
 public/img/roaming/<id>/      游荡 IP 的笔记图 + note.json（id 用拼音，如 gongyongbingxiang）
+public/img/parade/<id>/       花车巡礼：route/ 官方路线图（3118 宽原图）+ 7 台 IP 专属花车笔记图（eggy / nishuihan / xindong / yimo / naraka / valorant / yuewen，810 宽）+ note.json
 scripts/fetch-note.mjs        抓小红书笔记正文 + 图片（按 fileId 拉无水印原图），打印 boothDetails 骨架
 scripts/refetch-clean.mjs     把已抓的带水印图按 note.json 的 fileIds 重拉成无水印版（历史目录一次性用过，新目录不需要）
 scripts/crop-pins.py          按裁切框从笔记图抠单枚 PIN 缩略图到 public/img/pins/
@@ -57,7 +58,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 | `booths.js` | `booths[]`：`{ id, zone, no, ip, blurb, alias? }`；`zones[]`；`boothMap` | 官方「冒险者攻略 · IP展位一览」 |
 | `boothDetails.js` | `{ [boothId]: detail }`，schema 见下 | 各 IP 官方账号「展台活动详情」笔记 |
 | `indie.js` | C04 独立游戏试玩名单：`indieGames[{ letter, games[{ name, en?, xhs?: { uid, name }, url? }] }]` + `indieSource`；有 `xhs` 详情页渲染 📕 跳主页，有 `url` 名字可点开攻略（目前都待补） | 官方「独立游戏聚合页」ditto 93f070416d60405ea59f29bb691a0df3（9/9 版 84 款，页上无关注组件 / 热区） |
-| `parade.js` | `paradeInfo` / `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats` / `playerSquad` | 官方「花车巡礼」半层 |
+| `parade.js` | `paradeInfo` / `paradeRoute`（官方路线图：`image` / `desc` / `route` 按图理解的走法 / `legend` / `encounters` / `source`）/ `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats[{ id, ip, desc, look, intro, images[], guests[{ day: 1–5 \| 'all', label?, chars[] }], guestNote?, source }]` / `playerSquad` | 官方「花车巡礼」半层 + RED LAND 官方号 9/11 路线图笔记 + 9/5 七条「前方高能！XX 专属花车准备发车！」笔记 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
 | `roaming.js` | `roaming[]`：`{ id, name, chars, xhs, days[], dateText, where, items[{ name, how }], note, image, source }` 无固定展位的游荡 IP，首页展位列表下方「自由游荡的 IP」卡 | 该 IP 官方账号笔记（已收录：公用冰箱里有什么 / 鼠记私房菜，10/4） |
 | `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMap`（官方平面图：`images` / `routes` 路线图例 / `routeTip` / `tips` 交通与点位 / `facilities` 回血点位 / `source`）/ `venueMapRef`（2025 年参考图 + 交通要点，非官方，保留） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」、9/11「登岛地图已解锁」笔记；`venueMapRef` 来自网友「星辰大海」2025-08-07 笔记 |
@@ -105,6 +106,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 已收录：`A06` 星布谷地；`B02`（B-02 / B-17）与 `C16` 宝可梦（一条笔记覆盖三个展位，两个 key 共用同一对象，只改 `boothNo`；任务按官方图三层：Step1 领护照 → Step2 六个集章任务（`items`）→ Step3 领周边，皮卡丘 / 谜拟丘 PIN 与冰箱贴要求的任务组合不同，写在 Step3 的 `items` 里）；`A09` 崩坏：星穹铁道（笔记主体是线上征集，只收录 RED LAND 参展情报两张图）；`B16` 宝藏码头（RED LAND 官方号发布，集市型，用 `hours / location / stalls`）；`A21` 三丽鸥（餐车型，用 `menu`）；`A22` 火影忍者 / 皮乐中国（同展位还有《魔法天使小甜甜》与蓬蓬狗，两条 9/4 确认登岛只存封面 `xiaotiantian-00` / `pengpenggou-00`，蓬蓬狗账号进 `accounts`）；`A25a`+`A25b` Aniplex（鬼灭之刃 / 孤独摇滚共用）；`A34` 我的世界；`A35` 阅文（来源是 ditto 专题页而非笔记，五大 IP + 阅文好物共用展位，活动 / 任务每条带 `ip` 字段，详情页按 IP 分组、点组名展开（用户 9/11 要求），标题里不再重复 IP 名，`accounts` 列 6 个官方账号 uid；9/11 起每个子页保留的切片竖向拼成一张长图 `<子页前缀>.jpg`（hub / quanzhi / guimi / yiren / daogui / huyao / haowu），`images` 用 `{ src, caption }` 标子页名，`note.json.stitched` 记录拼接来源，灯箱里按宽铺满上下滚动）；`A24` SCLA / 新创华（9 大 IP 共用一个授权商展位，`accounts` 只放「关注有礼」要求同时关注的第二个官方号 SCLA招聘；BINGO 集章进 `tasks`，每日 6 场见面会用 `stage.schedule`，`guests` 每项带时间前缀如「14:00 假面骑士麦斯」，夜间场写「19:30 夜间 · XX」。SCLA 旗下各 IP 官方号会各发一条「XX | REDLAND登岛攻略！」：图 01–04 与主笔记相同，只把新封面存为 `<ip>-00.jpg`、原始数据存 `note-<ip>.json` 并写 `keptOnly`；IP 专属任务以「IP 名 · 项目」加进 `tasks`，账号进 `accounts`，链接进 `moreSources`。9 个 IP 的分攻略已全部并入（图全部与已收图相同时只存 `note-<ip>.json` 不存图），**各 IP 任务印章统一收在 BINGO 任务 STEP 2 的 `fold` 折叠列表里**（用户 9/11 要求），不再单列任务；见面会 `stage.desc` 只写场次概述 + 手环规则，各 IP 场次只在 `schedule` 表里（用户 9/11 要求，别再把各号场次抄进 desc）。超级战队 / 犬夜叉的关注要求是微信公众号，不是小红书；犬夜叉攻略由新创华SCLA 发布）；`B04a` 永劫无间（好菜坞片场五场戏 → 杀青大礼包 6 件；糕手胡桃花车；宝藏码头 NO.13 场贩 27 款写在 `activities` desc，价格未公布；与 `B04b` 暴雪游戏同编号不共用详情）；`B01` 蛋仔派对（车间认证四步进 `tasks`，13 位 Coser 到场日按天进 `stage.schedule`，guests 写「角色 · Coser」；笔记里的赠票征集 / 图鉴征集不收）；`A33` 光·遇（9/6 亮点首曝 8 项进 `activities.items`，无任务）；`A38` 剑网3（9/11 登岛详情：伴手礼三件进 `activities.items`，展台专属 PIN 卡 = 区域 PIN 进 pins.js `A38`，月光舞台 / 头车方阵与 stage.js / parade.js 已一致；图 01 有 2026 三区分布示意图，可作平面图参考）；`A19` 黑神话（官方快闪店，售卖 + 展品，无任务）；`A39` 粒粒的小人国（五位特邀心想家每日一位进 `stage.schedule`；抽门票不收）；`B04b` 暴雪游戏（魔兽世界 / 守望先锋 / 炉石传说三号同日确认登岛，主账号魔兽世界，另两个进 `accounts`，炉石封面与魔兽相同只存 `note-hs.json`；与 `B04a` 永劫无间同编号不共用）；`C14` 声探疑云（声音探案体验馆三条特点进 `activities.items`，声探徽章）；`B18` 火影忍者手游（腾讯手游情报号 9/10 预告，只有时间地点与 5 款限定周边，玩法待公布，无 PIN；与 A22 皮乐火影是两个不同展位）；`B22` 心「DONG」冰品补给点（RED LAND 官方号发布，官方明确暂无周边与活动，只留海报与说明）；`C07` 苏丹的游戏（9/11 登岛情报：五站动线舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座进 `activities.items`，终点【苏丹的游戏徽章】= C 区 PIN 进 pins.js `C07-pin`；展台实行预约制用 `needBooking`；送票征集不收）。其余 IP 详情按 §6 流程补。
 - 无固定展位的 IP（如「公用冰箱里有什么」）不进 `booths.js` / `boothDetails.js`，进 `src/data/roaming.js`，图放 `public/img/roaming/<id>/`；首页展位列表下方自动渲染。
+- 花车类官方笔记（路线图、「XX 专属花车准备发车」）进 `parade.js`，图放 `public/img/parade/<id>/`（id 用拼音 / 英文简称）。专属花车的「出席嘉宾角色名单」按官方图逐字进 `themeFloats[].guests`，按日的写 `day: 1–5`，写「DAY1–DAY5」的写 `day: 'all'`；官方图上的分段标题（如逆水寒「特别开场：神秘惊喜亮相」）放 `label`。花车页按当前 DAY 显示。
 - **`stage[].schedule[].guests`** 在详情页逐项渲染为 `.pill`（不再用「&」拼成一句）；匹配 `/神秘|人气|待/` 的用 `warm`，含「夜间」的用 `hot`。多场次的展台把时间写进每个 guest 字符串前缀（`HH:MM `）即可，不要另加 schema：详情页检测到时间前缀会**按整点时段换行**（17:00 与 17:30 同一行），升序排列；胶囊文字与样式保持原样（日期标签在左、胶囊在右，时间仍在胶囊里），不要再加时间列。
 - **分步内容进 `items`**：官方原文里出现 Step1 / STEP 1 / 01 / 任务 1 / 车间名｜项目 这类枚举时，活动或任务要拆成 `items`（每步一项，`no` 填官方序号），不能拼成一段。已改：B02 宝可梦、A21 三丽鸥排队 / 打包区、A25 Aniplex 入队 5 步、A24 SCLA BINGO STEP 1–4、A35 阅文各 IP 01–03、B01 蛋仔 Step1 / Step2 各车间。
 - **带话题的任务**（`tags` 或 `post`）在任务 / 步骤最底部出现「📋 复制发帖文案 / 预览文案」（`PostCopyBtn`）：默认文案 = `今天在 RED LAND 2026 打卡了「IP 名」展台，现场氛围太好了！ + 话题`，复制即可发；有字数要求的任务在 `post` 里按官方信息写够字数的正文并给 `minChars`（预览处显示「正文约 N 字 · 要求不少于 M 字」，道诡异仙长评 ≥100 字），张数 / 内容要求写进 `note`（SCLA 须含 3 个 IP 展位图、道诡异仙 ≥3 张照片）。话题名以官方原文为准，不自行加话题。
@@ -121,7 +123,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 设计 token 全在 `style.css :root`：`--sky #4da6ff` 底、`--paper #fffdf6` 卡、`--cream` 暖卡、`--navy #1f2d5c` 描边与阴影、`--red #ff4b4b` 编号标签 / 选中态、`--yellow #ffd23f` 星标、`--night #2b2a55` 夜间 / 提示卡、`--brown #5a3e2b` 标题文字。
 - 字体：标题 `--font-pix`（ZCOOL QingKe HuangYou）、编号 / 时间 `--font-num`（Press Start 2P，只用于短的数字字母，10px 左右）、正文系统字体。字体走 Google Fonts，离线自动回退。
 - 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）、`.steps / .step-no(.cjk) / .step-body / .step-title`（分步列表，`.steps.plain` 无序黄标）、`.sched-day / .sched-row / .sched-time`（舞台时间表按时段分行）、`.lb-stage(.tall/.wide) / .lb-cap`（灯箱）、`.post-preview / .linkbtn`（发帖文案预览）、`.tag.btn`（可点击标签）。新组件先复用这些类，再考虑加新类。
-- **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；图片高宽比超过视口 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）；反过来宽高比超过视口 1.2 倍时加 `.wide` 按高铺满、横向滚动并自动滚到中间（场馆平面图），此时横滑留给滚动、不翻页。首页主线图 / 彩蛋图 / 官方平面图 / 2025 地图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）都已接入。
+- **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；图片高宽比超过视口 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）；反过来宽高比超过视口 1.2 倍时加 `.wide` 按高铺满、横向滚动并自动滚到中间（场馆平面图），此时横滑留给滚动、不翻页。item 可带 `full`（原像素大图）：先显示 `src` 缩略图，`full` 后台预载完成后替换，宽图只在首次加载时居中。首页主线图 / 彩蛋图 / 官方平面图 / 2025 地图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）、花车页路线图与专属花车图都已接入。
 - 首页「场馆平面图」卡分上下两段（用户 9/11 定）：**上段 2026 官方图**——标题右侧红色「登岛地图 ▾」中文标签按钮（`.tag.text.btn`，原 LOADING 处），默认收起；点开依次是「🚇 2026 交通要点」折叠列表（含回血点位一行）→ 全图 00 占满一行（`.gallery img.span-all`，横图按原比例，灯箱里横向滚动）→ 路线图例 3 枚 `.pill` + 色块 → 官方提示语；来源行常显。三区分图 01–03 与图例栏 04 在 `venueMap.images` 里标 `hidden: true`，页面与灯箱都不显示（用户 9/11：暂时只要完整的 P1），文件保留。**下段 2025 网友参考图保持原样**——只有一个黄色标签「🗺 2025 年场地参考图 ▾」（`.tag.yellow.text.btn`），点开依次显示免责说明 → 「2025 交通要点」→ 6 张缩略图；默认收起，来源行常显。不要再拆成多个按钮。
 - 所有 📕 小红书主页按钮（首页列表行、详情页主账号 / `accounts`、游荡 IP、顶栏 logo）保留 `<a :href="profileUrl(uid)" target="_blank">`，再挂 `@click="openProfile($event, uid)"`：手机端拦截后先唤起小红书 App（系统弹「是否打开」），App 内直接看主页可绕过网页版滑块验证；PC 端不拦截。详情页「🔍 搜「IP RED LAND」」同理挂 `openSearch`：手机端先把关键词写入剪贴板再唤起 `xhsdiscover://search/result?keyword=`，直接落到 App 搜索结果页，失败退回网页搜索；PC 走网页版搜索。「去小红书看原笔记」短链保持网页跳转（笔记页本身有打开 App 入口，无验证墙）。
 - **没有明确要求就不要改已有样式**（用户 9/11 反馈：把见面会胶囊改成时间列 + 去前缀被要求改回）。功能性改动（分行、可点击、折叠）要在保留原有视觉的前提下做；新增元素复用现有类，不给旧元素加图标 / 换布局。
