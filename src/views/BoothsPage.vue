@@ -105,8 +105,8 @@
         </div>
         <div v-if="openMap">
           <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
-          <div class="small mt-10" style="color:#ffe27a;font-weight:700">🚇 2025 交通要点</div>
-          <ul class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
+          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips = !openTips">🚇 2025 交通要点（{{ venueMapRef.tips.length }} 条）{{ openTips ? '▴' : '▾' }}</button>
+          <ul v-if="openTips" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
             <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
           </ul>
           <div class="small mt-10" style="color:#ffe27a;font-weight:700">🗺 2025 场地图（点击放大，左右滑动翻页）</div>
@@ -221,6 +221,7 @@ const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
 const openMap = ref(false)
+const openTips = ref(false)
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })

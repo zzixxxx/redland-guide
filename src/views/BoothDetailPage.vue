@@ -199,17 +199,26 @@
       </div>
     </template>
 
-    <!-- 独立游戏名单（C04） -->
+    <!-- 独立游戏名单（C04）：数据 src/data/indie.js，每款可选 xhs（📕 跳小红书）/ url（攻略链接） -->
     <div v-if="booth.id === 'C04'" class="pcard mt-14">
       <div class="pcard-body">
-        <div class="pcard-title">🕹 独立游戏试玩名单</div>
-        <div class="small muted">近百款独立游戏集中上桌，按首字母排列</div>
+        <div class="row between">
+          <div class="pcard-title">🕹 独立游戏试玩名单</div>
+          <span class="tag yellow text" style="font-size:10px;padding:2px 6px">{{ indieCount }} 款</span>
+        </div>
+        <div class="small muted mt-6">近百款独立游戏集中上桌，欢迎登岛品鉴；官方按首字母缩写排列（官方页 {{ indieSource.lastEditTime.slice(0, 10) }} 更新）</div>
         <div v-for="g in indieGames" :key="g.letter" class="mt-10">
           <span class="tag blue" style="font-size:10px">{{ g.letter }}</span>
-          <div class="row wrap mt-6">
-            <span v-for="n in g.games" :key="n" class="pill">{{ n }}</span>
+          <div class="row wrap mt-6" style="gap:0">
+            <template v-for="n in g.games" :key="n.name">
+              <a v-if="n.xhs" class="pill" :href="profileUrl(n.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, n.xhs.uid)">📕 {{ n.name }}</a>
+              <a v-else-if="n.url" class="pill warm" :href="n.url" target="_blank" rel="noopener">{{ n.name }} ↗</a>
+              <span v-else class="pill">{{ n.name }}<span v-if="n.en" class="muted"> / {{ n.en }}</span></span>
+            </template>
           </div>
         </div>
+        <div class="small muted mt-10">来源：{{ indieSource.author }}「{{ indieSource.title }}」</div>
+        <a class="pbtn sm ghost mt-6" :href="indieSource.url" target="_blank" rel="noopener">去小红书看官方独立游戏聚合页</a>
       </div>
     </div>
 
@@ -242,7 +251,7 @@ import StepList from '../components/StepList.vue'
 import PostCopyBtn from '../components/PostCopyBtn.vue'
 import { boothMap } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { indieGames } from '../data/indie.js'
+import { indieGames, indieSource, indieCount } from '../data/indie.js'
 import { event } from '../data/rules.js'
 import { pins, zoneThumbs } from '../data/pins.js'
 import { useChecked } from '../composables/useStore.js'
