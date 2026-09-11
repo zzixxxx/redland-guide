@@ -435,7 +435,7 @@ const yuewen = {
     { uid: '6423c4fd00000000110224d6', name: '诡秘之主' },
     { uid: '6075660a000000000101db5f', name: '一人之下' },
     { uid: '66e38d39000000001d023a09', name: '道诡异仙' },
-    { uid: '60645d67000000000100401a', name: '狐妖小红娘' },
+    { uid: '60645d67000000000100401a', name: '狐妖小红娘官方' },
     { uid: '5f0891770000000001003d1e', name: '阅文好物' },
   ],
   activities: [
@@ -952,7 +952,132 @@ const naraka = {
   ],
 }
 
+// 声探疑云（C-14，重生试炼场）：沉浸式声音探案体验馆，4 个空间纯听觉解谜，还原真相扫码答题解锁「声探徽章」
+const soundAgent = {
+  source: { title: '《声探疑云》REDLAND 线下集结指令', url: 'https://xhslink.cn/o/3pefuZ0Ogdk', noteId: '6a9e8de8000000002b002c98', author: '声探疑云SoundAgent', publishedAt: '2026-09-07' },
+  boothNo: 'C-14',
+  location: '重生试炼场 C-14',
+  intro: '各位声探，复兴岛的实地调查即将开启。今年十一，我们将带着线下活动专属剧本、全新的纯声音驱动叙事解谜体验，正式登陆 REDLAND 现场。为此，我们邀请大家来线下完成这场独特的感官推理。欢迎来到沉浸式声音探案体验馆！',
+  notes: ['营业时间、排队 / 预约方式官方未公布'],
+  activities: [
+    {
+      title: '沉浸式声音探案体验馆',
+      items: [
+        { title: '纯听觉解谜', desc: '现场由 4 个由走廊连通的独立空间组成，将游戏体验搬到线下，依靠耳朵捕捉案件真相。' },
+        { title: '多视角追踪', desc: '每个房间内会播放不同视角的剧情录音，声探可以自由走动，通过聆听拼凑完整的时间线。' },
+        { title: '自助式破案', desc: '单次体验约 15–20 分钟，全程无打扰。成功还原真相并扫码答对问题，即可解锁限定周边「声探徽章」。' },
+      ],
+    },
+  ],
+  stage: [],
+  tasks: [
+    {
+      title: '还原真相 · 扫码答题',
+      desc: '走完 4 个空间、成功还原案件真相后扫码答题，答对即可解锁限定周边「声探徽章」。',
+      rewards: ['声探徽章（限定周边）'],
+    },
+  ],
+  rewards: [{ name: '声探徽章', how: '完成体验并扫码答对问题；数量与领取规则待公布' }],
+  footnote: '9/7 官方号「线下集结指令」；线下活动专属剧本，与 Steam 版内容不同。',
+  images: [{ src: 'img/booths/C14/00.jpg', caption: '「循声探案，精彩不断」海报' }],
+}
+
+// 黑神话 BLACKMYTH（A-19，翻身时空港）：官方快闪店，百款衍生品 + 1:3 钟馗雕像 / 天命人全身像展品 + 定制小食饮品
+const blackMyth = {
+  source: { title: '黑神话官方快闪落地REDLAND', url: 'https://xhslink.cn/o/Ncqa2F6cLZ', noteId: '6a914c5c00000000250111d7', author: '黑神话BLACKMYTH', publishedAt: '2026-09-01' },
+  boothNo: 'A-19',
+  location: '翻身时空港 A-19',
+  intro: '各位天命人，黑神话 BLACKMYTH 应邀在 RED LAND2026 活动现场开设官方快闪店。',
+  notes: ['售卖品类与价格官方未公布（商品价格不属票务，公布后可补）'],
+  activities: [
+    {
+      title: '黑神话官方快闪店',
+      desc: '百款衍生品线下集结，涵盖服装、雕像、摆件等诸多品类，更有 1:3 钟馗雕像、天命人全身像等丰富展品，以及定制小食饮品等特色内容，等你来现场打卡。',
+    },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [],
+  footnote: '9/1 官方号预告；快闪店为售卖 + 展品形态，暂无任务 / 奖励信息。',
+  images: [{ src: 'img/booths/A19/00.jpg', caption: '「确认登岛」海报（天命人 + 群妖）' }],
+}
+
+// 粒粒的小人国（A-39）：「小蓝帽地产」新家 + 五位特邀心想家每日一位到访；评论 / 话题抽门票不收
+const lili = {
+  source: { title: '入住小人国丨REDLAND特邀心想家来访', url: 'https://xhslink.cn/o/5Ay97FazakQ', noteId: '6a9ea333000000001001dc77', author: '粒粒的小人国', publishedAt: '2026-09-08' },
+  boothNo: 'A-39',
+  intro: '穿上新衣服，认识新邻居~ 五位特邀心想家即将成为小人国新「业主」！滴栗化身「小蓝帽地产」主理人，认真监督复兴岛新家施工进度！粒粒们也各司其职，做好准备~ 欢迎业主回家！',
+  notes: ['更多参展信息，欢迎关注后续官方动态'],
+  activities: [
+    {
+      title: '小蓝帽地产 · 复兴岛新家',
+      desc: '滴栗化身「小蓝帽地产」主理人监督复兴岛新家施工。笔记里提到「展台互动整理券」与「展台互动无料礼包」，说明展台设有需排队的互动项目并发放无料，具体玩法待公布。',
+    },
+  ],
+  stage: [
+    {
+      title: '特邀心想家来访',
+      desc: '五位特邀心想家每日一位到访，穿上小人国时装成为新「业主」（海报按日期列出，具体时段官方未公布）。',
+      schedule: [
+        { day: '10月2日', guests: ['南北芝麻糊'] },
+        { day: '10月3日', guests: ['三打白骨婶'] },
+        { day: '10月4日', guests: ['钢铁猛懒'] },
+        { day: '10月5日', guests: ['Parthenope'] },
+        { day: '10月6日', guests: ['鹤临he0'] },
+      ],
+    },
+  ],
+  tasks: [],
+  rewards: [
+    { name: '粒粒的小人国 REDLAND 无料礼包', how: '展台互动无料，领取方式待公布' },
+    { name: '展台互动整理券', how: '展台互动的排队凭证，现场发放方式待公布' },
+  ],
+  footnote: '「登岛彩蛋」评论 / 带话题抽门票 + 整理券 + 无料礼包属票务抽奖，未收录（图 06 未保留）。',
+  images: [
+    { src: 'img/booths/A39/00.jpg', caption: '心想家来访 · 五位特邀心想家总览' },
+    { src: 'img/booths/A39/01.jpg', caption: '10月2日 · 南北芝麻糊' },
+    { src: 'img/booths/A39/02.jpg', caption: '10月3日 · 三打白骨婶' },
+    { src: 'img/booths/A39/03.jpg', caption: '10月4日 · 钢铁猛懒' },
+    { src: 'img/booths/A39/04.jpg', caption: '10月5日 · Parthenope' },
+    { src: 'img/booths/A39/05.jpg', caption: '10月6日 · 鹤临he0' },
+  ],
+}
+
+// 暴雪游戏（B-04，与永劫无间同编号）：魔兽世界 / 守望先锋 / 炉石传说三个官方号 9/9 同日「确认登岛」，主账号取魔兽世界（吉安娜雕塑对应展位文案）
+const blizzard = {
+  source: { title: 'RED LAND 2026 | 魔兽世界确认登岛！', url: 'https://xhslink.cn/o/8ZAhPbZ14bj', noteId: '6a9fdbf9000000002502e481', author: '魔兽世界', publishedAt: '2026-09-09' },
+  moreSources: [
+    { title: 'RED LAND 2026 | 《守望先锋》确认登岛！', url: 'https://xhslink.cn/o/7Gxie9JKmj', noteId: '6aa0e6a8000000002502c6bc', author: '守望先锋', publishedAt: '2026-09-09' },
+    { title: 'RED LAND 2026 | 《炉石传说》确认登岛！', url: 'https://xhslink.cn/o/2X4Ii3GDkpA', noteId: '6a9fdfd2000000002700a5e3', author: '炉石传说', publishedAt: '2026-09-09' },
+  ],
+  accounts: [
+    { uid: '619364a9000000001000c15c', name: '守望先锋' },
+    { uid: '61931b490000000010009b4f', name: '炉石传说' },
+  ],
+  boothNo: 'B-04（官方展位一览，与永劫无间同编号）',
+  intro: '暴雪游戏 × RED LAND 参展确认：魔兽世界、守望先锋、炉石传说三大 IP 确认登岛。「海的女儿吉安娜，踏浪而至，登陆小红岛！我们在 RED LAND 等你们，一起奔赴艾泽拉斯的世界！」',
+  notes: ['更多参展详情，敬请关注后续官方动态'],
+  activities: [
+    {
+      title: '巨型吉安娜雕塑',
+      desc: '官方展位一览文案「巨型吉安娜雕塑落地上海，快来重温你的赛博初恋！」；魔兽世界官方号：海的女儿吉安娜，踏浪而至，登陆小红岛。具体玩法待公布。',
+    },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [],
+  footnote: '三条官方号笔记均为 9/9「确认登岛」，尚无任务 / 奖励信息。',
+  images: [
+    { src: 'img/booths/B04b/00.jpg', caption: '魔兽世界 / 炉石传说官方号「确认登岛」海报（吉安娜、迅猛龙宝宝、炉石鱼人）' },
+    { src: 'img/booths/B04b/ow-00.jpg', caption: '守望先锋官方号「确认登岛」海报（D.Va）' },
+  ],
+}
+
 export default {
+  C14: soundAgent,
+  A19: blackMyth,
+  A39: lili,
+  B04b: blizzard,
   B04a: naraka,
   B18: narutoMobile,
   B01: eggy,

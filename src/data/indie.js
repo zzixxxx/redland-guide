@@ -2,8 +2,8 @@
 // 来源：RED LAND 官方「独立游戏聚合页」（ditto 页 93f070416d60405ea59f29bb691a0df3，主会场 IP 半层底部「独立游戏试玩区」入口），
 //       官方按首字母缩写排序，页尾注「*所有IP按照首字母缩写顺序排列」。2026-09-09 16:51 版共 84 款（8/29 版 78 款，9/9 新增 6 款）。
 // 每项 { name, en?, xhs?: { uid, name }, url? }：
-//   name 为官方页标签原文；en 为官方并列的英文名；xhs 为该游戏 / 工作室的小红书账号（官方页目前没有关注组件与热区，待补，
-//   补上后详情页自动渲染 📕 跳转）；url 为该游戏的攻略链接（待补，有则名字可点）。
+//   name 为官方页标签原文；en 为官方并列的英文名；xhs 为该游戏 / 工作室的小红书账号（来源：该游戏官方号发的 RED LAND 登岛笔记，
+//   9/11 已补 5 个，其余待用户提供笔记链接）；url 为该游戏的攻略链接（待补，有则名字可点）。
 const g = (name, en) => (en ? { name, en } : { name })
 
 export const indieSource = {
@@ -16,14 +16,14 @@ export const indieSource = {
 
 export const indieGames = [
   { letter: 'A', games: [g('AAA海岛热线'), g('奥咕和秘密森林')] },
-  { letter: 'B', games: [g('白烬之兔'), g('波特兰的绿雾'), g('背锅天神')] },
+  { letter: 'B', games: [{ name: '白烬之兔', xhs: { uid: '68ff075600000000310130b5', name: '白烬之兔' } }, g('波特兰的绿雾'), g('背锅天神')] },
   { letter: 'C', games: [g('策划模拟器'), g('超能蕾雅的异次元之旅')] },
-  { letter: 'D', games: [g('Delphinium'), g('大爱仙尊模拟器'), g('地府有点忙'), g('独居日志：插画家之梦'), g('动物骰'), g('地狱不空'), g('地狱公主')] },
+  { letter: 'D', games: [g('Delphinium'), g('大爱仙尊模拟器'), g('地府有点忙'), g('独居日志：插画家之梦'), g('动物骰'), { name: '地狱不空', xhs: { uid: '6a28e39d0000000002002801', name: '地狱不空TillHellisEmpty' } }, g('地狱公主')] },
   { letter: 'F', games: [g('风与牧场')] },
-  { letter: 'G', games: [g('观鸟笔记'), g('怪奇漫游指南'), g('GENTLY PACKED')] },
+  { letter: 'G', games: [{ name: '观鸟笔记', xhs: { uid: '66975296000000000d0263d7', name: '观鸟笔记' } }, { name: '怪奇漫游指南', xhs: { uid: '5ca82038000000001700c742', name: 'Rock&Dash工作室' } }, g('GENTLY PACKED')] },
   { letter: 'H', games: [g('黑暗世界：因与果'), g('好朋友'), g('浣熊推币机'), g('盒子面包坊'), g('狐狸饺子', 'FOXY DUMPLINGS')] },
   { letter: 'J', games: [g('救世阿姨'), g('鸡械绿洲'), g('节奏狗狗'), g('节奏汪星')] },
-  { letter: 'L', games: [g('凉茶王'), g('落日山丘'), g('列乌尼斯的挽歌'), g('恋爱从离别开始后'), g('绿植小筑')] },
+  { letter: 'L', games: [g('凉茶王'), { name: '落日山丘', xhs: { uid: '5f05f66d00000000010003d4', name: '落日山丘SunsetHills' } }, g('列乌尼斯的挽歌'), g('恋爱从离别开始后'), g('绿植小筑')] },
   { letter: 'M', games: [g('魔法门之英雄无敌III 重制版'), g('猫狗同行'), g('猫咪狂梦'), g('妹妹、他人、妄想症'), g('猫小暖：海钓物语')] },
   { letter: 'N', games: [g('柠檬先生'), g('尼瓦利斯之夜')] },
   { letter: 'O', games: [g('鸥买嘎', 'GULLTASTROPHE')] },
