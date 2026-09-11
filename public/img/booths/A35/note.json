@@ -497,5 +497,54 @@
       ]
     }
   ],
-  "keptOnly": "只保留说明文字 / 玩法 / 任务 / 奖励图；logo 头图、纯角色插画、入口横幅与诡秘之主「全民淘金」线上活动段未收录（各图 skip 字段注明原因）。文件名 = 子页前缀-原图序号。图片转录见 docs/raw/ip_yuewen_*.json 与信息汇总 md 第 13.2 章。"
+  "keptOnly": "只保留说明文字 / 玩法 / 任务 / 奖励图；logo 头图、纯角色插画、入口横幅与诡秘之主「全民淘金」线上活动段未收录（各图 skip 字段注明原因）。文件名 = 子页前缀-原图序号。图片转录见 docs/raw/ip_yuewen_*.json 与信息汇总 md 第 13.2 章。",
+  "stitched": {
+    "note": "2026-09-11：每个子页保留的切片按顺序竖向拼成一张长图（跳过的切片不在其中，见各 images[].skip），页面 images 只引用拼接图；kept 字段保留的是拼接前的切片名，用于对照",
+    "files": {
+      "hub.jpg": [
+        "hub-01.jpg",
+        "hub-02.jpg",
+        "hub-03.jpg"
+      ],
+      "quanzhi.jpg": [
+        "quanzhi-03.jpg",
+        "quanzhi-04.jpg",
+        "quanzhi-06.jpg",
+        "quanzhi-07.jpg"
+      ],
+      "guimi.jpg": [
+        "guimi-02.jpg",
+        "guimi-03.jpg",
+        "guimi-06.jpg"
+      ],
+      "yiren.jpg": [
+        "yiren-01.jpg",
+        "yiren-02.jpg",
+        "yiren-03.jpg",
+        "yiren-05.jpg",
+        "yiren-06.jpg",
+        "yiren-07.jpg"
+      ],
+      "daogui.jpg": [
+        "daogui-02.jpg",
+        "daogui-04.jpg",
+        "daogui-05.jpg",
+        "daogui-06.jpg"
+      ],
+      "huyao.jpg": [
+        "huyao-01.jpg",
+        "huyao-02.jpg",
+        "huyao-03.jpg",
+        "huyao-04.jpg",
+        "huyao-05.jpg"
+      ],
+      "haowu.jpg": [
+        "haowu-02.jpg",
+        "haowu-03.jpg",
+        "haowu-04.jpg",
+        "haowu-05.jpg",
+        "haowu-06.jpg"
+      ]
+    }
+  }
 }
