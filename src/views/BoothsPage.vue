@@ -96,22 +96,24 @@
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
             <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大，全图可左右滑动看展位编号</div>
           </div>
-          <span class="tag text" style="flex:none">官方</span>
+          <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>
-        <div class="gallery mt-10">
-          <img v-for="(m, i) in venueMap.images" :key="m.src" :class="{ 'span-all': i === 0 }" :src="base + m.src" :alt="m.alt" :title="m.alt" loading="lazy" @click="openImgs(mapImages26, i)" />
+        <div v-if="openMap26">
+          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips26 = !openTips26">🚇 2026 交通要点（{{ venueMap.tips.length }} 条）{{ openTips26 ? '▴' : '▾' }}</button>
+          <ul v-if="openTips26" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
+            <li v-for="t in venueMap.tips" :key="t">{{ t }}</li>
+            <li>地图已标出的回血点位：{{ venueMap.facilities.join('、') }}</li>
+          </ul>
+          <div class="gallery mt-10">
+            <img v-for="(m, i) in mapImages26" :key="m.src" class="span-all" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(mapImages26, i)" />
+          </div>
+          <div class="row wrap mt-10" style="gap:6px">
+            <span v-for="r in venueMap.routes" :key="r.name" class="pill">
+              <i :style="{ display: 'inline-block', width: '10px', height: '10px', background: r.color, border: '1px solid var(--navy)', verticalAlign: '-1px', marginRight: '5px' }" />{{ r.name }}
+            </span>
+          </div>
+          <div class="small mt-6" style="color:#c9c8ea">{{ venueMap.routeTip }}</div>
         </div>
-        <div class="row wrap mt-10" style="gap:6px">
-          <span v-for="r in venueMap.routes" :key="r.name" class="pill">
-            <i :style="{ display: 'inline-block', width: '10px', height: '10px', background: r.color, border: '1px solid var(--navy)', verticalAlign: '-1px', marginRight: '5px' }" />{{ r.name }}
-          </span>
-        </div>
-        <div class="small mt-6" style="color:#c9c8ea">{{ venueMap.routeTip }}</div>
-        <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips26 = !openTips26">🚇 交通与点位（{{ venueMap.tips.length }} 条）{{ openTips26 ? '▴' : '▾' }}</button>
-        <ul v-if="openTips26" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
-          <li v-for="t in venueMap.tips" :key="t">{{ t }}</li>
-          <li>地图已标出的回血点位：{{ venueMap.facilities.join('、') }}</li>
-        </ul>
         <div class="small mt-6" style="color:#a9a8cc">
           来源：RED LAND 官方号 · {{ venueMap.source.publishedAt }}
           <a :href="venueMap.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
@@ -243,6 +245,7 @@ const zone = ref('ALL')
 const openRules = ref(false)
 const openMap = ref(false)
 const openTips = ref(false)
+const openMap26 = ref(false)
 const openTips26 = ref(false)
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
@@ -252,7 +255,8 @@ const openImgs = (items, i) => {
   lb.i = i
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
-const mapImages26 = venueMap.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+// 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
+const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt }))
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 
 const hasDetail = (id) => !!boothDetails[id]
