@@ -55,20 +55,28 @@
       <div v-if="detail.activities?.length" class="pcard mt-14">
         <div class="pcard-body">
           <div class="pcard-title">🎪 展台活动</div>
-          <div v-for="(a, i) in detail.activities" :key="i" class="mt-10">
-            <div class="row wrap">
-              <b style="font-size:15px;color:var(--brown)">{{ a.title }}</b>
-              <span v-if="a.needBooking" class="tag yellow text" style="font-size:10px;padding:2px 6px">需预约</span>
-            </div>
-            <div v-if="a.desc" class="small mt-6">{{ a.desc }}</div>
-            <StepList v-if="a.items?.length" :items="a.items" :ordered="a.ordered !== false" :ip="booth.ip" />
-            <div v-if="a.partner" class="small muted">合作伙伴：{{ a.partner }}</div>
-            <div v-if="a.note" class="small muted mt-4">* {{ a.note }}</div>
-            <div v-if="a.rewards?.length" class="row wrap">
-              <span v-for="r in a.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
-            </div>
-            <div v-if="i < detail.activities.length - 1" class="hr" />
-          </div>
+          <!-- 多 IP 共用展位（如阅文）：条目带 ip 字段时按 IP 分组，点组名展开 -->
+          <template v-for="g in actGroups" :key="g.ip || '_'">
+            <button v-if="g.ip" class="linkbtn ipgroup" @click="toggleGroup('a:' + g.ip)">
+              {{ isGroupOpen('a:' + g.ip) ? '▾' : '▸' }} {{ g.ip }} <span class="small muted">{{ g.items.length }} 项</span>
+            </button>
+            <template v-if="!g.ip || isGroupOpen('a:' + g.ip)">
+              <div v-for="(a, i) in g.items" :key="i" class="mt-10">
+                <div class="row wrap">
+                  <b style="font-size:15px;color:var(--brown)">{{ a.title }}</b>
+                  <span v-if="a.needBooking" class="tag yellow text" style="font-size:10px;padding:2px 6px">需预约</span>
+                </div>
+                <div v-if="a.desc" class="small mt-6">{{ a.desc }}</div>
+                <StepList v-if="a.items?.length" :items="a.items" :ordered="a.ordered !== false" :ip="booth.ip" />
+                <div v-if="a.partner" class="small muted">合作伙伴：{{ a.partner }}</div>
+                <div v-if="a.note" class="small muted mt-4">* {{ a.note }}</div>
+                <div v-if="a.rewards?.length" class="row wrap">
+                  <span v-for="r in a.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
+                </div>
+                <div v-if="i < g.items.length - 1" class="hr" />
+              </div>
+            </template>
+          </template>
         </div>
       </div>
 
@@ -127,20 +135,27 @@
       <div v-if="detail.tasks?.length" class="pcard mt-14">
         <div class="pcard-body">
           <div class="pcard-title">✅ 展台任务</div>
-          <div v-for="(t, i) in detail.tasks" :key="i" class="mt-10">
-            <b style="font-size:15px;color:var(--brown)">{{ t.title }}</b>
-            <div v-if="t.desc" class="small mt-6">{{ t.desc }}</div>
-            <StepList v-if="t.items?.length" :items="t.items" :ordered="t.ordered !== false" :ip="booth.ip" />
-            <div v-if="t.tags?.length" class="row wrap">
-              <span v-for="tg in t.tags" :key="tg" class="pill hot">{{ tg }}</span>
-            </div>
-            <div v-if="t.note" class="small muted mt-4">* {{ t.note }}</div>
-            <div v-if="t.rewards?.length" class="row wrap">
-              <span v-for="r in t.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
-            </div>
-            <PostCopyBtn v-if="t.tags?.length || t.post" :ip="booth.ip" :tags="t.tags || []" :post="t.post" :min-chars="t.minChars" />
-            <div v-if="i < detail.tasks.length - 1" class="hr" />
-          </div>
+          <template v-for="g in taskGroups" :key="g.ip || '_'">
+            <button v-if="g.ip" class="linkbtn ipgroup" @click="toggleGroup('t:' + g.ip)">
+              {{ isGroupOpen('t:' + g.ip) ? '▾' : '▸' }} {{ g.ip }} <span class="small muted">{{ g.items.length }} 项</span>
+            </button>
+            <template v-if="!g.ip || isGroupOpen('t:' + g.ip)">
+              <div v-for="(t, i) in g.items" :key="i" class="mt-10">
+                <b style="font-size:15px;color:var(--brown)">{{ t.title }}</b>
+                <div v-if="t.desc" class="small mt-6">{{ t.desc }}</div>
+                <StepList v-if="t.items?.length" :items="t.items" :ordered="t.ordered !== false" :ip="booth.ip" />
+                <div v-if="t.tags?.length" class="row wrap">
+                  <span v-for="tg in t.tags" :key="tg" class="pill hot">{{ tg }}</span>
+                </div>
+                <div v-if="t.note" class="small muted mt-4">* {{ t.note }}</div>
+                <div v-if="t.rewards?.length" class="row wrap">
+                  <span v-for="r in t.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
+                </div>
+                <PostCopyBtn v-if="t.tags?.length || t.post" :ip="booth.ip" :tags="t.tags || []" :post="t.post" :min-chars="t.minChars" />
+                <div v-if="i < g.items.length - 1" class="hr" />
+              </div>
+            </template>
+          </template>
         </div>
       </div>
 
@@ -318,6 +333,23 @@ const regionText = computed(() => {
 })
 
 const pillCls = (s) => ({ warm: /神秘|人气|待/.test(s), hot: /夜间/.test(s) })
+
+// ---- 多 IP 共用展位：activities / tasks 条目带 ip 时按相邻 ip 分组，组名可点开（默认收起） ----
+const groupBy = (list) => {
+  const out = []
+  for (const it of list || []) {
+    const ip = it.ip || null
+    const last = out[out.length - 1]
+    if (last && last.ip === ip) last.items.push(it)
+    else out.push({ ip, items: [it] })
+  }
+  return out
+}
+const actGroups = computed(() => groupBy(detail.value?.activities))
+const taskGroups = computed(() => groupBy(detail.value?.tasks))
+const openGroups = ref({})
+const isGroupOpen = (k) => !!openGroups.value[k]
+const toggleGroup = (k) => (openGroups.value = { ...openGroups.value, [k]: !openGroups.value[k] })
 
 async function copy() {
   try {

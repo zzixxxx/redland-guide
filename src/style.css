@@ -370,3 +370,7 @@ img { max-width: 100%; display: block; }
 .tag.btn { cursor: pointer; }
 .tag.btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--red-dark); }
 .tag.yellow.btn:active { box-shadow: 1px 1px 0 #b98b00; }
+
+/* 多 IP 共用展位的分组标题（详情页活动 / 任务按 IP 收起展开） */
+.ipgroup { display: block; width: 100%; text-align: left; font-weight: 800; font-size: 14px; color: var(--brown); text-decoration: none; padding: 8px 0 2px; margin-top: 6px; border-top: 1.5px dashed #eadfc4; }
+.ipgroup:first-of-type { border-top: 0; margin-top: 4px; }
