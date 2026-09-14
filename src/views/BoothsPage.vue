@@ -104,6 +104,23 @@
             <li v-for="t in venueMap.tips" :key="t">{{ t }}</li>
             <li>地图已标出的回血点位：{{ venueMap.facilities.join('、') }}</li>
           </ul>
+          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openFac = !openFac">🧭 {{ venueFacilities.title }}（{{ facCount }} 条 · {{ venueFacilities.images.length }} 张图）{{ openFac ? '▴' : '▾' }}</button>
+          <div v-if="openFac" class="small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px">
+            <div v-for="(g, gi) in venueFacilities.groups" :key="g.title" :class="gi ? 'mt-10' : ''">
+              <div style="color:#ffe27a;font-weight:700">{{ g.title }}</div>
+              <ul class="dot-list" style="padding-left:6px">
+                <li v-for="t in g.items" :key="t">{{ t }}</li>
+              </ul>
+            </div>
+            <div class="mt-10" style="color:#c9c8ea">{{ venueFacilities.note }}</div>
+            <div class="gallery mt-6">
+              <img v-for="(m, i) in facImages" :key="m.src" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(facImages, i)" />
+            </div>
+            <div class="mt-6" style="color:#a9a8cc">
+              来源：RED LAND 官方号 · {{ venueFacilities.source.publishedAt }}
+              <a :href="venueFacilities.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
+            </div>
+          </div>
           <div class="gallery mt-10">
             <img v-for="(m, i) in mapImages26" :key="m.src" class="span-all" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(mapImages26, i)" />
           </div>
@@ -233,7 +250,7 @@ import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities } from '../data/rules.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
 import { profileUrl, openProfile } from '../utils/xhs.js'
@@ -247,6 +264,7 @@ const openMap = ref(false)
 const openTips = ref(false)
 const openMap26 = ref(false)
 const openTips26 = ref(false)
+const openFac = ref(false)
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })
@@ -258,6 +276,8 @@ const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, captio
 // 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
 const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt, full: m.full ? base + m.full : undefined }))
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
 
 const hasDetail = (id) => !!boothDetails[id]
 // 搜索附加关键词：主账号昵称 + 详情里各 IP 官方账号 / 其他官方笔记作者（多 IP 共用展位时能搜到子 IP，如搜「魔兽」「炉石」出暴雪游戏，搜「假面骑士」出 SCLA）

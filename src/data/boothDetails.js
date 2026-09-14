@@ -27,7 +27,10 @@ const pokemon = {
   boothNo: 'B-02 / B-17 / C-16',
   intro:
     '本次活动区域涵盖 B-02「‘皮’‘伊’欢聚站」、B-17「江畔乐游 宝可梦嘉年华」主会场及 C-16「宝可梦卡牌体验营」三大展位。主会场设有超 5000㎡ 大型嘉年华区域，邀你畅玩！',
-  notes: ['更多活动信息即将发布，敬请期待', '图片系设计效果图，仅供参考，具体请以实物为准'],
+  notes: ['更多活动信息即将发布，敬请期待', '图片系设计效果图，仅供参考，具体请以实物为准', '现场活动信息可能会根据当天实际情况进行调整（见面会 / 巡游 / 舞台表演，9/13）'],
+  moreSources: [
+    { title: '江畔乐游宝可梦嘉年华 宝可梦见面会来啦！', url: 'https://xhslink.cn/o/12wrkaeZLvX', noteId: '6aa3ba1b000000002b0013be', author: 'Pokemon宝可梦', publishedAt: '2026-09-13' },
+  ],
   activities: [
     {
       title: '「皮」「伊」欢聚站（B-02）',
@@ -51,7 +54,37 @@ const pokemon = {
       ],
     },
   ],
-  stage: [],
+  stage: [
+    {
+      title: '宝可梦见面会（B-17 主会场舞台处）',
+      desc: '宝可梦们将随机出现在舞台处与大家见面，来和宝可梦们亲密互动吧！日场 13:30~14:30、15:15~17:30；夜场 17:30~19:00、19:45~21:00。',
+      schedule: [
+        { day: '日场', guests: ['13:30 – 14:30', '15:15 – 17:30', '伊布', '皮卡丘', '可达鸭', '呆呆兽', '新叶喵', '呆火鳄', '润水鸭', '拉普拉斯'] },
+        { day: '夜场', guests: ['17:30 – 19:00', '19:45 – 21:00', '谜拟丘', '耿鬼', '伊布', '皮卡丘', '路卡利欧'] },
+      ],
+    },
+    {
+      title: '宝可梦特别见面会',
+      desc: '路卡利欧将出现在拍拍挑战和活力篮球处，给训练家们加油打气！',
+      schedule: [{ day: '每日', guests: ['15:45 – 16:00', '18:00 – 18:15', '路卡利欧'] }],
+    },
+    {
+      title: '宝可梦巡游',
+      desc: '皮卡丘们将经由 B-02 的「皮」「伊」欢聚站，向舞台区域前进哦！夜场登场的是穿着 LED 服装的皮卡丘们。',
+      schedule: [
+        { day: '日场', guests: ['14:00 – 14:20', '皮卡丘们'] },
+        { day: '夜场', guests: ['18:30 – 18:50', '穿着 LED 服装的皮卡丘们'] },
+      ],
+    },
+    {
+      title: '宝可梦特别舞台表演',
+      desc: '',
+      schedule: [
+        { day: '日场', guests: ['15:00 – 15:05', '可达鸭', '皮卡丘', '呆呆兽', '伊布', '拉普拉斯'] },
+        { day: '夜场', guests: ['19:30 – 19:35', '穿着 LED 服装的皮卡丘们'] },
+      ],
+    },
+  ],
   tasks: [
     {
       title: 'Step1 领取宝可梦江畔乐游护照',
@@ -130,7 +163,18 @@ const pokemon = {
     { name: '宝可梦江畔乐游护照', how: 'Step1 在 B-02 / B-17 / C-16 任一集章处免费领取' },
   ],
   footnote: '所有周边先到先得，赠完即止；图片系设计效果图，具体以实物为准。',
-  images: ['img/booths/B02/00.jpg', 'img/booths/B02/01.jpg', 'img/booths/B02/02.jpg', 'img/booths/B02/03.jpg', 'img/booths/B02/04.jpg'],
+  images: [
+    'img/booths/B02/00.jpg',
+    'img/booths/B02/01.jpg',
+    'img/booths/B02/02.jpg',
+    'img/booths/B02/03.jpg',
+    'img/booths/B02/04.jpg',
+    { src: 'img/booths/B02/meet-00.jpg', caption: '宝可梦见面会（Pokemon宝可梦 9/13）' },
+    { src: 'img/booths/B02/meet-01.jpg', caption: '宝可梦见面会 · 日场 / 夜场时间与亮相宝可梦' },
+    { src: 'img/booths/B02/meet-02.jpg', caption: '宝可梦特别见面会 · 路卡利欧' },
+    { src: 'img/booths/B02/meet-03.jpg', caption: '宝可梦巡游 · 日场 / 夜场' },
+    { src: 'img/booths/B02/meet-04.jpg', caption: '宝可梦特别舞台表演 · 日场 / 夜场' },
+  ],
 }
 
 // 崩坏：星穹铁道：笔记主体是 4.5 版本线上征集活动，只收录其中「REDLAND 参展情报」部分
@@ -245,10 +289,15 @@ const naruto = {
   hours: '每日 13:00 – 22:00',
   location: '翻身时空港 A-22',
   // 皮乐中国的 A-22 展位同时有《魔法天使小甜甜》与蓬蓬狗（蓬蓬狗官方号写「活动地点 复兴岛 A-22」）
-  accounts: [{ uid: '66173ae0000000000303359f', name: '蓬蓬狗潮玩品牌' }],
+  accounts: [
+    { uid: '66173ae0000000000303359f', name: '蓬蓬狗潮玩品牌' },
+    { uid: '600244330000000001006e4e', name: 'EAKi亿奇' },
+  ],
   moreSources: [
     { title: '《魔法天使小甜甜》确认登岛RED LAND2026', url: 'https://xhslink.cn/o/A026qQzkJth', noteId: '6a9a91d7000000002601caa8', author: '皮乐动漫', publishedAt: '2026-09-04' },
     { title: '《蓬蓬狗》确认登岛RED LAND2026', url: 'https://xhslink.cn/o/3zHFWBFuPSB', noteId: '6a9a92280000000028030554', author: '蓬蓬狗潮玩品牌', publishedAt: '2026-09-04' },
+    { title: '来火影忍者RED LAND现场，你会解锁.....（神秘角色见面会）', url: 'https://xhslink.cn/o/5hXPVryXhtN', noteId: '6a9fb33c000000002901bea3', author: '皮乐动漫', publishedAt: '2026-09-11' },
+    { title: 'REDLAND 2026｜火影忍者试炼等你开启！（EAKi亿奇 售卖区，仅收录 RED LAND 参展情报部分）', url: 'https://xhslink.cn/o/4ob1BZOcLE', noteId: '6aa3c5200000000012003189', author: 'EAKi亿奇', publishedAt: '2026-09-11' },
   ],
   intro: '【火影忍者 RED LAND】展位最新情报！登岛限定奖品严肃准备中……等你来解锁神秘重磅好礼！这个国庆，快来和皮乐中国一起登岛！',
   notes: ['所有奖品先到先得，发完即止', '同一展位还有《魔法天使小甜甜》（皮乐动漫 9/4 确认登岛，「更多参展内容、现场活动和惊喜情报将在官方账号陆续公布」）与蓬蓬狗（蓬蓬狗潮玩品牌 9/4 确认登岛，活动地点 A-22；宝藏码头 B16 另有蓬蓬狗摊位）'],
@@ -257,8 +306,19 @@ const naruto = {
       title: '互动赢好礼 · 成为木叶村一日村民',
       desc: '成为木叶村一日村民，获得兑换卡（佐助 / 鸣人 / 小樱三格 + 奖品兑换券，可留下作为纪念卡）。敲章卡每日限定 600 张。',
     },
+    {
+      title: 'EAKi 亿奇 · 火影忍者疾风传旗舰摊位（售卖区）',
+      desc: '「可爱正在上岛中」：火影忍者疾风传新品首发，现场还有忍道试炼挑战活动，玩法与商品详情待官方后续公布。',
+      note: '位置：A-22 皮乐中国展位旗舰摊位售卖区；时间 2026 年 10 月 2 日 – 10 月 6 日（EAKi亿奇 9/11 笔记）',
+    },
   ],
-  stage: [],
+  stage: [
+    {
+      title: '神秘角色见面会 · 这就是我的忍道',
+      desc: '与你心目中的那位热血少年同框合影，定格独属于火迷的珍贵瞬间！现场还有限时彩蛋角色登场——「迟到的老师」等你来抓。每天 2 场，每场 20 人（含合影券）。预约方式：Redland 活动广场中预约门票（含合影券）；预约通道暂未开启，具体方式以 @皮乐动漫 与 @RED LAND 后续公布为准。',
+      schedule: [{ day: '每日', guests: ['14:00 – 14:30 第一场（20 人）', '16:30 – 17:00 第二场（20 人）'] }],
+    },
+  ],
   tasks: [
     {
       title: '打卡三个点位，集齐三章',
@@ -279,6 +339,8 @@ const naruto = {
     'img/booths/A22/00.jpg',
     { src: 'img/booths/A22/xiaotiantian-00.jpg', caption: '《魔法天使小甜甜》确认登岛海报（皮乐动漫 9/4）' },
     { src: 'img/booths/A22/pengpenggou-00.jpg', caption: '蓬蓬狗 YEASTKEN 确认登岛海报（蓬蓬狗潮玩品牌 9/4）' },
+    { src: 'img/booths/A22/jianmianhui-00.jpg', caption: '神秘角色见面会详情（皮乐动漫 9/11）' },
+    { src: 'img/booths/A22/eaki-00.jpg', caption: 'EAKi亿奇「可爱正在上岛中」售卖区预告（EAKi亿奇 9/11）' },
   ],
 }
 
