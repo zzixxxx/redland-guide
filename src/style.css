@@ -262,8 +262,9 @@ img { max-width: 100%; display: block; }
 /* 折叠小标题按钮：各占一行，收起时也不会和上一个按钮挤在同一行 */
 .foldline { display: block; width: 100%; text-align: left; }
 /* 展台活动 / 展台任务卡右上角的收起展开三角（默认展开） */
-/* 用 .linkbtn.fold-tri 提高优先级：.linkbtn 在本文件更靠后，单类选择器会盖掉颜色与下划线 */
-.linkbtn.fold-tri { flex: none; color: var(--brown); text-decoration: none; font-size: 16px; line-height: 1; padding: 4px 2px 4px 12px; }
+/* 舞台时间表：排了 time 的场次——时段整段一行，出席名单用黑色小字顿号分隔（场次多的展台，如宝可梦） */
+.sched-time { font-weight: 700; color: var(--ink); }
+.sched-guests { color: var(--ink); margin-top: 2px; }
 
 /* 节目条目 */
 .prog { padding: 10px 12px; }

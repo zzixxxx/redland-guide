@@ -33,6 +33,7 @@ CROPS = {
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480)),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630)),
+    'C16': ('public/img/booths/B02/card-03.jpg', (428, 600, 652, 842), {'fileId': 'spectrum/1040g0k0324vi29ubj2005pel9ok5qgj2bg30r70', 'upscale': True}),
     'night': ('public/img/rules/pin/01.jpg', (148, 755, 232, 861)),
     'veteran': ('public/img/rules/pin-npc/01.jpg', (220, 375, 560, 685)),
     'npc-1': ('public/img/rules/pin-npc/02.jpg', (150, 380, 440, 680)),

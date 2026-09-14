@@ -57,7 +57,7 @@
           <!-- 标题行整行可点：右上角三角收起 / 展开整张卡的内容，默认展开 -->
           <div class="fold-head" @click="openAct = !openAct">
             <div class="pcard-title">🎪 展台活动</div>
-            <button type="button" class="linkbtn fold-tri" :aria-expanded="String(openAct)" aria-label="收起或展开展台活动">{{ openAct ? '▾' : '▸' }}</button>
+            <span class="fold-arrow" :class="{ open: openAct }">&gt;</span>
           </div>
           <!-- 多 IP 共用展位（如阅文）：条目带 ip 字段时按 IP 分组，点组名展开 -->
           <template v-for="g in openAct ? actGroups : []" :key="g.ip || '_'">
@@ -115,18 +115,28 @@
       <!-- 舞台活动 -->
       <div v-if="stageView.length" class="pcard mt-14">
         <div class="pcard-body">
-          <div class="pcard-title">🎤 舞台活动</div>
-          <div v-for="(s, i) in stageView" :key="i" class="mt-10">
+          <div class="fold-head" @click="openStage = !openStage">
+            <div class="pcard-title">🎤 舞台活动</div>
+            <span class="fold-arrow" :class="{ open: openStage }">&gt;</span>
+          </div>
+          <div v-for="(s, i) in openStage ? stageView : []" :key="i" class="mt-10">
             <b style="font-size:15px;color:var(--brown)">{{ s.title }}</b>
-            <div class="small mt-6">{{ s.desc }}</div>
+            <div v-if="s.desc" class="small mt-6">{{ s.desc }}</div>
             <div v-if="s.schedule?.length" class="mt-6">
               <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4;align-items:flex-start">
                 <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
-                <!-- 嘉宾带时间前缀时按整点时段分行（17:00 与 17:30 同一行），胶囊样式与不分行时一致 -->
                 <div style="flex:1;min-width:0">
-                  <div v-for="(names, ri) in g.rows" :key="ri" class="row wrap" style="gap:0">
-                    <span v-for="name in names" :key="name" class="pill" :class="pillCls(name)">{{ name }}</span>
-                  </div>
+                  <!-- 排了 time 的场次（场次多的展台，如宝可梦）：时段整段写一行，出席名单用黑色小字顿号分隔 -->
+                  <template v-if="g.time">
+                    <div class="sched-time">{{ g.time }}</div>
+                    <div v-if="g.guests?.length" class="sched-guests">{{ g.guests.join('、') }}</div>
+                  </template>
+                  <!-- 其余保持原样：嘉宾胶囊，带时间前缀时按整点时段分行（17:00 与 17:30 同一行） -->
+                  <template v-else>
+                    <div v-for="(names, ri) in g.rows" :key="ri" class="row wrap" style="gap:0">
+                      <span v-for="name in names" :key="name" class="pill" :class="pillCls(name)">{{ name }}</span>
+                    </div>
+                  </template>
                 </div>
               </div>
             </div>
@@ -140,7 +150,7 @@
         <div class="pcard-body">
           <div class="fold-head" @click="openTask = !openTask">
             <div class="pcard-title">✅ 展台任务</div>
-            <button type="button" class="linkbtn fold-tri" :aria-expanded="String(openTask)" aria-label="收起或展开展台任务">{{ openTask ? '▾' : '▸' }}</button>
+            <span class="fold-arrow" :class="{ open: openTask }">&gt;</span>
           </div>
           <template v-for="g in openTask ? taskGroups : []" :key="g.ip || '_'">
             <button v-if="g.ip" class="linkbtn ipgroup" @click="toggleGroup('t:' + g.ip)">
@@ -278,13 +288,15 @@ const base = import.meta.env.BASE_URL
 const mobile = isMobile()
 const copied = ref(false)
 
-// 展台活动 / 展台任务的收起展开（默认展开；换展位时复位）
+// 展台活动 / 舞台活动 / 展台任务的收起展开（默认展开；换展位时复位）
 const openAct = ref(true)
+const openStage = ref(true)
 const openTask = ref(true)
 watch(
   () => props.id,
   () => {
     openAct.value = true
+    openStage.value = true
     openTask.value = true
   },
 )
