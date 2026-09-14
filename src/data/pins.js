@@ -36,14 +36,15 @@ export const pins = [
   // ---- 老玩家 ----
   { id: 'veteran', no: 'V-01', type: 'veteran', name: '初代目回归', how: '1.0 登岛老玩家线下直接兑换，每人限一个', thumb: 'img/pins/veteran.jpg', image: 'img/rules/pin-npc/01.jpg' },
 
-  // ---- NPC 互动（官方公布 6 款，第 7 款待公布）----
+  // ---- NPC 互动（6 款）----
+  // 官方原文「7款NPC PIN&老玩家专属限定PIN就这样水灵灵地出现了~」中的 7 款是 NPC + 老玩家的合计：
+  // 笔记图 01 是老玩家 1 枚、02–04 各 2 枚 NPC，共 6 + 1 = 7 枚，没有未公布的第 7 款 NPC（用户 9/14 指出）
   { id: 'npc-1', no: 'NPC-01', type: 'npc', name: 'AAA农产品批发', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-1.jpg', image: 'img/rules/pin-npc/02.jpg' },
   { id: 'npc-2', no: 'NPC-02', type: 'npc', name: '排位连胜', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-2.jpg', image: 'img/rules/pin-npc/02.jpg' },
   { id: 'npc-3', no: 'NPC-03', type: 'npc', name: 'CP金婚', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-3.jpg', image: 'img/rules/pin-npc/03.jpg' },
   { id: 'npc-4', no: 'NPC-04', type: 'npc', name: '不吃压力', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-4.jpg', image: 'img/rules/pin-npc/03.jpg' },
   { id: 'npc-5', no: 'NPC-05', type: 'npc', name: '十抽十金', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-5.jpg', image: 'img/rules/pin-npc/04.jpg' },
   { id: 'npc-6', no: 'NPC-06', type: 'npc', name: '一定要CARRY全场吗 SORRY全场不行吗', how: '与 NPC 互动随机掉落', thumb: 'img/pins/npc-6.jpg', image: 'img/rules/pin-npc/04.jpg' },
-  { id: 'npc-7', no: 'NPC-07', type: 'npc', name: '第 7 款待公布', how: '官方称共 7 款 NPC PIN', thumb: null, image: null },
 
   // ---- 冒险者拼图 ----
   { id: 'puzzle-A', no: 'R-A', type: 'reward', zone: 'A', name: '翻身时空港 冒险者拼图', how: '集齐 4 枚橙色 PIN 到区域结算点兑换', thumb: 'img/pins/puzzle-A.jpg', image: 'img/rules/pin/01.jpg' },

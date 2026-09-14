@@ -68,10 +68,10 @@ export const eggs = {
       image: 'img/rules/pin-npc/01.jpg',
     },
     {
-      name: 'NPC 互动款 PIN（7 款）',
+      name: 'NPC 互动款 PIN（6 款）',
       desc: '上岛第一件事：直奔 NPC。靠近小岛的 NPC 会有随机惊喜任务掉落，和 TA 们聊天互动、合拍打卡即可获得「NPC 互动 PIN」。',
-      note: 'NPC 互动 PIN 库存有限，先到先得；只由部分 NPC 角色发放',
-      pins: ['AAA农产品批发', '排位连胜', 'CP金婚', '不吃压力', '十抽十金', '一定要CARRY全场吗 SORRY全场不行吗', '第 7 款待公布'],
+      note: 'NPC 互动 PIN 库存有限，先到先得；只由部分 NPC 角色发放。官方原文「7款NPC PIN&老玩家专属限定PIN」里的 7 款是含老玩家款的合计（6 款 NPC + 1 款老玩家），NPC 本身就是已公布的 6 款',
+      pins: ['AAA农产品批发', '排位连胜', 'CP金婚', '不吃压力', '十抽十金', '一定要CARRY全场吗 SORRY全场不行吗'],
       images: ['img/rules/pin-npc/02.jpg', 'img/rules/pin-npc/03.jpg', 'img/rules/pin-npc/04.jpg'],
     },
   ],
