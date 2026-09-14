@@ -8,7 +8,7 @@
         @touchstart.passive="onTouchStart"
         @touchend="onTouchEnd"
         @click.stop="onStageClick"
-        @dblclick.stop="resetView"
+        @dblclick.stop="onStageDblClick"
         @wheel="onWheel"
       >
         <!-- 所有图都包一层定位容器：整层一起缩放平移（用户 9/14 要求每张图都能放大缩小），
@@ -372,9 +372,20 @@ function onTouchEnd(e) {
     go(dx < 0 ? 1 : -1)
   }
 }
+// 单击空白：有气泡先只关气泡（别挡着看路线，用户 9/14），没有气泡才关灯箱。
+// 关闭要延后一点执行，否则双击的第一下就把灯箱关了，dblclick 根本不会触发（用户 9/14 反馈双击复位没用）。
+let clickTimer = null
 function onStageClick() {
   if (Date.now() - swipedAt < 400) return
-  close() // 点空白直接关灯箱（用户 9/14），热区与气泡都 stop 掉了不会误触
+  clearTimeout(clickTimer)
+  clickTimer = setTimeout(() => {
+    if (picked.value) picked.value = null
+    else close()
+  }, 260)
+}
+function onStageDblClick() {
+  clearTimeout(clickTimer) // 双击不算「点空白」
+  resetView()
 }
 
 function onKey(e) {

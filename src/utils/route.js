@@ -5,14 +5,24 @@
 
 const IDX = (g, x, y) => y * g.w + x
 
+// rows 里 '2' = 图上真的画了线的格，'1' = 闭运算补出来的桥接格，'0' = 不可走。
+// 桥接格要贵一些，否则跨空地的桥会被当成捷径，路线就不走出入口了。
+const BRIDGE_COST = 25
 function buildCells(grid) {
   if (grid._cells) return grid._cells
   const cells = new Uint8Array(grid.w * grid.h)
+  const cost = new Float32Array(grid.w * grid.h)
   for (let y = 0; y < grid.h; y++) {
     const row = grid.rows[y]
-    for (let x = 0; x < grid.w; x++) cells[IDX(grid, x, y)] = row.charCodeAt(x) === 49 ? 1 : 0
+    for (let x = 0; x < grid.w; x++) {
+      const c = row.charCodeAt(x)
+      const i = IDX(grid, x, y)
+      cells[i] = c === 48 ? 0 : 1
+      cost[i] = c === 50 ? 1 : BRIDGE_COST
+    }
   }
   grid._cells = cells
+  grid._base = cost
   return cells
 }
 
@@ -33,16 +43,16 @@ function nearestWalkable(grid, cells, x, y, maxR = 34) {
   return null
 }
 
-// 展位格的额外代价：走过道 1，穿展位 6，够让 A* 宁愿绕一圈
+// 展位格的额外代价：够让 A* 宁愿绕一圈
 const SPOT_COST = 6
 function buildCost(grid, spots) {
   if (grid._cost) return grid._cost
-  const cost = new Float32Array(grid.w * grid.h).fill(1)
+  const cost = Float32Array.from(grid._base)
   for (const rect of Object.values(spots || {})) {
     const [x, y, w, h] = rect
     for (let gy = Math.floor(y * grid.h); gy < Math.ceil((y + h) * grid.h); gy++) {
       for (let gx = Math.floor(x * grid.w); gx < Math.ceil((x + w) * grid.w); gx++) {
-        if (gx >= 0 && gy >= 0 && gx < grid.w && gy < grid.h) cost[IDX(grid, gx, gy)] = SPOT_COST
+        if (gx >= 0 && gy >= 0 && gx < grid.w && gy < grid.h) cost[IDX(grid, gx, gy)] *= SPOT_COST
       }
     }
   }
