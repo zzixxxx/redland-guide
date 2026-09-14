@@ -37,7 +37,7 @@ export const booths = [
   { id: 'A19', zone: 'A', no: 'A19', ip: '黑神话 BLACKMYTH', blurb: '悟空、钟馗等黑神话海量展品与独家活动等你来打卡', xhs: { uid: '662108d80000000003030113', name: '黑神话BLACKMYTH' } },
   { id: 'A20', zone: 'A', no: 'A20', ip: '上海迪士尼度假区', blurb: '疯狂嚎叫节城外海选，一起来现场放声嚎叫！', xhs: { uid: '5e0174e0000000000100b9a6', name: '上海迪士尼度假区' } },
   { id: 'A21', zone: 'A', no: 'A21', ip: 'Sanrio', blurb: '速来集结！和大明星们开启快乐的星球漫步之旅吧', xhs: { uid: '5ba9dd7953c4f60001664591', name: 'Sanrio三丽鸥' } },
-  { id: 'A22', zone: 'A', no: 'A22', ip: '皮乐中国｜火影忍者', blurb: '鸣人向你发出吃面邀约！忍者试炼现场开考', xhs: { uid: '628b52ff0000000021024b24', name: '皮乐动漫' } },
+  { id: 'A22', zone: 'A', no: 'A22', ip: '皮乐中国｜火影忍者', alias: 'NARUTO 火影忍者疾风传 SHIPPUDEN EAKi 亿奇 木叶 Pierrot', blurb: '鸣人向你发出吃面邀约！忍者试炼现场开考', xhs: { uid: '628b52ff0000000021024b24', name: '皮乐动漫' } },
   { id: 'A23', zone: 'A', no: 'A23', ip: '航海王', blurb: '会动的千里阳光号，路飞乔巴现身，戴上草帽一起打卡！', xhs: { uid: '67ee25ce000000000a03c1ef', name: '航海王ONEPIECE官方' } },
   { id: 'A24', zone: 'A', no: 'A24', ip: 'SCLA', blurb: '九大经典 IP 集结！勇敢的主角啊快去创造奇迹！', alias: '新创华 假面骑士 奥特曼 面包超人 超级战队 柯南 EVA 初音未来 哥斯拉 犬夜叉', xhs: { uid: '5c73e184000000001000fa72', name: '新创华SCLA' } },
   { id: 'A25a', zone: 'A', no: 'A25', ip: '鬼灭之刃', blurb: '潜入无限城，为鬼杀队传递生死战况', xhs: { uid: '6253b084000000001000a1aa', name: 'Aniplex' } },
