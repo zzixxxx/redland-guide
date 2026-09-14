@@ -54,9 +54,13 @@
       <!-- 展台活动 -->
       <div v-if="detail.activities?.length" class="pcard mt-14">
         <div class="pcard-body">
-          <div class="pcard-title">🎪 展台活动</div>
+          <!-- 标题行整行可点：右上角三角收起 / 展开整张卡的内容，默认展开 -->
+          <div class="fold-head" @click="openAct = !openAct">
+            <div class="pcard-title">🎪 展台活动</div>
+            <button type="button" class="linkbtn fold-tri" :aria-expanded="String(openAct)" aria-label="收起或展开展台活动">{{ openAct ? '▾' : '▸' }}</button>
+          </div>
           <!-- 多 IP 共用展位（如阅文）：条目带 ip 字段时按 IP 分组，点组名展开 -->
-          <template v-for="g in actGroups" :key="g.ip || '_'">
+          <template v-for="g in openAct ? actGroups : []" :key="g.ip || '_'">
             <button v-if="g.ip" class="linkbtn ipgroup" @click="toggleGroup('a:' + g.ip)">
               {{ isGroupOpen('a:' + g.ip) ? '▾' : '▸' }} {{ g.ip }} <span class="small muted">{{ g.items.length }} 项</span>
             </button>
@@ -134,8 +138,11 @@
       <!-- 展台任务 -->
       <div v-if="detail.tasks?.length" class="pcard mt-14">
         <div class="pcard-body">
-          <div class="pcard-title">✅ 展台任务</div>
-          <template v-for="g in taskGroups" :key="g.ip || '_'">
+          <div class="fold-head" @click="openTask = !openTask">
+            <div class="pcard-title">✅ 展台任务</div>
+            <button type="button" class="linkbtn fold-tri" :aria-expanded="String(openTask)" aria-label="收起或展开展台任务">{{ openTask ? '▾' : '▸' }}</button>
+          </div>
+          <template v-for="g in openTask ? taskGroups : []" :key="g.ip || '_'">
             <button v-if="g.ip" class="linkbtn ipgroup" @click="toggleGroup('t:' + g.ip)">
               {{ isGroupOpen('t:' + g.ip) ? '▾' : '▸' }} {{ g.ip }} <span class="small muted">{{ g.items.length }} 项</span>
             </button>
@@ -250,7 +257,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import StepList from '../components/StepList.vue'
@@ -270,6 +277,17 @@ const { isChecked, toggle } = useChecked()
 const base = import.meta.env.BASE_URL
 const mobile = isMobile()
 const copied = ref(false)
+
+// 展台活动 / 展台任务的收起展开（默认展开；换展位时复位）
+const openAct = ref(true)
+const openTask = ref(true)
+watch(
+  () => props.id,
+  () => {
+    openAct.value = true
+    openTask.value = true
+  },
+)
 
 const keyword = computed(() => (booth.value ? boothSearchKeyword(booth.value) : ''))
 // 多 IP 共用展位的其他官方账号（去掉与 booth.xhs 重复的主账号）

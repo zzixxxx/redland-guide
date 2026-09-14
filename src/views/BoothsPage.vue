@@ -99,12 +99,12 @@
           <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>
         <div v-if="openMap26">
-          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips26 = !openTips26">🚇 2026 交通要点（{{ venueMap.tips.length }} 条）{{ openTips26 ? '▴' : '▾' }}</button>
+          <button class="linkbtn foldline small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips26 = !openTips26">🚇 2026 交通要点（{{ venueMap.tips.length }} 条）{{ openTips26 ? '▴' : '▾' }}</button>
           <ul v-if="openTips26" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
             <li v-for="t in venueMap.tips" :key="t">{{ t }}</li>
             <li>地图已标出的回血点位：{{ venueMap.facilities.join('、') }}</li>
           </ul>
-          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openFac = !openFac">🧭 {{ venueFacilities.title }}（{{ facCount }} 条 · {{ venueFacilities.images.length }} 张图）{{ openFac ? '▴' : '▾' }}</button>
+          <button class="linkbtn foldline small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openFac = !openFac">🧭 {{ venueFacilities.title }}（{{ facCount }} 条 · {{ venueFacilities.images.length }} 张图）{{ openFac ? '▴' : '▾' }}</button>
           <div v-if="openFac" class="small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px">
             <div v-for="(g, gi) in venueFacilities.groups" :key="g.title" :class="gi ? 'mt-10' : ''">
               <div style="color:#ffe27a;font-weight:700">{{ g.title }}</div>
@@ -142,7 +142,7 @@
         </div>
         <div v-if="openMap">
           <div class="small mt-6" style="color:#c9c8ea">{{ venueMapRef.warn }}</div>
-          <button class="linkbtn small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips = !openTips">🚇 2025 交通要点（{{ venueMapRef.tips.length }} 条）{{ openTips ? '▴' : '▾' }}</button>
+          <button class="linkbtn foldline small mt-10" style="color:#ffe27a;font-weight:700;text-decoration:none" @click="openTips = !openTips">🚇 2025 交通要点（{{ venueMapRef.tips.length }} 条）{{ openTips ? '▴' : '▾' }}</button>
           <ul v-if="openTips" class="dot-list small mt-6" style="color:#e8e7ff;background:#1c1b40;border:2px dashed #4a4980;padding:8px 10px 8px 22px">
             <li v-for="t in venueMapRef.tips" :key="t">{{ t }}</li>
           </ul>

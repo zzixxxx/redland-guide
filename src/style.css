@@ -259,6 +259,11 @@ img { max-width: 100%; display: block; }
 .fold-head { display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; }
 .fold-arrow { font-family: var(--font-num); font-size: 10px; color: var(--navy); transition: transform 0.15s; }
 .fold-arrow.open { transform: rotate(90deg); }
+/* 折叠小标题按钮：各占一行，收起时也不会和上一个按钮挤在同一行 */
+.foldline { display: block; width: 100%; text-align: left; }
+/* 展台活动 / 展台任务卡右上角的收起展开三角（默认展开） */
+/* 用 .linkbtn.fold-tri 提高优先级：.linkbtn 在本文件更靠后，单类选择器会盖掉颜色与下划线 */
+.linkbtn.fold-tri { flex: none; color: var(--brown); text-decoration: none; font-size: 16px; line-height: 1; padding: 4px 2px 4px 12px; }
 
 /* 节目条目 */
 .prog { padding: 10px 12px; }
