@@ -34,8 +34,9 @@ src/
   router/index.js             /booths  /booth/:id  /parade  /stage
   style.css                   全部样式（设计 token 在 :root；像素组件类见 §5）
   composables/useStore.js     useChecked（展位打卡，localStorage rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）
-  components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）Lightbox（多图灯箱：左右滑动翻页、长图按宽铺满上下滚动、← → Esc）StepList（活动 / 任务的分步列表）PostCopyBtn（带话题任务的「复制发帖文案」）
-  utils/xhs.js                小红书链接：主页 / 搜索 URL；openProfile 在手机端先唤起 App（xhsdiscover://user/<uid>，Android Chrome 走 intent://），未安装 / 取消再退回网页，PC 不拦截
+  components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）Lightbox（多图灯箱：每张图都可双指缩放 / 拖动 / 双击复位，左右滑动翻页、← → Esc；带 spots 的官方平面图额外有展位热区、导航路线与功能点位遮罩，见 §5）StepList（活动 / 任务的分步列表，支持 follow 关注标签）PostCopyBtn（带话题任务的「复制文案」，手机端复制后唤起小红书发笔记页）
+  utils/xhs.js                小红书链接与 App 唤起：`openProfile` 主页（xhsdiscover://user/<uid>）、`openSearch` 搜索、`openPage` 站内 H5（xhsdiscover://webview/?url=）、`openCompose` 发笔记页（xhsdiscover://post）。手机端先唤起 App，未安装 / 取消再退回网页；Android Chrome 走 intent://，PC 不拦截
+  utils/route.js              平面图导航寻路：在 mapSpots.walkGrid 上跑 A*（见 §5）
   views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage / PinsPage
   data/                       所有内容数据，纯 JS 模块，见 §4（含 roaming.js：无固定展位、场内游荡分发物料的 IP）
 public/img/booths/<展位id>/   各 IP 笔记原图（810px 宽 JPEG，无水印版）+ note.json（抓取原始数据，含 fileIds / keptIndex）
