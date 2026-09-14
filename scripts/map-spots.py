@@ -1,6 +1,7 @@
 # 从官方场馆平面图里识别各展位方框，输出 src/data/mapSpots.js 用的归一化热区坐标。
 #   python scripts/map-spots.py A            # 只跑 A 区，打印候选框 + 生成核对图
 #   python scripts/map-spots.py A --emit     # 按下面 LABELS 的对应关系打印 mapSpots 片段
+#   python scripts/map-spots.py --walk       # 重新生成 walkGrid.rows（导航寻路用的可走网格）
 #
 # 原理：官方图的展位方框都有一圈深色描边，方框内部因此是「非描边」掩膜里的一个独立连通域。
 #       对 ~border 取连通域再按尺寸筛，就能一次拿到整区所有展位框。
@@ -69,17 +70,45 @@ def detect(zone):
     return im, cands
 
 
+# 灯箱里用的是 P2 切片（整图 x 0.2205–0.7815、全高），热区坐标要归一化到 P2 而不是整图
+P2_X0, P2_X1 = 0.2205, 0.7815
+
+
 def to_norm(zone, box):
-    """源图像素 → 整张官方图的归一化 [x, y, w, h]"""
+    """源图像素 → P2 切片的归一化 [x, y, w, h]"""
     z = ZONES[zone]
     cl, ct, cr, cb = z['crop']
     im_w, im_h = Image.open(z['src']).size
     sx, sy = (cr - cl) / im_w, (cb - ct) / im_h
     x0, y0, x1, y1 = box
-    nx0, nx1 = (cl + x0 * sx) / REF_W, (cl + x1 * sx) / REF_W
-    ny0, ny1 = (ct + y0 * sy) / REF_H, (ct + y1 * sy) / REF_H
-    return [round(nx0, 4), round(ny0, 4), round(nx1 - nx0, 4), round(ny1 - ny0, 4)]
+    fx0, fx1 = (cl + x0 * sx) / REF_W, (cl + x1 * sx) / REF_W          # 先到整图
+    ny0, ny1 = (ct + y0 * sy) / REF_H, (ct + y1 * sy) / REF_H          # P2 是全高，y 不变
+    span = P2_X1 - P2_X0
+    return [round((fx0 - P2_X0) / span, 4), round(ny0, 4), round((fx1 - fx0) / span, 4), round(ny1 - ny0, 4)]
 
+
+def emit_walk():
+    """可走区域网格：按格取平均色判掉海水 / 草地 / 外框，闭运算补掉招牌造成的小洞，
+    只保留最大连通域（起点与全部展位都在里面）。展位框不挖 —— 挖了会切断窄过道导致寻路无解，
+    改在 src/utils/route.js 里给展位格加通行代价。输出直接贴进 mapSpots.js 的 walkGrid.rows。"""
+    from scipy import ndimage as ndi
+    GW, GH = 180, 130
+    im = Image.open('public/img/rules/map-2026/p2.jpg').convert('RGB')
+    a = np.asarray(im.resize((GW, GH), Image.BOX)).astype(int)
+    r, g, b = a[..., 0], a[..., 1], a[..., 2]
+    walk = ~(((g > r + 12) & (g > b + 12)) | ((b - r > 45) & (b > 140) & (r < 160)) | ((r + g + b) < 210))
+    walk = ndi.binary_closing(walk, np.ones((3, 3)))
+    lab, n = ndi.label(walk)
+    sizes = ndi.sum(walk, lab, range(1, n + 1))
+    walk = lab == (int(np.argmax(sizes)) + 1)
+    for row in walk:
+        print("    '%s'," % ''.join('1' if v else '0' for v in row))
+    print('# walkable %.1f%%' % (walk.mean() * 100))
+
+
+if '--walk' in sys.argv:
+    emit_walk()
+    sys.exit(0)
 
 zone = (sys.argv[1] if len(sys.argv) > 1 else 'A').upper()
 im, cands = detect(zone)

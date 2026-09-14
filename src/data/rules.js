@@ -112,12 +112,19 @@ export const places = [
 export const venueMap = {
   year: 2026,
   title: '官方场馆平面图',
+  // 首页卡片里的缩略图仍是整张总览；点开进灯箱则换成下面按比例切好的 3 张（用户 9/14）
   images: [
-    { src: 'img/rules/map-2026/00.jpg', full: 'img/rules/map-2026/00-full.jpg', alt: '2026 官方功能地图 · 全岛总览（左侧标题卡、中间全岛、右侧图例与接驳车信息）' },
+    { src: 'img/rules/map-2026/00.jpg', alt: '2026 官方功能地图 · 全岛总览（左侧标题卡、中间全岛、右侧图例与接驳车信息）' },
     { hidden: true, src: 'img/rules/map-2026/01.jpg', alt: 'A 区 翻身时空港 + 东侧与南侧：A-01 ~ A-40 展位分布、入口 / 出口、安检票检、寄存处、装备区、蓄客等待区、地铁 12 号线复兴岛站、577 中华船厂站与日间接驳车上下车点' },
     { hidden: true, src: 'img/rules/map-2026/02.jpg', alt: 'B 区 黄金海岸线：B-01 ~ B-22 展位分布、冒险者营地、餐饮休息区、结算点 / 无料交换点' },
     { hidden: true, src: 'img/rules/map-2026/03.jpg', alt: 'C 区 重生试炼场：C-01 ~ C-20 展位分布、非公开区域、出入口' },
     { hidden: true, src: 'img/rules/map-2026/04.jpg', alt: '图例栏：花车路线 / 冒险主线 / 冒险支线、接驳车点位信息、三区色块、功能点位清单' },
+  ],
+  // 灯箱用的 3 张切片：P1 标题卡 / P2 中间地图（默认打开这张，带展位热区）/ P3 右侧图例栏
+  slices: [
+    { src: 'img/rules/map-2026/p1.jpg', alt: '2026 官方地图 · 左侧标题卡（RED LAND 2026 / 特别鸣谢）' },
+    { src: 'img/rules/map-2026/p2.jpg', full: 'img/rules/map-2026/p2-full.jpg', alt: '2026 官方功能地图 · 全岛（点 A 区展位可看攻略、可导航；双指缩放）', spots: true },
+    { src: 'img/rules/map-2026/p3.jpg', alt: '2026 官方地图 · 右侧图例栏（路线图例 / 接驳车点位 / 三区色块 / 功能点位）' },
   ],
   // 图例（右栏 WAY 卡）
   routes: [

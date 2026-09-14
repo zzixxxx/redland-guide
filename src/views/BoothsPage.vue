@@ -94,7 +94,7 @@
         <div class="row between">
           <div>
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-            <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大，全图可左右滑动；点 A 区展位可跳攻略</div>
+            <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大（3 张，默认停在地图页）；A 区展位可点开攻略 / 导航，双指缩放</div>
           </div>
           <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>
@@ -122,7 +122,7 @@
             </div>
           </div>
           <div class="gallery mt-10">
-            <img v-for="(m, i) in mapImages26" :key="m.src" class="span-all" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(mapImages26, i)" />
+            <img v-for="(m, i) in mapImages26" :key="m.src" class="span-all" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(mapSlices, MAP_P2)" />
           </div>
           <div class="row wrap mt-10" style="gap:6px">
             <span v-for="r in venueMap.routes" :key="r.name" class="pill">
@@ -279,10 +279,15 @@ const openImgs = (items, i) => {
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
 // 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
-// 官方全图带展位热区：灯箱里点展位选中、双击 / 点气泡进该展位攻略（目前只标了 A 区，见 mapSpots.js）
-const mapImages26 = venueMap.images
-  .filter((m) => !m.hidden)
-  .map((m, i) => ({ src: base + m.src, caption: m.alt, full: m.full ? base + m.full : undefined, spots: i === 0 ? mapSpotList : undefined }))
+const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt }))
+// 灯箱里换成按比例切好的 3 张，默认停在 P2（中间地图）；P2 挂展位热区，点展位可看攻略 / 导航
+const mapSlices = venueMap.slices.map((m) => ({
+  src: base + m.src,
+  caption: m.alt,
+  full: m.full ? base + m.full : undefined,
+  spots: m.spots ? mapSpotList : undefined,
+}))
+const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
