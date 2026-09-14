@@ -2,7 +2,7 @@
   <Teleport to="body">
     <div v-if="cur" class="lightbox" @click="close">
       <div ref="stage" class="lb-stage" :class="{ tall, wide }" @touchstart.passive="onTouchStart" @touchend="onTouchEnd" @click.stop="onStageClick">
-        <img :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" @load="onLoad" />
+        <img :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" :style="fitStyle" @load="onLoad" />
       </div>
       <div v-if="cur.caption" class="lb-cap" @click.stop>{{ cur.caption }}</div>
       <div class="nav" @click.stop>
@@ -20,8 +20,12 @@
 <script setup>
 // 通用灯箱：items 为图片地址或 { src, caption }，index 为当前下标（null = 关闭）。
 // 手机端左右滑动切换上一张 / 下一张，竖向滑动留给长图滚动；PC 端支持 ← → Esc。
-// 图片高宽比明显超过视口时（如阅文拼接长图）按视口宽度显示并允许上下滚动，而不是缩成一小条。
-// 反过来，宽高比明显超过视口时（如官方场馆平面图）按视口高度显示并允许左右滚动；此时横向滑动留给滚动，不再翻页。
+// 打开时的缩放按图片自身尺寸自适应，灯箱外框尺寸不变：
+//   长图（如阅文拼接长图）比舞台更细长时按舞台宽度铺满、上下滚动，而不是缩成一小条；
+//   横幅（如官方场馆平面图、花车路线图）按舞台高度铺满、左右滚动，此时横向滑动留给滚动，不再翻页；
+//   其余整图 contain 放进舞台——注意手机上舞台本身很竖，普通 3:4 海报也「比舞台宽」，
+//   所以横幅判定额外要求图片本身宽高比 ≥ 1.6，否则海报会被铺成满高、两侧裁掉（9/14 修）；
+//   小图（PIN 缩略图只有 110–320px）在 contain 下最多放大 3 倍，既能看清又不会糊成一片。
 // item.full：原像素大图地址（如 5.5MB 的平面图）。先显示 src 缩略图，full 在后台预载完成后再替换，避免点开一片空白。
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
 
@@ -33,6 +37,9 @@ const cur = computed(() => (props.index === null || props.index === undefined ? 
 const stage = ref(null)
 const tall = ref(false)
 const wide = ref(false)
+const fitStyle = ref(null) // contain 模式下的放大上限（小图用），tall / wide 模式下为 null
+const WIDE_MIN = 1.6 // 判为横幅所需的最小宽高比
+const MAX_UPSCALE = 3 // 小图最多放大到原始像素的几倍
 const hi = ref(null) // 已预载完成的 full 大图地址
 let centered = false
 
@@ -44,6 +51,7 @@ function go(d) {
 watch(cur, (v) => {
   tall.value = false
   wide.value = false
+  fitStyle.value = null
   hi.value = null
   centered = false
   if (v?.full) {
@@ -59,9 +67,16 @@ function onLoad(e) {
   const img = e.target
   const st = stage.value
   if (!st || !img.naturalWidth || !st.clientWidth) return
-  const view = st.clientHeight / st.clientWidth
-  tall.value = img.naturalHeight / img.naturalWidth > view * 1.2
-  wide.value = !tall.value && img.naturalWidth / img.naturalHeight > (1 / view) * 1.2
+  const nw = img.naturalWidth
+  const nh = img.naturalHeight
+  const sw = st.clientWidth
+  const sh = st.clientHeight
+  tall.value = nh / nw > (sh / sw) * 1.2
+  wide.value = !tall.value && nw / nh > Math.max((sw / sh) * 1.2, WIDE_MIN)
+  fitStyle.value =
+    tall.value || wide.value
+      ? null
+      : { maxWidth: `min(100%, ${nw * MAX_UPSCALE}px)`, maxHeight: `min(100%, ${nh * MAX_UPSCALE}px)` }
   // 宽图改为横向滚动后默认停在最左（左侧多是标题卡），滚到中间更接近原来的「整图居中」；换成 full 大图重新触发 load 时保持用户已滚到的位置
   if (wide.value && !centered) {
     centered = true
