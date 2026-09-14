@@ -121,8 +121,18 @@
               <a :href="venueFacilities.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
             </div>
           </div>
+          <!-- 三张切片，点哪张开哪张（用户 9/14）：P2 地图占满一行，P1 标题卡 / P3 图例栏并排 -->
           <div class="gallery mt-10">
-            <img v-for="(m, i) in mapImages26" :key="m.src" class="span-all" :src="m.src" :alt="m.caption" :title="m.caption" loading="lazy" @click="openImgs(mapSlices, MAP_P2)" />
+            <img
+              v-for="i in sliceOrder"
+              :key="mapSlices[i].src"
+              :class="{ 'span-all': i === MAP_P2 }"
+              :src="mapSlices[i].src"
+              :alt="mapSlices[i].caption"
+              :title="mapSlices[i].caption"
+              loading="lazy"
+              @click="openImgs(mapSlices, i)"
+            />
           </div>
           <div class="row wrap mt-10" style="gap:6px">
             <span v-for="r in venueMap.routes" :key="r.name" class="pill">
@@ -161,7 +171,7 @@
     <!-- 展位列表 -->
     <div class="mt-14">
       <div class="row between mb-6">
-        <span class="sticker">IP 展位一览</span>
+        <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener">IP 展位一览 ↗</a>
         <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy);text-align:right">点击展位看活动 / 任务 / 奖励<br />📕 跳转该 IP 小红书主页</span>
       </div>
       <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
@@ -279,7 +289,6 @@ const openImgs = (items, i) => {
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
 // 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
-const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt }))
 // 灯箱里换成按比例切好的 3 张，默认停在 P2（中间地图）；P2 挂展位热区，点展位可看攻略 / 导航
 const mapSlices = venueMap.slices.map((m) => ({
   src: base + m.src,
@@ -288,6 +297,10 @@ const mapSlices = venueMap.slices.map((m) => ({
   spots: m.spots ? mapSpotList : undefined,
 }))
 const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
+// 画廊里先放地图（占满一行），标题卡 / 图例栏并排在下面；点哪张开哪张
+const sliceOrder = [MAP_P2, ...mapSlices.map((_, i) => i).filter((i) => i !== MAP_P2)]
+// 展位一览的出处：官方主会场专题页（点标题跳过去核对最新阵容）
+const boothSource = { url: 'https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true' }
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)

@@ -122,9 +122,9 @@ export const venueMap = {
   ],
   // 灯箱用的 3 张切片：P1 标题卡 / P2 中间地图（默认打开这张，带展位热区）/ P3 右侧图例栏
   slices: [
-    { src: 'img/rules/map-2026/p1.jpg', alt: '2026 官方地图 · 左侧标题卡（RED LAND 2026 / 特别鸣谢）' },
-    { src: 'img/rules/map-2026/p2.jpg', full: 'img/rules/map-2026/p2-full.jpg', alt: '2026 官方功能地图 · 全岛（点 A 区展位可看攻略、可导航；双指缩放）', spots: true },
-    { src: 'img/rules/map-2026/p3.jpg', alt: '2026 官方地图 · 右侧图例栏（路线图例 / 接驳车点位 / 三区色块 / 功能点位）' },
+    { src: 'img/rules/map-2026/p1.jpg', alt: '标题卡 · RED LAND 2026 / 特别鸣谢' },
+    { src: 'img/rules/map-2026/p2.jpg', full: 'img/rules/map-2026/p2-full.jpg', alt: '全岛地图 · 点展位看攻略 / 导航，双指缩放，双击复位', spots: true },
+    { src: 'img/rules/map-2026/p3.jpg', alt: '图例栏 · 路线图例 / 接驳车点位 / 功能点位' },
   ],
   // 图例（右栏 WAY 卡）
   routes: [

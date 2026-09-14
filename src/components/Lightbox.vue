@@ -8,6 +8,7 @@
         @touchstart.passive="onTouchStart"
         @touchend="onTouchEnd"
         @click.stop="onStageClick"
+        @dblclick.stop="resetView"
         @wheel="onWheel"
       >
         <!-- 无热区时保持原来的裸 img，避免影响其它灯箱 -->
@@ -48,13 +49,13 @@
           </div>
         </div>
       </div>
+      <div v-if="hasSpots" class="lb-zoom" @click.stop>
+        <button type="button" @click="zoomBy(1 / 1.6)">－</button>
+        <span>{{ Math.round(zoom * 100) }}%</span>
+        <button type="button" @click="zoomBy(1.6)">＋</button>
+      </div>
       <div v-if="cur.caption" class="lb-cap" @click.stop>{{ cur.caption }}</div>
       <div class="nav" @click.stop>
-        <template v-if="hasSpots">
-          <button class="pbtn sm ghost" @click="zoomBy(1 / 1.6)">－</button>
-          <span class="tag yellow">{{ Math.round(zoom * 100) }}%</span>
-          <button class="pbtn sm ghost" @click="zoomBy(1.6)">＋</button>
-        </template>
         <template v-if="list.length > 1">
           <button class="pbtn sm ghost" :disabled="index === 0" @click="go(-1)">‹ 上一张</button>
           <span class="tag yellow">{{ index + 1 }}/{{ list.length }}</span>
@@ -103,9 +104,29 @@ let centered = false
 // ---- 地图模式：自己实现的缩放平移（transform），不依赖浏览器缩放 ----
 const zoom = ref(1)
 const pan = ref({ x: 0, y: 0 })
-const wrapStyle = computed(() =>
-  hasSpots.value ? { transform: `translate(${pan.value.x}px, ${pan.value.y}px) scale(${zoom.value})` } : null,
-)
+// 地图模式下把「整图 contain 后的像素尺寸」直接算出来写在容器上：
+// 只靠 max-height:100% 不行——容器高度是 auto，百分比 max-height 解析不了，横屏时图会溢出被裁掉。
+const natural = ref({ w: 0, h: 0 })
+const stageSize = ref({ w: 0, h: 0 })
+const fitBox = computed(() => {
+  const { w: nw, h: nh } = natural.value
+  const { w: sw, h: sh } = stageSize.value
+  if (!nw || !sw) return null
+  const k = Math.min(sw / nw, sh / nh)
+  return { w: nw * k, h: nh * k }
+})
+const wrapStyle = computed(() => {
+  if (!hasSpots.value) return null
+  const box = fitBox.value
+  return {
+    ...(box ? { width: `${box.w}px`, height: `${box.h}px` } : null),
+    transform: `translate(${pan.value.x}px, ${pan.value.y}px) scale(${zoom.value})`,
+  }
+})
+function measure() {
+  const st = stage.value
+  if (st) stageSize.value = { w: st.clientWidth, h: st.clientHeight }
+}
 function clampPan() {
   const st = stage.value
   if (!st) return
@@ -179,7 +200,7 @@ function nav(sp) {
   const ok = path && path.length > 1
   route.value = ok ? path : [from, to]
   routeTo.value = sp.no
-  routeTip.value = `从「${from.name}」出发${ok ? '，沿展位之间的过道走' : '（暂只有直线指引）'}`
+  routeTip.value = `从「${from.name}」出发${ok ? '，沿图上画出的路线走' : '（暂只有直线指引）'}`
 }
 
 const close = () => emit('update:index', null)
@@ -210,7 +231,11 @@ function onLoad(e) {
   const img = e.target
   const st = stage.value
   if (!st || !img.naturalWidth || !st.clientWidth) return
-  if (hasSpots.value) return // 地图模式：整图 contain，交给 CSS，缩放由 transform 负责
+  if (hasSpots.value) {
+    natural.value = { w: img.naturalWidth, h: img.naturalHeight }
+    measure()
+    return // 地图模式：容器尺寸算好后交给 transform 缩放
+  }
   const nw = img.naturalWidth
   const nh = img.naturalHeight
   const sw = st.clientWidth
@@ -312,9 +337,16 @@ watch(
     if (v) {
       window.addEventListener('keydown', onKey)
       GES.forEach((n) => document.addEventListener(n, stopGesture, { passive: false }))
-      nextTick(() => stage.value?.addEventListener('touchmove', onMapTouchMove, { passive: false }))
+      window.addEventListener('resize', measure)
+      window.addEventListener('orientationchange', measure)
+      nextTick(() => {
+        measure()
+        stage.value?.addEventListener('touchmove', onMapTouchMove, { passive: false })
+      })
     } else {
       window.removeEventListener('keydown', onKey)
+      window.removeEventListener('resize', measure)
+      window.removeEventListener('orientationchange', measure)
       GES.forEach((n) => document.removeEventListener(n, stopGesture))
     }
   },
@@ -322,6 +354,8 @@ watch(
 )
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKey)
+  window.removeEventListener('resize', measure)
+  window.removeEventListener('orientationchange', measure)
   GES.forEach((n) => document.removeEventListener(n, stopGesture))
 })
 </script>

@@ -288,7 +288,13 @@ img { max-width: 100%; display: block; }
 .lightbox {
   position: fixed; inset: 0; z-index: 50; background: rgba(10, 12, 30, 0.92);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 12px 12px calc(64px + var(--safe-b));
+  padding: 12px 12px calc(12px + var(--safe-b));
+}
+/* 横屏时上下留白压到最小，别把图挤没了 */
+@media (orientation: landscape) and (max-height: 520px) {
+  .lightbox { padding: 6px 8px calc(6px + var(--safe-b)); }
+  .lightbox .nav { margin-top: 4px; gap: 6px; }
+  .lb-cap { font-size: 11px; margin-top: 4px; }
 }
 /* 灯箱舞台：默认整图适配；.tall（长图）改为按宽度铺满、竖向滚动；.wide（宽图，如场馆平面图）按高度铺满、横向滚动 */
 .lb-stage {
@@ -305,13 +311,13 @@ img { max-width: 100%; display: block; }
 /* 地图模式（带热区的官方平面图 P2）：整图 contain 进舞台，缩放平移由组件用 transform 做，
    舞台 touch-action:none 把浏览器自己的双指缩放 / 滚动让给图里的手势（iOS 冲突，用户 9/14） */
 .lb-stage.map { overflow: hidden; touch-action: none; }
-.lb-hot-wrap { position: relative; flex: none; line-height: 0; max-width: 100%; max-height: 100%; }
-.lb-hot-wrap > img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+.lb-hot-wrap { position: relative; flex: none; line-height: 0; }
+.lb-hot-wrap > img { width: 100%; height: 100%; display: block; }
 .lb-hot {
   position: absolute; padding: 0; background: none; cursor: pointer;
   border: 1.5px solid rgba(255, 255, 255, 0.28); border-radius: 2px;
 }
-.lb-hot.on { border: 3px solid var(--red); background: rgba(255, 75, 75, 0.18); box-shadow: 0 0 0 2px #fff; }
+.lb-hot.on { border: 1.5px solid var(--red); background: rgba(255, 75, 75, 0.12); box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.9); }
 /* 导航路线 */
 .lb-route { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
 .lb-route polyline { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
@@ -340,9 +346,18 @@ img { max-width: 100%; display: block; }
 }
 .lb-bub-row + .lb-bub-row { border-top: 1.5px dashed #eadfc4; }
 .lb-bub-tip { margin-top: 4px; padding-top: 4px; border-top: 1.5px dashed #eadfc4; font-size: 11px; color: var(--muted); }
+/* 地图模式的缩放控件：右上角浮层，别占底栏的位置（用户 9/14 反馈注释和底栏重叠） */
+.lb-zoom {
+  position: absolute; top: calc(10px + var(--safe-t)); right: 10px; z-index: 3;
+  display: flex; align-items: center; gap: 2px;
+  background: rgba(31, 45, 92, 0.85); border: 2px solid var(--navy); border-radius: 3px; padding: 2px;
+}
+.lb-zoom button { background: none; border: 0; color: #fff; font-size: 16px; line-height: 1; padding: 4px 8px; cursor: pointer; }
+.lb-zoom span { color: #ffe27a; font-family: var(--font-num); font-size: 9px; min-width: 34px; text-align: center; }
 .lb-cap { color: #fff; font-size: 12px; text-align: center; margin-top: 8px; max-width: 720px; text-shadow: 1px 1px 0 #000; }
+/* 流内底栏（原来是 absolute，和图片下方的注释重叠，用户 9/14 反馈） */
 .lightbox .nav {
-  position: absolute; bottom: calc(14px + var(--safe-b)); left: 0; right: 0;
+  flex: none; margin-top: 8px; width: 100%;
   display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 12px;
 }
 
