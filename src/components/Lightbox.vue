@@ -4,7 +4,7 @@
       <div
         ref="stage"
         class="lb-stage"
-        :class="{ tall, wide, map: hasSpots }"
+        :class="{ tall, wide, map: isMap }"
         @touchstart.passive="onTouchStart"
         @touchend="onTouchEnd"
         @click.stop="onStageClick"
@@ -12,7 +12,7 @@
         @wheel="onWheel"
       >
         <!-- 无热区时保持原来的裸 img，避免影响其它灯箱 -->
-        <img v-if="!hasSpots" :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" :style="fitStyle" @load="onLoad" />
+        <img v-if="!isMap" :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" :style="fitStyle" @load="onLoad" />
         <!-- 有热区（官方平面图 P2）：图片外包一层定位容器，热区 / 路线 / 气泡都叠在上面，整层一起缩放平移 -->
         <div v-else class="lb-hot-wrap" :style="wrapStyle">
           <img :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" @load="onLoad" />
@@ -76,7 +76,7 @@
           {{ f.icon }} {{ f.name }}<i>{{ f.points.length }}{{ f.points.length < f.official ? '/' + f.official : '' }}</i>
         </button>
       </div>
-      <div v-if="hasSpots" class="lb-zoom" @click.stop>
+      <div v-if="isMap" class="lb-zoom" @click.stop>
         <button type="button" @click="zoomBy(1 / 1.6)">－</button>
         <span>{{ Math.round(zoom * 100) }}%</span>
         <button type="button" @click="zoomBy(1.6)">＋</button>
@@ -119,6 +119,9 @@ const emit = defineEmits(['update:index', 'open'])
 const list = computed(() => props.items.map((it) => (typeof it === 'string' ? { src: it } : it)))
 const cur = computed(() => (props.index === null || props.index === undefined ? null : list.value[props.index] || null))
 const hasSpots = computed(() => !!cur.value?.spots?.length)
+// 「地图模式」= 官方平面图的三张切片：都按高度铺满、同一个缩放比例，自己接管缩放平移。
+// 三张是同一张原图切的（原高相同），按高度铺满后左右滑过去才像同一张图的三段（用户 9/14）。
+const isMap = computed(() => hasSpots.value || !!cur.value?.fitH)
 const stage = ref(null)
 const tall = ref(false)
 const wide = ref(false)
@@ -135,15 +138,23 @@ const pan = ref({ x: 0, y: 0 })
 // 只靠 max-height:100% 不行——容器高度是 auto，百分比 max-height 解析不了，横屏时图会溢出被裁掉。
 const natural = ref({ w: 0, h: 0 })
 const stageSize = ref({ w: 0, h: 0 })
+// 100% = 按舞台高度铺满（三张切片因此同比例）；最小可以缩到「整张切片都看得见」
 const fitBox = computed(() => {
   const { w: nw, h: nh } = natural.value
   const { w: sw, h: sh } = stageSize.value
   if (!nw || !sw) return null
-  const k = Math.min(sw / nw, sh / nh)
+  const k = sh / nh
   return { w: nw * k, h: nh * k }
 })
+const minZoom = computed(() => {
+  const { w: nw, h: nh } = natural.value
+  const { w: sw, h: sh } = stageSize.value
+  if (!nw || !sw) return 1
+  return Math.min(1, Math.min(sw / nw, sh / nh) / (sh / nh))
+})
+const overflowX = computed(() => (fitBox.value ? fitBox.value.w * zoom.value > stageSize.value.w + 1 : false))
 const wrapStyle = computed(() => {
-  if (!hasSpots.value) return null
+  if (!isMap.value) return null
   const box = fitBox.value
   return {
     ...(box ? { width: `${box.w}px`, height: `${box.h}px` } : null),
@@ -155,25 +166,26 @@ function measure() {
   if (st) stageSize.value = { w: st.clientWidth, h: st.clientHeight }
 }
 function clampPan() {
-  const st = stage.value
-  if (!st) return
-  const lx = (st.clientWidth * (zoom.value - 1)) / 2
-  const ly = (st.clientHeight * (zoom.value - 1)) / 2
+  const box = fitBox.value
+  const { w: sw, h: sh } = stageSize.value
+  if (!box || !sw) return
+  const lx = Math.max(0, (box.w * zoom.value - sw) / 2)
+  const ly = Math.max(0, (box.h * zoom.value - sh) / 2)
   pan.value = { x: Math.min(lx, Math.max(-lx, pan.value.x)), y: Math.min(ly, Math.max(-ly, pan.value.y)) }
 }
 function zoomBy(k, ox = 0, oy = 0) {
-  const z = Math.min(6, Math.max(1, zoom.value * k))
+  const z = Math.min(6, Math.max(minZoom.value, zoom.value * k))
   const f = z / zoom.value
   pan.value = { x: (pan.value.x - ox) * f + ox, y: (pan.value.y - oy) * f + oy }
   zoom.value = z
   clampPan()
 }
 function resetView() {
-  zoom.value = 1
+  zoom.value = 1 // 100% = 按高度铺满
   pan.value = { x: 0, y: 0 }
 }
 function onWheel(e) {
-  if (!hasSpots.value) return
+  if (!isMap.value) return
   e.preventDefault()
   const r = stage.value.getBoundingClientRect()
   zoomBy(e.deltaY < 0 ? 1.18 : 1 / 1.18, e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2)
@@ -270,7 +282,7 @@ function onLoad(e) {
   const img = e.target
   const st = stage.value
   if (!st || !img.naturalWidth || !st.clientWidth) return
-  if (hasSpots.value) {
+  if (isMap.value) {
     natural.value = { w: img.naturalWidth, h: img.naturalHeight }
     measure()
     return // 地图模式：容器尺寸算好后交给 transform 缩放
@@ -303,7 +315,7 @@ function onTouchStart(e) {
   const t = e.changedTouches[0]
   sx = t.clientX
   sy = t.clientY
-  if (!hasSpots.value) return
+  if (!isMap.value) return
   if (e.touches.length === 2) {
     const r = stage.value.getBoundingClientRect()
     pinch = {
@@ -312,13 +324,23 @@ function onTouchStart(e) {
       cy: (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top - r.height / 2,
     }
     dragging = null
-  } else if (e.touches.length === 1 && zoom.value > 1) {
-    dragging = { x: t.clientX, y: t.clientY, px: pan.value.x, py: pan.value.y }
+  } else if (e.touches.length === 1 && (zoom.value > 1 || overflowX.value)) {
+    // 记下按下时是否已经贴到左右边界：贴边了还继续往同方向滑，就当翻页
+    const box = fitBox.value
+    const lx = box ? Math.max(0, (box.w * zoom.value - stageSize.value.w) / 2) : 0
+    dragging = {
+      x: t.clientX,
+      y: t.clientY,
+      px: pan.value.x,
+      py: pan.value.y,
+      atLeft: pan.value.x >= lx - 1,
+      atRight: pan.value.x <= -lx + 1,
+    }
   }
 }
 // 地图模式下自己接管双指缩放与拖动，同时阻止 iOS Safari 的页面缩放 / 橡皮筋
 function onMapTouchMove(e) {
-  if (!hasSpots.value) return
+  if (!isMap.value) return
   if (e.touches.length === 2) {
     e.preventDefault()
     if (!pinch) return
@@ -339,14 +361,19 @@ function onTouchEnd(e) {
   const dy = t.clientY - sy
   if (pinch || dragging) {
     if (!e.touches.length) {
+      const d = dragging
       pinch = null
       dragging = null
       swipedAt = Date.now()
+      // 已经拖到边界还继续往同方向滑 → 翻到上 / 下一张
+      if (d && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        if (dx > 0 && d.atLeft) go(-1)
+        else if (dx < 0 && d.atRight) go(1)
+      }
     }
     return
   }
   if (wide.value) return // 宽图：横向滑动用于滚动地图，不翻页
-  if (hasSpots.value && zoom.value > 1) return // 地图放大后横滑是平移，不翻页
   if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
     swipedAt = Date.now()
     go(dx < 0 ? 1 : -1)

@@ -294,6 +294,7 @@ const mapSlices = venueMap.slices.map((m) => ({
   caption: m.alt,
   full: m.full ? base + m.full : undefined,
   spots: m.spots ? mapSpotList : undefined,
+  fitH: m.fitH, // 三张切片在灯箱里统一按高度铺满，比例一致
 }))
 const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
 // 展位一览的出处：官方主会场专题页（点标题跳过去核对最新阵容）
