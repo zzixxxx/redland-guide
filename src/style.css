@@ -450,6 +450,9 @@ img { max-width: 100%; display: block; }
 
 /* 可点击的标签（PIN 预览 / 地图折叠） */
 .tag.btn { cursor: pointer; }
+/* 任务里「要关注的账号」标签：点了直接去小红书主页（用户 9/14） */
+.tag.text.btn.follow { background: var(--paper); color: var(--brown); border-color: var(--navy); box-shadow: 2px 2px 0 var(--navy); font-size: 11px; padding: 3px 7px; }
+.tag.text.btn.follow i { font-style: normal; font-size: 10px; color: var(--muted); margin-left: 2px; }
 .tag.btn:active { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--red-dark); }
 .tag.yellow.btn:active { box-shadow: 1px 1px 0 #b98b00; }
 

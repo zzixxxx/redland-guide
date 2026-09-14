@@ -74,6 +74,9 @@
                 <StepList v-if="a.items?.length" :items="a.items" :ordered="a.ordered !== false" :ip="booth.ip" />
                 <div v-if="a.partner" class="small muted">合作伙伴：{{ a.partner }}</div>
                 <div v-if="a.note" class="small muted mt-4">* {{ a.note }}</div>
+                <div v-if="a.follow?.length" class="row wrap mt-4">
+                  <a v-for="f in a.follow" :key="f.uid || f.name" class="tag text btn follow" :href="f.uid ? profileUrl(f.uid) : undefined" :target="f.uid ? '_blank' : undefined" rel="noopener" @click="f.uid && openProfile($event, f.uid)">📕 关注 {{ f.name }}<i v-if="!f.uid">（{{ f.via || '微信公众号' }}）</i></a>
+                </div>
                 <div v-if="a.rewards?.length" class="row wrap">
                   <span v-for="r in a.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
                 </div>
@@ -167,6 +170,9 @@
                   <span v-for="tg in t.tags" :key="tg" class="pill hot">{{ tg }}</span>
                 </div>
                 <div v-if="t.note" class="small muted mt-4">* {{ t.note }}</div>
+                <div v-if="t.follow?.length" class="row wrap mt-4">
+                  <a v-for="f in t.follow" :key="f.uid || f.name" class="tag text btn follow" :href="f.uid ? profileUrl(f.uid) : undefined" :target="f.uid ? '_blank' : undefined" rel="noopener" @click="f.uid && openProfile($event, f.uid)">📕 关注 {{ f.name }}<i v-if="!f.uid">（{{ f.via || '微信公众号' }}）</i></a>
+                </div>
                 <div v-if="t.rewards?.length" class="row wrap">
                   <span v-for="r in t.rewards" :key="r" class="pill warm">🎁 {{ r }}</span>
                 </div>
