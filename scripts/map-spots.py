@@ -43,6 +43,10 @@ LABELS = {
     'B': {0: 'B18', 1: 'B19', 2: 'B20', 3: 'B07', 5: 'B17', 6: 'B06', 7: 'B15', 8: 'B21', 9: 'B05',
           10: 'B14', 11: 'B22', 12: 'B04', 13: 'B12', 14: 'B11', 15: 'B10', 16: 'B09', 17: 'B03',
           18: 'B02', 21: 'B08', 22: 'B01'},
+    # C 区序号来自 split_c 的输出，9 / 11 / 18 / 20 是换装区、结算点与被切碎的文字块，忽略
+    'C': {0: 'C18', 1: 'C17', 2: 'C20', 3: 'C16', 4: 'C15', 5: 'C19', 6: 'C14', 7: 'C13', 8: 'C12',
+          10: 'C01', 12: 'C02', 13: 'C03', 14: 'C07', 15: 'C08', 16: 'C10', 17: 'C11',
+          19: 'C05', 21: 'C06', 22: 'C09', 23: 'C04'},
 }
 
 # 识别不到的（深色横幅底、内部被当成描边），按源图坐标手填
@@ -78,6 +82,43 @@ def detect(zone):
 
 # 灯箱里用的是 P2 切片（整图 x 0.2205–0.7815、全高），热区坐标要归一化到 P2 而不是整图
 P2_X0, P2_X1 = 0.2205, 0.7815
+
+
+def split_c(im, frames):
+    """C 区的展位是 2–4 个挤在同一个大蓝框里，组内分隔线比外框浅得多，描边规则拆不开。
+    改按亮度切：框内的分隔缝是底色（R≈205），展位块本身偏暗（R≈160），按行 / 列取中位数就能分。
+    切完再把每块的下边界补到下一块的上边界，免得被块内的深色文字提前截断。"""
+    import numpy as np
+    R = np.asarray(im.convert('RGB')).astype(int)[..., 0]
+
+    def segs(med, thr=196, minlen=28):
+        gap = med > thr
+        out, st = [], None
+        for i, v in enumerate(gap):
+            if not v and st is None:
+                st = i
+            elif v and st is not None:
+                if i - st >= minlen:
+                    out.append((st, i))
+                st = None
+        if st is not None and len(gap) - st >= minlen:
+            out.append((st, len(gap)))
+        return out
+
+    boxes = []
+    for (x0, y0, x1, y1) in frames:
+        ix0, iy0, ix1, iy1 = x0 + 8, y0 + 8, x1 - 8, y1 - 8
+        sub = R[iy0:iy1, ix0:ix1]
+        rows = segs(np.median(sub, axis=1)) or [(0, iy1 - iy0)]
+        for ri, (ya, yb) in enumerate(rows):
+            yb_full = (iy0 + rows[ri + 1][0] - 3) if ri + 1 < len(rows) else iy1   # 补到下一块
+            s2 = R[iy0 + ya:iy0 + yb, ix0:ix1]
+            for (xa, xb) in (segs(np.median(s2, axis=0)) or [(0, ix1 - ix0)]):
+                if xb - xa < 40 or yb - ya < 28:
+                    continue
+                boxes.append([ix0 + xa - 4, iy0 + ya - 4, ix0 + xb + 4, yb_full])
+    boxes.sort(key=lambda c: (c[0] // 90, c[1]))
+    return boxes
 
 
 def to_norm(zone, box):
@@ -118,6 +159,8 @@ if '--walk' in sys.argv:
 
 zone = (sys.argv[1] if len(sys.argv) > 1 else 'A').upper()
 im, cands = detect(zone)
+if zone == 'C':
+    cands = split_c(im, cands)
 os.makedirs(OUT, exist_ok=True)
 vis = im.copy()
 d = ImageDraw.Draw(vis)

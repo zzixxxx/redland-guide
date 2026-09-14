@@ -121,15 +121,14 @@
               <a :href="venueFacilities.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
             </div>
           </div>
-          <!-- 三张切片，点哪张开哪张（用户 9/14）：P2 地图占满一行，P1 标题卡 / P3 图例栏并排 -->
-          <div class="gallery mt-10">
+          <!-- 三张切片按原图从左到右排一行，地图在中间；点哪张开哪张（用户 9/14） -->
+          <div class="gallery slices mt-10">
             <img
-              v-for="i in sliceOrder"
-              :key="mapSlices[i].src"
-              :class="{ 'span-all': i === MAP_P2 }"
-              :src="mapSlices[i].src"
-              :alt="mapSlices[i].caption"
-              :title="mapSlices[i].caption"
+              v-for="(m, i) in mapSlices"
+              :key="m.src"
+              :src="m.src"
+              :alt="m.caption"
+              :title="m.caption"
               loading="lazy"
               @click="openImgs(mapSlices, i)"
             />
@@ -297,8 +296,6 @@ const mapSlices = venueMap.slices.map((m) => ({
   spots: m.spots ? mapSpotList : undefined,
 }))
 const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
-// 画廊里先放地图（占满一行），标题卡 / 图例栏并排在下面；点哪张开哪张
-const sliceOrder = [MAP_P2, ...mapSlices.map((_, i) => i).filter((i) => i !== MAP_P2)]
 // 展位一览的出处：官方主会场专题页（点标题跳过去核对最新阵容）
 const boothSource = { url: 'https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true' }
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))

@@ -16,6 +16,22 @@
         <!-- 有热区（官方平面图 P2）：图片外包一层定位容器，热区 / 路线 / 气泡都叠在上面，整层一起缩放平移 -->
         <div v-else class="lb-hot-wrap" :style="wrapStyle">
           <img :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" @load="onLoad" />
+          <!-- 功能点位遮罩：整层压暗，只在选中的那一类点位上开洞并加亮圈 -->
+          <svg v-if="facSel" class="lb-mask" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <mask :id="maskId">
+                <rect x="0" y="0" width="100" height="100" fill="#fff" />
+                <rect v-for="(pt, i) in facSel.points" :key="i" :x="pt[0] * 100" :y="pt[1] * 100" :width="pt[2] * 100" :height="pt[3] * 100" fill="#000" />
+              </mask>
+            </defs>
+            <rect x="0" y="0" width="100" height="100" fill="rgba(10,12,30,0.68)" :mask="`url(#${maskId})`" />
+          </svg>
+          <span
+            v-for="(pt, i) in facSel ? facSel.points : []"
+            :key="'f' + i"
+            class="lb-facdot"
+            :style="{ left: pt[0] * 100 + '%', top: pt[1] * 100 + '%', width: pt[2] * 100 + '%', height: pt[3] * 100 + '%' }"
+          />
           <!-- 导航路线：viewBox 用 0–100，点坐标直接就是百分比 -->
           <svg v-if="route.length > 1" class="lb-route" viewBox="0 0 100 100" preserveAspectRatio="none">
             <polyline :points="routePoints" class="lb-route-halo" />
@@ -48,6 +64,17 @@
             <div v-if="routeTo === pickedSpot.no" class="lb-bub-tip">{{ routeTip }}</div>
           </div>
         </div>
+      </div>
+      <div v-if="hasSpots" class="lb-fac" @click.stop>
+        <button
+          v-for="f in mapFacilities"
+          :key="f.key"
+          type="button"
+          :class="{ on: facKey === f.key }"
+          @click.stop="facKey = facKey === f.key ? null : f.key"
+        >
+          {{ f.icon }} {{ f.name }}<i>{{ f.points.length }}{{ f.points.length < f.official ? '/' + f.official : '' }}</i>
+        </button>
       </div>
       <div v-if="hasSpots" class="lb-zoom" @click.stop>
         <button type="button" @click="zoomBy(1 / 1.6)">－</button>
@@ -83,7 +110,7 @@
 //   单击热区选中并弹气泡，点气泡里的 IP 名直接进攻略，只有一个 IP 的展位还可以双击直接跳；
 //   气泡里的「导航」在图上画一条从登岛起点到该展位的路线（utils/route.js 在可走网格上跑 A*）。
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { walkGrid, mapStart, mapSpots } from '../data/mapSpots.js'
+import { walkGrid, mapStart, mapSpots, mapFacilities } from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
 
 const props = defineProps({ items: { type: Array, default: () => [] }, index: { type: Number, default: null } })
@@ -152,6 +179,11 @@ function onWheel(e) {
   zoomBy(e.deltaY < 0 ? 1.18 : 1 / 1.18, e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2)
 }
 
+// ---- 功能点位：选中一类后遮罩压暗、只点亮这类点 ----
+const facKey = ref(null)
+const facSel = computed(() => mapFacilities.find((f) => f.key === facKey.value) || null)
+const maskId = `lbmask-${Math.random().toString(36).slice(2, 8)}`
+
 // ---- 热区选中 / 气泡 ----
 const picked = ref(null)
 const pickedSpot = computed(() => (cur.value?.spots || []).find((s) => s.no === picked.value) || null)
@@ -160,13 +192,18 @@ const bubStyle = computed(() => {
   if (!sp) return null
   const [x, y, w, h] = sp.rect
   const below = y + h < 0.72
+  const cx = x + w / 2
+  // 靠边的展位（C 区最左、A 区最右）气泡要贴边对齐，否则会被图的边缘切掉
+  const side = cx < 0.22 ? 'left' : cx > 0.78 ? 'right' : 'center'
+  const shiftX = side === 'left' ? '0' : side === 'right' ? '-100%' : '-50%'
   return {
-    left: (x + w / 2) * 100 + '%',
+    left: side === 'right' ? 'auto' : (side === 'left' ? x : cx) * 100 + '%',
+    right: side === 'right' ? (1 - (x + w)) * 100 + '%' : 'auto',
     top: below ? (y + h) * 100 + '%' : 'auto',
     bottom: below ? 'auto' : (1 - y) * 100 + '%',
     // 图放大时气泡反向缩回去，保持可读大小
-    transform: `translateX(-50%) scale(${1 / zoom.value})`,
-    transformOrigin: below ? 'top center' : 'bottom center',
+    transform: `translateX(${shiftX}) scale(${1 / zoom.value})`,
+    transformOrigin: `${below ? 'top' : 'bottom'} ${side}`,
   }
 })
 function pick(sp) {
@@ -191,6 +228,7 @@ function nav(sp) {
   if (routeTo.value === sp.no) {
     route.value = []
     routeTo.value = null
+    picked.value = null // 收起路线时把气泡一起关掉（用户 9/14）
     return
   }
   const [x, y, w, h] = sp.rect
@@ -215,6 +253,7 @@ watch(cur, (v) => {
   picked.value = null
   route.value = []
   routeTo.value = null
+  facKey.value = null
   hi.value = null
   centered = false
   resetView()
@@ -315,11 +354,7 @@ function onTouchEnd(e) {
 }
 function onStageClick() {
   if (Date.now() - swipedAt < 400) return
-  if (picked.value) {
-    picked.value = null // 有选中的展位时，点空白先取消选中，不直接关灯箱
-    return
-  }
-  close()
+  close() // 点空白直接关灯箱（用户 9/14），热区与气泡都 stop 掉了不会误触
 }
 
 function onKey(e) {

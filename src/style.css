@@ -285,6 +285,9 @@ img { max-width: 100%; display: block; }
 .gallery img { width: 100%; aspect-ratio: 3/4; object-fit: cover; border: 2px solid var(--navy); border-radius: 2px; background: #eee; }
 /* 横向大图（官方平面图全图）占满一行、按原始比例显示 */
 .gallery img.span-all { grid-column: 1 / -1; aspect-ratio: auto; }
+/* 官方平面图的三张切片：一行三列，中间的地图按原比例最宽（用户 9/14） */
+.gallery.slices { grid-template-columns: 0.55fr 1.9fr 0.55fr; align-items: center; }
+.gallery.slices img { aspect-ratio: auto; object-fit: contain; background: #1c1b40; }
 .lightbox {
   position: fixed; inset: 0; z-index: 50; background: rgba(10, 12, 30, 0.92);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -328,7 +331,7 @@ img { max-width: 100%; display: block; }
   background: var(--green); border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--navy); pointer-events: none;
 }
 .lb-bub {
-  position: absolute; transform: translateX(-50%); z-index: 2; margin: 6px 0;
+  position: absolute; z-index: 4; margin: 6px 0;
   min-width: 128px; max-width: 220px; text-align: left; line-height: 1.4;
   background: var(--paper); border: 3px solid var(--navy); box-shadow: 3px 3px 0 var(--navy); border-radius: 3px;
   padding: 6px 8px;
@@ -346,6 +349,24 @@ img { max-width: 100%; display: block; }
 }
 .lb-bub-row + .lb-bub-row { border-top: 1.5px dashed #eadfc4; }
 .lb-bub-tip { margin-top: 4px; padding-top: 4px; border-top: 1.5px dashed #eadfc4; font-size: 11px; color: var(--muted); }
+/* 功能点位切换条：左上角横滑，选中后地图压暗只点亮那一类（用户 9/14） */
+.lb-fac {
+  position: absolute; top: calc(10px + var(--safe-t)); left: 10px; right: 96px; z-index: 3;
+  display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px;
+}
+.lb-fac::-webkit-scrollbar { display: none; }
+.lb-fac button {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 3px;
+  background: rgba(31, 45, 92, 0.85); color: #fff; border: 2px solid var(--navy); border-radius: 3px;
+  font-size: 11px; font-weight: 700; padding: 3px 7px; cursor: pointer; white-space: nowrap;
+}
+.lb-fac button.on { background: var(--yellow); color: var(--brown); border-color: #b98b00; }
+.lb-fac i { font-family: var(--font-num); font-size: 8px; font-style: normal; opacity: 0.75; }
+.lb-mask { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+.lb-facdot {
+  position: absolute; z-index: 2; pointer-events: none; border-radius: 3px;
+  outline: 2px solid var(--yellow); outline-offset: 2px; box-shadow: 0 0 12px 3px rgba(255, 210, 63, 0.75);
+}
 /* 地图模式的缩放控件：右上角浮层，别占底栏的位置（用户 9/14 反馈注释和底栏重叠） */
 .lb-zoom {
   position: absolute; top: calc(10px + var(--safe-t)); right: 10px; z-index: 3;

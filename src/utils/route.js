@@ -113,9 +113,23 @@ export function findRoute(grid, from, to, spots) {
     }
   }
   if (prev[goal] === -1 && goal !== start) return null
-  const path = []
+  let path = []
   for (let i = goal; i !== -1; i = prev[i]) path.push(i)
   path.reverse()
+  // 终点截到「路线上离展位最近的一格」：A* 的目标格是就近可走格，可能已经绕过了展位口，
+  // 走到最近点就该停（用户 9/14）
+  let best = path.length - 1
+  let bestD = Infinity
+  for (let k = 0; k < path.length; k++) {
+    const dx = (path[k] % grid.w) / grid.w - to.x
+    const dy = Math.floor(path[k] / grid.w) / grid.h - to.y
+    const d = dx * dx + dy * dy
+    if (d < bestD) {
+      bestD = d
+      best = k
+    }
+  }
+  path = path.slice(0, best + 1)
   // 折线简化：只保留方向变化的拐点
   const pts = []
   let lastDir = null
