@@ -170,7 +170,7 @@
     <!-- 展位列表 -->
     <div class="mt-14">
       <div class="row between mb-6">
-        <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener">IP 展位一览</a>
+        <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener" @click="openPage($event, boothSource.url)">IP 展位一览</a>
         <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy);text-align:right">点击展位看活动 / 任务 / 奖励<br />📕 跳转该 IP 小红书主页</span>
       </div>
       <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
@@ -263,7 +263,7 @@ import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venue
 import { mapSpotList } from '../data/mapSpots.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
-import { profileUrl, openProfile } from '../utils/xhs.js'
+import { profileUrl, openProfile, openPage } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()

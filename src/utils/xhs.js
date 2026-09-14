@@ -6,9 +6,11 @@ export const profileUrl = (uid) => `https://www.xiaohongshu.com/user/profile/${u
 export const searchUrl = (keyword) => `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(keyword)}`
 export const boothSearchKeyword = (booth) => `${booth.ip} RED LAND2026`
 
-// 小红书 App 的 URL Scheme：主页 xhsdiscover://user/<uid>；搜索结果 xhsdiscover://search/result?keyword=<关键词>
+// 小红书 App 的 URL Scheme：主页 xhsdiscover://user/<uid>；搜索结果 xhsdiscover://search/result?keyword=<关键词>；
+// 站内网页 xhsdiscover://webview/?url=<编码后的地址>；发笔记 xhsdiscover://post
 export const profileDeepLink = (uid) => `xhsdiscover://user/${uid}`
 export const searchDeepLink = (keyword) => `xhsdiscover://search/result?keyword=${encodeURIComponent(keyword)}`
+export const pageDeepLink = (url) => `xhsdiscover://webview/?url=${encodeURIComponent(url)}`
 
 const ua = () => (typeof navigator === 'undefined' ? '' : navigator.userAgent || '')
 export const isMobile = () => /iPhone|iPad|iPod|Android|HarmonyOS|Mobile/i.test(ua())
@@ -40,6 +42,24 @@ export function openSearch(e, keyword) {
     /* ignore */
   }
   openInApp(searchDeepLink(keyword), searchUrl(keyword))
+}
+
+/**
+ * 站内 H5（官方主会场 / IP 专题页）：手机端先唤起小红书 App 打开这个页面，未安装 / 取消再退回浏览器。
+ */
+export function openPage(e, url) {
+  if (!isMobile()) return
+  e.preventDefault()
+  openInApp(pageDeepLink(url), url)
+}
+
+/**
+ * 「复制文案」：把文案写进剪贴板，然后唤起小红书 App 的发笔记页，用户长按粘贴即可。
+ * 系统不允许网页把内容直接塞进别的 App 的输入框，所以只能做到「复制好 + 打开发布页」。
+ */
+export function openCompose() {
+  if (!isMobile()) return
+  openInApp('xhsdiscover://post', 'https://www.xiaohongshu.com/')
 }
 
 function openInApp(deepLink, webUrl) {

@@ -1,6 +1,6 @@
 <template>
   <div class="row wrap mt-6" style="gap:8px;align-items:center">
-    <button class="pbtn sm ghost" @click="copy">{{ copied ? '✅ 已复制，去小红书粘贴' : '📋 复制发帖文案' }}</button>
+    <button class="pbtn sm ghost" @click="copy">{{ copied ? '✅ 已复制，长按粘贴' : '📋 复制文案' }}</button>
     <button class="linkbtn small" @click="show = !show">{{ show ? '收起' : '预览文案' }}</button>
     <span v-if="minChars" class="small muted">正文约 {{ bodyLen }} 字 · 要求不少于 {{ minChars }} 字</span>
   </div>
@@ -12,8 +12,10 @@
 
 <script setup>
 // 带话题 / 有字数要求的打卡任务：一键复制可直接发布的文案（官方话题原文 + 按官方信息写好的正文），
-// 有字数要求的任务在数据里给 post（写够字数的正文）与 minChars，没有 post 时按 IP 名自动生成一句
+// 有字数要求的任务在数据里给 post（写够字数的正文）与 minChars，没有 post 时按 IP 名自动生成一句。
+// 手机端复制完会顺手唤起小红书 App 的发笔记页（用户 9/14），到那儿长按粘贴。
 import { ref, computed } from 'vue'
+import { openCompose, isMobile } from '../utils/xhs.js'
 
 const props = defineProps({ tags: { type: Array, default: () => [] }, post: String, ip: String, minChars: Number })
 const copied = ref(false)
@@ -43,5 +45,8 @@ async function copy() {
   }
   copied.value = true
   setTimeout(() => (copied.value = false), 2000)
+  // 手机端顺手唤起小红书 App 的发笔记页，长按输入框粘贴即可
+  // （系统不允许网页把内容直接写进别的 App 的输入框，只能做到「复制好 + 打开发布页」）
+  if (isMobile()) setTimeout(openCompose, 200)
 }
 </script>
