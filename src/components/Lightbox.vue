@@ -4,17 +4,16 @@
       <div
         ref="stage"
         class="lb-stage"
-        :class="{ tall, wide, map: isMap }"
+        :class="{ map: true }"
         @touchstart.passive="onTouchStart"
         @touchend="onTouchEnd"
         @click.stop="onStageClick"
         @dblclick.stop="resetView"
         @wheel="onWheel"
       >
-        <!-- 无热区时保持原来的裸 img，避免影响其它灯箱 -->
-        <img v-if="!isMap" :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" :style="fitStyle" @load="onLoad" />
-        <!-- 有热区（官方平面图 P2）：图片外包一层定位容器，热区 / 路线 / 气泡都叠在上面，整层一起缩放平移 -->
-        <div v-else class="lb-hot-wrap" :style="wrapStyle">
+        <!-- 所有图都包一层定位容器：整层一起缩放平移（用户 9/14 要求每张图都能放大缩小），
+             带热区的官方平面图还会在上面叠热区 / 路线 / 气泡 -->
+        <div class="lb-hot-wrap" :style="wrapStyle">
           <img :key="cur.src" :src="hi || cur.src" :alt="cur.caption || ''" @load="onLoad" />
           <!-- 功能点位遮罩：整层压暗，只在选中的那一类点位上开洞并加亮圈 -->
           <svg v-if="facSel" class="lb-mask" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -76,7 +75,7 @@
           {{ f.icon }} {{ f.name }}<i>{{ f.points.length }}{{ f.points.length < f.official ? '/' + f.official : '' }}</i>
         </button>
       </div>
-      <div v-if="isMap" class="lb-zoom" @click.stop>
+      <div class="lb-zoom" @click.stop>
         <button type="button" @click="zoomBy(1 / 1.6)">－</button>
         <span>{{ Math.round(zoom * 100) }}%</span>
         <button type="button" @click="zoomBy(1.6)">＋</button>
@@ -125,11 +124,9 @@ const isMap = computed(() => hasSpots.value || !!cur.value?.fitH)
 const stage = ref(null)
 const tall = ref(false)
 const wide = ref(false)
-const fitStyle = ref(null) // contain 模式下的放大上限（小图用），tall / wide / 地图模式下为 null
 const WIDE_MIN = 1.6 // 判为横幅所需的最小宽高比
 const MAX_UPSCALE = 3 // 小图最多放大到原始像素的几倍
 const hi = ref(null) // 已预载完成的 full 大图地址
-let centered = false
 
 // ---- 地图模式：自己实现的缩放平移（transform），不依赖浏览器缩放 ----
 const zoom = ref(1)
@@ -138,23 +135,29 @@ const pan = ref({ x: 0, y: 0 })
 // 只靠 max-height:100% 不行——容器高度是 auto，百分比 max-height 解析不了，横屏时图会溢出被裁掉。
 const natural = ref({ w: 0, h: 0 })
 const stageSize = ref({ w: 0, h: 0 })
-// 100% = 按舞台高度铺满（三张切片因此同比例）；最小可以缩到「整张切片都看得见」
-const fitBox = computed(() => {
+// 100% 的含义按图片类型定：长图按舞台宽度铺满、宽幅与平面图切片按高度铺满、其余整图 contain。
+// 最小可以缩到「整张图都看得见」，再往下没意义。
+const baseK = computed(() => {
   const { w: nw, h: nh } = natural.value
   const { w: sw, h: sh } = stageSize.value
-  if (!nw || !sw) return null
-  const k = sh / nh
-  return { w: nw * k, h: nh * k }
+  if (!nw || !sw) return 0
+  if (tall.value) return sw / nw
+  if (wide.value || cur.value?.fitH) return sh / nh
+  return Math.min(sw / nw, sh / nh)
+})
+const fitBox = computed(() => {
+  const { w: nw, h: nh } = natural.value
+  const k = baseK.value
+  return k ? { w: nw * k, h: nh * k } : null
 })
 const minZoom = computed(() => {
   const { w: nw, h: nh } = natural.value
   const { w: sw, h: sh } = stageSize.value
-  if (!nw || !sw) return 1
-  return Math.min(1, Math.min(sw / nw, sh / nh) / (sh / nh))
+  if (!nw || !sw || !baseK.value) return 1
+  return Math.min(1, Math.min(sw / nw, sh / nh) / baseK.value)
 })
 const overflowX = computed(() => (fitBox.value ? fitBox.value.w * zoom.value > stageSize.value.w + 1 : false))
 const wrapStyle = computed(() => {
-  if (!isMap.value) return null
   const box = fitBox.value
   return {
     ...(box ? { width: `${box.w}px`, height: `${box.h}px` } : null),
@@ -185,7 +188,6 @@ function resetView() {
   pan.value = { x: 0, y: 0 }
 }
 function onWheel(e) {
-  if (!isMap.value) return
   e.preventDefault()
   const r = stage.value.getBoundingClientRect()
   zoomBy(e.deltaY < 0 ? 1.18 : 1 / 1.18, e.clientX - r.left - r.width / 2, e.clientY - r.top - r.height / 2)
@@ -261,13 +263,11 @@ function go(d) {
 watch(cur, (v) => {
   tall.value = false
   wide.value = false
-  fitStyle.value = null
   picked.value = null
   route.value = []
   routeTo.value = null
   facKey.value = null
   hi.value = null
-  centered = false
   resetView()
   if (v?.full) {
     const pre = new Image()
@@ -282,26 +282,22 @@ function onLoad(e) {
   const img = e.target
   const st = stage.value
   if (!st || !img.naturalWidth || !st.clientWidth) return
-  if (isMap.value) {
-    natural.value = { w: img.naturalWidth, h: img.naturalHeight }
-    measure()
-    return // 地图模式：容器尺寸算好后交给 transform 缩放
-  }
   const nw = img.naturalWidth
   const nh = img.naturalHeight
   const sw = st.clientWidth
   const sh = st.clientHeight
-  tall.value = nh / nw > (sh / sw) * 1.2
-  wide.value = !tall.value && nw / nh > Math.max((sw / sh) * 1.2, WIDE_MIN)
-  fitStyle.value =
-    tall.value || wide.value
-      ? null
-      : { maxWidth: `min(100%, ${nw * MAX_UPSCALE}px)`, maxHeight: `min(100%, ${nh * MAX_UPSCALE}px)` }
-  // 宽图改为横向滚动后默认停在最左（左侧多是标题卡），滚到中间更接近原来的「整图居中」；换成 full 大图重新触发 load 时保持用户已滚到的位置
-  if (wide.value && !centered) {
-    centered = true
-    nextTick(() => (st.scrollLeft = (st.scrollWidth - st.clientWidth) / 2))
+  if (!isMap.value) {
+    // 长图按宽铺满（阅文拼接长图）、明显的横幅按高铺满；其余 contain，小图最多放大 3 倍
+    tall.value = nh / nw > (sh / sw) * 1.2
+    wide.value = !tall.value && nw / nh > Math.max((sw / sh) * 1.2, WIDE_MIN)
+    if (!tall.value && !wide.value && Math.min(sw / nw, sh / nh) > MAX_UPSCALE) {
+      natural.value = { w: nw * MAX_UPSCALE, h: nh * MAX_UPSCALE }
+      measure()
+      return
+    }
   }
+  natural.value = { w: nw, h: nh }
+  measure()
 }
 
 // ---- 手势 ----
@@ -315,7 +311,6 @@ function onTouchStart(e) {
   const t = e.changedTouches[0]
   sx = t.clientX
   sy = t.clientY
-  if (!isMap.value) return
   if (e.touches.length === 2) {
     const r = stage.value.getBoundingClientRect()
     pinch = {
@@ -340,7 +335,6 @@ function onTouchStart(e) {
 }
 // 地图模式下自己接管双指缩放与拖动，同时阻止 iOS Safari 的页面缩放 / 橡皮筋
 function onMapTouchMove(e) {
-  if (!isMap.value) return
   if (e.touches.length === 2) {
     e.preventDefault()
     if (!pinch) return
@@ -373,7 +367,6 @@ function onTouchEnd(e) {
     }
     return
   }
-  if (wide.value) return // 宽图：横向滑动用于滚动地图，不翻页
   if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.3) {
     swipedAt = Date.now()
     go(dx < 0 ? 1 : -1)

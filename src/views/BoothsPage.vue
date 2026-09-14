@@ -94,7 +94,7 @@
         <div class="row between">
           <div>
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-            <div class="small" style="color:#c9c8ea">官方功能地图 · 3 张切片，点哪张开哪张；地图上点展位可看攻略 / 导航，双指缩放</div>
+            <div class="small" style="color:#c9c8ea">官方功能地图 · 点开可双指缩放、拖动；在地图上点展位看攻略、导航</div>
           </div>
           <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>
@@ -170,7 +170,7 @@
     <!-- 展位列表 -->
     <div class="mt-14">
       <div class="row between mb-6">
-        <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener">IP 展位一览 ↗</a>
+        <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener">IP 展位一览</a>
         <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy);text-align:right">点击展位看活动 / 任务 / 奖励<br />📕 跳转该 IP 小红书主页</span>
       </div>
       <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
