@@ -262,8 +262,7 @@ img { max-width: 100%; display: block; }
 /* 折叠小标题按钮：各占一行，收起时也不会和上一个按钮挤在同一行 */
 .foldline { display: block; width: 100%; text-align: left; }
 /* 展台活动 / 展台任务卡右上角的收起展开三角（默认展开） */
-/* 舞台时间表：排了 time 的场次——时段整段一行，出席名单用黑色小字顿号分隔（场次多的展台，如宝可梦） */
-.sched-time { font-weight: 700; color: var(--ink); }
+/* 舞台时间表：排了 times 的场次——时段胶囊并在同一行（样式与原来一致），出席名单改黑色小字顿号分隔（场次多的展台，如宝可梦） */
 .sched-guests { color: var(--ink); margin-top: 2px; }
 
 /* 节目条目 */

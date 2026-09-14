@@ -126,9 +126,11 @@
               <div v-for="g in s.schedule" :key="g.day" class="row small" style="padding:4px 0;border-top:1.5px dashed #eadfc4;align-items:flex-start">
                 <span class="tag blue" style="font-size:9px;flex:none;margin-top:4px">{{ g.day }}</span>
                 <div style="flex:1;min-width:0">
-                  <!-- 排了 time 的场次（场次多的展台，如宝可梦）：时段整段写一行，出席名单用黑色小字顿号分隔 -->
-                  <template v-if="g.time">
-                    <div class="sched-time">{{ g.time }}</div>
+                  <!-- 排了 times 的场次（场次多的展台，如宝可梦）：时段胶囊并在同一行，出席名单用黑色小字顿号分隔 -->
+                  <template v-if="g.times?.length">
+                    <div class="row wrap" style="gap:0">
+                      <span v-for="t in g.times" :key="t" class="pill">{{ t }}</span>
+                    </div>
                     <div v-if="g.guests?.length" class="sched-guests">{{ g.guests.join('、') }}</div>
                   </template>
                   <!-- 其余保持原样：嘉宾胶囊，带时间前缀时按整点时段分行（17:00 与 17:30 同一行） -->
