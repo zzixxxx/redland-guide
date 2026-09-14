@@ -94,7 +94,7 @@
         <div class="row between">
           <div>
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-            <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大（3 张，默认停在地图页）；A 区展位可点开攻略 / 导航，双指缩放</div>
+            <div class="small" style="color:#c9c8ea">官方功能地图 · 3 张切片，点哪张开哪张；地图上点展位可看攻略 / 导航，双指缩放</div>
           </div>
           <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>

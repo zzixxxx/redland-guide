@@ -17,7 +17,7 @@ function buildCells(grid) {
 }
 
 // 起点 / 终点可能正好落在不可走格（展位框里、装饰上），就近找一个可走格
-function nearestWalkable(grid, cells, x, y, maxR = 14) {
+function nearestWalkable(grid, cells, x, y, maxR = 34) {
   if (cells[IDX(grid, x, y)]) return [x, y]
   for (let r = 1; r <= maxR; r++) {
     for (let dy = -r; dy <= r; dy++) {
