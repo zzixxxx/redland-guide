@@ -45,6 +45,7 @@ public/img/parade/<id>/       花车巡礼：route/ 官方路线图（3118 宽�
 scripts/fetch-note.mjs        抓小红书笔记正文 + 图片（按 fileId 拉无水印原图），打印 boothDetails 骨架
 scripts/refetch-clean.mjs     把已抓的带水印图按 note.json 的 fileIds 重拉成无水印版（历史目录一次性用过，新目录不需要）
 scripts/crop-pins.py          按裁切框从笔记图抠单枚 PIN 缩略图到 public/img/pins/
+scripts/map-spots.py          从官方平面图识别展位方框，生成 src/data/mapSpots.js 的归一化热区坐标
 scripts/fetch-ditto.mjs       抓 ditto 专题页（目录页 + --sub 子页）全部图片、热区跳转、关注组件 uid → ditto.json
 scripts/xhs-profile.mjs       按 uid 读小红书主页公开信息（昵称 / 小红书号 / 认证类型 2=官方 / 粉丝），`--all` 核对 booths.js 里已填账号；有风控，连续约 3 个后要等
 docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
@@ -61,6 +62,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 | `parade.js` | `paradeInfo` / `paradeRoute`（官方路线图：`image` / `desc` / `route` 按图理解的走法 / `legend` / `encounters` / `source`）/ `paradeDays[{ day, date, entries[{ ip, chars[] }] }]` / `themeFloats[{ id, ip, desc, look, intro, images[], guests[{ day: 1–5 \| 'all', label?, chars[] }], guestNote?, source }]` / `playerSquad` | 官方「花车巡礼」半层 + RED LAND 官方号 9/11 路线图笔记 + 9/5 七条「前方高能！XX 专属花车准备发车！」笔记 |
 | `stage.js` | `campInfo` / `stageDays[{ day, date, theme, hint, items[{ performer, songs[], ip?, note? }] }]` | 官方「冒险者营地」半层 |
 | `roaming.js` | `roaming[]`：`{ id, name, chars, xhs, days[], dateText, where, items[{ name, how }], note, image, source }` 无固定展位的游荡 IP，首页展位列表下方「自由游荡的 IP」卡 | 该 IP 官方账号笔记（已收录：公用冰箱里有什么 / 鼠记私房菜，10/4） |
+| `mapSpots.js` | `mapSpots`：展位号 → 官方平面图上的归一化热区 `[x, y, w, h]`（相对整图 14412×5854，缩略图与原像素大图共用一套）；`mapSpotList` 再附上该展位号下的全部 IP | `scripts/map-spots.py` 从 `map-2026/01.jpg` 识别方框，序号→展位号人工核对 |
 | `rules.js` | `event`（含 `days[]`）/ `mainline`（含 `regions[].pin/color`、`nightPin`、`images`、`source`）/ `eggs` / `places` / `dailySchedule` / `venueMap`（官方平面图：`images` / `routes` 路线图例 / `routeTip` / `tips` 交通与点位 / `facilities` 回血点位 / `source`）/ `venueFacilities`（功能点位指南：`groups[{ title, items[] }]` / `note` / `images` 五段放大标注图 / `source`）/ `venueMapRef`（2025 年参考图 + 交通要点，非官方，保留） | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号 8/25「PIN 收集玩法」、9/11「登岛地图已解锁」「功能点位指南」笔记；`venueMapRef` 来自网友「星辰大海」2025-08-07 笔记 |
 
 - 非展位类官方笔记（玩法说明、区域介绍等）的图片放 `public/img/rules/<主题>/`，同样附 `note.json`；数据进 `rules.js`，不要塞进 `boothDetails.js`。已有：`rules/pin/`（PIN 分区规则）、`rules/pin-npc/`（NPC & 老玩家 PIN 图鉴）、`rules/map-2025/`（2025 年场地参考图，网友整理非官方，保留 1080 宽）、`rules/facilities/`（官方功能点位指南，同一张官方地图的 5 段放大标注图，保留原始 1080 宽）、`rules/map-2026/`（官方场馆平面图，5 张均由同一张 14412×5854 原图裁切，裁切框记在 `note.json.crops`；00 全图 / 01 A 区含东侧与南侧入口 / 02 B 区 / 03 C 区 / 04 图例栏）。**地图类图不套 810 宽的规矩**：按可读性给宽度（总览 3200 / A 区 2200 / B、C 区 1800 / 图例 1100），只压质量。
@@ -125,6 +127,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 字体：标题 `--font-pix`（ZCOOL QingKe HuangYou）、编号 / 时间 `--font-num`（Press Start 2P，只用于短的数字字母，10px 左右）、正文系统字体。字体走 Google Fonts，离线自动回退。
 - 像素组件类：`.pcard`（描边 3px + 4px 实心阴影，`.sand` 暖色，`.dark` 夜间）、`.tag`（编号红标，`.blue/.yellow/.green/.gray`，`.text` 为中文标签）、`.sticker`（红色斜贴纸标题）、`.pbtn`（像素按钮，按下位移）、`.chip`（区域 / 日期切换）、`.pill`（信息胶囊，`.warm/.hot`）、`.timeline .tl-item`、`.booth`、`.prog`、`.pr-entry`、`.theme-banner(.moon)`、`.pin-grid / .pin-card(.got/.unknown) / .pin-thumb / .pin-name / .pin-how`（PIN 图鉴，2 列，≥480px 3 列）、`.steps / .step-no(.cjk) / .step-body / .step-title`（分步列表，`.steps.plain` 无序黄标）、`.sched-day / .sched-row / .sched-time`（舞台时间表按时段分行）、`.lb-stage(.tall/.wide) / .lb-cap`（灯箱）、`.post-preview / .linkbtn`（发帖文案预览）、`.tag.btn`（可点击标签）。新组件先复用这些类，再考虑加新类。
 - **灯箱统一用 `components/Lightbox.vue`**（`:items` 为路径或 `{ src, caption }` 数组，`v-model:index`），不要再在页面里手写 `.lightbox` 模板：手机左右滑动翻页（横向位移 >45px 且大于纵向 1.3 倍才算翻页，点一下关闭），PC ← → Esc；**打开时的缩放按图片自身尺寸自适应，灯箱外框不变**：图片高宽比超过舞台 1.2 倍时加 `.tall` 按宽铺满、竖向滚动（拼接长图）；宽高比同时超过舞台 1.2 倍**且本身 ≥ 1.6**时加 `.wide` 按高铺满、横向滚动并自动滚到中间（场馆平面图 / 花车路线图），此时横滑留给滚动、不翻页——`.wide` 的 1.6 绝对下限不能去掉：手机舞台本身很竖，没有它时普通 3:4 海报（0.75 > 舞台的 0.5）也会被判成宽图、铺满高度切掉两侧还禁掉左右翻页（9/14 修）。其余按 contain 整图放入，并给 `img` 内联 `max-width/height: min(100%, 原始尺寸 × 3)`，小图（PIN 缩略图只有 110–320px）最多放大 3 倍，既看得清又不糊。item 可带 `full`（原像素大图）：先显示 `src` 缩略图，`full` 后台预载完成后替换，宽图只在首次加载时居中。首页主线图 / 彩蛋图 / 官方平面图 / 2025 地图 / 游荡 IP 图、详情页原图 / PIN 预览、PIN 图鉴（当前筛选下全部已公布 PIN）、花车页路线图与专属花车图都已接入。
+- **平面图展位热区**（用户 9/14）：灯箱 item 可带 `spots`（= `mapSpots.js` 的 `mapSpotList`），此时图片外面包一层 `.lb-hot-wrap`，热区按归一化坐标绝对定位（`.lb-hot` 平时只有极淡描边，选中 `.on` 红框高亮）。交互：**单击选中并在旁边弹 `.lb-bub` 气泡**（展位号 + 该展位全部 IP 分行）→ 点气泡里的 IP 进该展位攻略；**只有一个 IP 的展位还可以直接双击跳转**，多 IP 的双击只做选中。有选中时点空白先取消选中、不关灯箱。Lightbox 用 `@open="id"` 把跳转交回页面（`BoothsPage.openBooth`），不在组件里写路由。
 - 首页「场馆平面图」卡分上下两段（用户 9/11 定）：**上段 2026 官方图**——标题右侧红色「登岛地图 ▾」中文标签按钮（`.tag.text.btn`，原 LOADING 处），默认收起；点开依次是「🚇 2026 交通要点」折叠列表（含回血点位一行）→「🧭 功能点位指南」折叠列表（`venueFacilities`，四组点位 + 官方提示 + 5 张放大标注图 + 来源行）→ 全图 00 占满一行（`.gallery img.span-all`，横图按原比例，灯箱里横向滚动）→ 路线图例 3 枚 `.pill` + 色块 → 官方提示语；来源行常显。三区分图 01–03 与图例栏 04 在 `venueMap.images` 里标 `hidden: true`，页面与灯箱都不显示（用户 9/11：暂时只要完整的 P1），文件保留。**下段 2025 网友参考图保持原样**——只有一个黄色标签「🗺 2025 年场地参考图 ▾」（`.tag.yellow.text.btn`），点开依次显示免责说明 → 「2025 交通要点」→ 6 张缩略图；默认收起，来源行常显。不要再拆成多个按钮。
 - 所有 📕 小红书主页按钮（首页列表行、详情页主账号 / `accounts`、游荡 IP、顶栏 logo）保留 `<a :href="profileUrl(uid)" target="_blank">`，再挂 `@click="openProfile($event, uid)"`：手机端拦截后先唤起小红书 App（系统弹「是否打开」），App 内直接看主页可绕过网页版滑块验证；PC 端不拦截。详情页「🔍 搜「IP RED LAND」」同理挂 `openSearch`：手机端先把关键词写入剪贴板再唤起 `xhsdiscover://search/result?keyword=`，直接落到 App 搜索结果页，失败退回网页搜索；PC 走网页版搜索。「去小红书看原笔记」短链保持网页跳转（笔记页本身有打开 App 入口，无验证墙）。
 - 详情页「🎪 展台活动」「🎤 舞台活动」「✅ 展台任务」三张卡的标题行是 `.fold-head`（整行可点），右上角折叠箭头**与首页「主线玩法」卡完全一致**：`<span class="fold-arrow" :class="{ open }">&gt;</span>`（用户 9/14 要求统一，不要另造样式）。**默认展开**，换展位（`props.id` 变化）时复位为展开。
@@ -183,7 +186,8 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 
 ## 10. 待办 / 已知空缺
 
-- [x] 场馆平面图：RED LAND 官方号 9/11「登岛地图已解锁」官方功能地图已接入（`rules.js venueMap` + `public/img/rules/map-2026/`；2025 网友参考图 `venueMapRef` 按用户要求保留在卡片下段）。**剩余**：给每个展位挂坐标做「点展位在图上定位」——官方图无网格，需逐个量 81+ 个展位框中心点，未做
+- [x] 场馆平面图：RED LAND 官方号 9/11「登岛地图已解锁」官方功能地图已接入（`rules.js venueMap` + `public/img/rules/map-2026/`；2025 网友参考图 `venueMapRef` 按用户要求保留在卡片下段）
+- [ ] 平面图展位热区：**A 区 40 个已做完**（9/14 试点，`mapSpots.js` + `scripts/map-spots.py`，灯箱里点展位选中 → 气泡跳攻略），B / C 区待补——跑 `python scripts/map-spots.py B`，看 `cand_B.png` 把序号→展位号填进脚本 LABELS 再 `--emit`；C 区配色是蓝灰系，脚本里的描边阈值要另调
 - [x] A / B / C 区 ↔ 三大区域映射：**9/11 官方平面图右栏 LAYOUT OF ZONE A/B/C 已逐一确认**（A 翻身时空港 / B 黄金海岸线 / C 重生试炼场），此前 C 区的排除法推断正确。区域芯片文案格式为「翻身时空港（48）」，开图进度条按 `need`（4/2/2）计算。
 - [x] 功能点位指南：RED LAND 官方号 9/11 笔记已接入（`rules.js venueFacilities` + `public/img/rules/facilities/`，首页平面图卡「登岛地图」下新增「🧭 功能点位指南」折叠）。地铁口以官方 4 号口为准（2025 网友图写的 2 号口作废）
 - [ ] 夜间「月下模式」具体开启时刻、9 月底「活动预约」入口；A22 火影神秘角色见面会的「Redland 活动广场」预约通道开启时间待官方公布

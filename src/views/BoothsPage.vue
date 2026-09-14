@@ -94,7 +94,7 @@
         <div class="row between">
           <div>
             <div class="pcard-title" style="font-size:15px">🗺 场馆平面图</div>
-            <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大，全图可左右滑动看展位编号</div>
+            <div class="small" style="color:#c9c8ea">官方功能地图 · 点图放大，全图可左右滑动；点 A 区展位可跳攻略</div>
           </div>
           <button class="tag text btn" style="flex:none" @click="openMap26 = !openMap26">登岛地图 {{ openMap26 ? '▴' : '▾' }}</button>
         </div>
@@ -235,7 +235,7 @@
       </div>
     </div>
 
-    <Lightbox :items="lb.items" v-model:index="lb.i" />
+    <Lightbox :items="lb.items" v-model:index="lb.i" @open="openBooth" />
   </div>
 </template>
 
@@ -251,6 +251,7 @@ import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities } from '../data/rules.js'
+import { mapSpotList } from '../data/mapSpots.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked } from '../composables/useStore.js'
 import { profileUrl, openProfile } from '../utils/xhs.js'
@@ -268,13 +269,20 @@ const openFac = ref(false)
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })
+function openBooth(id) {
+  lb.i = null
+  router.push(`/booth/${id}`)
+}
 const openImgs = (items, i) => {
   lb.items = items
   lb.i = i
 }
 const mainlineImages = mainline.images.map((im) => ({ src: base + im.src, caption: im.alt }))
 // 2026 官方图暂时只展示全图（用户 9/11：三区分图与图例先隐藏），hidden 的留在数据里
-const mapImages26 = venueMap.images.filter((m) => !m.hidden).map((m) => ({ src: base + m.src, caption: m.alt, full: m.full ? base + m.full : undefined }))
+// 官方全图带展位热区：灯箱里点展位选中、双击 / 点气泡进该展位攻略（目前只标了 A 区，见 mapSpots.js）
+const mapImages26 = venueMap.images
+  .filter((m) => !m.hidden)
+  .map((m, i) => ({ src: base + m.src, caption: m.alt, full: m.full ? base + m.full : undefined, spots: i === 0 ? mapSpotList : undefined }))
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
