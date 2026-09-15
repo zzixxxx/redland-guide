@@ -341,7 +341,8 @@ img { max-width: 100%; display: block; }
   background: var(--paper); border: 3px solid var(--navy); box-shadow: 3px 3px 0 var(--navy); border-radius: 3px;
   padding: 6px 8px;
 }
-.lb-bub-no { font-family: var(--font-num); font-size: 10px; color: var(--red-dark); margin-bottom: 2px; }
+.lb-bub-hd { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px; }
+.lb-bub-no { font-family: var(--font-num); font-size: 10px; color: var(--red-dark); }
 /* IP 名与导航按钮是两种完全不同的动作，行高给足、中间隔开，别让手指点串（用户 9/15） */
 .lb-bub-row {
   display: block; width: 100%; text-align: left; background: none; border: 0;
@@ -349,9 +350,9 @@ img { max-width: 100%; display: block; }
 }
 .lb-bub-row + .lb-bub-row { border-top: 1.5px dashed #eadfc4; }
 .lb-bub-nav {
-  display: block; width: 100%; margin-top: 8px; min-height: 32px;
+  flex: none; min-height: 26px; padding: 4px 12px;
   background: var(--sky-deep); color: #fff; border: 2px solid var(--navy); box-shadow: 2px 2px 0 var(--navy);
-  border-radius: 3px; font-size: 12px; font-weight: 700; padding: 6px 8px; cursor: pointer;
+  border-radius: 3px; font-size: 12px; font-weight: 700; cursor: pointer;
 }
 .lb-bub-nav.on { background: var(--red); border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); }
 /* 功能点位切换条：左上角横滑，选中后地图压暗只点亮那一类（用户 9/14） */

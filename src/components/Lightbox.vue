@@ -58,15 +58,17 @@
           />
           <!-- 气泡：直接点 IP 名字进攻略；「导航」在图上画一条从起点过来的路线 -->
           <div v-if="pickedSpot" class="lb-bub" :style="bubStyle" @click.stop>
-            <div class="lb-bub-no">{{ pickedSpot.label }}</div>
+            <!-- 展位号那一行右侧放「导航」，和下面的 IP 名分属两块，不占额外行高（用户 9/15） -->
+            <div class="lb-bub-hd">
+              <span class="lb-bub-no">{{ pickedSpot.label }}</span>
+              <button type="button" class="lb-bub-nav" :class="{ on: routeTo === pickedSpot.no }" @click.stop="nav(pickedSpot)">
+                {{ routeTo === pickedSpot.no ? '收起' : '导航' }}
+              </button>
+            </div>
             <button v-for="it in pickedSpot.items" :key="it.id" type="button" class="lb-bub-row" @click.stop="emit('open', it.id)">
               {{ it.ip }}
             </button>
             <div v-if="!pickedSpot.items.length" class="lb-bub-row" style="opacity:.7">暂无该展位数据</div>
-            <!-- 导航独占底部一行、和上面的 IP 名之间留白，避免手指误触（用户 9/15） -->
-            <button type="button" class="lb-bub-nav" :class="{ on: routeTo === pickedSpot.no }" @click.stop="nav(pickedSpot)">
-              {{ routeTo === pickedSpot.no ? '收起路线' : '导航到这里' }}
-            </button>
           </div>
         </div>
       </div>
