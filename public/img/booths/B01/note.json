@@ -34,7 +34,7 @@
     "img/booths/B01/13.jpg"
   ],
   "fileIds": [
-    "spectrum/1040g0k0324u48876is6g5n305p34lh643mrdd3g",
+    "1040g2sg324uk3ulr3okg5n305p34lh64jijdpto",
     "spectrum/1040g0k0324u48876is005n305p34lh64948q4cg",
     "spectrum/1040g0k0324u48876is0g5n305p34lh6493uft80",
     "spectrum/1040g0k0324u48876is105n305p34lh64nj2mceo",
@@ -50,7 +50,7 @@
     "spectrum/1040g0k0324u48876is605n305p34lh64c058feo",
     "spectrum/1040g34o324u48890j4205n305p34lh649eq3m3o",
     "spectrum/1040g34o324u48890j42g5n305p34lh64njk4dno",
-    "spectrum/1040g34o324u48890j4305n305p34lh641jpm3no",
+    "1040g2sg324uk3ulr3ok05n305p34lh64suhj1no",
     "spectrum/1040g34o324u48890j43g5n305p34lh64fu5rjc8"
   ],
   "keptIndex": {
@@ -71,5 +71,6 @@
     "16.jpg": 16,
     "17.jpg": 17
   },
-  "keptOnly": "删除 00（COS 蛋仔角色得登岛通行证赠票征集，票务）与 14（蛋仔派对 REDLAND 图鉴征集活动 / 合作外观上线，线上活动）。保留 01–13 十三位特邀质检员海报（角色 / coser / 到场日）、15 展台情报、16 展示互动玩法介绍、17 巨型运输车花车。"
+  "keptOnly": "删除 00（COS 蛋仔角色得登岛通行证赠票征集，票务）与 14（蛋仔派对 REDLAND 图鉴征集活动 / 合作外观上线，线上活动）。保留 01–13 十三位特邀质检员海报（角色 / coser / 到场日）、15 展台情报、16 展示互动玩法介绍、17 巨型运输车花车。",
+  "refetched": "2026-09-15：官方重发了第 0 与第 16 张。16（展示互动玩法介绍）有实质改动 —— 小红书 PIN 从「完成工厂打卡」改挂到 Step1 基础认证的周边里；本地 16.jpg 已换成新版。"
 }

@@ -1,0 +1,60 @@
+{
+  "type": "ditto",
+  "title": "江畔乐游 宝可梦嘉年华！",
+  "shareTitle": "江畔乐游 宝可梦嘉年华！",
+  "shareDesc": "趣味打卡，丰富活动，领取好礼！",
+  "url": "https://xhslink.com/m/8KSTEt4IXBa",
+  "pageId": "8b6481cf722741b59bd6dd25fd17d97a",
+  "lastEditTime": "2026-09-14 20:18:49",
+  "startTime": "2026-08-31T16:00:00.000Z",
+  "endTime": "2026-10-12T15:59:59.000Z",
+  "author": "RED LAND 官方",
+  "pages": [
+    {
+      "name": "宝可梦主页面（hub）",
+      "images": 6,
+      "kept": [
+        "01 → gift-00.jpg"
+      ]
+    },
+    {
+      "name": "1活动好礼页面",
+      "lastEditTime": "2026-09-11 19:14:11",
+      "images": 1,
+      "kept": [],
+      "note": "页内只有 KV，礼品清单在 hub 的导航卡（01）上"
+    },
+    {
+      "name": "2活动一览",
+      "lastEditTime": "2026-09-14 23:53:09",
+      "images": 1,
+      "kept": [],
+      "note": "页内只有 KV，内容未上线；这是整个专题页最后编辑的一页，10 月前值得再看"
+    },
+    {
+      "name": "3夜场惊喜",
+      "lastEditTime": "2026-09-11 18:24:19",
+      "images": 1,
+      "kept": [
+        "00 → night-00.jpg"
+      ]
+    },
+    {
+      "name": "4卡牌体验",
+      "lastEditTime": "2026-09-11 19:32:55",
+      "images": 1,
+      "kept": [],
+      "note": "与 9/11「卡牌体验营」笔记内容一致，已收录，不重复存图"
+    },
+    {
+      "name": "5主题快闪",
+      "lastEditTime": "2026-09-14 20:19:30",
+      "images": 2,
+      "kept": [
+        "01 → popup-00.jpg"
+      ],
+      "note": "00 是 KV，与 hub 首图相同"
+    }
+  ],
+  "keptOnly": "只留 3 张：hub 的活动好礼导航卡、夜场惊喜长图、主题快闪长图。其余为 KV 重复图或已收录内容。"
+}
