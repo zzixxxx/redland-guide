@@ -31,12 +31,20 @@
             class="lb-facdot"
             :style="{ left: pt[0] * 100 + '%', top: pt[1] * 100 + '%', width: pt[2] * 100 + '%', height: pt[3] * 100 + '%' }"
           />
-          <!-- 导航路线：viewBox 用 0–100，点坐标直接就是百分比 -->
-          <svg v-if="route.length > 1" class="lb-route" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <polyline :points="routePoints" class="lb-route-halo" />
-            <polyline :points="routePoints" class="lb-route-line" />
+          <!-- 导航路线：viewBox 用 0–100，点坐标直接就是百分比。plan 为待打卡清单的整条多点路线 -->
+          <svg v-if="lines.length" class="lb-route" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <polyline v-for="(ln, i) in lines" :key="'h' + i" :points="ln" class="lb-route-halo" />
+            <polyline v-for="(ln, i) in lines" :key="'l' + i" :points="ln" class="lb-route-line" />
           </svg>
-          <span v-if="route.length > 1" class="lb-route-dot" :style="{ left: route[0].x * 100 + '%', top: route[0].y * 100 + '%' }" />
+          <span v-if="startDot" class="lb-route-dot" :style="{ left: startDot.x * 100 + '%', top: startDot.y * 100 + '%' }" />
+          <span
+            v-for="(st, i) in planStops"
+            :key="'s' + i"
+            class="lb-stop"
+            :style="{ left: st.x * 100 + '%', top: st.y * 100 + '%' }"
+          >{{ i + 1 }}</span>
+          <!-- 单条导航的终点标记：气泡收起后还能看出目的地是谁 -->
+          <span v-if="endDot" class="lb-stop" :style="{ left: endDot.x * 100 + '%', top: endDot.y * 100 + '%' }">{{ routeTo }}</span>
           <button
             v-for="sp in cur.spots"
             :key="sp.no"
@@ -50,21 +58,22 @@
           />
           <!-- 气泡：直接点 IP 名字进攻略；「导航」在图上画一条从起点过来的路线 -->
           <div v-if="pickedSpot" class="lb-bub" :style="bubStyle" @click.stop>
-            <div class="lb-bub-hd">
-              <span class="lb-bub-no">{{ pickedSpot.label }}</span>
-              <button type="button" class="lb-bub-nav" :class="{ on: routeTo === pickedSpot.no }" @click.stop="nav(pickedSpot)">
-                {{ routeTo === pickedSpot.no ? '✕ 收起路线' : '🧭 导航' }}
-              </button>
-            </div>
+            <div class="lb-bub-no">{{ pickedSpot.label }}</div>
             <button v-for="it in pickedSpot.items" :key="it.id" type="button" class="lb-bub-row" @click.stop="emit('open', it.id)">
               {{ it.ip }}
             </button>
             <div v-if="!pickedSpot.items.length" class="lb-bub-row" style="opacity:.7">暂无该展位数据</div>
-            <div v-if="routeTo === pickedSpot.no" class="lb-bub-tip">{{ routeTip }}</div>
+            <!-- 导航独占底部一行、和上面的 IP 名之间留白，避免手指误触（用户 9/15） -->
+            <button type="button" class="lb-bub-nav" :class="{ on: routeTo === pickedSpot.no }" @click.stop="nav(pickedSpot)">
+              {{ routeTo === pickedSpot.no ? '收起路线' : '导航到这里' }}
+            </button>
           </div>
         </div>
       </div>
       <div v-if="hasSpots" class="lb-fac" @click.stop>
+        <button type="button" :class="{ on: facKey === 'all' }" @click.stop="facKey = facKey === 'all' ? null : 'all'">
+          ✳ 全部<i>{{ facAllCount }}</i>
+        </button>
         <button
           v-for="f in mapFacilities"
           :key="f.key"
@@ -109,10 +118,15 @@
 //   单击热区选中并弹气泡，点气泡里的 IP 名直接进攻略，只有一个 IP 的展位还可以双击直接跳；
 //   气泡里的「导航」在图上画一条从登岛起点到该展位的路线（utils/route.js 在可走网格上跑 A*）。
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { walkGrid, mapStart, mapSpots, mapFacilities } from '../data/mapSpots.js'
+import { walkGrid, mapStart, mapSpots, mapFacilities, doorPoint } from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
 
-const props = defineProps({ items: { type: Array, default: () => [] }, index: { type: Number, default: null } })
+const props = defineProps({
+  items: { type: Array, default: () => [] },
+  index: { type: Number, default: null },
+  // 待打卡清单的整条路线：{ legs: [{ to, points }] }，传了就常显在地图上
+  plan: { type: Object, default: null },
+})
 const emit = defineEmits(['update:index', 'open'])
 
 const list = computed(() => props.items.map((it) => (typeof it === 'string' ? { src: it } : it)))
@@ -195,7 +209,11 @@ function onWheel(e) {
 
 // ---- 功能点位：选中一类后遮罩压暗、只点亮这类点 ----
 const facKey = ref(null)
-const facSel = computed(() => mapFacilities.find((f) => f.key === facKey.value) || null)
+const facAllCount = mapFacilities.reduce((n, f) => n + f.points.length, 0)
+const facSel = computed(() => {
+  if (facKey.value === 'all') return { key: 'all', name: '全部功能点位', points: mapFacilities.flatMap((f) => f.points) }
+  return mapFacilities.find((f) => f.key === facKey.value) || null
+})
 const maskId = `lbmask-${Math.random().toString(36).slice(2, 8)}`
 
 // ---- 热区选中 / 气泡 ----
@@ -231,8 +249,23 @@ function dbl(sp) {
 // ---- 导航：起点 → 展位，在可走网格上跑 A* ----
 const route = ref([])
 const routeTo = ref(null)
-const routeTip = ref('')
-const routePoints = computed(() => route.value.map((p) => `${p.x * 100},${p.y * 100}`).join(' '))
+const asPoints = (pts) => pts.map((p) => `${p.x * 100},${p.y * 100}`).join(' ')
+// 画在图上的折线：优先单条导航路线，没有时画清单路线
+const lines = computed(() => {
+  if (route.value.length > 1) return [asPoints(route.value)]
+  const legs = props.plan?.legs?.filter((l) => l.points?.length > 1) || []
+  return legs.map((l) => asPoints(l.points))
+})
+const startDot = computed(() => {
+  if (route.value.length > 1) return route.value[0]
+  const first = props.plan?.legs?.[0]?.points
+  return first?.length ? first[0] : null
+})
+const endDot = computed(() => (route.value.length > 1 ? route.value[route.value.length - 1] : null))
+// 清单路线上的编号站点
+const planStops = computed(() =>
+  route.value.length > 1 ? [] : (props.plan?.legs || []).map((l) => l.points?.[l.points.length - 1]).filter(Boolean),
+)
 // 起点：活动期间若能拿到现场定位就用实时位置，否则用登岛起点（安检票检区）。
 // 现场定位还没接——官方图没给经纬度参照点，要等 10 月到现场量几个点做配准（见 CLAUDE.md §10）。
 function startPoint() {
@@ -247,12 +280,13 @@ function nav(sp) {
   }
   const [x, y, w, h] = sp.rect
   const from = startPoint()
-  const to = { x: x + w / 2, y: y + h / 2 }
+  // 终点固定落在该展位朝向过道的那条边（mapDoors），不用中心点 —— 否则每次停的位置乱跳（用户 9/15）
+  const to = doorPoint(sp.no) || { x: x + w / 2, y: y + h / 2 }
   const path = findRoute(walkGrid, from, to, mapSpots)
   const ok = path && path.length > 1
   route.value = ok ? path : [from, to]
   routeTo.value = sp.no
-  routeTip.value = `从「${from.name}」出发${ok ? '，沿图上画出的路线走' : '（暂只有直线指引）'}`
+  picked.value = null // 画完就把气泡收起来，不然一直挡着看不到路线（用户 9/15）
 }
 
 const close = () => emit('update:index', null)
@@ -379,8 +413,12 @@ function onStageClick() {
   if (Date.now() - swipedAt < 400) return
   clearTimeout(clickTimer)
   clickTimer = setTimeout(() => {
+    // 点空白：先收气泡 → 再清路线 → 都没有才关灯箱
     if (picked.value) picked.value = null
-    else close()
+    else if (routeTo.value) {
+      route.value = []
+      routeTo.value = null
+    } else close()
   }, 260)
 }
 function onStageDblClick() {

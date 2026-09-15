@@ -324,6 +324,13 @@ img { max-width: 100%; display: block; }
 .lb-route polyline { fill: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; stroke-linecap: round; }
 .lb-route-halo { stroke: #fff; stroke-width: 6; opacity: 0.9; }
 .lb-route-line { stroke: var(--red); stroke-width: 3; stroke-dasharray: 7 5; }
+.lb-stop {
+  position: absolute; z-index: 2; transform: translate(-50%, -50%); pointer-events: none;
+  min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; white-space: nowrap;
+  background: var(--red); color: #fff; border: 2px solid #fff;
+  font-family: var(--font-num); font-size: 9px; line-height: 14px; text-align: center;
+  box-shadow: 0 0 0 1.5px var(--navy);
+}
 .lb-route-dot {
   position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
   background: var(--green); border: 2px solid #fff; box-shadow: 0 0 0 1.5px var(--navy); pointer-events: none;
@@ -334,19 +341,19 @@ img { max-width: 100%; display: block; }
   background: var(--paper); border: 3px solid var(--navy); box-shadow: 3px 3px 0 var(--navy); border-radius: 3px;
   padding: 6px 8px;
 }
-.lb-bub-hd { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 2px; }
-.lb-bub-no { font-family: var(--font-num); font-size: 10px; color: var(--red-dark); }
-.lb-bub-nav {
-  background: var(--sky-deep); color: #fff; border: 1.5px solid var(--navy); box-shadow: 1.5px 1.5px 0 var(--navy);
-  border-radius: 2px; font-size: 11px; font-weight: 700; padding: 2px 6px; flex: none; cursor: pointer;
-}
-.lb-bub-nav.on { background: var(--red); border-color: var(--red-dark); box-shadow: 1.5px 1.5px 0 var(--red-dark); }
+.lb-bub-no { font-family: var(--font-num); font-size: 10px; color: var(--red-dark); margin-bottom: 2px; }
+/* IP 名与导航按钮是两种完全不同的动作，行高给足、中间隔开，别让手指点串（用户 9/15） */
 .lb-bub-row {
-  display: block; width: 100%; text-align: left; background: none; border: 0; padding: 5px 0;
-  font-size: 13px; font-weight: 700; color: var(--brown); cursor: pointer;
+  display: block; width: 100%; text-align: left; background: none; border: 0;
+  min-height: 34px; padding: 7px 2px; font-size: 13px; font-weight: 700; color: var(--brown); cursor: pointer;
 }
 .lb-bub-row + .lb-bub-row { border-top: 1.5px dashed #eadfc4; }
-.lb-bub-tip { margin-top: 4px; padding-top: 4px; border-top: 1.5px dashed #eadfc4; font-size: 11px; color: var(--muted); }
+.lb-bub-nav {
+  display: block; width: 100%; margin-top: 8px; min-height: 32px;
+  background: var(--sky-deep); color: #fff; border: 2px solid var(--navy); box-shadow: 2px 2px 0 var(--navy);
+  border-radius: 3px; font-size: 12px; font-weight: 700; padding: 6px 8px; cursor: pointer;
+}
+.lb-bub-nav.on { background: var(--red); border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); }
 /* 功能点位切换条：左上角横滑，选中后地图压暗只点亮那一类（用户 9/14） */
 .lb-fac {
   position: absolute; top: calc(46px + var(--safe-t)); left: 10px; right: 10px; z-index: 3;
@@ -379,6 +386,18 @@ img { max-width: 100%; display: block; }
   flex: none; margin-top: 8px; width: 100%;
   display: flex; justify-content: center; align-items: center; gap: 8px; flex-wrap: wrap; padding: 0 12px;
 }
+
+/* 待打卡清单 */
+.star.plan { font-size: 15px; line-height: 1; }
+.plan-list { list-style: none; margin: 0; padding: 0; }
+.plan-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1.5px dashed #eadfc4; }
+.plan-list li:first-child { border-top: 0; }
+.plan-no {
+  flex: 0 0 auto; min-width: 20px; height: 20px; border-radius: 10px; text-align: center;
+  background: var(--red); color: #fff; border: 2px solid var(--red-dark);
+  font-family: var(--font-num); font-size: 9px; line-height: 16px;
+}
+.plan-body { flex: 1; min-width: 0; font-size: 13px; color: var(--brown); }
 
 /* 主题横幅 */
 .theme-banner {

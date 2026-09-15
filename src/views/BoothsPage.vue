@@ -167,6 +167,35 @@
       </div>
     </div>
 
+    <!-- 待打卡清单：按逛展动线序号排初始顺序，再用 2-opt 改进（见 utils/plan.js） -->
+    <div v-if="planCount" class="pcard sand mt-14">
+      <div class="pcard-body">
+        <div class="fold-head" @click="openPlan = !openPlan">
+          <div class="pcard-title">🧭 待打卡清单 <span class="tag" style="font-size:9px">{{ planCount }}</span></div>
+          <span class="fold-arrow" :class="{ open: openPlan }">&gt;</span>
+        </div>
+        <template v-if="openPlan">
+          <div v-if="planResult" class="small muted mt-6">
+            已按逛展动线排好：全程约 {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
+          </div>
+          <ol class="plan-list mt-6">
+            <li v-for="(no, i) in planResult ? planResult.order : []" :key="no">
+              <span class="plan-no">{{ i + 1 }}</span>
+              <span class="plan-body">
+                <b>{{ no }}</b> {{ ipOf(no) }}
+                <span class="muted small">· {{ fmtDist(planResult.steps[i]) }}</span>
+              </span>
+              <button class="linkbtn small" @click="togglePlan(no)">移除</button>
+            </li>
+          </ol>
+          <div class="row wrap mt-10" style="gap:8px">
+            <button class="pbtn sm" @click="openImgs(mapSlices, MAP_P2)">在地图上看路线</button>
+            <button class="pbtn sm ghost" @click="clearPlan()">清空</button>
+          </div>
+        </template>
+      </div>
+    </div>
+
     <!-- 展位列表 -->
     <div class="mt-14">
       <div class="row between mb-6">
@@ -200,6 +229,13 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:6px;flex:0 0 auto">
               <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
+              <button
+                v-if="mapSpots[b.no.split(/\s*\/\s*/)[0]]"
+                class="star plan"
+                :class="{ off: !inPlan(b.no.split(/\s*\/\s*/)[0]) }"
+                @click.stop="togglePlan(b.no.split(/\s*\/\s*/)[0])"
+                :aria-label="inPlan(b.no.split(/\s*\/\s*/)[0]) ? '从清单移除' : '加入待打卡清单'"
+              >{{ inPlan(b.no.split(/\s*\/\s*/)[0]) ? '✓' : '＋' }}</button>
               <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop="openProfile($event, b.xhs.uid)" :title="`小红书 @${b.xhs.name}`">📕</a>
             </div>
           </div>
@@ -244,7 +280,7 @@
       </div>
     </div>
 
-    <Lightbox :items="lb.items" v-model:index="lb.i" @open="openBooth" />
+    <Lightbox :items="lb.items" v-model:index="lb.i" :plan="planResult" @open="openBooth" />
   </div>
 </template>
 
@@ -260,13 +296,15 @@ import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities } from '../data/rules.js'
-import { mapSpotList } from '../data/mapSpots.js'
+import { mapSpotList, mapSpots } from '../data/mapSpots.js'
+import { planRoute, fmtDist } from '../utils/plan.js'
 import { roaming } from '../data/roaming.js'
-import { useChecked } from '../composables/useStore.js'
+import { useChecked, usePlan } from '../composables/useStore.js'
 import { profileUrl, openProfile, openPage } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()
+const { plan, inPlan, togglePlan, clearPlan, planCount } = usePlan()
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
@@ -275,6 +313,10 @@ const openTips = ref(false)
 const openMap26 = ref(false)
 const openTips26 = ref(false)
 const openFac = ref(false)
+const openPlan = ref(true)
+// 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）
+const planResult = computed(() => (planCount.value ? planRoute([...plan.value]) : null))
+const ipOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no)).map((b) => b.ip).join(' / ')
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })

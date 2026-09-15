@@ -2,6 +2,9 @@
   <div class="page" v-if="booth">
     <PageHeader :title="booth.ip" :sub="`${booth.zone} 区 · 展位 ${booth.no}`" back>
       <template #right>
+        <button v-if="planNo" class="pbtn sm" :class="inPlan(planNo) ? 'red' : 'ghost'" @click="togglePlan(planNo)">
+          {{ inPlan(planNo) ? '✓ 在清单' : '＋ 加清单' }}
+        </button>
         <button class="pbtn sm" :class="isChecked(booth.id) ? 'red' : 'ghost'" @click="toggle(booth.id)">
           {{ isChecked(booth.id) ? '★ 已打卡' : '☆ 打卡' }}
         </button>
@@ -285,13 +288,20 @@ import boothDetails from '../data/boothDetails.js'
 import { indieGames, indieSource, indieCount } from '../data/indie.js'
 import { event } from '../data/rules.js'
 import { pins, zoneThumbs } from '../data/pins.js'
-import { useChecked } from '../composables/useStore.js'
+import { mapSpots } from '../data/mapSpots.js'
+import { useChecked, usePlan } from '../composables/useStore.js'
 import { profileUrl, searchUrl, boothSearchKeyword, openProfile, openSearch, isMobile } from '../utils/xhs.js'
 
 const props = defineProps({ id: String })
 const booth = computed(() => boothMap[props.id])
 const detail = computed(() => boothDetails[props.id])
 const { isChecked, toggle } = useChecked()
+const { inPlan, togglePlan } = usePlan()
+// 清单按展位号存（同号多 IP 在图上是同一个点）；图上没有热区的展位不给这个按钮
+const planNo = computed(() => {
+  const no = String(booth.value?.no || '').split('/')[0].trim()
+  return mapSpots[no] ? no : null
+})
 const base = import.meta.env.BASE_URL
 const mobile = isMobile()
 const copied = ref(false)

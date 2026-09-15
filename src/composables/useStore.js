@@ -48,6 +48,22 @@ export function useCollected() {
   return { collected, has, toggle, count }
 }
 
+// ---- 待打卡清单（按展位号 no 存，不是 id：一个展位号下的多个 IP 在图上是同一个点）----
+const plan = ref(new Set(load('rl26.plan', [])))
+watch(plan, (v) => save('rl26.plan', [...v]), { deep: true })
+
+export function usePlan() {
+  const inPlan = (no) => plan.value.has(no)
+  const togglePlan = (no) => {
+    const s = new Set(plan.value)
+    s.has(no) ? s.delete(no) : s.add(no)
+    plan.value = s
+  }
+  const clearPlan = () => (plan.value = new Set())
+  const planCount = computed(() => plan.value.size)
+  return { plan, inPlan, togglePlan, clearPlan, planCount }
+}
+
 // ---- 当前选中日期（花车 / 舞台共用）----
 function guessToday() {
   // 活动期间自动定位到当天，其余时间默认 DAY1
