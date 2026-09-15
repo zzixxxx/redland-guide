@@ -26,6 +26,9 @@ CROPS = {
     # id: (源图, (left, top, right, bottom))
     'A06': ('public/img/booths/A06/07.jpg', (555, 850, 665, 970), {'upscale': True}),
     'A09-1': ('public/img/booths/A09/01.jpg', (125, 730, 398, 1008)),
+    # B09 两枚徽章在图里只有 ~110px，且夜场款被日场款压住左半边，只能抠可见部分
+    'B09-1': ('public/img/booths/B09/05.jpg', (94, 381, 210, 492), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
+    'B09-2': ('public/img/booths/B09/05.jpg', (182, 462, 290, 557), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
     'A09-2': ('public/img/booths/A09/01.jpg', (425, 730, 698, 1008)),
     'A24-1': ('public/img/booths/A24/02.jpg', (516, 608, 702, 792)),
     'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),

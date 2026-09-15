@@ -26,9 +26,12 @@ export const pins = [
   { id: 'A24-pin-1', no: 'A24-1', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 假面骑士 / 奥特曼 / 哥斯拉 / 超级战队款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', thumb: 'img/pins/A24-1.jpg', image: 'img/booths/A24/02.jpg' },
   { id: 'A24-pin-2', no: 'A24-2', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 犬夜叉 / 初音未来 / EVA / 面包超人 / 柯南款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', thumb: 'img/pins/A24-2.jpg', image: 'img/booths/A24/02.jpg' },
   { id: 'B01-pin', no: 'B01', type: 'region', zone: 'B', name: '蛋仔派对 小红书 PIN（样式待公布）', booth: 'B01', how: 'Step1 完成原胚生产 / 表情写入 / 外观装配三个车间认证，与基础周边一同发放（官方 9/15 改版，原先挂在拍照发帖上）', thumb: null, image: 'img/booths/B01/16.jpg' },
+  { id: 'B09-1', no: 'B09-1', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 日场款', booth: 'B09', how: '完成展台互动问答领取；12:30–17:30，每日 800 份', thumb: 'img/pins/B09-1.jpg', image: 'img/booths/B09/05.jpg' },
+  { id: 'B09-2', no: 'B09-2', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 夜场款', booth: 'B09', how: '完成展台互动问答领取；17:30–21:30，每日 400 份', thumb: 'img/pins/B09-2.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'B02-pin-2', no: 'B02-2', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 谜拟丘款', booth: 'B02', how: '护照集章任务 1·2·3·6，17:30–21:30 领，每日 2000', thumb: 'img/pins/B02-2.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'C16-pin', no: 'C16', type: 'region', zone: 'C', name: '宝可梦卡牌「存档碎片」· 超梦 & 梦幻款', booth: 'C16', how: '卡牌体验营完成 3 个任务领取；日场款 12:30–17:30 每日 2000 个，夜场款（夜光）17:30–21:30 每日 1200 个，每人每次限领 1 个', thumb: 'img/pins/C16.jpg', image: 'img/booths/B02/card-03.jpg' },
+  { id: 'C17-pin', no: 'C17', type: 'region', zone: 'C', name: 'RED LAND 2026 限定徽章（航海王卡牌对战，样式待公布）', booth: 'C17', how: '集齐 3 枚航海王卡牌对战印章（SNS 打卡 / 策牌破局 / 互动游戏各 1 枚），扫码填问卷并下载万代卡牌 APP 后现场兑换；共限量 1600 枚', thumb: null, image: 'img/booths/C17/00.jpg' },
   { id: 'C07-pin', no: 'C07', type: 'region', zone: 'C', name: '苏丹的游戏徽章', booth: 'C07', how: '走完舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座全流程，向苏丹献上美味大餐；参与互动的玩家均可获得', thumb: 'img/pins/C07.jpg', image: 'img/booths/C07/02.jpg' },
 
   // ---- 夜间 ----
