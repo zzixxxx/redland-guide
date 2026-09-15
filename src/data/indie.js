@@ -3,7 +3,7 @@
 //       官方按首字母缩写排序，页尾注「*所有IP按照首字母缩写顺序排列」。2026-09-09 16:51 版共 84 款（8/29 版 78 款，9/9 新增 6 款）。
 // 每项 { name, en?, xhs?: { uid, name }, url? }：
 //   name 为官方页标签原文；en 为官方并列的英文名；xhs 为该游戏 / 工作室的小红书账号（来源：该游戏官方号发的 RED LAND 登岛笔记，
-//   9/11 已补 41 个；505 Games 一个账号对应其发行的 5 款、UBISOFT育碧 对应 异变金属；其余待用户提供笔记链接）；url 为该游戏的攻略链接（待补，有则名字可点）。
+//   9/11 补 40 个、9/14 补 Rain 98 共 41 个；505 Games 一个账号对应其发行的 5 款、UBISOFT育碧 对应 异变金属；其余待用户提供笔记链接）；url 为该游戏的攻略链接（待补，有则名字可点）。
 const g = (name, en) => (en ? { name, en } : { name })
 
 export const indieSource = {
@@ -29,7 +29,7 @@ export const indieGames = [
   { letter: 'O', games: [{ name: '鸥买嘎', en: 'GULLTASTROPHE', xhs: { uid: '6772d1d6000000001801638e', name: 'unSAME在做游戏' } }] },
   { letter: 'P', games: [g('婆罗洲的红珍珠'), { name: '噗通！潜水时光', xhs: { uid: '660d9c9d000000000d0271d1', name: '噗通！潜水时光' } }] },
   { letter: 'Q', games: [g('千里山河录'), { name: '囚生症', xhs: { uid: '63c63aa0000000002702a7fc', name: '囚生症制作组' } }, g('栖霞日记'), g('去月球 传奇RPG之最终一小时')] },
-  { letter: 'R', games: [g('Rain 98'), g('Roman Sands RE:Build')] },
+  { letter: 'R', games: [{ name: 'Rain 98', xhs: { uid: '69dee110000000002603aadb', name: 'Rain98_official' } }, g('Roman Sands RE:Build')] },
   { letter: 'S', games: [{ name: '睡个好觉', xhs: { uid: '6535138e00000000040089e8', name: 'Mecrew games' } }, g('三国叶子戏'), { name: '神力科莎EVO', xhs: { uid: '61b58621000000002102629f', name: '505 Games' } }, { name: '神力科莎：拉力', xhs: { uid: '61b58621000000002102629f', name: '505 Games' } }, { name: '睡前派对', xhs: { uid: '68d0fdd8000000001a017fcf', name: '睡前派对 Sleepover' } }, g('神缺席'), g('杀死影子'), g('死亡日：狂杀末路')] },
   { letter: 'T', games: [g('唐宫诗与谋'), { name: '天津1924', xhs: { uid: '61e7af7600000000100082b9', name: '倍儿哏儿工作室' } }, { name: '弹企鹅', xhs: { uid: '695a1d89000000002b016759', name: '弹企鹅PengPong' } }] },
   { letter: 'W', games: [g('我不是胖虎：小岛大当家')] },

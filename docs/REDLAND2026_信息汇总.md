@@ -735,6 +735,7 @@
 | C04 独立游戏 · 超能蕾雅的异次元之旅 | 505 Games | 61b58621000000002102629f |
 | C04 独立游戏 · 节奏狗狗 | 505 Games | 61b58621000000002102629f |
 | C04 独立游戏 · 异变金属 | UBISOFT育碧 | 668f3613000000000d02588e |
+| C04 独立游戏 · Rain 98 | Rain98_official | 69dee110000000002603aadb |
 | B01 蛋仔派对 | 网易蛋仔派对 | 5c602e46000000001202c4c4 |
 | B18 火影忍者手游 | 火影忍者手游情报君 | 650b9eb20000000012007285 |
 | 游荡 IP 公用冰箱里有什么 | 鼠记私房菜 | 5cce6553000000001103fece |
@@ -792,6 +793,7 @@
 - **第四批（同日）12 条**：新增账号 8 个（B05 漫威影业＝迪士尼中国号、B10 明日方舟Arknights、B11 明日方舟终末地、B22 代号：神不言、C02 灰烬之国Cinderia、C03a 乌合之众＝开发商南斋工作室、C08 猛兽派对、C09 世界之外）；剑网3 9/11 详情建 A38 并新增 PIN A38；航海王分会场 ditto 页只有参展信息（翻身时空港 A-23）。「最终幻想14」官方号与 C10 FINAL FANTASY RESONANCE 不是同一款游戏，未填。展位账号进度 72 / 81，剩 9 个：A28 代号：香、A29b 忍者神龟、A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE、C17 航海王卡牌对战。
 - **第五批（同日）4 条**：A28 代号：香、A29b 忍者神龟官方 账号；哥斯拉 / 犬夜叉分攻略并入 A24（9 个 IP 任务全部公布）。展位账号进度 74 / 81，剩 7 个：A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE、C17 航海王卡牌对战。
 - **第六批（同日）1 条**：C17 航海王卡牌对战 账号（日常卡牌帖，只取账号）。展位账号进度 75 / 81，剩 6 个：A31 MOTORSLICE / SILLY POLLY BEAST、A37 动物城模拟生活新游（Partopia）、B19 CLUTCH、C04 独立游戏试玩区、C10 FINAL FANTASY RESONANCE、C13 GSE。
+- **第七批（2026-09-14）1 条**：C04 独立游戏《Rain 98》（Rain98_official，9/14「加载完成提示：Rain98已进入RED LAND2026」）。确认登岛预告，只有玩法简介（90 年代末东京为舞台的 Lo-Fi × 心理悬疑冒险，与神秘少女雨原玲奈（CV：土屋李央）同居推进「毁灭世界的仪式」）与日期地点，**未建展台详情**，封面归档在 `assets/ip_notes/PREVIEWS_确认登岛预告/C04_Rain98.jpg`。独立游戏 84 款已有账号 41 个（此前文中记的 41 实为 40，本条补齐后确为 41）。
 
 ### 13.10 官方场馆平面图（2026-09-11，RED LAND 官方号）
 
@@ -1178,6 +1180,7 @@ IP 官方笔记（2026-09-09 增补，均为 xhslink 短链，App 内打开）
 - https://xhslink.cn/o/8u5Z9TEaHd6 （Azmat 08/27「AINUR 已进入RED LAND2026」，C04_AINUR_血月）
 - https://xhslink.cn/o/3zHFWBFuPSB （蓬蓬狗潮玩品牌 09/04「《蓬蓬狗》确认登岛RED LAND2026」，A22 皮乐 · 蓬蓬狗）
 - https://xhslink.cn/o/1RLjO9GS7xe （ATLUS 08/20「女神异闻录４ Revival已进入RED LAND2026」，C05_ATLUS_P4R）
+- https://xhslink.cn/o/1HZwrfgoCIv （Rain98_official 09/14「加载完成提示：Rain98已进入RED LAND2026」，C04_Rain98）
 - https://xhslink.cn/o/7qbb9UIr8jM （拉瑞安工作室 09/08「拉瑞安工作室 ｜ REDLAND2026 确认登岛」，C15_拉瑞安工作室）
 - https://xhslink.cn/o/wiM8P7TSBF （hololive 08/20「hololive确认登岛RED LAND2026！🏝️✨」，C12_hololive）
 - https://xhslink.cn/o/WmhUKEsqfb （新世界：暗影成双 09/01「《新世界：暗影成双》确认登岛 RED LAND 2026！」，B14_暗影成双）
