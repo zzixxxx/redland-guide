@@ -35,8 +35,8 @@
           <template v-if="sel === no && mode === 'spot'">
             <b v-for="h in HANDLES" :key="h" class="dev-h" :class="h" @pointerdown.stop="onRectDown($event, no, h)"></b>
           </template>
-          <!-- 到达门：朝向过道那条边标一段粗线 -->
-          <u v-if="doorOf(no)" class="dev-door" :class="doorOf(no)"></u>
+          <!-- 到达门：每条配了门的边都标一段粗线 -->
+          <u v-for="d in sidesOf(no)" :key="d" class="dev-door" :class="d"></u>
         </div>
 
         <!-- 出入口覆盖 -->
@@ -93,12 +93,14 @@
                 v-for="d in DOORS"
                 :key="d.key"
                 class="chip"
-                :class="{ on: doorOf(sel) === d.key }"
-                @click="setDoor(d.key)"
-              >{{ d.key }} {{ d.name }}</button>
+                :class="{ on: sidesOf(sel).includes(d.key) }"
+                @click="toggleDoor(d.key)"
+              >{{ d.key }} {{ d.name }}<small :class="{ far: gapOf(d.key) > 3 }">{{ gapOf(d.key) }}</small></button>
             </div>
             <div class="small muted mt-6">
-              导航终点落在这条边外侧。离最近一格「图上真有线」{{ doorGap }} 格{{ doorGap > 3 ? '——太远了，这边没有路' : '' }}。
+              可以选多条边（最少 1、最多 4），导航自动停在最近的那个门。
+              芯片上的数字是这条边离最近一格「图上真有线」几格：<b>0</b> 说明这边正对过道、适合开门，
+              <b class="far">&gt;3</b> 说明这边没有路，别选。
             </div>
           </template>
         </template>
@@ -162,7 +164,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import { booths } from '../data/booths.js'
 import { venueMap } from '../data/rules.js'
-import { mapSpots, mapDoors, mapStart, mapGates, walkGrid, doorPoint, loadDev, saveDev, clearDev } from '../data/mapSpots.js'
+import { mapSpots, mapDoors, mapStart, mapGates, walkGrid, doorPoints, DOOR_SIDES, loadDev, saveDev, clearDev } from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
 import { fmtDist } from '../utils/plan.js'
 
@@ -203,7 +205,7 @@ const start = ref(mapStart)
 const gates = computed(() => ov.value.gates || [])
 const noList = computed(() => Object.keys(spots.value).sort())
 const ipOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no)).map((b) => b.ip).join(' / ')
-const doorOf = (no) => doors.value[no]
+const sidesOf = (no) => [...String(doors.value[no] || '')].filter((c) => 'ABCD'.includes(c))
 const dirty = computed(
   () => Object.keys(ov.value.spots).length + Object.keys(ov.value.doors).length + ov.value.gates.length + (ov.value.start ? 1 : 0) + ov.value.removed.length,
 )
@@ -339,9 +341,14 @@ function setNum(i, v) {
   r[i] = Number(v)
   putSpot(sel.value, r)
 }
-function setDoor(d) {
-  ov.value.doors[sel.value] = d
-  doors.value[sel.value] = d
+// 到达门可以配多条边：最少留 1 条（点掉最后一条无效），最多 4 条；顺序固定 A→B→C→D
+function toggleDoor(d) {
+  const cur = sidesOf(sel.value)
+  const next = cur.includes(d) ? cur.filter((c) => c !== d) : [...cur, d]
+  if (!next.length) return
+  const v = [...DOOR_SIDES].filter((c) => next.includes(c)).join('')
+  ov.value.doors[sel.value] = v
+  doors.value[sel.value] = v
   commit()
 }
 function pick(m) {
@@ -369,10 +376,8 @@ function onKey(e) {
   putSpot(sel.value, r)
 }
 
-// 门离最近一格真线有多远（>3 格基本就是开在死面上了）
-const doorGap = computed(() => {
-  if (!sel.value) return 0
-  const p = doorPoint(sel.value)
+// 门离最近一格真线有多远（>3 格基本就是开在死面上了），每条边各算一个
+function gapAt(p) {
   const cx = Math.round(p.x * walkGrid.w)
   const cy = Math.round(p.y * walkGrid.h)
   for (let r = 0; r <= 25; r++) {
@@ -387,10 +392,24 @@ const doorGap = computed(() => {
     }
   }
   return 99
+}
+// 四条边各自离最近一格真线几格：0 = 正对过道，>3 = 这边没有路
+const PAD = 0.006
+const sideGaps = computed(() => {
+  const r = sel.value && spots.value[sel.value]
+  if (!r) return {}
+  const [x, y, w, h] = r
+  return {
+    A: gapAt({ x: x - PAD, y: y + h / 2 }),
+    B: gapAt({ x: x + w / 2, y: y - PAD }),
+    C: gapAt({ x: x + w + PAD, y: y + h / 2 }),
+    D: gapAt({ x: x + w / 2, y: y + h + PAD }),
+  }
 })
+const gapOf = (d) => sideGaps.value[d] ?? 99
 
 function runTest() {
-  const pts = findRoute(walkGrid, mapStart, doorPoint(sel.value), mapSpots) || []
+  const pts = findRoute(walkGrid, mapStart, doorPoints(sel.value), mapSpots) || []
   testPts.value = pts
   const r = spots.value[sel.value]
   scrollTo({ x: r[0] + r[2] / 2, y: r[1] + r[3] / 2 })

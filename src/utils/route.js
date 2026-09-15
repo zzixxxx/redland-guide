@@ -157,37 +157,50 @@ function relax(grid, u, dist, visit) {
 
 /**
  * 起点 → 终点的折线（归一化坐标）。无解返回 null。
+ * `to` 可以是一个点，也可以是一组点（展位有多个到达门时）：多目标 A*，
+ * 启发值取「到最近那个目标」，先弹出哪个就走哪个，不是按直线距离先猜一个（用户 9/15）。
  * @param {{w:number,h:number,rows:string[]}} grid mapSpots.walkGrid
  * @param {{x:number,y:number}} from
- * @param {{x:number,y:number}} to
+ * @param {{x:number,y:number}|{x:number,y:number}[]} to
  * @param {Record<string, number[]>} spots 展位框（加通行代价用）
  */
 export function findRoute(grid, from, to, spots) {
   prepare(grid, spots)
+  const goals = (Array.isArray(to) ? to : [to]).filter(Boolean)
+  if (!goals.length) return null
   const s = nodeOf(grid, from)
-  const t = nodeOf(grid, to)
-  if (s < 0 || t < 0) return null
+  const ids = goals.map((p) => nodeOf(grid, p))
+  const keep = ids.map((i, k) => [i, k]).filter(([i]) => i >= 0)
+  if (s < 0 || !keep.length) return null
+  const isGoal = new Set(keep.map(([i]) => i))
   const n = grid.w * grid.h
   const dist = new Float64Array(n).fill(Infinity)
   const prev = new Int32Array(n).fill(-1)
   const done = new Uint8Array(n)
-  const tx = t % grid.w
-  const ty = (t / grid.w) | 0
+  const gx = keep.map(([i]) => i % grid.w)
+  const gy = keep.map(([i]) => (i / grid.w) | 0)
   const hx = (i) => {
-    const dx = Math.abs((i % grid.w) - tx)
-    const dy = Math.abs(((i / grid.w) | 0) - ty)
-    return Math.max(dx, dy) + (Math.SQRT2 - 1) * Math.min(dx, dy)
+    const ix = i % grid.w
+    const iy = (i / grid.w) | 0
+    let best = Infinity
+    for (let k = 0; k < gx.length; k++) {
+      const dx = Math.abs(ix - gx[k])
+      const dy = Math.abs(iy - gy[k])
+      const d = Math.max(dx, dy) + (Math.SQRT2 - 1) * Math.min(dx, dy)
+      if (d < best) best = d
+    }
+    return best
   }
   const pq = new MinHeap(1 << 12)
   dist[s] = 0
   pq.push(hx(s), s)
-  let hit = false
+  let t = -1
   while (pq.n) {
     const u = pq.pop()
     if (done[u]) continue
     done[u] = 1
-    if (u === t) {
-      hit = true
+    if (isGoal.has(u)) {
+      t = u
       break
     }
     relax(grid, u, dist, (v, nd) => {
@@ -196,8 +209,12 @@ export function findRoute(grid, from, to, spots) {
       pq.push(nd + hx(v), v)
     })
   }
-  if (!hit && t !== s) return null
-  return trace(grid, prev, s, t, to)
+  if (t < 0) {
+    if (!isGoal.has(s)) return null
+    t = s
+  }
+  const goal = goals[keep.find(([i]) => i === t)[1]]
+  return trace(grid, prev, s, t, goal)
 }
 
 /**

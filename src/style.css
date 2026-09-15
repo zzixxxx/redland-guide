@@ -537,3 +537,7 @@ img { max-width: 100%; display: block; }
 .dev-out { width: 100%; min-height: 150px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; border: 2px solid var(--navy); border-radius: 3px; padding: 6px; background: #fbfbf5; }
 .pbtn.sm.ghost.on { background: var(--sky-deep); color: #fff; }
 .devlink { color: rgba(255, 255, 255, .55); text-decoration: none; margin-left: 6px; font-size: 11px; }
+.dev .small b { font-family: var(--font-num); font-size: 10px; margin-left: 6px; color: var(--green-dark); }
+.dev .small b.far { color: var(--red-dark); }
+.dev .chip small.far { color: var(--red-dark); }
+.dev .chip small { margin-left: 5px; font-family: var(--font-num); font-size: 8px; opacity: .85; }

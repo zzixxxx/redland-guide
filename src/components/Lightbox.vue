@@ -120,7 +120,7 @@
 //   单击热区选中并弹气泡，点气泡里的 IP 名直接进攻略，只有一个 IP 的展位还可以双击直接跳；
 //   气泡里的「导航」在图上画一条从登岛起点到该展位的路线（utils/route.js 在可走网格上跑 A*）。
 import { computed, ref, watch, nextTick, onBeforeUnmount } from 'vue'
-import { walkGrid, mapStart, mapSpots, mapFacilities, doorPoint } from '../data/mapSpots.js'
+import { walkGrid, mapStart, mapSpots, mapFacilities, doorPoints } from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
 
 const props = defineProps({
@@ -282,11 +282,13 @@ function nav(sp) {
   }
   const [x, y, w, h] = sp.rect
   const from = startPoint()
-  // 终点固定落在该展位朝向过道的那条边（mapDoors），不用中心点 —— 否则每次停的位置乱跳（用户 9/15）
-  const to = doorPoint(sp.no) || { x: x + w / 2, y: y + h / 2 }
+  // 终点固定落在该展位朝向过道的那条边（mapDoors），不用中心点 —— 否则每次停的位置乱跳（用户 9/15）；
+  // 配了多个门就交给 findRoute 多目标，自动停在最近的那个
+  const to = doorPoints(sp.no)
+  if (!to.length) to.push({ x: x + w / 2, y: y + h / 2 })
   const path = findRoute(walkGrid, from, to, mapSpots)
   const ok = path && path.length > 1
-  route.value = ok ? path : [from, to]
+  route.value = ok ? path : [from, to[0]]
   routeTo.value = sp.no
   picked.value = null // 画完就把气泡收起来，不然一直挡着看不到路线（用户 9/15）
 }

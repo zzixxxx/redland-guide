@@ -10,11 +10,11 @@
 // 不要按 n² 次 findRoute —— 81 个点是 240ms 对 13.4 秒的差别。
 //
 // 用户可以自己调顺序：传 fixedOrder 就完全按它走，不再优化（BoothsPage 的 ↑ ↓ 按钮，存 rl26.planOrder）。
-import { walkGrid, mapStart, mapSpots, mapSeq, doorPoint } from '../data/mapSpots.js'
+import { walkGrid, mapStart, mapSpots, mapSeq, doorPoints } from '../data/mapSpots.js'
 import { findDistances, findRoute } from './route.js'
 
-// 每个展位的到达点用「朝向过道的那条边」（mapDoors），不是几何中心
-const center = (no) => doorPoint(no)
+// 每个展位的到达点用「朝向过道的那条边」（mapDoors），不是几何中心；
+// 一个展位可能有多个门，距离矩阵取「门对门的最小值」，实际折线由多目标 findRoute 挑
 
 /**
  * 给一组展位号排出走法。
@@ -33,9 +33,22 @@ export function planRoute(stops, fixedOrder = null) {
   if (manual) {
     order = fixedOrder.filter((n) => list.includes(n))
   } else {
-    // 距离矩阵：第 0 行 / 列是登岛起点
-    const pts = [mapStart, ...list.map(center)]
-    const D = pts.map((p) => findDistances(walkGrid, p, pts, mapSpots))
+    // 距离矩阵：第 0 行 / 列是登岛起点。多门展位把每个门都当源跑一次，再对「门对门」取最小
+    const doorsOf = [[mapStart], ...list.map((no) => doorPoints(no))]
+    const flat = doorsOf.flat()
+    const owner = doorsOf.flatMap((ds, i) => ds.map(() => i))
+    const n0 = doorsOf.length
+    const D = Array.from({ length: n0 }, () => new Array(n0).fill(Infinity))
+    for (let i = 0; i < n0; i++) {
+      for (const src of doorsOf[i]) {
+        const row = findDistances(walkGrid, src, flat, mapSpots)
+        for (let k = 0; k < row.length; k++) {
+          const j = owner[k]
+          if (row[k] < D[i][j]) D[i][j] = row[k]
+        }
+      }
+      D[i][i] = 0
+    }
     const cost = (a, b) => D[a][b]
     const n = list.length
     const byNo = [...Array(n).keys()].map((i) => i + 1)
@@ -64,11 +77,17 @@ export function planRoute(stops, fixedOrder = null) {
   let prev = mapStart
   let prevNo = null
   for (const no of order) {
-    const to = center(no)
-    const points = findRoute(walkGrid, prev, to, mapSpots) || []
+    const ds = doorPoints(no)
+    const points = findRoute(walkGrid, prev, ds, mapSpots) || []
     legs.push({ from: prevNo, to: no, points })
     steps.push(polyLen(points))
-    prev = to
+    // 下一段从「实际停下的那个门」继续，而不是固定某一个门。
+    // 折线末端是「路线上离门最近的那一格」（trace 会截断），所以回推到最近的门，
+    // 否则下一段要从截断点再走回来，整条路会凭空长出一截。
+    if (points.length && ds.length) {
+      const end = points[points.length - 1]
+      prev = ds.reduce((a, b) => (Math.hypot(b.x - end.x, b.y - end.y) < Math.hypot(a.x - end.x, a.y - end.y) ? b : a))
+    }
     prevNo = no
   }
   return { order, legs, steps, total: steps.reduce((a, b) => a + b, 0), manual }

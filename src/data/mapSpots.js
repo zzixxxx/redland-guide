@@ -401,7 +401,10 @@ export const mapSeq = {
 }
 
 // 每个展位的「到达门」：路线终点固定落在朝向过道的那条边，免得每次导航停的位置乱跳（用户 9/15）。
-// A 左 / B 上 / C 右 / D 下，由 docs 13.14 的巷道归属反推——展位在巷道哪一侧，门就开在相反那边。
+// A 左 / B 上 / C 右 / D 下。**一个展位可以有多个门，最少 1 个、最多 4 个**（用户 9/15）：
+// 值写成边的字母串，如 'A'、'AC'、'ABCD'；转角 / 两面临过道的展位配多个，寻路会自动挑最近的那个进
+// （route.js 的 findRoute 支持多目标，不是按直线距离猜）。由 docs 13.14 的巷道归属反推——
+// 展位在巷道哪一侧，门就开在相反那边。
 // 校验办法：门点到最近一格「图上真有线」的距离，>3 格说明门开在了没有路的死面上。
 // 9/15 按这个办法改了 4 个：A14 D→A（原来开在南侧场外马路上，导航绕出会场，用户反馈应走 A12 → A13/A15 → A14）、
 // C10 A→C、C11 A→C、C12 A→D。A01/A02/A18/B17/B21 虽然也离线远，但换边后路线更长，维持原样。
@@ -421,17 +424,35 @@ export const mapDoors = {
 
 // 门点：贴着那条边、再往过道方向外推一点，作为寻路的终点
 const DOOR_PAD = 0.006
-export function doorPoint(no) {
-  const r = mapSpots[no]
-  if (!r) return null
-  const [x, y, w, h] = r
-  switch (mapDoors[no]) {
-    case 'A': return { x: x - DOOR_PAD, y: y + h / 2 }
-    case 'C': return { x: x + w + DOOR_PAD, y: y + h / 2 }
-    case 'B': return { x: x + w / 2, y: y - DOOR_PAD }
-    case 'D': return { x: x + w / 2, y: y + h + DOOR_PAD }
-    default: return { x: x + w / 2, y: y + h / 2 }
+export const DOOR_SIDES = 'ABCD'
+
+// 一条边的门点：贴着那条边、再往过道方向外推一点
+function sidePoint(rect, side) {
+  const [x, y, w, h] = rect
+  switch (side) {
+    case 'A': return { x: x - DOOR_PAD, y: y + h / 2, side }
+    case 'C': return { x: x + w + DOOR_PAD, y: y + h / 2, side }
+    case 'B': return { x: x + w / 2, y: y - DOOR_PAD, side }
+    case 'D': return { x: x + w / 2, y: y + h + DOOR_PAD, side }
+    default: return { x: x + w / 2, y: y + h / 2, side: '' }
   }
+}
+
+/** 该展位的全部到达门（1–4 个）。没配就退回中心点。 */
+export function doorPoints(no) {
+  const r = mapSpots[no]
+  if (!r) return []
+  const sides = [...String(mapDoors[no] || '')].filter((c) => DOOR_SIDES.includes(c))
+  if (!sides.length) return [sidePoint(r, '')]
+  return sides.map((s) => sidePoint(r, s))
+}
+
+/** 单个门点：给 from 就挑直线距离最近的那个（真正的最短由 findRoute 多目标决定）。 */
+export function doorPoint(no, from) {
+  const ps = doorPoints(no)
+  if (!ps.length) return null
+  if (!from || ps.length === 1) return ps[0]
+  return ps.reduce((a, b) => (Math.hypot(b.x - from.x, b.y - from.y) < Math.hypot(a.x - from.x, a.y - from.y) ? b : a))
 }
 
 // 一个展位号可能对应多个 IP（A01 王者荣耀 / 盛世天下、A14 巫师3 / 赛博朋克 ×2 …），
@@ -519,7 +540,10 @@ export function applyDev(ov) {
     if (mapSpots[no]) mapSpots[no].splice(0, 4, ...rect)
     else mapSpots[no] = [...rect]
   }
-  for (const [no, side] of Object.entries(o.doors)) if ('ABCD'.includes(side)) mapDoors[no] = side
+  for (const [no, side] of Object.entries(o.doors)) {
+    const v = [...new Set([...String(side)])].filter((c) => DOOR_SIDES.includes(c)).join('')
+    if (v) mapDoors[no] = v
+  }
   if (o.start) Object.assign(mapStart, o.start)
   stampGates(o.gates)
   // 路网 / 代价表是按 grid 缓存的，改完要作废重算
