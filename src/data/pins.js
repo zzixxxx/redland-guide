@@ -31,6 +31,7 @@ export const pins = [
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'B02-pin-2', no: 'B02-2', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 谜拟丘款', booth: 'B02', how: '护照集章任务 1·2·3·6，17:30–21:30 领，每日 2000', thumb: 'img/pins/B02-2.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'C16-pin', no: 'C16', type: 'region', zone: 'C', name: '宝可梦卡牌「存档碎片」· 超梦 & 梦幻款', booth: 'C16', how: '卡牌体验营完成 3 个任务领取；日场款 12:30–17:30 每日 2000 个，夜场款（夜光）17:30–21:30 每日 1200 个，每人每次限领 1 个', thumb: 'img/pins/C16.jpg', image: 'img/booths/B02/card-03.jpg' },
+  { id: 'C08-pin', no: 'C08', type: 'region', zone: 'C', name: 'REDLAND 官方 PIN（猛兽派对，样式待公布）', booth: 'C08', how: '完成《猛兽派对》手游试玩得限定贴纸后到吧台兑换；或与随机现身的猛兽主角合影互动有机会获得', thumb: null, image: 'img/booths/C08/00.jpg' },
   { id: 'C17-pin', no: 'C17', type: 'region', zone: 'C', name: 'RED LAND 2026 限定徽章（航海王卡牌对战，样式待公布）', booth: 'C17', how: '集齐 3 枚航海王卡牌对战印章（SNS 打卡 / 策牌破局 / 互动游戏各 1 枚），扫码填问卷并下载万代卡牌 APP 后现场兑换；共限量 1600 枚', thumb: null, image: 'img/booths/C17/00.jpg' },
   { id: 'C07-pin', no: 'C07', type: 'region', zone: 'C', name: '苏丹的游戏徽章', booth: 'C07', how: '走完舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座全流程，向苏丹献上美味大餐；参与互动的玩家均可获得', thumb: 'img/pins/C07.jpg', image: 'img/booths/C07/02.jpg' },
 

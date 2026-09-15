@@ -388,7 +388,7 @@ const treasureDock = {
     { name: '漫威 授权商品售卖' },
     { name: '猛兽派对' },
     { name: '蓬蓬狗' },
-    { name: 'SEGA STORE SHANGHAI' },
+    { name: 'SEGA STORE SHANGHAI', note: '摊位 NO.10 · 携《女神异闻录》系列、《真・女神转生》系列、《刺猬索尼克》、《人中之龙》等 IP 周边，现场有店铺新品同步发售，特典待公布（SEGA STORE 9/12 笔记）' },
     { name: '双界引擎' },
     { name: '王者好物' },
     { name: '新创华', note: '摊位 NO.05 · 初音未来 / 假面骑士 / EVA 正版联名潮服（见 A24 SCLA 攻略）' },
@@ -1252,6 +1252,66 @@ const opcg = {
   ],
 }
 
+// 猛兽派对（C-08，重生试炼场）：官方 ditto 分会场页「绝密！猛兽登岛攻略泄露」
+// 展台是「猛兽小屋」，四个亮点里有两处能拿 REDLAND 官方 PIN
+const partyAnimals = {
+  source: {
+    title: '绝密！猛兽登岛攻略泄露（官方专题页）',
+    url: 'https://xhslink.com/m/4kIIBODouoQ',
+    noteId: 'ad27d2c59f694175961afbf9fc7b1bac',
+    author: '猛兽派对',
+    publishedAt: '2026-09-11',
+  },
+  boothNo: 'C-08',
+  location: '重生试炼场 C-08',
+  intro: '登岛秘籍抢先看 —— 猛兽限时觉醒，快来小屋报到！',
+  notes: ['彩蛋掉落的专属限定无料数量有限，先到先得'],
+  activities: [
+    {
+      title: '展台亮点 · 猛兽小屋',
+      items: [
+        {
+          title: '先开一局',
+          desc: '完成《猛兽派对》手游试玩，获得限定贴纸；凭贴纸前往吧台，兑换【REDLAND 官方 PIN】+【周边无料】。',
+          rewards: ['REDLAND 官方 PIN', '周边无料'],
+        },
+        { title: '猛兽出片', desc: '前往穿衣镜前，捕获猛兽主角，获得你的【专属拍立得合影】。', rewards: ['专属拍立得合影'] },
+        {
+          title: '猛兽出没',
+          desc: '毛茸茸的猛兽主角们会随机现身于小屋各处，合影互动即有机会获得【REDLAND 官方 PIN】。',
+          rewards: ['REDLAND 官方 PIN（随机）'],
+        },
+        {
+          title: '彩蛋掉落',
+          desc: '指定时段，猛兽主角们会带着各自的周边彩蛋现身，参与趣味互动即可领取【专属限定无料】。',
+          note: '数量有限，先到先得',
+          rewards: ['专属限定无料'],
+        },
+      ],
+    },
+  ],
+  tasks: [
+    {
+      title: '线下找尼莫贴贴，线上投稿赢周边',
+      desc: '10 月 2 日起至 10 月 6 日，带话题发布笔记，内容为 REDLAND 现场的《猛兽派对》展台打卡实拍、线下手游试玩体验、NPC 玩偶互动等。@猛兽派对 官方将参与互动翻牌，还可能有独家周边惊喜掉落。',
+      tags: ['#猛兽派对', '#REDLAND'],
+      note: '官方只承诺互动翻牌，周边为「可能掉落」，不是保底奖励',
+      follow: [{ uid: '610911670000000001016cbc', name: '猛兽派对' }],
+    },
+  ],
+  rewards: [
+    { name: 'REDLAND 官方 PIN（猛兽派对，样式待公布）', how: '完成手游试玩得限定贴纸后到吧台兑换；或与随机现身的猛兽主角合影互动', pin: true, pinId: 'C08-pin' },
+    { name: '周边无料', how: '与 PIN 一同在吧台凭试玩贴纸兑换' },
+    { name: '专属拍立得合影', how: '猛兽出片：到穿衣镜前捕获猛兽主角' },
+    { name: '专属限定无料', how: '彩蛋掉落：指定时段与带周边彩蛋现身的猛兽主角趣味互动；数量有限' },
+  ],
+  footnote: '各项无料数量有限，先到先得；具体时段以现场公告为准。',
+  images: [
+    { src: 'img/booths/C08/00.jpg', caption: '登岛秘籍 · 展台四大亮点（先开一局 / 猛兽出片 / 猛兽出没 / 彩蛋掉落）' },
+    { src: 'img/booths/C08/01.jpg', caption: '线上投稿 · 带 #猛兽派对 #REDLAND 发笔记' },
+  ],
+}
+
 const eggy = {
   source: {
     title: '蛋仔超级工厂即将上线｜免费登岛门票派送中（仅收录展台情报部分）',
@@ -1769,6 +1829,7 @@ export default {
   C05: p4r,
   B09: reverse1999,
   C17: opcg,
+  C08: partyAnimals,
   B22: shenbuyan,
   A24: scla,
   A35: yuewen,
