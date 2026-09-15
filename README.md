@@ -33,7 +33,7 @@ npm run build    # 产物在 dist/，base 为 /redland-guide/（GitHub Pages 同
 | `stage.js` | 月光舞台 5 日节目单、营地主题 | 官方「冒险者营地」半层 |
 | `rules.js` | 活动基本信息、主线 / 彩蛋玩法、新地图 / 夜间模式、每日时刻、官方场馆平面图、功能点位指南、2025 年参考地图 | 官方「冒险者攻略」半层 + 主会场 + RED LAND 官方号平面图笔记（2025 参考地图为网友整理，标注非官方） |
 | `pins.js` | PIN 图鉴：区域 / 夜间 / 老玩家 / NPC / 拼图，占位编号、缩略图、获取方式 | RED LAND 官方 PIN 笔记 + 各 IP 展台详情笔记 |
-| `mapSpots.js` | 官方平面图上的 81 个展位热区、功能点位坐标、导航路网 | 从官方图识别（`scripts/map-spots.py`）后人工核对 |
+| `mapSpots.js` | 官方平面图上的 81 个展位热区、到达门、功能点位坐标、导航路网 | 从官方图识别（`scripts/map-spots.py`）后人工核对；可在 `#/dev` 开发者模式里直接在图上校正并导出 |
 | `roaming.js` | 无固定展位、场内游荡分发物料的 IP（日期 / 无料清单 / 账号） | 该 IP 官方账号笔记 |
 
 原始素材（官方页面全部图片、DSL JSON、逐图转录、各 IP 笔记归档）在 [`docs/`](./docs/)，总资料见 [`docs/REDLAND2026_信息汇总.md`](./docs/REDLAND2026_信息汇总.md)。

@@ -267,6 +267,7 @@
       </div>
       <div class="small mt-10" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">
         * 展位编号以官方「IP 展位一览」为准；★ 可标记已完成任务 / 已领 PIN，仅保存在本机。
+        <router-link to="/dev" class="devlink">开发者模式</router-link>
       </div>
     </div>
 

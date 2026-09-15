@@ -503,3 +503,37 @@ img { max-width: 100%; display: block; }
 /* 多 IP 共用展位的分组标题（详情页活动 / 任务按 IP 收起展开） */
 .ipgroup { display: block; width: 100%; text-align: left; font-weight: 800; font-size: 14px; color: var(--brown); text-decoration: none; padding: 8px 0 2px; margin-top: 6px; border-top: 1.5px dashed #eadfc4; }
 .ipgroup:first-of-type { border-top: 0; margin-top: 4px; }
+
+/* ---- 开发者模式（#/dev，校正平面图数据；不在正式 Tab 里） ---- */
+.dev .dev-bar { position: sticky; top: 0; z-index: 3; background: var(--paper); border: 3px solid var(--navy); box-shadow: 4px 4px 0 var(--navy); padding: 8px 10px; }
+.dev-map { margin-top: 10px; border: 3px solid var(--navy); box-shadow: 4px 4px 0 var(--navy); background: #000; overflow: auto; max-height: 62vh; }
+.dev-canvas { position: relative; }
+.dev-canvas img { display: block; image-rendering: pixelated; }
+.dev-catch { position: absolute; inset: 0; }
+.dev-rect { position: absolute; border: 1.5px solid rgba(255, 60, 60, .9); cursor: move; }
+.dev-rect.dim { border-color: rgba(255, 60, 60, .35); cursor: default; }
+.dev-rect.on { border: 2px solid #00e5ff; background: rgba(0, 229, 255, .12); }
+.dev-lab { position: absolute; left: 0; top: -13px; font-family: var(--font-num); font-size: 7px; color: #fff; background: rgba(0, 0, 0, .6); padding: 1px 2px; font-style: normal; }
+.dev-h { position: absolute; width: 11px; height: 11px; background: #00e5ff; border: 1.5px solid var(--navy); }
+.dev-h.nw { left: -6px; top: -6px; cursor: nwse-resize; }
+.dev-h.ne { right: -6px; top: -6px; cursor: nesw-resize; }
+.dev-h.sw { left: -6px; bottom: -6px; cursor: nesw-resize; }
+.dev-h.se { right: -6px; bottom: -6px; cursor: nwse-resize; }
+.dev-door { position: absolute; background: #ffd23f; box-shadow: 0 0 0 1px rgba(0, 0, 0, .5); }
+.dev-door.A { left: -3px; top: 20%; bottom: 20%; width: 3px; }
+.dev-door.C { right: -3px; top: 20%; bottom: 20%; width: 3px; }
+.dev-door.B { top: -3px; left: 20%; right: 20%; height: 3px; }
+.dev-door.D { bottom: -3px; left: 20%; right: 20%; height: 3px; }
+.dev-gate { position: absolute; transform: translate(-50%, -50%); border: 2px solid #fff; cursor: pointer; }
+.dev-gate.open { background: rgba(0, 255, 120, .45); }
+.dev-gate.block { background: rgba(255, 0, 0, .45); }
+.dev-start { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #fff; border: 3px solid var(--red); }
+.dev-route { position: absolute; inset: 0; pointer-events: none; }
+.dev-route polyline { fill: none; stroke: #00ff66; stroke-width: 4; stroke-linejoin: round; }
+.dev-sel { font: inherit; font-size: 13px; padding: 5px 6px; border: 2px solid var(--navy); border-radius: 3px; background: var(--paper); max-width: 190px; }
+.dev-nums { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
+.dev-nums label { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.dev-nums input { flex: 1; min-width: 0; font: inherit; font-size: 12px; padding: 4px 5px; border: 2px solid var(--navy); border-radius: 3px; }
+.dev-out { width: 100%; min-height: 150px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; border: 2px solid var(--navy); border-radius: 3px; padding: 6px; background: #fbfbf5; }
+.pbtn.sm.ghost.on { background: var(--sky-deep); color: #fff; }
+.devlink { color: rgba(255, 255, 255, .55); text-decoration: none; margin-left: 6px; font-size: 11px; }

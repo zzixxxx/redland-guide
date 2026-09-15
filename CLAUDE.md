@@ -31,14 +31,14 @@
 ```
 src/
   main.js / App.vue           入口；App 里 keep-alive 三个列表页（按组件 name 匹配）
-  router/index.js             /booths  /booth/:id  /parade  /stage
+  router/index.js             /booths  /booth/:id  /parade  /stage  /pins  /dev（开发者模式，不挂底栏）
   style.css                   全部样式（设计 token 在 :root；像素组件类见 §5）
   composables/useStore.js     useChecked（展位打卡，rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）/ usePlan（待打卡清单，rl26.plan 按展位号 no 存；rl26.planOrder 用户手调的顺序，null = 自动排最短）
   components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）Lightbox（多图灯箱：每张图都可双指缩放 / 拖动 / 双击复位，左右滑动翻页、← → Esc；带 spots 的官方平面图额外有展位热区、导航路线与功能点位遮罩，见 §5）StepList（活动 / 任务的分步列表，支持 follow 关注标签）PostCopyBtn（带话题任务的「复制文案」，手机端复制后唤起小红书发笔记页）
   utils/xhs.js                小红书链接与 App 唤起：`openProfile` 主页（xhsdiscover://user/<uid>）、`openSearch` 搜索、`openPage` 站内 H5（xhsdiscover://webview/?url=）、`openCompose` 发笔记页（xhsdiscover://post）。手机端先唤起 App，未安装 / 取消再退回网页；Android Chrome 走 intent://，PC 不拦截
   utils/plan.js               待打卡清单排路线：三种初始顺序（最近邻 / 蛇形序 / 展位号）各跑 2-opt + Or-opt 取最短（见 §5）；fmtDist 按官方「200M」箭头定的比例尺换算米数
   utils/route.js              平面图导航寻路：`findRoute` 单条路线（堆版 A*，约 1.5ms）、`findDistances` 一次单源 Dijkstra 拿到到一批目标的距离（建距离矩阵用，81×81 约 240ms）。见 §5
-  views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage / PinsPage
+  views/                      BoothsPage / BoothDetailPage / ParadePage / StagePage / PinsPage / DevMapPage（开发者模式，#/dev，见 §5.1）
   data/                       所有内容数据，纯 JS 模块，见 §4（含 roaming.js：无固定展位、场内游荡分发物料的 IP）
 public/img/booths/<展位id>/   各 IP 笔记原图（810px 宽 JPEG，无水印版）+ note.json（抓取原始数据，含 fileIds / keptIndex）
 public/img/pins/              从笔记图抠出的单枚 PIN 缩略图（<pin id>.jpg，最长边 320px）+ zone-A/B/C 通用占位软盘
@@ -159,6 +159,24 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 列表页用 `keep-alive`，组件必须有 `name`（单独 `<script>` 导出），否则筹选状态会丢。
 - 本机状态只用 localStorage（打卡 `rl26.checked`、当前 DAY `rl26.day`、PIN 已收集 `rl26.pins`），不引入登录 / 云同步。
 - 中文与英文 / 数字之间留一个空格；官方专有名词不改写（「存档碎片」「冒险者营地」「月下模式」等）。
+
+## 5.1 开发者模式（`#/dev`）
+
+平面图那套数据（热区 / 到达门 / 出入口 / 起点）是脚本识别 + 人工核对出来的，总会有偏差。
+`src/views/DevMapPage.vue` 提供一个**只存本机**的校正工具，用户 9/15 要求：
+
+- 入口：地址栏 `#/dev`，或展位列表底部那行小字右侧的「开发者模式」链接（`.devlink`，半透明白字）。**不要挂进底栏 `TabBar`**。
+- 四种模式：
+  - **热区**——点框选中，拖动整块 / 拖四角改大小，方向键微调（Shift ×10、Alt 改宽高），也可以直接填 x / y / w / h；「新建热区」点图落一个新框并输入展位号；「删除」移除。
+  - **到达门**——选中展位后点 A 左 / B 上 / C 右 / D 下。面板会算出**门点离最近一格「图上真有线」几格**，>3 格就是门开在没有路的死面上（A14 当初就是这么错的）。
+  - **出入口**——在图上盖方块：`open` 强制开成可走真线（补出入口、补被文字压断的过道），`block` 封死（图上画了线但实际走不通）。半径可调，点已有方块删除。
+  - **起点**——点图挪 `mapStart`。
+- 「从起点试走到 XX」当场跑一遍 `findRoute` 画出绿线并给出距离，改完立刻能验证。
+- 存储：`localStorage` 的 `rl26.dev`，由 `mapSpots.js` 底部的 `applyDev()` **原地合并**到 `mapSpots` / `mapDoors` / `mapStart` / `walkGrid` 上（合并时会作废 `walkGrid._cells/_base/_cost` 缓存并重建 `mapSpotList`），所以改完全站的导航立刻生效、刷新也还在。
+  - 因为是原地改 `const` 对象，**不要把这些导出换成新对象**，否则别处 `import` 到的还是旧引用。
+  - 页面里读这些数据要「通过 `ref()` 包一层再改」（`spots` / `doors` / `start`），直接改原对象 Vue 收不到通知。
+- 「导出代码」给出可直接贴回 `src/data/mapSpots.js` 的片段（`mapSpots` 行、`mapDoors` 行、`mapStart`、完整的 `mapGates`）；贴回去以后回来点「清空本机覆盖」。
+- `mapGates` 是固化下来的出入口修正（`[{ x, y, r, mode }]`，默认空数组），和本机覆盖一起在 `stampGates()` 里盖到路网上。
 
 ## 6. 补充一个 IP 的展台详情（标准流程）
 

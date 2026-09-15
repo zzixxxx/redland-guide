@@ -439,9 +439,99 @@ export function doorPoint(no) {
 const boothsOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no))
 
 // 灯箱要的热区数组：rect 归一化坐标，items 为该展位号下的全部 IP
-export const mapSpotList = Object.entries(mapSpots).map(([no, rect]) => ({
-  no,
-  label: `${no[0]}-${no.slice(1)}`,
-  rect,
-  items: boothsOf(no).map((b) => ({ id: b.id, ip: b.ip })),
-}))
+function buildSpotList() {
+  return Object.entries(mapSpots).map(([no, rect]) => ({
+    no,
+    label: `${no[0]}-${no.slice(1)}`,
+    rect,
+    items: boothsOf(no).map((b) => ({ id: b.id, ip: b.ip })),
+  }))
+}
+export const mapSpotList = buildSpotList()
+
+// ---------------------------------------------------------------------------
+// 开发者模式的本地覆盖（/dev，见 views/DevMapPage.vue）
+//
+// 上面这些数据是脚本识别 + 人工核对出来的，难免有偏差。开发者模式把「热区 / 到达门 /
+// 出入口 / 起点」的修改存在本机 localStorage（rl26.dev），在这里合并回同一批导出对象上，
+// 所以改完立刻对导航生效、刷新也还在；确认没问题后从 /dev 导出代码贴回本文件，再清掉覆盖。
+// 注意：所有覆盖都是「原地改」这些 const 对象，不要换成新对象，否则别处 import 到的还是旧引用。
+// ---------------------------------------------------------------------------
+export const DEV_KEY = 'rl26.dev'
+const emptyDev = () => ({ spots: {}, doors: {}, gates: [], start: null, removed: [] })
+
+export function loadDev() {
+  try {
+    const raw = localStorage.getItem(DEV_KEY)
+    return raw ? { ...emptyDev(), ...JSON.parse(raw) } : emptyDev()
+  } catch {
+    return emptyDev()
+  }
+}
+
+export function saveDev(ov) {
+  try {
+    localStorage.setItem(DEV_KEY, JSON.stringify(ov))
+  } catch {
+    /* 隐私模式等场景忽略 */
+  }
+  applyDev(ov)
+}
+
+export function clearDev() {
+  try {
+    localStorage.removeItem(DEV_KEY)
+  } catch {
+    /* ignore */
+  }
+  // 覆盖是原地改的，清掉之后要刷新页面才能拿回原始数据
+}
+
+// 固化下来的出入口修正：开发者模式（/dev）调好后导出贴到这里，就不再依赖本机 localStorage。
+// open = 把这片强制开成可走真线（补出入口 / 补被文字压断的过道），block = 封死（图上画了线但走不通）。
+export const mapGates = []
+
+// 出入口覆盖：在路网上按方格盖章，open = 开成真线、block = 封死。r 是半径（格）
+function stampGates(gates) {
+  if (!walkGrid._raw) walkGrid._raw = [...walkGrid.rows]
+  const rows = walkGrid._raw.map((r) => r.split(''))
+  for (const g of [...mapGates, ...(gates || [])]) {
+    const cx = Math.round(g.x * walkGrid.w)
+    const cy = Math.round(g.y * walkGrid.h)
+    const r = Math.max(0, Math.round(g.r ?? 3))
+    const ch = g.mode === 'block' ? '0' : '2'
+    for (let y = cy - r; y <= cy + r; y++) {
+      for (let x = cx - r; x <= cx + r; x++) {
+        if (x < 0 || y < 0 || x >= walkGrid.w || y >= walkGrid.h) continue
+        rows[y][x] = ch
+      }
+    }
+  }
+  walkGrid.rows = rows.map((r) => r.join(''))
+}
+
+export function applyDev(ov) {
+  const o = { ...emptyDev(), ...(ov || {}) }
+  // 热区：原地改数组，mapSpotList / route.js 拿到的是同一批引用
+  for (const no of o.removed) delete mapSpots[no]
+  for (const [no, rect] of Object.entries(o.spots)) {
+    if (!Array.isArray(rect) || rect.length !== 4) continue
+    if (mapSpots[no]) mapSpots[no].splice(0, 4, ...rect)
+    else mapSpots[no] = [...rect]
+  }
+  for (const [no, side] of Object.entries(o.doors)) if ('ABCD'.includes(side)) mapDoors[no] = side
+  if (o.start) Object.assign(mapStart, o.start)
+  stampGates(o.gates)
+  // 路网 / 代价表是按 grid 缓存的，改完要作废重算
+  walkGrid._cells = null
+  walkGrid._base = null
+  walkGrid._cost = null
+  rebuildSpotList()
+}
+
+function rebuildSpotList() {
+  mapSpotList.length = 0
+  mapSpotList.push(...buildSpotList())
+}
+
+if (typeof localStorage !== 'undefined') applyDev(loadDev())
