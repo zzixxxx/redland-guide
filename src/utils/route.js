@@ -1,34 +1,122 @@
-// 平面图上的简易寻路：在 mapSpots.js 的可走网格上跑 A*，把「起点 → 展位」连成一条折线。
-// 网格按官方图配色判出海水 / 草地 / 外框为不可走；展位框不挖（挖了会切断窄过道导致无解），
-// 而是给展位内的格子加通行代价 —— 路线优先走展位之间的过道，绕不开时才从展位上过。
-// 坐标一律用 P2 切片的归一化 0–1。
+// 平面图上的寻路：在 mapSpots.js 的可走网格上跑 A*，把「起点 → 展位」连成一条折线。
+// 网格按官方图画出来的线判可走（详见 mapSpots.js），展位框不挖、只加通行代价，
+// 路线因此优先走展位之间的过道，绕不开时才从展位上过。坐标一律用 P2 切片的归一化 0–1。
+//
+// 性能（14175 个可走格 / 5 万条无向边，2026-09-14 实测）：
+//   单次查询 —— 原来开表用线性扫最小值是 O(V²)，改二叉堆后 4.2ms → 2.7ms；
+//   多点距离 —— 用 findDistances 一次单源 Dijkstra 拿到到所有目标的距离（9ms），
+//   81×81 的全矩阵 81 次即可（318ms）；按 n² 次 A* 要 3240 次约 13.4 秒，差 42 倍。
+// 没上双向 Dijkstra / ALT / Contraction Hierarchies：这三种是为百万级路网准备的，
+// 本图只有 1.4 万格且是「粗带状」的均匀网格（度分布里 69% 的格子度数为 8，没有一个度为 2 的格），
+// 既没有可收缩的链，也没有 CH 依赖的「高速—乡道」层级，收缩只会造出海量 shortcut。
+// 实测双向 Dijkstra 2.75ms，和堆版 A* 打平（图太小，两个小圆并不比一个圆省）。
 
 const IDX = (g, x, y) => y * g.w + x
 
 // rows 里 '2' = 图上真的画了线的格，'1' = 闭运算补出来的桥接格，'0' = 不可走。
 // 桥接格要贵一些，否则跨空地的桥会被当成捷径，路线就不走出入口了。
 const BRIDGE_COST = 25
-function buildCells(grid) {
-  if (grid._cells) return grid._cells
-  const cells = new Uint8Array(grid.w * grid.h)
-  const cost = new Float32Array(grid.w * grid.h)
-  for (let y = 0; y < grid.h; y++) {
-    const row = grid.rows[y]
-    for (let x = 0; x < grid.w; x++) {
-      const c = row.charCodeAt(x)
-      const i = IDX(grid, x, y)
-      cells[i] = c === 48 ? 0 : 1
-      cost[i] = c === 50 ? 1 : BRIDGE_COST
+// 展位格的额外代价：够让 A* 宁愿绕一圈
+const SPOT_COST = 6
+// 八邻域：dx, dy, 基础步长
+const NB = [
+  [-1, -1, Math.SQRT2], [0, -1, 1], [1, -1, Math.SQRT2],
+  [-1, 0, 1], [1, 0, 1],
+  [-1, 1, Math.SQRT2], [0, 1, 1], [1, 1, Math.SQRT2],
+]
+
+// 最小二叉堆（key 为 Float64，val 为节点下标）。原来用数组线性找最小，节点一多就是平方复杂度。
+class MinHeap {
+  constructor(cap) {
+    this.k = new Float64Array(cap)
+    this.v = new Int32Array(cap)
+    this.n = 0
+  }
+  push(key, val) {
+    if (this.n === this.k.length) {
+      const k = new Float64Array(this.n * 2)
+      const v = new Int32Array(this.n * 2)
+      k.set(this.k)
+      v.set(this.v)
+      this.k = k
+      this.v = v
+    }
+    let i = this.n++
+    this.k[i] = key
+    this.v[i] = val
+    while (i > 0) {
+      const p = (i - 1) >> 1
+      if (this.k[p] <= this.k[i]) break
+      this.swap(p, i)
+      i = p
     }
   }
-  grid._cells = cells
-  grid._base = cost
-  return cells
+  pop() {
+    const val = this.v[0]
+    this.n--
+    if (this.n > 0) {
+      this.k[0] = this.k[this.n]
+      this.v[0] = this.v[this.n]
+      let i = 0
+      for (;;) {
+        const l = 2 * i + 1
+        const r = l + 1
+        let m = i
+        if (l < this.n && this.k[l] < this.k[m]) m = l
+        if (r < this.n && this.k[r] < this.k[m]) m = r
+        if (m === i) break
+        this.swap(m, i)
+        i = m
+      }
+    }
+    return val
+  }
+  swap(a, b) {
+    const k = this.k[a]
+    this.k[a] = this.k[b]
+    this.k[b] = k
+    const v = this.v[a]
+    this.v[a] = this.v[b]
+    this.v[b] = v
+  }
+}
+
+// 网格解析只做一次，结果挂在 grid 上复用
+function prepare(grid, spots) {
+  if (!grid._cells) {
+    const n = grid.w * grid.h
+    const cells = new Uint8Array(n)
+    const base = new Float32Array(n)
+    for (let y = 0; y < grid.h; y++) {
+      const row = grid.rows[y]
+      for (let x = 0; x < grid.w; x++) {
+        const c = row.charCodeAt(x)
+        const i = IDX(grid, x, y)
+        cells[i] = c === 48 ? 0 : 1
+        base[i] = c === 50 ? 1 : BRIDGE_COST
+      }
+    }
+    grid._cells = cells
+    grid._base = base
+  }
+  if (!grid._cost) {
+    const cost = Float32Array.from(grid._base)
+    for (const [x, y, w, h] of Object.values(spots || {})) {
+      for (let gy = Math.floor(y * grid.h); gy < Math.ceil((y + h) * grid.h); gy++) {
+        for (let gx = Math.floor(x * grid.w); gx < Math.ceil((x + w) * grid.w); gx++) {
+          if (gx >= 0 && gy >= 0 && gx < grid.w && gy < grid.h) cost[IDX(grid, gx, gy)] *= SPOT_COST
+        }
+      }
+    }
+    grid._cost = cost
+  }
+  return grid
 }
 
 // 起点 / 终点可能正好落在不可走格（展位框里、装饰上），就近找一个可走格
-function nearestWalkable(grid, cells, x, y, maxR = 34) {
-  if (cells[IDX(grid, x, y)]) return [x, y]
+function nearestWalkable(grid, x, y, maxR = 34) {
+  const cells = grid._cells
+  if (x >= 0 && y >= 0 && x < grid.w && y < grid.h && cells[IDX(grid, x, y)]) return IDX(grid, x, y)
   for (let r = 1; r <= maxR; r++) {
     for (let dy = -r; dy <= r; dy++) {
       for (let dx = -r; dx <= r; dx++) {
@@ -36,98 +124,117 @@ function nearestWalkable(grid, cells, x, y, maxR = 34) {
         const nx = x + dx
         const ny = y + dy
         if (nx < 0 || ny < 0 || nx >= grid.w || ny >= grid.h) continue
-        if (cells[IDX(grid, nx, ny)]) return [nx, ny]
+        if (cells[IDX(grid, nx, ny)]) return IDX(grid, nx, ny)
       }
     }
   }
-  return null
+  return -1
 }
+const nodeOf = (grid, p) => nearestWalkable(grid, Math.round(p.x * grid.w), Math.round(p.y * grid.h))
 
-// 展位格的额外代价：够让 A* 宁愿绕一圈
-const SPOT_COST = 6
-function buildCost(grid, spots) {
-  if (grid._cost) return grid._cost
-  const cost = Float32Array.from(grid._base)
-  for (const rect of Object.values(spots || {})) {
-    const [x, y, w, h] = rect
-    for (let gy = Math.floor(y * grid.h); gy < Math.ceil((y + h) * grid.h); gy++) {
-      for (let gx = Math.floor(x * grid.w); gx < Math.ceil((x + w) * grid.w); gx++) {
-        if (gx >= 0 && gy >= 0 && gx < grid.w && gy < grid.h) cost[IDX(grid, gx, gy)] *= SPOT_COST
-      }
-    }
+// 八方向扩展：斜着走要求两个正交邻格也可走，免得从展位角上「擦」过去
+function relax(grid, u, dist, visit) {
+  const { w, h, _cells: cells, _cost: cost } = grid
+  const ux = u % w
+  const uy = (u / w) | 0
+  for (let i = 0; i < 8; i++) {
+    const dx = NB[i][0]
+    const dy = NB[i][1]
+    const nx = ux + dx
+    const ny = uy + dy
+    if (nx < 0 || ny < 0 || nx >= w || ny >= h) continue
+    const v = ny * w + nx
+    if (!cells[v]) continue
+    if (dx && dy && (!cells[uy * w + nx] || !cells[ny * w + ux])) continue
+    const nd = dist[u] + NB[i][2] * cost[v]
+    if (nd < dist[v]) visit(v, nd)
   }
-  grid._cost = cost
-  return cost
 }
 
 /**
- * @param {{w:number,h:number,rows:string[]}} grid 可走网格
- * @param {{x:number,y:number}} from 起点（归一化）
- * @param {{x:number,y:number}} to   终点（归一化）
+ * 起点 → 终点的折线（归一化坐标）。无解返回 null。
+ * @param {{w:number,h:number,rows:string[]}} grid mapSpots.walkGrid
+ * @param {{x:number,y:number}} from
+ * @param {{x:number,y:number}} to
  * @param {Record<string, number[]>} spots 展位框（加通行代价用）
- * @returns {{x:number,y:number}[]|null} 归一化折线，无解返回 null
  */
 export function findRoute(grid, from, to, spots) {
-  const cells = buildCells(grid)
-  const cost = buildCost(grid, spots)
-  const s = nearestWalkable(grid, cells, Math.round(from.x * grid.w), Math.round(from.y * grid.h))
-  const t = nearestWalkable(grid, cells, Math.round(to.x * grid.w), Math.round(to.y * grid.h))
-  if (!s || !t) return null
+  prepare(grid, spots)
+  const s = nodeOf(grid, from)
+  const t = nodeOf(grid, to)
+  if (s < 0 || t < 0) return null
   const n = grid.w * grid.h
-  const start = IDX(grid, s[0], s[1])
-  const goal = IDX(grid, t[0], t[1])
-  const gScore = new Float32Array(n).fill(Infinity)
+  const dist = new Float64Array(n).fill(Infinity)
   const prev = new Int32Array(n).fill(-1)
-  const open = [start]
-  const fScore = new Float32Array(n).fill(Infinity)
+  const done = new Uint8Array(n)
+  const tx = t % grid.w
+  const ty = (t / grid.w) | 0
   const hx = (i) => {
-    const dx = Math.abs((i % grid.w) - t[0])
-    const dy = Math.abs(Math.floor(i / grid.w) - t[1])
-    return Math.max(dx, dy) + 0.414 * Math.min(dx, dy)
+    const dx = Math.abs((i % grid.w) - tx)
+    const dy = Math.abs(((i / grid.w) | 0) - ty)
+    return Math.max(dx, dy) + (Math.SQRT2 - 1) * Math.min(dx, dy)
   }
-  gScore[start] = 0
-  fScore[start] = hx(start)
-  const inOpen = new Uint8Array(n)
-  inOpen[start] = 1
-  while (open.length) {
-    // 网格只有 2 万多格，线性取最小比堆简单且够快
-    let bi = 0
-    for (let i = 1; i < open.length; i++) if (fScore[open[i]] < fScore[open[bi]]) bi = i
-    const cur = open.splice(bi, 1)[0]
-    inOpen[cur] = 0
-    if (cur === goal) break
-    const cx = cur % grid.w
-    const cy = Math.floor(cur / grid.w)
-    for (let dy = -1; dy <= 1; dy++) {
-      for (let dx = -1; dx <= 1; dx++) {
-        if (!dx && !dy) continue
-        const nx = cx + dx
-        const ny = cy + dy
-        if (nx < 0 || ny < 0 || nx >= grid.w || ny >= grid.h) continue
-        const ni = IDX(grid, nx, ny)
-        if (!cells[ni]) continue
-        // 斜着走要求两个正交邻格也可走，免得从展位角上「擦」过去
-        if (dx && dy && (!cells[IDX(grid, cx + dx, cy)] || !cells[IDX(grid, cx, cy + dy)])) continue
-        const step = (dx && dy ? 1.414 : 1) * cost[ni]
-        const ng = gScore[cur] + step
-        if (ng < gScore[ni]) {
-          gScore[ni] = ng
-          prev[ni] = cur
-          fScore[ni] = ng + hx(ni)
-          if (!inOpen[ni]) {
-            inOpen[ni] = 1
-            open.push(ni)
-          }
-        }
-      }
+  const pq = new MinHeap(1 << 12)
+  dist[s] = 0
+  pq.push(hx(s), s)
+  let hit = false
+  while (pq.n) {
+    const u = pq.pop()
+    if (done[u]) continue
+    done[u] = 1
+    if (u === t) {
+      hit = true
+      break
     }
+    relax(grid, u, dist, (v, nd) => {
+      dist[v] = nd
+      prev[v] = u
+      pq.push(nd + hx(v), v)
+    })
   }
-  if (prev[goal] === -1 && goal !== start) return null
+  if (!hit && t !== s) return null
+  return trace(grid, prev, s, t, to)
+}
+
+/**
+ * 一次单源 Dijkstra 拿到「起点 → 每个目标」的距离。做多点顺序（待打卡清单）时用它建距离矩阵：
+ * n 个点跑 n 次即可，不要按 n² 次 findRoute。
+ * @returns {number[]} 与 targets 等长，不可达为 Infinity
+ */
+export function findDistances(grid, from, targets, spots) {
+  prepare(grid, spots)
+  const s = nodeOf(grid, from)
+  const ids = targets.map((p) => nodeOf(grid, p))
+  if (s < 0) return targets.map(() => Infinity)
+  const n = grid.w * grid.h
+  const dist = new Float64Array(n).fill(Infinity)
+  const done = new Uint8Array(n)
+  const pq = new MinHeap(1 << 12)
+  dist[s] = 0
+  pq.push(0, s)
+  let left = new Set(ids.filter((i) => i >= 0)).size
+  while (pq.n && left > 0) {
+    const u = pq.pop()
+    if (done[u]) continue
+    done[u] = 1
+    if (ids.includes(u)) left--
+    relax(grid, u, dist, (v, nd) => {
+      dist[v] = nd
+      pq.push(nd, v)
+    })
+  }
+  return ids.map((i) => (i < 0 ? Infinity : dist[i]))
+}
+
+// 回溯 + 折线简化：只保留方向变化的拐点；终点截到「路线上离目标最近的那一格」
+// （A* 的目标格是就近可走格，可能已经绕过了展位口，走到最近点就该停）
+function trace(grid, prev, s, t, to) {
   let path = []
-  for (let i = goal; i !== -1; i = prev[i]) path.push(i)
+  for (let i = t; i !== -1; i = prev[i]) {
+    path.push(i)
+    if (i === s) break
+  }
   path.reverse()
-  // 终点截到「路线上离展位最近的一格」：A* 的目标格是就近可走格，可能已经绕过了展位口，
-  // 走到最近点就该停（用户 9/14）
   let best = path.length - 1
   let bestD = Infinity
   for (let k = 0; k < path.length; k++) {
@@ -140,7 +247,6 @@ export function findRoute(grid, from, to, spots) {
     }
   }
   path = path.slice(0, best + 1)
-  // 折线简化：只保留方向变化的拐点
   const pts = []
   let lastDir = null
   for (let k = 0; k < path.length; k++) {
