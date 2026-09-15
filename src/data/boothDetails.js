@@ -1312,6 +1312,64 @@ const partyAnimals = {
   ],
 }
 
+// 古剑（A-15，翻身时空港）：「长生酒肆」主题展台 —— 1 小时试玩 demo + 打卡区 + 10 分钟牛头计时挑战 + 独家周边
+const swordsOfLegends = {
+  source: {
+    title: '登岛情报|司判留步，长生酒肆邀您登岛一叙',
+    url: 'https://xhslink.cn/o/18RlwQ59m9g',
+    noteId: '6aa8ecf2000000002601831a',
+    author: '古剑',
+    publishedAt: '2026-09-15',
+  },
+  boothNo: 'A-15',
+  location: '翻身时空港 A-15',
+  intro: '司判大人，久候了。RED LAND 在即，长生酒肆已备薄礼，静待诸位登岛。',
+  notes: [
+    '周边具体发放规则以现场活动说明为准',
+    '特别鸣谢 @ROG玩家国度、@七彩虹科技（COLORFUL iGAME）、@盖世小鸡、@清闲智能（LiberNovo）、飞利浦电视对本次《古剑》RED LAND 活动的支持',
+  ],
+  activities: [
+    {
+      title: '实机试玩 · 感受一小时司判之旅',
+      desc: '展台设试玩区，单场 demo 预计 1 小时；旁边另设「1 小时试玩 demo 排队区」。',
+    },
+    { title: '实景打卡 · 闲时来长生酒肆坐坐', desc: '展台内「长生酒肆打卡区」为 1:1 实景布景。' },
+    {
+      title: '计时挑战 · 十分钟牛头火力全开',
+      desc: '「牛头计时挑战」单场预计 10 分钟，旁边另设「挑战牛头排队区」。',
+    },
+    {
+      title: '独家周边 · 全新周边，先到先得',
+      desc: '展台设「独家周边领取处」。奖品为《古剑》手提袋、趣味贴纸、三命毛绒挂饰、折扇、头目纸卡。',
+      note: '发放规则以现场活动说明为准',
+      rewards: ['《古剑》手提袋', '趣味贴纸', '三命毛绒挂饰', '折扇', '头目纸卡'],
+    },
+    {
+      title: '展台分区（按官方入场指引图）',
+      items: [
+        { desc: '独家周边领取处' },
+        { desc: '1 小时试玩 demo 排队区 → 试玩区（demo 预计 1 小时）' },
+        { desc: '挑战牛头排队区 → 牛头计时挑战（预计 10 分钟）' },
+        { desc: '长生酒肆打卡区' },
+      ],
+    },
+  ],
+  tasks: [],
+  rewards: [
+    { name: '《古剑》手提袋', how: '展台「独家周边领取处」，先到先得' },
+    { name: '趣味贴纸', how: '同上' },
+    { name: '三命毛绒挂饰', how: '同上' },
+    { name: '折扇', how: '同上' },
+    { name: '头目纸卡（4 款）', how: '同上' },
+  ],
+  footnote: '周边先到先得，具体发放规则以现场活动说明为准。',
+  images: [
+    { src: 'img/booths/A15/00.jpg', caption: '入场指引（A-15 在官方地图上的位置）与展台分区' },
+    { src: 'img/booths/A15/01.jpg', caption: '展台惊喜掉落 · 手提袋 / 趣味贴纸 / 三命毛绒挂饰 / 折扇 / 头目纸卡' },
+    { src: 'img/booths/A15/02.jpg', caption: '特别鸣谢' },
+  ],
+}
+
 const eggy = {
   source: {
     title: '蛋仔超级工厂即将上线｜免费登岛门票派送中（仅收录展台情报部分）',
@@ -1830,6 +1888,7 @@ export default {
   B09: reverse1999,
   C17: opcg,
   C08: partyAnimals,
+  A15: swordsOfLegends,
   B22: shenbuyan,
   A24: scla,
   A35: yuewen,
