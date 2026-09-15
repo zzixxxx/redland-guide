@@ -49,8 +49,11 @@ export function useCollected() {
 }
 
 // ---- 待打卡清单（按展位号 no 存，不是 id：一个展位号下的多个 IP 在图上是同一个点）----
+// plan 只管「有哪些点」；planOrder 是用户自己调过的顺序（null = 交给 planRoute 自动排最少回头路）。
 const plan = ref(new Set(load('rl26.plan', [])))
 watch(plan, (v) => save('rl26.plan', [...v]), { deep: true })
+const planOrder = ref(load('rl26.planOrder', null))
+watch(planOrder, (v) => save('rl26.planOrder', v), { deep: true })
 
 export function usePlan() {
   const inPlan = (no) => plan.value.has(no)
@@ -58,10 +61,28 @@ export function usePlan() {
     const s = new Set(plan.value)
     s.has(no) ? s.delete(no) : s.add(no)
     plan.value = s
+    // 手动顺序跟着增删同步：新点排到最后，删掉的移出；成员对不上时 planRoute 会自动退回优化顺序
+    if (planOrder.value) {
+      const o = planOrder.value.filter((n) => s.has(n))
+      for (const n of s) if (!o.includes(n)) o.push(n)
+      planOrder.value = o
+    }
   }
-  const clearPlan = () => (plan.value = new Set())
+  const clearPlan = () => {
+    plan.value = new Set()
+    planOrder.value = null
+  }
+  // 把当前显示的顺序里第 i 个往前 / 往后挪一格（从此转为手动顺序）
+  const movePlan = (order, i, dir) => {
+    const j = i + dir
+    if (j < 0 || j >= order.length) return
+    const o = [...order]
+    ;[o[i], o[j]] = [o[j], o[i]]
+    planOrder.value = o
+  }
+  const autoPlan = () => (planOrder.value = null)
   const planCount = computed(() => plan.value.size)
-  return { plan, inPlan, togglePlan, clearPlan, planCount }
+  return { plan, planOrder, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount }
 }
 
 // ---- 当前选中日期（花车 / 舞台共用）----

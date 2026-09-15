@@ -225,6 +225,13 @@ img { max-width: 100%; display: block; }
 }
 .booth .star.off { background: #f3f3f6; border-color: #b7bbc9; box-shadow: 2px 2px 0 #b7bbc9; color: #b7bbc9; }
 .booth .star.xhs { background: #fff0f0; border-color: var(--red-dark); box-shadow: 2px 2px 0 var(--red-dark); font-size: 14px; }
+/* 右侧按钮列最多两颗高（用户 9/15）：★ 与 📕 竖排，「＋ 清单」挪进 IP 名那一行 */
+.booth-acts { display: flex; flex-direction: column; gap: 6px; flex: 0 0 auto; }
+.tag.text.btn.plan-add {
+  background: var(--paper); color: var(--sky-deep); border-color: var(--sky-deep);
+  box-shadow: 2px 2px 0 var(--sky-deep); font-size: 10px; font-weight: 700; padding: 2px 6px;
+}
+.tag.text.btn.plan-add.on { background: var(--sky-deep); color: #fff; }
 .booth.done .ip { color: var(--green-dark); }
 
 /* 进度条 */
@@ -389,7 +396,6 @@ img { max-width: 100%; display: block; }
 }
 
 /* 待打卡清单 */
-.star.plan { font-size: 15px; line-height: 1; }
 .plan-list { list-style: none; margin: 0; padding: 0; }
 .plan-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1.5px dashed #eadfc4; }
 .plan-list li:first-child { border-top: 0; }
@@ -398,7 +404,25 @@ img { max-width: 100%; display: block; }
   background: var(--red); color: #fff; border: 2px solid var(--red-dark);
   font-family: var(--font-num); font-size: 9px; line-height: 16px;
 }
-.plan-body { flex: 1; min-width: 0; font-size: 13px; color: var(--brown); }
+.plan-body { flex: 1; min-width: 0; font-size: 13px; color: var(--brown); display: flex; align-items: center; flex-wrap: wrap; gap: 4px 8px; }
+/* 清单里的 IP 名可点，直接进该展位攻略（用户 9/15） */
+.plan-bno { flex: 0 0 auto; font-family: var(--font-num); font-size: 10px; color: var(--red-dark); }
+.plan-ip { background: none; border: 0; padding: 0; font: inherit; font-weight: 700; color: var(--brown); cursor: pointer; text-align: left; }
+.plan-ip.done { color: var(--green-dark); text-decoration: line-through; text-decoration-color: #bcd9b5; }
+/* 打卡 / 上移 / 下移 / 移出，一律 24px 小方钮 */
+.plan-acts { flex: 0 0 auto; display: flex; gap: 4px; }
+.plan-acts .star {
+  display: inline-flex; align-items: center; justify-content: center; border-radius: 3px;
+  background: var(--yellow); border: 2px solid #b98b00; color: var(--brown); cursor: pointer;
+}
+.plan-acts .star.off { background: #f3f3f6; border-color: #b7bbc9; color: #b7bbc9; }
+.booth .star.sm, .plan-acts .star.sm { width: 24px; height: 24px; font-size: 12px; box-shadow: 1.5px 1.5px 0 #b98b00; }
+.plan-acts .star.sm.off { box-shadow: 1.5px 1.5px 0 #b7bbc9; }
+.plan-acts .star.sm.ghost {
+  background: var(--paper); border-color: var(--brown-2); box-shadow: 1.5px 1.5px 0 var(--brown-2); color: var(--brown);
+}
+.plan-acts .star.sm.ghost:disabled { opacity: .35; box-shadow: none; }
+.plan-acts .star.sm { cursor: pointer; }
 
 /* 主题横幅 */
 .theme-banner {

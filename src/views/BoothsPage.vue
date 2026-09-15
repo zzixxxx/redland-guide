@@ -167,29 +167,51 @@
       </div>
     </div>
 
-    <!-- 待打卡清单：按逛展动线序号排初始顺序，再用 2-opt 改进（见 utils/plan.js） -->
+    <!-- 待打卡清单：自动排最少回头路，也可以自己上下调（见 utils/plan.js） -->
     <div v-if="planCount" class="pcard sand mt-14">
       <div class="pcard-body">
         <div class="fold-head" @click="openPlan = !openPlan">
-          <div class="pcard-title">🧭 待打卡清单 <span class="tag" style="font-size:9px">{{ planCount }}</span></div>
+          <div class="pcard-title">待打卡清单 <span class="tag" style="font-size:9px">{{ planCount }}</span></div>
           <span class="fold-arrow" :class="{ open: openPlan }">&gt;</span>
         </div>
         <template v-if="openPlan">
           <div v-if="planResult" class="small muted mt-6">
-            已按逛展动线排好：全程约 {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
+            {{ planResult.manual ? '按你调好的顺序' : '已按最少回头路排好' }}：全程约
+            {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
           </div>
           <ol class="plan-list mt-6">
             <li v-for="(no, i) in planResult ? planResult.order : []" :key="no">
               <span class="plan-no">{{ i + 1 }}</span>
+              <!-- 点 IP 名直接进该展位攻略；一个展位号下有多个 IP 就逐个列出来分别可点 -->
               <span class="plan-body">
-                <b>{{ no }}</b> {{ ipOf(no) }}
+                <b class="plan-bno">{{ no }}</b>
+                <button
+                  v-for="b in boothsOf(no)"
+                  :key="b.id"
+                  type="button"
+                  class="plan-ip"
+                  :class="{ done: isChecked(b.id) }"
+                  @click="go(b)"
+                >{{ b.ip }}</button>
                 <span class="muted small">· {{ fmtDist(planResult.steps[i]) }}</span>
               </span>
-              <button class="linkbtn small" @click="togglePlan(no)">移除</button>
+              <span class="plan-acts">
+                <!-- 就地打卡：整个展位号下的 IP 一起标（图上是同一个点） -->
+                <button
+                  class="star sm"
+                  :class="{ off: !allChecked(no) }"
+                  :aria-label="allChecked(no) ? '取消打卡' : '标记打卡'"
+                  @click="toggleNo(no)"
+                >★</button>
+                <button class="star sm ghost" :disabled="i === 0" aria-label="上移" @click="movePlan(planResult.order, i, -1)">↑</button>
+                <button class="star sm ghost" :disabled="i === planResult.order.length - 1" aria-label="下移" @click="movePlan(planResult.order, i, 1)">↓</button>
+                <button class="star sm ghost" aria-label="移出清单" @click="togglePlan(no)">✕</button>
+              </span>
             </li>
           </ol>
           <div class="row wrap mt-10" style="gap:8px">
             <button class="pbtn sm" @click="openImgs(mapSlices, MAP_P2)">在地图上看路线</button>
+            <button v-if="planResult && planResult.manual" class="pbtn sm ghost" @click="autoPlan()">重排最短</button>
             <button class="pbtn sm ghost" @click="clearPlan()">清空</button>
           </div>
         </template>
@@ -224,18 +246,19 @@
                 {{ b.ip }}
                 <span v-if="hasDetail(b.id)" class="tag green text" style="font-size:10px;padding:2px 5px">攻略</span>
                 <span v-if="isChecked(b.id)" class="tag yellow text" style="font-size:10px;padding:2px 5px">已打卡</span>
+                <!-- 加清单挪到 IP 名这一行（用户 9/15）：右侧按钮列最多两颗高，＋ 也不再套星星样式 -->
+                <button
+                  v-if="mapSpots[noOf(b)]"
+                  type="button"
+                  class="tag text btn plan-add"
+                  :class="{ on: inPlan(noOf(b)) }"
+                  @click.stop="togglePlan(noOf(b))"
+                >{{ inPlan(noOf(b)) ? '✓ 已在清单' : '＋ 清单' }}</button>
               </div>
               <div class="blurb">{{ b.blurb }}</div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:6px;flex:0 0 auto">
+            <div class="booth-acts">
               <button class="star" :class="{ off: !isChecked(b.id) }" @click.stop="toggle(b.id)" :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'">★</button>
-              <button
-                v-if="mapSpots[b.no.split(/\s*\/\s*/)[0]]"
-                class="star plan"
-                :class="{ off: !inPlan(b.no.split(/\s*\/\s*/)[0]) }"
-                @click.stop="togglePlan(b.no.split(/\s*\/\s*/)[0])"
-                :aria-label="inPlan(b.no.split(/\s*\/\s*/)[0]) ? '从清单移除' : '加入待打卡清单'"
-              >{{ inPlan(b.no.split(/\s*\/\s*/)[0]) ? '✓' : '＋' }}</button>
               <a v-if="b.xhs" class="star xhs" :href="profileUrl(b.xhs.uid)" target="_blank" rel="noopener" @click.stop="openProfile($event, b.xhs.uid)" :title="`小红书 @${b.xhs.name}`">📕</a>
             </div>
           </div>
@@ -304,7 +327,7 @@ import { profileUrl, openProfile, openPage } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()
-const { plan, inPlan, togglePlan, clearPlan, planCount } = usePlan()
+const { plan, planOrder, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount } = usePlan()
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
@@ -314,9 +337,14 @@ const openMap26 = ref(false)
 const openTips26 = ref(false)
 const openFac = ref(false)
 const openPlan = ref(true)
-// 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）
-const planResult = computed(() => (planCount.value ? planRoute([...plan.value]) : null))
-const ipOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no)).map((b) => b.ip).join(' / ')
+// 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）；planOrder 非空就按用户调好的顺序走
+const planResult = computed(() => (planCount.value ? planRoute([...plan.value], planOrder.value) : null))
+// 「B02 / B17」这类共用编号在地图上是同一个点，一律取第一个编号
+const noOf = (b) => String(b.no).split(/\s*\/\s*/)[0]
+const boothsOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no))
+// 打卡按展位 id 存，一个展位号下可能挂多个 IP，所以整号打卡 = 把这些 id 一起翻
+const allChecked = (no) => { const bs = boothsOf(no); return bs.length > 0 && bs.every((b) => isChecked(b.id)) }
+const toggleNo = (no) => { const on = allChecked(no); for (const b of boothsOf(no)) if (isChecked(b.id) === on) toggle(b.id) }
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })
