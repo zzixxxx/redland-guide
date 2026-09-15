@@ -1,5 +1,6 @@
 import { ref, watch, computed } from 'vue'
 import { event } from '../data/rules.js'
+import { booths } from '../data/booths.js'
 
 // ---- localStorage 小工具 ----
 function load(key, fallback) {
@@ -48,23 +49,47 @@ export function useCollected() {
   return { collected, has, toggle, count }
 }
 
-// ---- 待打卡清单（按展位号 no 存，不是 id：一个展位号下的多个 IP 在图上是同一个点）----
-// plan 只管「有哪些点」；planOrder 是用户自己调过的顺序（null = 交给 planRoute 自动排最少回头路）。
-const plan = ref(new Set(load('rl26.plan', [])))
+// ---- 待打卡清单 ----
+// plan 按**展位 id** 存（A25a / A25b 分开），因为同一个展位号下的多个 IP 要能各加各的（用户 9/15）；
+// 地图上它们是同一个点，所以排路线时再按展位号去重（见 BoothsPage 的 planNos）。
+// planOrder 存的是**展位号**顺序（null = 交给 planRoute 自动排最少回头路）。
+// 迁移：9/15 之前存的是展位号，遇到同号多 IP 的（A01 → A01a/A01b）展开成全部 id。
+function migratePlan(saved) {
+  const ids = new Set(booths.map((b) => b.id))
+  const out = new Set()
+  for (const v of saved) {
+    if (ids.has(v)) {
+      out.add(v)
+      continue
+    }
+    for (const b of booths) if (String(b.no).split('/').some((s) => s.trim() === v)) out.add(b.id)
+  }
+  return out
+}
+const plan = ref(migratePlan(load('rl26.plan', [])))
 watch(plan, (v) => save('rl26.plan', [...v]), { deep: true })
 const planOrder = ref(load('rl26.planOrder', null))
 watch(planOrder, (v) => save('rl26.planOrder', v), { deep: true })
 
+// 展位 id → 地图上的展位号（「B02 / B17」这类共用编号取第一个）
+const noOfId = (id) => {
+  const b = booths.find((x) => x.id === id)
+  return b ? String(b.no).split('/')[0].trim() : null
+}
+const nosOf = (ids) => [...new Set([...ids].map(noOfId).filter(Boolean))]
+
 export function usePlan() {
-  const inPlan = (no) => plan.value.has(no)
-  const togglePlan = (no) => {
+  const inPlan = (id) => plan.value.has(id)
+  const togglePlan = (id) => {
     const s = new Set(plan.value)
-    s.has(no) ? s.delete(no) : s.add(no)
+    s.has(id) ? s.delete(id) : s.add(id)
     plan.value = s
-    // 手动顺序跟着增删同步：新点排到最后，删掉的移出；成员对不上时 planRoute 会自动退回优化顺序
+    // 手动顺序按展位号存，跟着增删同步：新点排到最后，删掉的移出；
+    // 成员对不上时 planRoute 会自动退回优化顺序
     if (planOrder.value) {
-      const o = planOrder.value.filter((n) => s.has(n))
-      for (const n of s) if (!o.includes(n)) o.push(n)
+      const nos = nosOf(s)
+      const o = planOrder.value.filter((n) => nos.includes(n))
+      for (const n of nos) if (!o.includes(n)) o.push(n)
       planOrder.value = o
     }
   }
@@ -82,7 +107,9 @@ export function usePlan() {
   }
   const autoPlan = () => (planOrder.value = null)
   const planCount = computed(() => plan.value.size)
-  return { plan, planOrder, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount }
+  // 排路线用的展位号（同号多 IP 只算一个点）
+  const planNos = computed(() => nosOf(plan.value))
+  return { plan, planOrder, planNos, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount }
 }
 
 // ---- 当前选中日期（花车 / 舞台共用）----

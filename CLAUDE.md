@@ -33,7 +33,7 @@ src/
   main.js / App.vue           入口；App 里 keep-alive 三个列表页（按组件 name 匹配）
   router/index.js             /booths  /booth/:id  /parade  /stage  /pins  /dev（开发者模式，不挂底栏）
   style.css                   全部样式（设计 token 在 :root；像素组件类见 §5）
-  composables/useStore.js     useChecked（展位打卡，rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）/ usePlan（待打卡清单，rl26.plan 按展位号 no 存；rl26.planOrder 用户手调的顺序，null = 自动排最短）
+  composables/useStore.js     useChecked（展位打卡，rl26.checked）/ useDay（花车与舞台共享的当前 DAY，rl26.day）/ useCollected（PIN 已收集，rl26.pins）/ usePlan（待打卡清单，rl26.plan 按**展位 id** 存、一个展位号下的多个 IP 各加各的；rl26.planOrder 是展位号顺序，null = 自动排最短）
   components/                 TabBar（底栏）PageHeader（顶栏，back 模式）DayChips（DAY1–5）Lightbox（多图灯箱：每张图都可双指缩放 / 拖动 / 双击复位，左右滑动翻页、← → Esc；带 spots 的官方平面图额外有展位热区、导航路线与功能点位遮罩，见 §5）StepList（活动 / 任务的分步列表，支持 follow 关注标签）PostCopyBtn（带话题任务的「复制文案」，手机端复制后唤起小红书发笔记页）
   utils/xhs.js                小红书链接与 App 唤起：`openProfile` 主页（xhsdiscover://user/<uid>）、`openSearch` 搜索、`openPage` 站内 H5（xhsdiscover://webview/?url=）、`openCompose` 发笔记页（xhsdiscover://post）。手机端先唤起 App，未安装 / 取消再退回网页；Android Chrome 走 intent://，PC 不拦截
   utils/plan.js               待打卡清单排路线：三种初始顺序（最近邻 / 蛇形序 / 展位号）各跑 2-opt + Or-opt 取最短（见 §5）；fmtDist 按官方「200M」箭头定的比例尺换算米数
@@ -134,7 +134,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
   - **灯箱里每张图都能双指缩放 / 拖动**（用户 9/14）：全部走 `.lb-hot-wrap` + `transform`，`zoom=1` 的含义按图片类型定——长图按舞台宽铺满、横幅与平面图切片按高铺满、其余整图 contain（小图仍最多放大 3 倍），最小可缩到整图可见。原来的 `.lb-stage.tall/.wide` 原生滚动已删，改成拖动平移。
   - **三张切片统一按舞台高度铺满**（`fitH: true`，用户 9/14）：三张是同一张原图切的、原高相同，按高度铺满后左右翻页才像同一张图的三段；`zoom = 1` 就是「按高度铺满」，最小可缩到 `minZoom`（= 整张切片刚好看得全）。铺满后的像素尺寸**要在 JS 里算好写到 `.lb-hot-wrap` 的 width/height 上**（`wrapStyle` 的判断用 `isMap` 不是 `hasSpots`，否则 P1/P3 会按原始像素撑开），只写 `max-height:100%` 解析不了（容器高 auto）；`resize` / `orientationchange` 要重新量，横竖屏都得适配。横向放不下时单指拖动平移，**拖到左右边界还继续同方向滑就翻页**。缩放平移由组件自己用 `transform` 做（`.lb-stage.map` 上 `touch-action:none`），双指缩放 / 单指拖动 / 滚轮 / 右上角 `.lb-zoom` 浮层都走同一套 `zoomBy`，**双击空白复位 100%**。缩放控件放右上角浮层、底栏 `.nav` 改成流内元素——原来 `.nav` 是 absolute，图片下方的注释会和它压在一起（用户 9/14）。**iOS Safari 的双指缩放必须在 `gesturestart/gesturechange/gestureend` 上 `preventDefault`**，否则会把整页放大、盖掉图里的缩放。
   - 单击热区选中 + 弹 `.lb-bub` 气泡；**气泡里直接点 IP 名字跳攻略，不要再写「攻略 ›」**（用户 9/14）；只有一个 IP 的展位还可以双击直接跳，多 IP 的双击只做选中。选中框 `.lb-hot.on` 只用 1.5px 细边——3px 会盖住图里的展位号（用户 9/14）。有选中时点空白先取消选中、不关灯箱。跳转用 `@open="id"` 交回页面（`BoothsPage.openBooth`），不在组件里写路由。
-  - **待打卡清单**（用户 9/15）：`usePlan` 按展位号存在 `rl26.plan`；首页展位行的「＋ 清单」与详情页「＋ 加清单」都能加。清单卡列出顺序与每段距离，「在地图上看路线」把整条多点路线传给 `Lightbox` 的 `plan` prop，图上画连线 + 编号站点（`.lb-stop`）。
+  - **待打卡清单**（用户 9/15）：`usePlan` 按**展位 id** 存在 `rl26.plan`——`A25a` 鬼灭之刃和 `A25b` 孤独摇滚要能各加各的，**不要按展位号存**（用户 9/15：「加清单的时候不要同个展位的一起加进清单了，要按 IP 加」）。地图上同号是同一个点，所以 `planNos` 先按展位号去重再交给 `planRoute`；清单里一行一个 IP，同号的第 2 个起用 `↳` + 「同一展位」占位、距离只标在第一行、↑↓ 对子行禁用。旧数据（存的是展位号）由 `migratePlan()` 展开成该号下的全部 id。首页展位行的「＋ 清单」与详情页「＋ 加清单」都能加。清单卡列出顺序与每段距离，「在地图上看路线」把整条多点路线传给 `Lightbox` 的 `plan` prop，图上画连线 + 编号站点（`.lb-stop`）。
     **排序目标是「最少回头路」，不是展位号顺序**（用户 9/15）：`planRoute()` 先用 `findDistances` 建距离矩阵，再拿三个初始顺序（最近邻 / `mapSeq` 蛇形序 / 展位号）各跑一遍 **2-opt（反转一段，解交叉）+ Or-opt（把 1–3 个连续站点整段挪走、可反向插入）**，取最短的那条。只有 2-opt 时常见「一个点被落下、最后专程折返」，Or-opt 专治这个。8 个点约 30ms、81 个约 380ms。
     **用户可以自己调顺序**：清单每行的 ↑ ↓ 改顺序后写进 `rl26.planOrder`，`planRoute(stops, fixedOrder)` 就完全照它走（卡片顶部文案改成「按你调好的顺序」，并出现「重排最短」按钮）；增删点时 `planOrder` 跟着同步，成员对不上就自动退回优化顺序。
     清单行本身可点 IP 名进该展位攻略、可就地点 ★ 打卡（一个展位号下的多个 IP 一起翻，因为图上是同一个点），已打卡的 IP 名转绿加删除线。**卡片标题不要带 emoji**（用户 9/15）。

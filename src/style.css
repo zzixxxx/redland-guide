@@ -541,3 +541,6 @@ img { max-width: 100%; display: block; }
 .dev .small b.far { color: var(--red-dark); }
 .dev .chip small.far { color: var(--red-dark); }
 .dev .chip small { margin-left: 5px; font-family: var(--font-num); font-size: 8px; opacity: .85; }
+/* 清单里同一展位号下的第 2 个及以后的 IP：缩一点、编号位置用箭头占位 */
+.plan-list li.sub { padding-top: 2px; border-top: 0; }
+.plan-no.ghost { background: none; border: 0; color: var(--brown-2); font-family: inherit; font-size: 12px; line-height: 20px; }

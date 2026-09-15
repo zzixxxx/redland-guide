@@ -179,35 +179,31 @@
             {{ planResult.manual ? '按你调好的顺序' : '已按最少回头路排好' }}：全程约
             {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
           </div>
+          <!-- 一行一个 IP；同一展位号下加了多个 IP 时并排成相邻几行，距离只标在第一行 -->
           <ol class="plan-list mt-6">
-            <li v-for="(no, i) in planResult ? planResult.order : []" :key="no">
-              <span class="plan-no">{{ i + 1 }}</span>
-              <!-- 点 IP 名直接进该展位攻略；一个展位号下有多个 IP 就逐个列出来分别可点 -->
-              <span class="plan-body">
-                <b class="plan-bno">{{ no }}</b>
-                <button
-                  v-for="b in boothsOf(no)"
-                  :key="b.id"
-                  type="button"
-                  class="plan-ip"
-                  :class="{ done: isChecked(b.id) }"
-                  @click="go(b)"
-                >{{ b.ip }}</button>
-                <span class="muted small">· {{ fmtDist(planResult.steps[i]) }}</span>
-              </span>
-              <span class="plan-acts">
-                <!-- 就地打卡：整个展位号下的 IP 一起标（图上是同一个点） -->
-                <button
-                  class="star sm"
-                  :class="{ off: !allChecked(no) }"
-                  :aria-label="allChecked(no) ? '取消打卡' : '标记打卡'"
-                  @click="toggleNo(no)"
-                >★</button>
-                <button class="star sm ghost" :disabled="i === 0" aria-label="上移" @click="movePlan(planResult.order, i, -1)">↑</button>
-                <button class="star sm ghost" :disabled="i === planResult.order.length - 1" aria-label="下移" @click="movePlan(planResult.order, i, 1)">↓</button>
-                <button class="star sm ghost" aria-label="移出清单" @click="togglePlan(no)">✕</button>
-              </span>
-            </li>
+            <template v-for="(no, i) in planResult ? planResult.order : []" :key="no">
+              <li v-for="(b, k) in pickedOf(no)" :key="b.id" :class="{ sub: k > 0 }">
+                <span v-if="k === 0" class="plan-no">{{ i + 1 }}</span>
+                <span v-else class="plan-no ghost">↳</span>
+                <span class="plan-body">
+                  <b class="plan-bno">{{ no }}</b>
+                  <button type="button" class="plan-ip" :class="{ done: isChecked(b.id) }" @click="go(b)">{{ b.ip }}</button>
+                  <span v-if="k === 0" class="muted small">· {{ fmtDist(planResult.steps[i]) }}</span>
+                  <span v-else class="muted small">· 同一展位</span>
+                </span>
+                <span class="plan-acts">
+                  <button
+                    class="star sm"
+                    :class="{ off: !isChecked(b.id) }"
+                    :aria-label="isChecked(b.id) ? '取消打卡' : '标记打卡'"
+                    @click="toggle(b.id)"
+                  >★</button>
+                  <button class="star sm ghost" :disabled="k > 0 || i === 0" aria-label="上移" @click="movePlan(planResult.order, i, -1)">↑</button>
+                  <button class="star sm ghost" :disabled="k > 0 || i === planResult.order.length - 1" aria-label="下移" @click="movePlan(planResult.order, i, 1)">↓</button>
+                  <button class="star sm ghost" aria-label="移出清单" @click="togglePlan(b.id)">✕</button>
+                </span>
+              </li>
+            </template>
           </ol>
           <div class="row wrap mt-10" style="gap:8px">
             <button class="pbtn sm" @click="openImgs(mapSlices, MAP_P2)">在地图上看路线</button>
@@ -251,9 +247,9 @@
                   v-if="mapSpots[noOf(b)]"
                   type="button"
                   class="tag text btn plan-add"
-                  :class="{ on: inPlan(noOf(b)) }"
-                  @click.stop="togglePlan(noOf(b))"
-                >{{ inPlan(noOf(b)) ? '✓ 已在清单' : '＋ 清单' }}</button>
+                  :class="{ on: inPlan(b.id) }"
+                  @click.stop="togglePlan(b.id)"
+                >{{ inPlan(b.id) ? '✓ 已在清单' : '＋ 清单' }}</button>
               </div>
               <div class="blurb">{{ b.blurb }}</div>
             </div>
@@ -328,7 +324,7 @@ import { profileUrl, openProfile, openPage } from '../utils/xhs.js'
 
 const router = useRouter()
 const { isChecked, toggle, count, checked } = useChecked()
-const { plan, planOrder, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount } = usePlan()
+const { plan, planOrder, planNos, inPlan, togglePlan, clearPlan, movePlan, autoPlan, planCount } = usePlan()
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
@@ -338,14 +334,15 @@ const openMap26 = ref(false)
 const openTips26 = ref(false)
 const openFac = ref(false)
 const openPlan = ref(true)
-// 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）；planOrder 非空就按用户调好的顺序走
-const planResult = computed(() => (planCount.value ? planRoute([...plan.value], planOrder.value) : null))
+// 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）；planOrder 非空就按用户调好的顺序走。
+// 清单按 IP（展位 id）存，但地图上同号多 IP 是同一个点，所以先去重成展位号再排路线
+const planResult = computed(() => (planNos.value.length ? planRoute(planNos.value, planOrder.value) : null))
+// 某个展位号下「用户真的加进清单的」那些 IP —— 不是这个号下的全部 IP
+const pickedOf = (no) => boothsOf(no).filter((b) => inPlan(b.id))
 // 「B02 / B17」这类共用编号在地图上是同一个点，一律取第一个编号
 const noOf = (b) => String(b.no).split(/\s*\/\s*/)[0]
 const boothsOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no))
-// 打卡按展位 id 存，一个展位号下可能挂多个 IP，所以整号打卡 = 把这些 id 一起翻
-const allChecked = (no) => { const bs = boothsOf(no); return bs.length > 0 && bs.every((b) => isChecked(b.id)) }
-const toggleNo = (no) => { const on = allChecked(no); for (const b of boothsOf(no)) if (isChecked(b.id) === on) toggle(b.id) }
+
 const base = import.meta.env.BASE_URL
 // 多图灯箱：items 为 { src, caption } 或路径，左右滑动翻页
 const lb = reactive({ items: [], i: null })
