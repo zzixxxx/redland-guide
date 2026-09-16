@@ -35,6 +35,10 @@ CROPS = {
     'A34-1': ('public/img/booths/A34/01.jpg', (108, 635, 368, 895)),
     'A34-2': ('public/img/booths/A34/01.jpg', (432, 635, 698, 895)),
     'A38': ('public/img/booths/A38/02.jpg', (482, 729, 718, 948)),
+    # 命运扳机「存档碎片」PIN 套装（橙 = A 区），官方图里是单款内卡效果示意
+    'A17c': ('public/img/booths/A17c/02.jpg', (152, 808, 349, 999), {'fileId': 'spectrum/1040g0k03254npqkik2105o798t908et3lr8shvg', 'upscale': True}),
+    # 逆水寒 REDLAND PIN（黄 = B 区），图里只有 ~145px
+    'B15': ('public/img/booths/B15/02.jpg', (450, 477, 595, 617), {'fileId': 'spectrum/1040g0k03254k0cq52u105o6g01o85eeu44mul50', 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
