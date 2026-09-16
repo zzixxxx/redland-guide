@@ -8,7 +8,7 @@ export const paradeInfo = {
   ],
   headFloat: '每日头号花车将刷新不同的出战角色',
   disclaimer:
-    '按 IP 首字母排序，非出场 / 站位顺序；神秘角色、神秘侠士、人气英雄待解锁；相关内容可能受不可控因素调整，以官方公告和现场实际情况为准。',
+    '按 IP 首字母排序，非出场 / 站位顺序；神秘角色、神秘侠士、人气英雄待解锁；相关内容可能受不可控因素调整，以官方公告和现场实际情况为准。另：命运扳机、星布谷地、重返未来：1999 等 IP 在自己的笔记里把花车巡游时间写作 17:00 – 17:30，与官方半层的 17:30 – 18:00 不一致，两处均按原文保留，以现场节目单为准。',
 }
 
 // 每日头号花车出场角色：day 1–5 ↔ 10/2–10/6
@@ -127,7 +127,7 @@ export const paradeRoute = {
 // IP 主题花车（官方「花车巡礼」半层 7 台 + RED LAND 官方号 9/5「前方高能！XX 专属花车准备发车！」系列笔记）
 // guests：出席嘉宾角色名单。day 1–5 按日；day 'all' 表示 DAY1–DAY5 全程；chars 逐字照官方图；label 为官方图上的分段标题。
 // 笔记正文里的「点击【大麦APP】进入购买主角通行证页面」属票务，不收；图注「花车效果图仅供参考，最终呈现效果以实际为准」。
-const floatSrc = (title, url, noteId) => ({ title, url, noteId, author: 'RED LAND', publishedAt: '2026-09-05' })
+const floatSrc = (title, url, noteId) => ({ title, url, noteId, author: 'RED LAND 官方号', publishedAt: '2026-09-05' })
 export const themeFloats = [
   {
     id: 'eggy',
@@ -221,6 +221,25 @@ export const themeFloats = [
       { day: 5, chars: ['道诡异仙：李火旺', '道诡异仙：白灵淼', '一人之下：冯宝宝', '一人之下：张楚岚', '诡秘之主：道恩', '狐妖小红娘：涂山苏苏', '全职高手：叶修'] },
     ],
     source: floatSrc('前方高能！阅文专属花车准备出发！', 'https://xhslink.cn/o/8rIDDKvdO9y', '6a9b130b0000000026021247'),
+  },
+  {
+    id: 'xingbugudi',
+    ip: '星布谷地',
+    desc: '奥陌陌登上专属花车，和观众一起庆祝 RED LAND 高光时刻！',
+    look: '奥陌陌专属花车（造型待公布）',
+    intro: '请留意，冒险者大道上有毛茸茸出没！与奥陌陌一起加入花车巡游吧！',
+    // 图来自星布谷地 9/16「惊喜活动预告」笔记，同一张已在 public/img/booths/A06/ 下，不另存一份
+    images: ['img/booths/A06/surprise-01.jpg'],
+    guests: [{ day: 'all', chars: ['奥陌陌', '其他伙伴（待公布）'] }],
+    guestNote:
+      '官方原文「奥陌陌将与其他伙伴一起登上专属花车」，同行伙伴未点名；巡游时间每日 17:00 – 17:30，地点冒险者大道，具体出场时间以当日节目单为准。',
+    source: {
+      title: 'RED LAND2026 | 星布谷地惊喜活动预告',
+      url: 'https://xhslink.cn/o/6fb3vuIQh9Q',
+      noteId: '6aa9233f000000001103b6c0',
+      author: '星布谷地',
+      publishedAt: '2026-09-16',
+    },
   },
 ]
 

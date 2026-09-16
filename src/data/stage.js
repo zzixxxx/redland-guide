@@ -79,7 +79,12 @@ export const stageDays = [
       { performer: '扭蛋姬乐队', songs: ['夏之羽翼 Summer wings', '黑夜燃尽之时'] },
       { performer: '扭蛋姬乐队', songs: ['溃围'], ip: '斗罗大陆' },
       { performer: '幽舞越山', songs: ['出发！奇想大冒险', '折纸向飞（Find My Way）', 'Collide'], ip: '无限暖暖' },
-      { performer: '星布谷地', songs: ['敬请期待'], ip: '星布谷地' },
+      {
+        performer: '星布谷地',
+        songs: ['敬请期待'],
+        ip: '星布谷地',
+        note: '星布谷地 9/16「惊喜活动预告」：特邀嘉宾王男 & 王广将与友邻们一起联合演绎星布谷地全新单曲（曲名未公布）；月光舞台 19:00 – 21:00，具体出场时间以当日节目单为准。',
+      },
       { performer: '蛋仔派对', songs: ['蛋仔成团曲'], ip: '蛋仔派对', note: '所有人举起手，一起嘎达嘎达！' },
       { performer: '伊莫', songs: ['接着奏乐接着舞 伊莫扭动小屁股'], ip: '伊莫' },
       { performer: 'OPG 舞团', songs: ['扶摇直上', '异人 Disco'], ip: '一人之下', note: '节目名《可恶！身为异人世界的青年翘楚们却被拐来 REDLAND 月光舞台表演，现世吧，扶摇 Disco！》' },

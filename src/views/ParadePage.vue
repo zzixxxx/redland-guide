@@ -72,7 +72,7 @@
               <img v-for="(im, i) in f.images" :key="im" :src="base + im" :alt="f.ip + ' 专属花车'" loading="lazy" @click="openImgs(floatImages(f), i)" />
             </div>
             <div v-if="f.source" class="small muted mt-6">
-              来源：RED LAND 官方号 · {{ f.source.publishedAt }}
+              来源：{{ f.source.author }} · {{ f.source.publishedAt }}
               <a :href="f.source.url" target="_blank" rel="noopener">原笔记</a>
             </div>
           </div>
