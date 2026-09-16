@@ -510,10 +510,25 @@ img { max-width: 100%; display: block; }
 .dev-canvas { position: relative; }
 .dev-canvas img { display: block; image-rendering: pixelated; }
 .dev-catch { position: absolute; inset: 0; }
+/* 图层开关（显示：热区 / 到达门 / 出入口 / 起点 / 路网），色块与图上画的颜色一致 */
+.dev-layer { font: inherit; font-size: 12px; font-weight: 700; color: var(--muted); background: var(--paper); border: 2px solid var(--muted); border-radius: 3px; padding: 3px 7px; display: inline-flex; align-items: center; }
+.dev-layer.on { color: var(--navy); border-color: var(--navy); box-shadow: 2px 2px 0 var(--navy); }
+.dev-sw { display: inline-block; width: 9px; height: 9px; margin-right: 5px; border: 1px solid rgba(0, 0, 0, .5); opacity: .45; }
+.dev-layer.on .dev-sw { opacity: 1; }
+.dev-sw.spot { background: rgba(255, 60, 60, .9); }
+.dev-sw.door { background: #ffd23f; }
+.dev-sw.gate { background: linear-gradient(90deg, rgba(0, 255, 120, .85) 50%, rgba(255, 0, 0, .85) 50%); }
+.dev-sw.start { background: #fff; border: 2px solid var(--red); }
+.dev-sw.grid { background: linear-gradient(90deg, rgba(0, 229, 255, .9) 50%, rgba(255, 0, 200, .9) 50%); }
+/* 路网叠加：360×260 的 canvas 直接拉伸到图的尺寸，一格一格显示 */
+.dev-grid { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
+/* 不属于当前模式的图层只显示、不接事件，点下去穿透到 .dev-catch */
+.dev-rect.off, .dev-gate.off, .dev-start.off { pointer-events: none; }
 .dev-rect { position: absolute; border: 1.5px solid rgba(255, 60, 60, .9); cursor: move; }
-.dev-rect.dim { border-color: rgba(255, 60, 60, .35); cursor: default; }
+.dev-rect.dim { border-color: rgba(255, 60, 60, .6); cursor: pointer; }
 .dev-rect.on { border: 2px solid #00e5ff; background: rgba(0, 229, 255, .12); }
-.dev-lab { position: absolute; left: 0; top: -13px; font-family: var(--font-num); font-size: 7px; color: #fff; background: rgba(0, 0, 0, .6); padding: 1px 2px; font-style: normal; }
+.dev-lab { position: absolute; left: 0; top: -13px; font-family: var(--font-num); font-size: 7px; color: #fff; background: rgba(0, 0, 0, .6); padding: 1px 2px; font-style: normal; white-space: nowrap; }
+.dev-lab.cjk { font-family: var(--font-body); font-size: 10px; font-weight: 700; line-height: 1.2; }
 .dev-h { position: absolute; width: 11px; height: 11px; background: #00e5ff; border: 1.5px solid var(--navy); }
 .dev-h.nw { left: -6px; top: -6px; cursor: nwse-resize; }
 .dev-h.ne { right: -6px; top: -6px; cursor: nesw-resize; }
@@ -524,12 +539,23 @@ img { max-width: 100%; display: block; }
 .dev-door.C { right: -3px; top: 20%; bottom: 20%; width: 3px; }
 .dev-door.B { top: -3px; left: 20%; right: 20%; height: 3px; }
 .dev-door.D { bottom: -3px; left: 20%; right: 20%; height: 3px; }
-.dev-gate { position: absolute; transform: translate(-50%, -50%); border: 2px solid #fff; cursor: pointer; }
+/* 出入口方块：大小 = 实际盖住的格数；选中加青色外框，代码里固化的画虚线且不可点 */
+.dev-gate { position: absolute; transform: translate(-50%, -50%); border: 2px solid #fff; box-sizing: border-box; cursor: move; }
 .dev-gate.open { background: rgba(0, 255, 120, .45); }
 .dev-gate.block { background: rgba(255, 0, 0, .45); }
-.dev-start { position: absolute; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: #fff; border: 3px solid var(--red); }
+.dev-gate.on { outline: 2px solid #00e5ff; outline-offset: 2px; }
+.dev-gate.fixed { border-style: dashed; pointer-events: none; }
+.dev-gate .dev-lab { left: 50%; top: auto; bottom: 100%; margin-bottom: 3px; transform: translateX(-50%); }
+/* 起点：白底红圈 + 十字线，起点模式下可拖 */
+.dev-start { position: absolute; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: #fff; border: 3px solid var(--red); box-shadow: 0 0 0 2px rgba(0, 0, 0, .55); cursor: move; }
+.dev-start::before, .dev-start::after { content: ''; position: absolute; left: 50%; top: 50%; background: var(--red); box-shadow: 0 0 0 1px rgba(0, 0, 0, .55); pointer-events: none; }
+.dev-start::before { width: 2px; height: 40px; margin: -20px 0 0 -1px; }
+.dev-start::after { width: 40px; height: 2px; margin: -1px 0 0 -20px; }
+.dev-start .dev-lab { left: 50%; top: auto; bottom: 100%; margin-bottom: 14px; transform: translateX(-50%); }
 .dev-route { position: absolute; inset: 0; pointer-events: none; }
 .dev-route polyline { fill: none; stroke: #00ff66; stroke-width: 4; stroke-linejoin: round; }
+.dev-route polyline.all { stroke: rgba(0, 255, 102, .5); stroke-width: 2; }
+.dev-route circle { fill: #00ff66; stroke: var(--navy); stroke-width: 2; }
 .dev-sel { font: inherit; font-size: 13px; padding: 5px 6px; border: 2px solid var(--navy); border-radius: 3px; background: var(--paper); max-width: 190px; }
 .dev-nums { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; }
 .dev-nums label { font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
