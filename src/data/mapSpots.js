@@ -479,7 +479,7 @@ export const mapSpotList = buildSpotList()
 // 注意：所有覆盖都是「原地改」这些 const 对象，不要换成新对象，否则别处 import 到的还是旧引用。
 // ---------------------------------------------------------------------------
 export const DEV_KEY = 'rl26.dev'
-const emptyDev = () => ({ spots: {}, doors: {}, gates: [], strokes: [], start: null, removed: [] })
+const emptyDev = () => ({ spots: {}, doors: {}, gates: [], strokes: [], rects: [], demote: false, start: null, removed: [] })
 
 export function loadDev() {
   try {
@@ -552,10 +552,21 @@ export function lineCells([x0, y0], [x1, y1]) {
   return out
 }
 
-// 出入口 / 画笔覆盖：在路网上按方格盖章，open = 开成真线、block = 封死。r 是半径（格）
-function stampGates(gates, strokes) {
+// 固化下来的框选修正（用户 9/17）：`[{ x0, y0, x1, y1, mode }]`，格坐标闭区间。
+// mode：fillOpen = 框内紫色桥接格 → 真线；fillBlock = 框内紫色 → 封死；open = 框内全部 → 真线；block = 框内全部 → 封死
+export const mapRects = []
+// 固化的「只认我画的」开关（用户 9/17）：true 时先把原路网所有真线 '2' 降成桥接格 '1'（代价 ×6），
+// 只有 mapStrokes / mapRects / mapGates 铺出来的才是真线；其余没画的部分保持紫色或封死
+export const mapDemoteBase = false
+
+// 出入口 / 框选 / 画笔覆盖：在路网上按方格盖章，open = 开成真线、block = 封死。r 是半径（格）
+// 盖章顺序：降级 → 出入口 → 框选 → 画笔（画出来的线最有意图，最后盖、不会被框选误伤）
+function stampGates(gates, strokes, rects, demote) {
   if (!walkGrid._raw) walkGrid._raw = [...walkGrid.rows]
   const rows = walkGrid._raw.map((r) => r.split(''))
+  if (mapDemoteBase || demote) {
+    for (const row of rows) for (let x = 0; x < row.length; x++) if (row[x] === '2') row[x] = '1'
+  }
   const put = (cx, cy, r, ch) => {
     for (let y = cy - r; y <= cy + r; y++) {
       for (let x = cx - r; x <= cx + r; x++) {
@@ -566,6 +577,21 @@ function stampGates(gates, strokes) {
   }
   for (const g of [...mapGates, ...(gates || [])]) {
     put(Math.round(g.x * walkGrid.w), Math.round(g.y * walkGrid.h), Math.max(0, Math.round(g.r ?? 3)), g.mode === 'block' ? '0' : '2')
+  }
+  for (const q of [...mapRects, ...(rects || [])]) {
+    const x0 = Math.max(0, Math.min(q.x0, q.x1))
+    const x1 = Math.min(walkGrid.w - 1, Math.max(q.x0, q.x1))
+    const y0 = Math.max(0, Math.min(q.y0, q.y1))
+    const y1 = Math.min(walkGrid.h - 1, Math.max(q.y0, q.y1))
+    for (let y = y0; y <= y1; y++) {
+      for (let x = x0; x <= x1; x++) {
+        const c = rows[y][x]
+        if (q.mode === 'open') rows[y][x] = '2'
+        else if (q.mode === 'block') rows[y][x] = '0'
+        else if (q.mode === 'fillOpen' && c === '1') rows[y][x] = '2'
+        else if (q.mode === 'fillBlock' && c === '1') rows[y][x] = '0'
+      }
+    }
   }
   for (const s of [...mapStrokes, ...(strokes || [])]) {
     const pts = s.pts || []
@@ -592,7 +618,7 @@ export function applyDev(ov) {
     if (v) mapDoors[no] = v
   }
   if (o.start) Object.assign(mapStart, o.start)
-  stampGates(o.gates, o.strokes)
+  stampGates(o.gates, o.strokes, o.rects, o.demote)
   // 路网 / 代价表是按 grid 缓存的，改完要作废重算
   walkGrid._cells = null
   walkGrid._base = null

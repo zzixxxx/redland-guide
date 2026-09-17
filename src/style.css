@@ -568,6 +568,18 @@ img { max-width: 100%; display: block; }
 .dev-strokes .on { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 2px #fff); }
 .dev-strokes .cur { opacity: .9; }
 .dev-slab { font-family: var(--font-num); font-size: 9px; fill: #fff; stroke: #000; stroke-width: 2px; paint-order: stroke; }
+/* 直线工具的橡皮筋：从上一段末端到指针的虚线 + 末端圆点 */
+.dev-strokes .rubber polyline { stroke-dasharray: 8 6; opacity: .7; }
+.dev-strokes .rubber circle { fill: #fff; stroke: #000; stroke-width: 2px; }
+/* 框选：紫→真线 / 全部真线 青框，紫→封路 / 全部封路 红框；「全部」两档实线、「紫→」两档虚线；正在拖的白框 */
+.dev-rq { fill: rgba(0, 229, 255, .12); stroke: rgba(0, 229, 255, .95); stroke-width: 2px; stroke-dasharray: 5 4; }
+.dev-rq.fillBlock, .dev-rq.block { fill: rgba(255, 40, 40, .12); stroke: rgba(255, 40, 40, .95); }
+.dev-rq.open, .dev-rq.block { stroke-dasharray: none; }
+.dev-rq.fixed { stroke-dasharray: 2 3; opacity: .7; }
+.dev-rq.draft { fill: rgba(255, 255, 255, .15); stroke: #fff; }
+.dev-rq.on { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 2px #fff); }
+.dev-check { gap: 6px; align-items: flex-start; cursor: pointer; }
+.dev-check input { margin-top: 3px; flex: 0 0 auto; }
 /* 路网叠加：360×260 的 canvas 直接拉伸到图的尺寸，一格一格显示 */
 .dev-grid { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
 /* 不属于当前模式的图层只显示、不接事件，点下去穿透到 .dev-catch */

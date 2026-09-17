@@ -50,13 +50,24 @@
 
         <!-- 点击层（压在图上、其他图层之下）：新建热区 / 放出入口 / 移起点 / 画笔。
              不属于当前模式的图层带 .off（pointer-events:none），点下去会穿透到这里 -->
-        <div v-if="mode !== 'spot' || drawing" class="dev-catch" :class="{ brush: mode === 'brush' && !brushPan }" @pointerdown="onCanvasDown"></div>
+        <div
+          v-if="mode !== 'spot' || drawing"
+          class="dev-catch"
+          :class="{ brush: mode === 'brush' && !brushPan }"
+          @pointerdown="onCanvasDown"
+          @pointermove="onCanvasMove"
+          @pointerleave="hover = null"
+          @dblclick.prevent="endChain()"
+        ></div>
 
         <!-- 路网：青 = 图上真有线（'2'），紫 = 闭运算补出来的桥接格（'1'）。出入口 / 画笔改动后重画 -->
         <canvas v-show="show.grid" ref="gridCv" class="dev-grid" :width="walkGrid.w" :height="walkGrid.h"></canvas>
 
-        <!-- 画笔笔迹：青线 = 铺的真线，红线 = 封路；代码里固化的画虚线。正在画的那笔实时跟着手指 -->
+        <!-- 画笔：笔迹青线 = 铺的真线，红线 = 封路；框选按类型描边；代码里固化的画虚线。正在画的那笔 / 正在拖的框实时跟着手指 -->
         <svg v-show="show.brush" class="dev-strokes" :viewBox="`0 0 ${imgW} ${imgH}`">
+          <rect v-for="(q, i) in mapRects" :key="'fr' + i" class="dev-rq fixed" :class="q.mode" v-bind="rectBox(q)" />
+          <rect v-for="(q, i) in rects" :key="'r' + i" class="dev-rq" :class="[q.mode, { on: selRect === i }]" v-bind="rectBox(q)" />
+          <rect v-if="rectDraft" class="dev-rq draft" v-bind="rectBox(rectDraft)" />
           <g v-for="(s, i) in mapStrokes" :key="'fs' + i" class="fixed" :class="s.mode">
             <polyline v-if="s.pts.length > 1" :points="cellPoly(s.pts)" :style="{ strokeWidth: cellPx(s.r) + 'px' }" />
             <rect v-else v-bind="cellRect(s.pts[0], s.r)" />
@@ -69,6 +80,11 @@
           <g v-if="cur" :class="[cur.mode, 'cur']">
             <polyline v-if="cur.pts.length > 1" :points="cellPoly(cur.pts)" :style="{ strokeWidth: cellPx(cur.r) + 'px' }" />
             <rect v-else v-bind="cellRect(cur.pts[0], cur.r)" />
+          </g>
+          <!-- 直线工具：从上一段末端到指针的橡皮筋预览 + 末端小圆点 -->
+          <g v-if="chainStroke" :class="[chainStroke.mode, 'rubber']">
+            <polyline v-if="hover" :points="cellPoly([chainLast, hover])" :style="{ strokeWidth: cellPx(chainStroke.r) + 'px' }" />
+            <circle :cx="cellX(chainLast[0])" :cy="cellY(chainLast[1])" r="5" />
           </g>
         </svg>
 
@@ -217,29 +233,62 @@
 
         <template v-else-if="mode === 'brush'">
           <div class="row wrap" style="gap:6px;align-items:center">
+            <span class="small" style="font-weight:700">工具</span>
+            <button v-for="t in TOOLS" :key="t.key" class="chip" :class="{ on: brushTool === t.key }" @click="setTool(t.key)">{{ t.name }}</button>
+            <button class="pbtn sm ghost" :class="{ on: brushPan }" @click="brushPan = !brushPan">{{ brushPan ? '拖图中，点回画笔' : '手指拖图' }}</button>
+          </div>
+          <div v-if="brushTool !== 'rect'" class="row wrap mt-6" style="gap:6px;align-items:center">
             <button class="chip" :class="{ on: brushMode === 'open' }" @click="brushMode = 'open'">铺真线</button>
             <button class="chip" :class="{ on: brushMode === 'block' }" @click="brushMode = 'block'">封路</button>
             <span class="small">笔宽 {{ 2 * brushR + 1 }} 格</span>
             <input type="range" min="0" max="3" v-model.number="brushR" />
-            <button class="pbtn sm ghost" :class="{ on: brushPan }" @click="brushPan = !brushPan">{{ brushPan ? '拖图中，点回画笔' : '手指拖图' }}</button>
+            <template v-if="brushTool === 'line' && chainStroke">
+              <button class="pbtn sm" @click="endChain()">结束这条线（{{ chainStroke.pts.length }} 点）</button>
+              <button class="pbtn sm ghost" @click="chainBack()">退一个点</button>
+            </template>
+          </div>
+          <div v-else class="row wrap mt-6" style="gap:6px;align-items:center">
+            <button v-for="m in RECT_MODES" :key="m.key" class="chip" :class="{ on: rectMode === m.key }" @click="rectMode = m.key">{{ m.name }}</button>
           </div>
           <div class="small muted mt-6">
-            按住拖动，沿着手指把这一片路网铺成青色真线（可走、代价 1）或封成不可走；松手算一笔，路线立刻重算，导出后是 <code>mapStrokes</code>。
-            铺线和封路都会压掉原来的格子，画错了撤销那一笔就行。手机上一个手指画的时候没法拖图，要挪视野点「手指拖图」切一下；电脑滚轮不受影响。
+            <template v-if="brushTool === 'line'">
+              点一下起点、再点一下终点就是一段直线；接着点就从上一段末端继续画（点到已有线的端点附近会自动吸上去，线就接上了）。
+              Esc / 双击 / 「结束这条线」收笔，Backspace 退掉上一个点。
+            </template>
+            <template v-else-if="brushTool === 'free'">按住拖动，沿着手指铺真线或封路；松手算一笔。手指画容易歪，要直线用「直线」工具。</template>
+            <template v-else>
+              拖一个框：「紫→真线」把框内的紫色桥接格铺成真线，「紫→封路」把框内的紫色封死，原来的真线和封死都不动；
+              「全部真线 / 全部封路」不管原来是什么。画笔的线最后盖，不会被框选误伤。
+            </template>
+            改完路线立刻重算；导出后是 mapStrokes / mapRects。
           </div>
-          <div v-if="strokes.length" class="row wrap mt-6" style="gap:4px;align-items:center">
+          <!-- 只认我画的：原路网真线全部降为紫色，其余没画的部分保持紫色或封死（用户 9/17） -->
+          <label class="row mt-6 small dev-check">
+            <input type="checkbox" :checked="!!ov.demote" @change="toggleDemote()" />
+            <span>只认我画的：把原路网所有真线降成紫色桥接格（代价 ×6），只有画出来的才是真线，其余没画的保持紫色或封死</span>
+          </label>
+          <div v-if="strokes.length || rects.length" class="row wrap mt-6" style="gap:4px;align-items:center">
             <span class="small" style="font-weight:700">笔迹</span>
             <button
               v-for="(s, i) in strokes"
-              :key="i"
+              :key="'s' + i"
               class="dev-layer"
               :class="{ on: selStroke === i }"
-              @click="selStroke = selStroke === i ? null : i"
+              @click="selectStroke(i)"
             ><i class="dev-sw" :class="s.mode"></i>{{ i + 1 }} · {{ s.mode === 'block' ? '封' : '铺' }} {{ strokeLen(s) }} 格</button>
-            <button class="pbtn sm ghost" :disabled="selStroke == null" @click="removeStroke(selStroke)">删除选中</button>
-            <button class="pbtn sm ghost" @click="removeStroke(strokes.length - 1)">撤销上一笔</button>
+            <button
+              v-for="(q, i) in rects"
+              :key="'r' + i"
+              class="dev-layer"
+              :class="{ on: selRect === i }"
+              @click="selectRect(i)"
+            ><i class="dev-sw" :class="rectSw(q.mode)"></i>框 {{ i + 1 }} · {{ rectName(q.mode) }}</button>
+            <button class="pbtn sm ghost" :disabled="selStroke == null && selRect == null" @click="removeSel()">删除选中</button>
+            <button class="pbtn sm ghost" @click="undoLast()">撤销上一笔</button>
           </div>
-          <div v-if="mapStrokes.length" class="small muted mt-6">代码里还固化了 {{ mapStrokes.length }} 笔（虚线显示，在这里改不了）。</div>
+          <div v-if="mapStrokes.length || mapRects.length || mapDemoteBase" class="small muted mt-6">
+            代码里还固化了 {{ mapStrokes.length }} 笔线、{{ mapRects.length }} 个框<template v-if="mapDemoteBase">，且已开「只认我画的」</template>（虚线显示，在这里改不了）。
+          </div>
         </template>
 
         <template v-else>
@@ -296,13 +345,14 @@ export default { name: 'DevMapPage' }
 // 存本机 localStorage（rl26.dev）并立刻对导航生效（mapSpots.js 底部的 applyDev 原地合并），
 // 核对好了再导出代码贴回 src/data/mapSpots.js。不挂在底栏里，走 #/dev 进。
 // 用户 9/16：不止热区，起点 / 出入口 / 到达门 / 路网都要常显在图上、能直接拖，方便复核规划出来的路线。
-// 用户 9/17：加「路网画笔」按住拖动连续铺真线 / 封路；「已改 N 处」点开气泡逐条定位 / 单独撤销。
+// 用户 9/17：加「路网画笔」；「已改 N 处」点开气泡逐条定位 / 单独撤销；
+//            画笔再加「直线」（两点一段、接着上一段末端画、吸附端点）、「框选」（紫→真线 / 紫→封路）、「只认我画的」开关。
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import { booths } from '../data/booths.js'
 import { venueMap } from '../data/rules.js'
 import {
-  mapSpots, mapDoors, mapStart, mapGates, mapStrokes, mapOrig, walkGrid,
+  mapSpots, mapDoors, mapStart, mapGates, mapStrokes, mapRects, mapDemoteBase, mapOrig, walkGrid,
   doorPoints, lineCells, DOOR_SIDES, loadDev, saveDev, clearDev,
 } from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
@@ -331,6 +381,19 @@ const DOORS = [
   { key: 'D', name: '下' },
 ]
 const HANDLES = ['nw', 'ne', 'sw', 'se']
+const TOOLS = [
+  { key: 'line', name: '直线' },
+  { key: 'free', name: '自由画' },
+  { key: 'rect', name: '框选' },
+]
+const RECT_MODES = [
+  { key: 'fillOpen', name: '紫→真线' },
+  { key: 'fillBlock', name: '紫→封路' },
+  { key: 'open', name: '全部真线' },
+  { key: 'block', name: '全部封路' },
+]
+const rectName = (m) => RECT_MODES.find((x) => x.key === m)?.name || m
+const rectSw = (m) => (m === 'fillBlock' || m === 'block' ? 'block' : 'open')
 
 const base = import.meta.env.BASE_URL
 const p2 = venueMap.slices.find((s) => s.spots)
@@ -342,13 +405,19 @@ const show = ref({ spot: true, door: true, gate: true, brush: true, start: true,
 const sel = ref(null)
 const selGate = ref(null)
 const selStroke = ref(null)
+const selRect = ref(null)
 const drawing = ref(false)
 const gateMode = ref('open')
 const gateR = ref(3)
+const brushTool = ref('line')
 const brushMode = ref('open')
 const brushR = ref(0)
 const brushPan = ref(false)
-const cur = ref(null) // 正在画的一笔 { mode, r, pts: [[gx, gy], …] }
+const rectMode = ref('fillOpen')
+const cur = ref(null) // 自由画正在画的一笔 { mode, r, pts: [[gx, gy], …] }
+const chain = ref(null) // 直线工具正在接着画的那条折线在 ov.strokes 里的下标
+const hover = ref(null) // 直线工具：指针所在格（画橡皮筋用）
+const rectDraft = ref(null) // 框选正在拖的框 { x0, y0, x1, y1 }
 const popOpen = ref(false)
 const openOut = ref(false)
 const copied = ref(false)
@@ -364,7 +433,10 @@ const doors = ref(mapDoors)
 const start = ref(mapStart)
 const gates = computed(() => ov.value.gates || [])
 const strokes = computed(() => ov.value.strokes || [])
+const rects = computed(() => ov.value.rects || [])
 const curGate = computed(() => (selGate.value != null ? gates.value[selGate.value] || null : null))
+const chainStroke = computed(() => (chain.value != null ? strokes.value[chain.value] || null : null))
+const chainLast = computed(() => chainStroke.value?.pts[chainStroke.value.pts.length - 1] || null)
 const noList = computed(() => Object.keys(spots.value).sort())
 const ipOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no)).map((b) => b.ip).join(' / ')
 const sidesOf = (no) => [...String(doors.value[no] || '')].filter((c) => 'ABCD'.includes(c))
@@ -391,6 +463,10 @@ const changes = computed(() => {
   o.gates.forEach((g, i) =>
     out.push({ id: 'gate:' + i, kind: 'gate', i, label: `出入口 ${i + 1} · ${g.mode === 'block' ? '封死' : '开口'} r${g.r}`, detail: `x ${g.x} · y ${g.y}` }),
   )
+  if (o.demote) out.push({ id: 'demote', kind: 'grid', label: '只认我画的：原路网真线全部降为紫色', detail: '撤销即恢复原路网真线' })
+  ;(o.rects || []).forEach((q, i) =>
+    out.push({ id: 'rect:' + i, kind: 'brush', i, label: `框选 ${i + 1} · ${rectName(q.mode)}`, detail: `格 (${q.x0},${q.y0}) – (${q.x1},${q.y1})` }),
+  )
   o.strokes.forEach((s, i) =>
     out.push({ id: 'stroke:' + i, kind: 'brush', i, label: `画笔 ${i + 1} · ${s.mode === 'block' ? '封' : '铺'} ${strokeLen(s)} 格`, detail: `笔宽 ${2 * s.r + 1} 格，${s.pts.length} 个折点` }),
   )
@@ -415,11 +491,18 @@ function locate(c) {
     pick('gate')
     selGate.value = c.i
     scrollTo(gates.value[c.i])
+  } else if (c.id.startsWith('rect:')) {
+    pick('brush')
+    selectRect(c.i)
+    const q = rects.value[c.i]
+    scrollTo({ x: ((q.x0 + q.x1) / 2 + 0.5) / walkGrid.w, y: ((q.y0 + q.y1) / 2 + 0.5) / walkGrid.h })
   } else if (c.kind === 'brush') {
     pick('brush')
-    selStroke.value = c.i
+    selectStroke(c.i)
     const [gx, gy] = strokes.value[c.i].pts[0]
     scrollTo({ x: (gx + 0.5) / walkGrid.w, y: (gy + 0.5) / walkGrid.h })
+  } else if (c.kind === 'grid') {
+    pick('brush')
   } else if (c.kind === 'start') {
     pick('start')
     scrollTo(start.value)
@@ -444,9 +527,15 @@ function undo(c) {
   } else if (c.kind === 'gate') {
     o.gates.splice(c.i, 1)
     selGate.value = null
+  } else if (c.id.startsWith('rect:')) {
+    o.rects.splice(c.i, 1)
+    selRect.value = null
   } else if (c.kind === 'brush') {
+    endChain()
     o.strokes.splice(c.i, 1)
     selStroke.value = null
+  } else if (c.kind === 'grid') {
+    o.demote = false
   } else if (c.kind === 'start') {
     o.start = null
     Object.assign(start.value, mapOrig.start)
@@ -547,6 +636,19 @@ const cellRect = ([gx, gy], r) => ({
   width: cellPx(r),
   height: ((2 * r + 1) / walkGrid.h) * imgH.value,
 })
+// 框选的格矩形（闭区间）→ 像素框
+const rectBox = (q) => {
+  const x0 = Math.min(q.x0, q.x1)
+  const y0 = Math.min(q.y0, q.y1)
+  const x1 = Math.max(q.x0, q.x1)
+  const y1 = Math.max(q.y0, q.y1)
+  return {
+    x: (x0 / walkGrid.w) * imgW.value,
+    y: (y0 / walkGrid.h) * imgH.value,
+    width: ((x1 - x0 + 1) / walkGrid.w) * imgW.value,
+    height: ((y1 - y0 + 1) / walkGrid.h) * imgH.value,
+  }
+}
 const cellAt = (p) => [clamp(Math.floor(p.x * walkGrid.w), 0, walkGrid.w - 1), clamp(Math.floor(p.y * walkGrid.h), 0, walkGrid.h - 1)]
 // 一笔盖了多少格（沿折线数，不含笔宽）
 function strokeLen(s) {
@@ -657,7 +759,20 @@ function removeGate(i) {
   commit()
 }
 
-// ---- 路网画笔：按住拖动记格坐标，松手简化成折点存一笔 ----
+// ---- 路网画笔 ----
+function setTool(t) {
+  endChain()
+  brushTool.value = t
+}
+function selectStroke(i) {
+  selStroke.value = selStroke.value === i ? null : i
+  selRect.value = null
+}
+function selectRect(i) {
+  selRect.value = selRect.value === i ? null : i
+  selStroke.value = null
+}
+// 自由画：按住拖动记格坐标，松手简化成折点存一笔。
 // 先按格插值成单步序列，再只留方向变化的点：相邻两个折点之间 Bresenham 能原样还原，导出才短
 function simplifyStroke(raw) {
   const cells = [raw[0]]
@@ -696,7 +811,95 @@ function beginStroke(e) {
     if (!s) return
     s.pts = simplifyStroke(s.pts)
     ov.value.strokes.push(s)
-    selStroke.value = ov.value.strokes.length - 1
+    selectStroke(ov.value.strokes.length - 1)
+    commit()
+  }
+  window.addEventListener('pointermove', mv)
+  window.addEventListener('pointerup', up)
+  window.addEventListener('pointercancel', up)
+}
+// 直线：点一下起点、再点一下终点；接着点就从上一段末端继续（用户 9/17：手指画容易歪）。
+// 点到已有线的端点 / 折点 3.5 格以内会吸上去，线就接上了
+function snapToPts(c, skipIdx) {
+  let best = null
+  let bd = 3.5
+  strokes.value.forEach((s, i) => {
+    if (i === skipIdx) return
+    for (const p of s.pts) {
+      const d = Math.hypot(p[0] - c[0], p[1] - c[1])
+      if (d < bd) {
+        bd = d
+        best = p
+      }
+    }
+  })
+  return best ? [best[0], best[1]] : c
+}
+function lineClick(e) {
+  e.preventDefault()
+  let c = cellAt(norm(e))
+  if (!chainStroke.value) {
+    c = snapToPts(c)
+    ov.value.strokes.push({ mode: brushMode.value, r: brushR.value, pts: [c] })
+    chain.value = ov.value.strokes.length - 1
+    selStroke.value = chain.value
+    selRect.value = null
+  } else {
+    const s = ov.value.strokes[chain.value]
+    const last = s.pts[s.pts.length - 1]
+    c = snapToPts(c, chain.value)
+    if (c[0] === last[0] && c[1] === last[1]) return
+    s.pts.push(c)
+  }
+  commit()
+}
+function endChain() {
+  // 只点了一个点就收笔：这一笔只是个孤点，没意义，删掉
+  const s = chainStroke.value
+  if (s && s.pts.length < 2) {
+    ov.value.strokes.splice(chain.value, 1)
+    selStroke.value = null
+    chain.value = null
+    hover.value = null
+    commit()
+    return
+  }
+  chain.value = null
+  hover.value = null
+}
+function chainBack() {
+  const s = chainStroke.value
+  if (!s) return
+  if (s.pts.length > 1) s.pts.pop()
+  else {
+    ov.value.strokes.splice(chain.value, 1)
+    selStroke.value = null
+    chain.value = null
+    hover.value = null
+  }
+  commit()
+}
+// 框选：拖一个格矩形，松手按 rectMode 盖章
+function beginRect(e) {
+  e.preventDefault()
+  const c0 = cellAt(norm(e))
+  rectDraft.value = { x0: c0[0], y0: c0[1], x1: c0[0], y1: c0[1] }
+  const mv = (ev) => {
+    if (!rectDraft.value) return
+    const c = cellAt(norm(ev))
+    rectDraft.value.x1 = c[0]
+    rectDraft.value.y1 = c[1]
+  }
+  const up = () => {
+    window.removeEventListener('pointermove', mv)
+    window.removeEventListener('pointerup', up)
+    window.removeEventListener('pointercancel', up)
+    const d = rectDraft.value
+    rectDraft.value = null
+    if (!d) return
+    if (!ov.value.rects) ov.value.rects = []
+    ov.value.rects.push({ x0: Math.min(d.x0, d.x1), y0: Math.min(d.y0, d.y1), x1: Math.max(d.x0, d.x1), y1: Math.max(d.y0, d.y1), mode: rectMode.value })
+    selectRect(ov.value.rects.length - 1)
     commit()
   }
   window.addEventListener('pointermove', mv)
@@ -705,9 +908,36 @@ function beginStroke(e) {
 }
 function removeStroke(i) {
   if (i == null || i < 0 || !ov.value.strokes[i]) return
+  if (chain.value === i) {
+    chain.value = null
+    hover.value = null
+  } else if (chain.value != null && chain.value > i) chain.value--
   ov.value.strokes.splice(i, 1)
   selStroke.value = null
   commit()
+}
+function removeRect(i) {
+  if (i == null || i < 0 || !ov.value.rects?.[i]) return
+  ov.value.rects.splice(i, 1)
+  selRect.value = null
+  commit()
+}
+function removeSel() {
+  if (selStroke.value != null) removeStroke(selStroke.value)
+  else if (selRect.value != null) removeRect(selRect.value)
+}
+// 撤销上一笔：正在接着画的线先退一个点；否则删最后一笔线，没有线再删最后一个框
+function undoLast() {
+  if (chainStroke.value) chainBack()
+  else if (strokes.value.length) removeStroke(strokes.value.length - 1)
+  else if (rects.value.length) removeRect(rects.value.length - 1)
+}
+function toggleDemote() {
+  ov.value.demote = !ov.value.demote
+  commit()
+}
+function onCanvasMove(e) {
+  if (mode.value === 'brush' && brushTool.value === 'line' && chainStroke.value) hover.value = cellAt(norm(e))
 }
 
 // ---- 起点拖动 ----
@@ -728,7 +958,10 @@ function onStartDown(e) {
 // ---- 画布点击：新建热区 / 放出入口 / 画笔 / 移起点 ----
 function onCanvasDown(e) {
   if (mode.value === 'brush') {
-    if (!brushPan.value) beginStroke(e)
+    if (brushPan.value) return
+    if (brushTool.value === 'free') beginStroke(e)
+    else if (brushTool.value === 'rect') beginRect(e)
+    else lineClick(e)
     return
   }
   const p = norm(e)
@@ -778,12 +1011,13 @@ function toggleDoor(d) {
   commit()
 }
 function pick(m) {
+  if (mode.value === 'brush' && m !== 'brush') endChain()
   mode.value = m
   drawing.value = false
 }
 
 // 键盘：热区模式微调选中热区（一格 = 图上 1px，Alt 改宽高）；出入口 / 起点模式按路网一格挪、Delete 删出入口；
-// 画笔模式 Delete 删选中笔迹、Ctrl+Z 撤销上一笔
+// 画笔模式 Esc 收笔、Backspace 退一个点（没在画线时删选中）、Delete 删选中、Ctrl+Z 撤销上一笔
 function onKey(e) {
   if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target?.tagName)) return
   const map = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }
@@ -791,12 +1025,18 @@ function onKey(e) {
   const mul = e.shiftKey ? 10 : 1
   const isDel = e.key === 'Delete' || e.key === 'Backspace'
   if (mode.value === 'brush') {
-    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+    if (e.key === 'Escape') {
       e.preventDefault()
-      removeStroke(strokes.value.length - 1)
-    } else if (isDel && selStroke.value != null) {
+      endChain()
+    } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
       e.preventDefault()
-      removeStroke(selStroke.value)
+      undoLast()
+    } else if (e.key === 'Backspace' && chainStroke.value) {
+      e.preventDefault()
+      chainBack()
+    } else if (isDel && (selStroke.value != null || selRect.value != null)) {
+      e.preventDefault()
+      removeSel()
     }
     return
   }
@@ -926,6 +1166,13 @@ const exported = computed(() => {
     out.push('// mapSpots.js 的 mapGates 换成这个（已含原有的）')
     out.push('export const mapGates = [')
     for (const g of [...mapGates, ...o.gates]) out.push(`  { x: ${g.x}, y: ${g.y}, r: ${g.r}, mode: '${g.mode}' },`)
+    out.push(']')
+  }
+  if (o.demote) out.push('// 只认我画的：原路网真线全部降为桥接格\nexport const mapDemoteBase = true')
+  if (o.rects?.length) {
+    out.push('// mapSpots.js 的 mapRects 换成这个（已含原有的）')
+    out.push('export const mapRects = [')
+    for (const q of [...mapRects, ...o.rects]) out.push(`  { x0: ${q.x0}, y0: ${q.y0}, x1: ${q.x1}, y1: ${q.y1}, mode: '${q.mode}' },`)
     out.push(']')
   }
   if (o.strokes.length) {
