@@ -13,14 +13,33 @@
         <span class="small muted" style="min-width:52px;text-align:center">{{ Math.round(imgW) }}px</span>
         <button class="pbtn sm ghost" @click="setZoom(1)">＋</button>
         <button class="pbtn sm ghost" @click="fit()">适屏</button>
-        <span v-if="dirty" class="tag text" style="font-size:10px">已改 {{ dirty }} 处</span>
+        <!-- 已改 N 处：点开气泡逐条看 / 定位 / 单独撤销（用户 9/17） -->
+        <button v-if="changes.length" class="tag text btn" :class="{ on: popOpen }" style="font-size:10px" @click="popOpen = !popOpen">
+          已改 {{ changes.length }} 处 {{ popOpen ? '▴' : '▾' }}
+        </button>
       </div>
-      <!-- 图层开关：热区 / 到达门 / 出入口 / 起点 / 路网全部画在图上，当前模式那一层才能拖 -->
+      <!-- 图层开关：热区 / 到达门 / 出入口 / 画笔 / 起点 / 路网全部画在图上，当前模式那一层才能拖 -->
       <div class="row wrap mt-6" style="gap:4px;align-items:center">
         <span class="small muted">显示</span>
         <button v-for="l in LAYERS" :key="l.key" class="dev-layer" :class="{ on: show[l.key] }" @click="show[l.key] = !show[l.key]">
           <i class="dev-sw" :class="l.key"></i>{{ l.name }}
         </button>
+      </div>
+
+      <div v-if="popOpen && changes.length" class="dev-pop">
+        <div class="row between" style="align-items:center">
+          <span class="small" style="font-weight:700">本机改动（点名称定位，点 ✕ 撤销这一处）</span>
+          <button class="pbtn sm ghost" @click="popOpen = false">收起</button>
+        </div>
+        <div v-for="c in changes" :key="c.id" class="dev-pop-row">
+          <i class="dev-sw" :class="c.kind"></i>
+          <button class="dev-pop-name" @click="locate(c)">{{ c.label }}</button>
+          <span v-if="c.detail" class="small muted dev-pop-detail">{{ c.detail }}</span>
+          <button class="pbtn sm ghost dev-pop-x" title="撤销这一处" @click="undo(c)">✕</button>
+        </div>
+        <div class="row wrap mt-6" style="gap:6px">
+          <button class="pbtn sm ghost" @click="wipe()">全部清空</button>
+        </div>
       </div>
     </div>
 
@@ -29,12 +48,29 @@
       <div class="dev-canvas" :style="{ width: imgW + 'px', height: imgH + 'px' }">
         <img ref="img" :src="mapSrc" :width="imgW" :height="imgH" draggable="false" />
 
-        <!-- 点击层（压在图上、其他图层之下）：新建热区 / 放出入口 / 移起点。
+        <!-- 点击层（压在图上、其他图层之下）：新建热区 / 放出入口 / 移起点 / 画笔。
              不属于当前模式的图层带 .off（pointer-events:none），点下去会穿透到这里 -->
-        <div v-if="mode !== 'spot' || drawing" class="dev-catch" @pointerdown="onCanvasDown"></div>
+        <div v-if="mode !== 'spot' || drawing" class="dev-catch" :class="{ brush: mode === 'brush' && !brushPan }" @pointerdown="onCanvasDown"></div>
 
-        <!-- 路网：青 = 图上真有线（'2'），紫 = 闭运算补出来的桥接格（'1'）。出入口改动后重画 -->
+        <!-- 路网：青 = 图上真有线（'2'），紫 = 闭运算补出来的桥接格（'1'）。出入口 / 画笔改动后重画 -->
         <canvas v-show="show.grid" ref="gridCv" class="dev-grid" :width="walkGrid.w" :height="walkGrid.h"></canvas>
+
+        <!-- 画笔笔迹：青线 = 铺的真线，红线 = 封路；代码里固化的画虚线。正在画的那笔实时跟着手指 -->
+        <svg v-show="show.brush" class="dev-strokes" :viewBox="`0 0 ${imgW} ${imgH}`">
+          <g v-for="(s, i) in mapStrokes" :key="'fs' + i" class="fixed" :class="s.mode">
+            <polyline v-if="s.pts.length > 1" :points="cellPoly(s.pts)" :style="{ strokeWidth: cellPx(s.r) + 'px' }" />
+            <rect v-else v-bind="cellRect(s.pts[0], s.r)" />
+          </g>
+          <g v-for="(s, i) in strokes" :key="'s' + i" :class="[s.mode, { on: selStroke === i }]">
+            <polyline v-if="s.pts.length > 1" :points="cellPoly(s.pts)" :style="{ strokeWidth: cellPx(s.r) + 'px' }" />
+            <rect v-else v-bind="cellRect(s.pts[0], s.r)" />
+            <text class="dev-slab" :x="cellX(s.pts[0][0])" :y="cellY(s.pts[0][1]) - 6">{{ i + 1 }}</text>
+          </g>
+          <g v-if="cur" :class="[cur.mode, 'cur']">
+            <polyline v-if="cur.pts.length > 1" :points="cellPoly(cur.pts)" :style="{ strokeWidth: cellPx(cur.r) + 'px' }" />
+            <rect v-else v-bind="cellRect(cur.pts[0], cur.r)" />
+          </g>
+        </svg>
 
         <!-- 展位热区 -->
         <template v-if="show.spot">
@@ -42,7 +78,7 @@
             v-for="(rect, no) in spots"
             :key="no"
             class="dev-rect"
-            :class="{ on: sel === no, dim: mode !== 'spot' && mode !== 'door', off: mode === 'gate' || mode === 'start' || drawing }"
+            :class="{ on: sel === no, dim: mode !== 'spot' && mode !== 'door', off: mode === 'gate' || mode === 'start' || mode === 'brush' || drawing }"
             :style="boxStyle(rect)"
             @pointerdown.stop="onRectDown($event, no)"
           >
@@ -88,6 +124,13 @@
           </template>
         </svg>
       </div>
+    </div>
+    <div class="small muted mt-6 dev-legend">
+      <i class="dev-sw grid2"></i>青 = 图上真有线（代价 1）
+      <i class="dev-sw grid1"></i>紫 = 补出来的桥接格（代价 ×6）
+      <i class="dev-sw open"></i>画笔铺的真线
+      <i class="dev-sw block"></i>画笔封的路
+      <i class="dev-sw route"></i>试走路线
     </div>
 
     <!-- 编辑面板 -->
@@ -153,7 +196,7 @@
             <div class="small muted mt-6">
               拖动方块挪位置，方向键微调一格（Shift ×10），Delete 删除。这块盖住路网第 {{ cellOf(curGate).x }},{{ cellOf(curGate).y }} 格周围
               {{ 2 * curGate.r + 1 }}×{{ 2 * curGate.r + 1 }} 格：开口 = 强制变成可走的真线，封死 = 禁止通行。
-              开着「路网」图层就能看到盖上去的效果。
+              开着「路网」图层就能看到盖上去的效果。要沿着一条路连续铺 / 封，用「路网画笔」更顺手。
             </div>
           </template>
           <template v-else>
@@ -172,14 +215,41 @@
           </template>
         </template>
 
-        <template v-else>
-          <div class="small">拖动图上的起点十字标，或点图上任意位置把导航起点挪过去；方向键微调一格（Shift ×10）。</div>
-          <div class="small muted mt-6">现在：x {{ start.x.toFixed(4) }} · y {{ start.y.toFixed(4) }}<template v-if="ov.start">（本机已改）</template></div>
+        <template v-else-if="mode === 'brush'">
+          <div class="row wrap" style="gap:6px;align-items:center">
+            <button class="chip" :class="{ on: brushMode === 'open' }" @click="brushMode = 'open'">铺真线</button>
+            <button class="chip" :class="{ on: brushMode === 'block' }" @click="brushMode = 'block'">封路</button>
+            <span class="small">笔宽 {{ 2 * brushR + 1 }} 格</span>
+            <input type="range" min="0" max="3" v-model.number="brushR" />
+            <button class="pbtn sm ghost" :class="{ on: brushPan }" @click="brushPan = !brushPan">{{ brushPan ? '拖图中，点回画笔' : '手指拖图' }}</button>
+          </div>
+          <div class="small muted mt-6">
+            按住拖动，沿着手指把这一片路网铺成青色真线（可走、代价 1）或封成不可走；松手算一笔，路线立刻重算，导出后是 <code>mapStrokes</code>。
+            铺线和封路都会压掉原来的格子，画错了撤销那一笔就行。手机上一个手指画的时候没法拖图，要挪视野点「手指拖图」切一下；电脑滚轮不受影响。
+          </div>
+          <div v-if="strokes.length" class="row wrap mt-6" style="gap:4px;align-items:center">
+            <span class="small" style="font-weight:700">笔迹</span>
+            <button
+              v-for="(s, i) in strokes"
+              :key="i"
+              class="dev-layer"
+              :class="{ on: selStroke === i }"
+              @click="selStroke = selStroke === i ? null : i"
+            ><i class="dev-sw" :class="s.mode"></i>{{ i + 1 }} · {{ s.mode === 'block' ? '封' : '铺' }} {{ strokeLen(s) }} 格</button>
+            <button class="pbtn sm ghost" :disabled="selStroke == null" @click="removeStroke(selStroke)">删除选中</button>
+            <button class="pbtn sm ghost" @click="removeStroke(strokes.length - 1)">撤销上一笔</button>
+          </div>
+          <div v-if="mapStrokes.length" class="small muted mt-6">代码里还固化了 {{ mapStrokes.length }} 笔（虚线显示，在这里改不了）。</div>
         </template>
 
-        <!-- 试走：改完立刻验证；改了出入口 / 起点 / 到达门后画着的路线会自动重算 -->
+        <template v-else>
+          <div class="small">拖动图上的起点十字标，或点图上任意位置把导航起点挪过去；方向键微调一格（Shift ×10）。</div>
+          <div class="small muted mt-6">现在：x {{ start.x.toFixed(4) }} · y {{ start.y.toFixed(4) }}<template v-if="ov.start">（本机已改，原值 x {{ mapOrig.start.x }} · y {{ mapOrig.start.y }}）</template></div>
+        </template>
+
+        <!-- 试走：改完立刻验证；改了出入口 / 画笔 / 起点 / 到达门后画着的路线会自动重算 -->
         <div class="row wrap mt-10" style="gap:6px;align-items:center">
-          <select v-if="mode === 'gate' || mode === 'start'" v-model="sel" class="dev-sel">
+          <select v-if="mode !== 'spot' && mode !== 'door'" v-model="sel" class="dev-sel">
             <option :value="null">— 选展位 —</option>
             <option v-for="no in noList" :key="no" :value="no">{{ no }} {{ ipOf(no) }}</option>
           </select>
@@ -192,7 +262,7 @@
           <button v-if="testPts.length || allPts.length" class="pbtn sm ghost" @click="clearRoutes()">清掉路线</button>
         </div>
         <div class="small muted mt-6">
-          画着的路线在改动出入口 / 起点 / 到达门 / 热区后会自动重算，盯着看有没有穿广场、越围栏、专程折返。
+          画着的路线在改动出入口 / 画笔 / 起点 / 到达门 / 热区后会自动重算，盯着看有没有穿广场、越围栏、专程折返。
         </div>
       </div>
     </div>
@@ -205,7 +275,7 @@
           <span class="fold-arrow" :class="{ open: openOut }">&gt;</span>
         </div>
         <template v-if="openOut">
-          <div class="small muted mt-6">贴回 src/data/mapSpots.js 后，回来点「清空本机覆盖」。</div>
+          <div class="small muted mt-6">贴回 src/data/mapSpots.js 后，回来点「已改 N 处 → 全部清空」。</div>
           <textarea class="dev-out mt-6" readonly :value="exported"></textarea>
           <div class="row wrap mt-6" style="gap:6px">
             <button class="pbtn sm" @click="copyOut()">{{ copied ? '已复制' : '复制' }}</button>
@@ -226,11 +296,15 @@ export default { name: 'DevMapPage' }
 // 存本机 localStorage（rl26.dev）并立刻对导航生效（mapSpots.js 底部的 applyDev 原地合并），
 // 核对好了再导出代码贴回 src/data/mapSpots.js。不挂在底栏里，走 #/dev 进。
 // 用户 9/16：不止热区，起点 / 出入口 / 到达门 / 路网都要常显在图上、能直接拖，方便复核规划出来的路线。
+// 用户 9/17：加「路网画笔」按住拖动连续铺真线 / 封路；「已改 N 处」点开气泡逐条定位 / 单独撤销。
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import { booths } from '../data/booths.js'
 import { venueMap } from '../data/rules.js'
-import { mapSpots, mapDoors, mapStart, mapGates, walkGrid, doorPoints, DOOR_SIDES, loadDev, saveDev, clearDev } from '../data/mapSpots.js'
+import {
+  mapSpots, mapDoors, mapStart, mapGates, mapStrokes, mapOrig, walkGrid,
+  doorPoints, lineCells, DOOR_SIDES, loadDev, saveDev, clearDev,
+} from '../data/mapSpots.js'
 import { findRoute } from '../utils/route.js'
 import { fmtDist } from '../utils/plan.js'
 
@@ -238,13 +312,15 @@ const MODES = [
   { key: 'spot', name: '热区' },
   { key: 'door', name: '到达门' },
   { key: 'gate', name: '出入口' },
+  { key: 'brush', name: '路网画笔' },
   { key: 'start', name: '起点' },
 ]
-// 图层（与图上的颜色一致）：热区红框 / 到达门黄边 / 出入口绿（开）红（封）块 / 起点红十字 / 路网青（真线）紫（桥）
+// 图层（与图上的颜色一致）：热区红框 / 到达门黄边 / 出入口绿（开）红（封）块 / 画笔青（铺）红（封）线 / 起点红十字 / 路网青（真线）紫（桥）
 const LAYERS = [
   { key: 'spot', name: '热区' },
   { key: 'door', name: '到达门' },
   { key: 'gate', name: '出入口' },
+  { key: 'brush', name: '画笔' },
   { key: 'start', name: '起点' },
   { key: 'grid', name: '路网' },
 ]
@@ -262,12 +338,18 @@ const mapSrc = base + (p2.full || p2.src)
 
 const ov = ref(loadDev())
 const mode = ref('spot')
-const show = ref({ spot: true, door: true, gate: true, start: true, grid: true })
+const show = ref({ spot: true, door: true, gate: true, brush: true, start: true, grid: true })
 const sel = ref(null)
 const selGate = ref(null)
+const selStroke = ref(null)
 const drawing = ref(false)
 const gateMode = ref('open')
 const gateR = ref(3)
+const brushMode = ref('open')
+const brushR = ref(0)
+const brushPan = ref(false)
+const cur = ref(null) // 正在画的一笔 { mode, r, pts: [[gx, gy], …] }
+const popOpen = ref(false)
 const openOut = ref(false)
 const copied = ref(false)
 const testPts = ref([])
@@ -281,13 +363,97 @@ const spots = ref(mapSpots)
 const doors = ref(mapDoors)
 const start = ref(mapStart)
 const gates = computed(() => ov.value.gates || [])
+const strokes = computed(() => ov.value.strokes || [])
 const curGate = computed(() => (selGate.value != null ? gates.value[selGate.value] || null : null))
 const noList = computed(() => Object.keys(spots.value).sort())
 const ipOf = (no) => booths.filter((b) => String(b.no).split('/').some((s) => s.trim() === no)).map((b) => b.ip).join(' / ')
 const sidesOf = (no) => [...String(doors.value[no] || '')].filter((c) => 'ABCD'.includes(c))
-const dirty = computed(
-  () => Object.keys(ov.value.spots).length + Object.keys(ov.value.doors).length + ov.value.gates.length + (ov.value.start ? 1 : 0) + ov.value.removed.length,
-)
+
+// ---- 本机改动清单（「已改 N 处」气泡）：每条能定位、能单独撤销 ----
+const fmtRect = (r) => r.map((v) => v.toFixed(4)).join(', ')
+const changes = computed(() => {
+  const o = ov.value
+  const out = []
+  for (const no of Object.keys(o.spots).sort()) {
+    const orig = mapOrig.spots[no]
+    out.push({
+      id: 'spot:' + no,
+      kind: 'spot',
+      no,
+      label: `热区 ${no}${orig ? '' : '（新建）'}`,
+      detail: orig ? `原 [${fmtRect(orig)}] → [${fmtRect(spots.value[no] || o.spots[no])}]` : `[${fmtRect(o.spots[no])}]`,
+    })
+  }
+  for (const no of o.removed) out.push({ id: 'removed:' + no, kind: 'spot', no, label: `删掉了热区 ${no}`, detail: mapOrig.spots[no] ? '撤销即恢复原框' : '' })
+  for (const no of Object.keys(o.doors).sort()) {
+    out.push({ id: 'door:' + no, kind: 'door', no, label: `到达门 ${no}`, detail: `${mapOrig.doors[no] || '（无）'} → ${doors.value[no]}` })
+  }
+  o.gates.forEach((g, i) =>
+    out.push({ id: 'gate:' + i, kind: 'gate', i, label: `出入口 ${i + 1} · ${g.mode === 'block' ? '封死' : '开口'} r${g.r}`, detail: `x ${g.x} · y ${g.y}` }),
+  )
+  o.strokes.forEach((s, i) =>
+    out.push({ id: 'stroke:' + i, kind: 'brush', i, label: `画笔 ${i + 1} · ${s.mode === 'block' ? '封' : '铺'} ${strokeLen(s)} 格`, detail: `笔宽 ${2 * s.r + 1} 格，${s.pts.length} 个折点` }),
+  )
+  if (o.start) out.push({ id: 'start', kind: 'start', label: '起点', detail: `原 (${mapOrig.start.x}, ${mapOrig.start.y}) → (${o.start.x}, ${o.start.y})` })
+  return out
+})
+// 点名称：切到对应模式、选中、滚到它那儿
+function locate(c) {
+  if (c.kind === 'spot') {
+    pick(mode.value === 'door' ? 'door' : 'spot')
+    if (spots.value[c.no]) {
+      sel.value = c.no
+      const r = spots.value[c.no]
+      scrollTo({ x: r[0] + r[2] / 2, y: r[1] + r[3] / 2 })
+    }
+  } else if (c.kind === 'door') {
+    pick('door')
+    sel.value = c.no
+    const r = spots.value[c.no]
+    if (r) scrollTo({ x: r[0] + r[2] / 2, y: r[1] + r[3] / 2 })
+  } else if (c.kind === 'gate') {
+    pick('gate')
+    selGate.value = c.i
+    scrollTo(gates.value[c.i])
+  } else if (c.kind === 'brush') {
+    pick('brush')
+    selStroke.value = c.i
+    const [gx, gy] = strokes.value[c.i].pts[0]
+    scrollTo({ x: (gx + 0.5) / walkGrid.w, y: (gy + 0.5) / walkGrid.h })
+  } else if (c.kind === 'start') {
+    pick('start')
+    scrollTo(start.value)
+  }
+}
+// 点 ✕：只撤销这一处，其余改动保留。热区 / 到达门 / 起点靶回 mapOrig 的原值（覆盖是原地改的）
+function undo(c) {
+  const o = ov.value
+  if (c.id.startsWith('removed:')) {
+    o.removed = o.removed.filter((n) => n !== c.no)
+    if (mapOrig.spots[c.no] && !spots.value[c.no]) spots.value[c.no] = [...mapOrig.spots[c.no]]
+  } else if (c.kind === 'spot') {
+    delete o.spots[c.no]
+    const orig = mapOrig.spots[c.no]
+    if (orig) spots.value[c.no].splice(0, 4, ...orig)
+    else delete spots.value[c.no]
+    if (sel.value === c.no && !spots.value[c.no]) sel.value = null
+  } else if (c.kind === 'door') {
+    delete o.doors[c.no]
+    if (mapOrig.doors[c.no]) doors.value[c.no] = mapOrig.doors[c.no]
+    else delete doors.value[c.no]
+  } else if (c.kind === 'gate') {
+    o.gates.splice(c.i, 1)
+    selGate.value = null
+  } else if (c.kind === 'brush') {
+    o.strokes.splice(c.i, 1)
+    selStroke.value = null
+  } else if (c.kind === 'start') {
+    o.start = null
+    Object.assign(start.value, mapOrig.start)
+  }
+  commit()
+  if (!changes.value.length) popOpen.value = false
+}
 
 // ---- 图的显示尺寸 ----
 const NAT = { w: 6000, h: 4344 }
@@ -302,10 +468,10 @@ const setZoom = (d) => {
 const fit = () => {
   imgW.value = Math.max(300, Math.round(scroller.value?.clientWidth || 360))
 }
-// 把某个归一化坐标滚到可视区中间（试走 / 选展位后用）
+// 把某个归一化坐标滚到可视区中间（试走 / 选展位 / 定位改动后用）
 function scrollTo(p) {
   const el = scroller.value
-  if (!el) return
+  if (!el || !p) return
   el.scrollLeft = p.x * imgW.value - el.clientWidth / 2
   el.scrollTop = p.y * imgH.value - el.clientHeight / 2
 }
@@ -337,10 +503,10 @@ function drawGrid() {
         d[i + 2] = 255
         d[i + 3] = 120
       } else {
-        d[i] = 255
-        d[i + 1] = 0
-        d[i + 2] = 200
-        d[i + 3] = 150
+        d[i] = 170
+        d[i + 1] = 60
+        d[i + 2] = 255
+        d[i + 3] = 165
       }
     }
   }
@@ -353,6 +519,7 @@ function norm(e) {
   return { x: (e.clientX - r.left) / r.width, y: (e.clientY - r.top) / r.height }
 }
 const round4 = (v) => Math.round(v * 1e4) / 1e4
+const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v))
 const pct = (v) => `${(v * 100).toFixed(4)}%`
 const boxStyle = (r) => ({ left: pct(r[0]), top: pct(r[1]), width: pct(r[2]), height: pct(r[3]) })
 const dotStyle = (p) => ({ left: pct(p.x), top: pct(p.y) })
@@ -369,6 +536,24 @@ const gateStyle = (g) => {
   }
 }
 const poly = (pts) => pts.map((p) => `${p.x * imgW.value},${p.y * imgH.value}`).join(' ')
+// 画笔用的格坐标 ↔ 像素：格 (gx, gy) 的中心
+const cellX = (gx) => ((gx + 0.5) / walkGrid.w) * imgW.value
+const cellY = (gy) => ((gy + 0.5) / walkGrid.h) * imgH.value
+const cellPx = (r) => ((2 * r + 1) / walkGrid.w) * imgW.value
+const cellPoly = (pts) => pts.map(([gx, gy]) => `${cellX(gx)},${cellY(gy)}`).join(' ')
+const cellRect = ([gx, gy], r) => ({
+  x: ((gx - r) / walkGrid.w) * imgW.value,
+  y: ((gy - r) / walkGrid.h) * imgH.value,
+  width: cellPx(r),
+  height: ((2 * r + 1) / walkGrid.h) * imgH.value,
+})
+const cellAt = (p) => [clamp(Math.floor(p.x * walkGrid.w), 0, walkGrid.w - 1), clamp(Math.floor(p.y * walkGrid.h), 0, walkGrid.h - 1)]
+// 一笔盖了多少格（沿折线数，不含笔宽）
+function strokeLen(s) {
+  let n = 1
+  for (let i = 1; i < s.pts.length; i++) n += Math.max(Math.abs(s.pts[i][0] - s.pts[i - 1][0]), Math.abs(s.pts[i][1] - s.pts[i - 1][1]))
+  return n
+}
 
 // ---- 落盘 ----
 // 拖动过程中每一步都落盘（刷新也不丢），但路线重算只在松手后做一次（81 条全量约 120ms，跟着指针跑会卡）
@@ -405,11 +590,13 @@ function startDrag(e, onDelta, onEnd) {
   const up = () => {
     window.removeEventListener('pointermove', mv)
     window.removeEventListener('pointerup', up)
+    window.removeEventListener('pointercancel', up)
     dragging = false
     onEnd?.(moved)
   }
   window.addEventListener('pointermove', mv)
   window.addEventListener('pointerup', up)
+  window.addEventListener('pointercancel', up)
 }
 
 // ---- 热区拖动 ----
@@ -470,6 +657,59 @@ function removeGate(i) {
   commit()
 }
 
+// ---- 路网画笔：按住拖动记格坐标，松手简化成折点存一笔 ----
+// 先按格插值成单步序列，再只留方向变化的点：相邻两个折点之间 Bresenham 能原样还原，导出才短
+function simplifyStroke(raw) {
+  const cells = [raw[0]]
+  for (let i = 1; i < raw.length; i++) {
+    const seg = lineCells(raw[i - 1], raw[i])
+    for (let k = 1; k < seg.length; k++) cells.push(seg[k])
+  }
+  const out = [cells[0]]
+  let dir = null
+  for (let k = 1; k < cells.length; k++) {
+    const d = `${cells[k][0] - cells[k - 1][0]},${cells[k][1] - cells[k - 1][1]}`
+    if (d === dir) out[out.length - 1] = cells[k]
+    else {
+      out.push(cells[k])
+      dir = d
+    }
+  }
+  return out
+}
+function beginStroke(e) {
+  e.preventDefault()
+  cur.value = { mode: brushMode.value, r: brushR.value, pts: [cellAt(norm(e))] }
+  const mv = (ev) => {
+    if (!cur.value) return
+    const n = cellAt(norm(ev))
+    const last = cur.value.pts[cur.value.pts.length - 1]
+    if (n[0] === last[0] && n[1] === last[1]) return
+    cur.value.pts.push(n)
+  }
+  const up = () => {
+    window.removeEventListener('pointermove', mv)
+    window.removeEventListener('pointerup', up)
+    window.removeEventListener('pointercancel', up)
+    const s = cur.value
+    cur.value = null
+    if (!s) return
+    s.pts = simplifyStroke(s.pts)
+    ov.value.strokes.push(s)
+    selStroke.value = ov.value.strokes.length - 1
+    commit()
+  }
+  window.addEventListener('pointermove', mv)
+  window.addEventListener('pointerup', up)
+  window.addEventListener('pointercancel', up)
+}
+function removeStroke(i) {
+  if (i == null || i < 0 || !ov.value.strokes[i]) return
+  ov.value.strokes.splice(i, 1)
+  selStroke.value = null
+  commit()
+}
+
 // ---- 起点拖动 ----
 function moveStart(p) {
   ov.value.start = { x: round4(p.x), y: round4(p.y) }
@@ -485,8 +725,12 @@ function onStartDown(e) {
   )
 }
 
-// ---- 画布点击：新建热区 / 放出入口 / 移起点 ----
+// ---- 画布点击：新建热区 / 放出入口 / 画笔 / 移起点 ----
 function onCanvasDown(e) {
+  if (mode.value === 'brush') {
+    if (!brushPan.value) beginStroke(e)
+    return
+  }
   const p = norm(e)
   if (mode.value === 'gate') {
     ov.value.gates.push({ x: round4(p.x), y: round4(p.y), r: gateR.value, mode: gateMode.value })
@@ -517,8 +761,10 @@ function removeSpot() {
   commit()
 }
 function setNum(i, v) {
+  const n = Number(v)
+  if (!Number.isFinite(n)) return
   const r = [...spots.value[sel.value]]
-  r[i] = Number(v)
+  r[i] = n
   putSpot(sel.value, r)
 }
 // 到达门可以配多条边：最少留 1 条（点掉最后一条无效），最多 4 条；顺序固定 A→B→C→D
@@ -536,16 +782,28 @@ function pick(m) {
   drawing.value = false
 }
 
-// 键盘：热区模式微调选中热区（一格 = 图上 1px，Alt 改宽高）；出入口 / 起点模式按路网一格挪、Delete 删出入口
+// 键盘：热区模式微调选中热区（一格 = 图上 1px，Alt 改宽高）；出入口 / 起点模式按路网一格挪、Delete 删出入口；
+// 画笔模式 Delete 删选中笔迹、Ctrl+Z 撤销上一笔
 function onKey(e) {
   if (/^(INPUT|SELECT|TEXTAREA)$/.test(e.target?.tagName)) return
   const map = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }
   const d = map[e.key]
   const mul = e.shiftKey ? 10 : 1
+  const isDel = e.key === 'Delete' || e.key === 'Backspace'
+  if (mode.value === 'brush') {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
+      e.preventDefault()
+      removeStroke(strokes.value.length - 1)
+    } else if (isDel && selStroke.value != null) {
+      e.preventDefault()
+      removeStroke(selStroke.value)
+    }
+    return
+  }
   if (mode.value === 'gate') {
     const g = curGate.value
     if (!g) return
-    if (e.key === 'Delete' || e.key === 'Backspace') {
+    if (isDel) {
       e.preventDefault()
       removeGate(selGate.value)
       return
@@ -668,6 +926,12 @@ const exported = computed(() => {
     out.push('// mapSpots.js 的 mapGates 换成这个（已含原有的）')
     out.push('export const mapGates = [')
     for (const g of [...mapGates, ...o.gates]) out.push(`  { x: ${g.x}, y: ${g.y}, r: ${g.r}, mode: '${g.mode}' },`)
+    out.push(']')
+  }
+  if (o.strokes.length) {
+    out.push('// mapSpots.js 的 mapStrokes 换成这个（已含原有的）')
+    out.push('export const mapStrokes = [')
+    for (const s of [...mapStrokes, ...o.strokes]) out.push(`  { mode: '${s.mode}', r: ${s.r}, pts: [${s.pts.map(([x, y]) => `[${x}, ${y}]`).join(', ')}] },`)
     out.push(']')
   }
   return out.length ? out.join('\n') : '（本机还没有改动）'

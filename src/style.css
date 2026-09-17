@@ -397,6 +397,9 @@ img { max-width: 100%; display: block; }
 
 /* 待打卡清单 */
 .plan-list { list-style: none; margin: 0; padding: 0; }
+/* 清单最多显示 5 行，多了在卡片里自己滚（用户 9/17：清单一长整个页面就特别长）；行高约 38px */
+.plan-scroll { max-height: 190px; overflow-y: auto; overscroll-behavior: contain; padding-right: 2px; }
+.plan-scroll.more { border-bottom: 1.5px dashed #eadfc4; }
 .plan-list li { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-top: 1.5px dashed #eadfc4; }
 .plan-list li:first-child { border-top: 0; }
 .plan-no {
@@ -422,7 +425,8 @@ img { max-width: 100%; display: block; }
   background: var(--paper); border-color: var(--brown-2); box-shadow: 1.5px 1.5px 0 var(--brown-2); color: var(--brown);
 }
 .plan-acts .star.sm.ghost:disabled { opacity: .35; box-shadow: none; }
-.plan-acts .star.sm { cursor: pointer; }
+/* 用户 9/17：★ ↑ ↓ ✕ 这几个图标要粗一点——系统字体的箭头和叉太细，用描边加粗 */
+.plan-acts .star.sm { cursor: pointer; font-size: 14px; font-weight: 900; -webkit-text-stroke: .7px currentColor; line-height: 1; }
 
 /* 主题横幅 */
 .theme-banner {
@@ -519,11 +523,40 @@ img { max-width: 100%; display: block; }
 .dev-sw.door { background: #ffd23f; }
 .dev-sw.gate { background: linear-gradient(90deg, rgba(0, 255, 120, .85) 50%, rgba(255, 0, 0, .85) 50%); }
 .dev-sw.start { background: #fff; border: 2px solid var(--red); }
-.dev-sw.grid { background: linear-gradient(90deg, rgba(0, 229, 255, .9) 50%, rgba(255, 0, 200, .9) 50%); }
+.dev-sw.grid { background: linear-gradient(90deg, rgba(0, 229, 255, .9) 50%, rgba(170, 60, 255, .9) 50%); }
+.dev-sw.brush { background: linear-gradient(90deg, rgba(0, 229, 255, .9) 50%, rgba(255, 40, 40, .9) 50%); }
+.dev-sw.grid2 { background: rgba(0, 229, 255, .9); }
+.dev-sw.grid1 { background: rgba(170, 60, 255, .9); }
+.dev-sw.open { background: rgba(0, 229, 255, .9); }
+.dev-sw.block { background: rgba(255, 40, 40, .9); }
+.dev-sw.route { background: #00ff66; }
+.dev-legend .dev-sw { opacity: 1; margin-left: 10px; }
+.dev-legend .dev-sw:first-child { margin-left: 0; }
+/* 「已改 N 处」气泡：逐条列本机改动，点名称定位、点 ✕ 单独撤销 */
+.dev-pop { position: absolute; left: 6px; right: 6px; top: 100%; margin-top: 6px; z-index: 5; background: var(--paper); border: 3px solid var(--navy); box-shadow: 4px 4px 0 var(--navy); border-radius: 3px; padding: 8px 10px; max-height: 50vh; overflow: auto; }
+.dev-pop-row { display: flex; align-items: center; gap: 6px; padding: 5px 0; border-top: 1px dashed #e0cfa6; }
+.dev-pop-row .dev-sw { flex: 0 0 auto; opacity: 1; margin: 0; }
+.dev-pop-name { font: inherit; font-size: 13px; font-weight: 700; color: var(--navy); background: none; border: 0; padding: 0; text-align: left; text-decoration: underline dotted; }
+.dev-pop-detail { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11px; }
+.dev-pop-x { flex: 0 0 auto; margin-left: auto; padding: 2px 8px; }
+/* 画笔笔迹：青 = 铺的真线，红 = 封路；固化的画虚线；选中加白色描边发光 */
+.dev-strokes { position: absolute; inset: 0; pointer-events: none; }
+.dev-strokes polyline { fill: none; stroke-linecap: square; stroke-linejoin: round; }
+.dev-strokes rect { stroke: none; }
+.dev-strokes .open polyline { stroke: rgba(0, 229, 255, .75); }
+.dev-strokes .open rect { fill: rgba(0, 229, 255, .75); }
+.dev-strokes .block polyline { stroke: rgba(255, 40, 40, .75); }
+.dev-strokes .block rect { fill: rgba(255, 40, 40, .75); }
+.dev-strokes .fixed polyline { stroke-dasharray: 6 4; }
+.dev-strokes .on { filter: drop-shadow(0 0 2px #fff) drop-shadow(0 0 2px #fff); }
+.dev-strokes .cur { opacity: .9; }
+.dev-slab { font-family: var(--font-num); font-size: 9px; fill: #fff; stroke: #000; stroke-width: 2px; paint-order: stroke; }
 /* 路网叠加：360×260 的 canvas 直接拉伸到图的尺寸，一格一格显示 */
 .dev-grid { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; pointer-events: none; }
 /* 不属于当前模式的图层只显示、不接事件，点下去穿透到 .dev-catch */
 .dev-rect.off, .dev-gate.off, .dev-start.off { pointer-events: none; }
+/* 触屏：拖热区 / 出入口 / 起点、画笔画线时不能让浏览器抢去滚动，否则 pointer 会被 cancel 掉 */
+.dev-rect, .dev-gate, .dev-start, .dev-catch.brush { touch-action: none; }
 .dev-rect { position: absolute; border: 1.5px solid rgba(255, 60, 60, .9); cursor: move; }
 .dev-rect.dim { border-color: rgba(255, 60, 60, .6); cursor: pointer; }
 .dev-rect.on { border: 2px solid #00e5ff; background: rgba(0, 229, 255, .12); }

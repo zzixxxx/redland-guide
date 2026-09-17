@@ -474,12 +474,12 @@ export const mapSpotList = buildSpotList()
 // 开发者模式的本地覆盖（/dev，见 views/DevMapPage.vue）
 //
 // 上面这些数据是脚本识别 + 人工核对出来的，难免有偏差。开发者模式把「热区 / 到达门 /
-// 出入口 / 起点」的修改存在本机 localStorage（rl26.dev），在这里合并回同一批导出对象上，
+// 出入口 / 路网画笔 / 起点」的修改存在本机 localStorage（rl26.dev），在这里合并回同一批导出对象上，
 // 所以改完立刻对导航生效、刷新也还在；确认没问题后从 /dev 导出代码贴回本文件，再清掉覆盖。
 // 注意：所有覆盖都是「原地改」这些 const 对象，不要换成新对象，否则别处 import 到的还是旧引用。
 // ---------------------------------------------------------------------------
 export const DEV_KEY = 'rl26.dev'
-const emptyDev = () => ({ spots: {}, doors: {}, gates: [], start: null, removed: [] })
+const emptyDev = () => ({ spots: {}, doors: {}, gates: [], strokes: [], start: null, removed: [] })
 
 export function loadDev() {
   try {
@@ -512,21 +512,59 @@ export function clearDev() {
 // open = 把这片强制开成可走真线（补出入口 / 补被文字压断的过道），block = 封死（图上画了线但走不通）。
 export const mapGates = []
 
-// 出入口覆盖：在路网上按方格盖章，open = 开成真线、block = 封死。r 是半径（格）
-function stampGates(gates) {
+// 固化下来的路网画笔笔迹（用户 9/17）：开发者模式「路网画笔」按住拖动画出来的，
+// `pts` 是路网格坐标（整数，[x, y]）的折点序列，相邻两点之间按 Bresenham 连线、每格盖 (2r+1)² 的方块；
+// mode 同 mapGates：open = 铺成真线 '2'，block = 封成 '0'。按数组顺序盖，后面的压前面的。
+export const mapStrokes = []
+
+/** 两个格点之间的 Bresenham 连线（8 连通），含两端。画笔铺线与导出简化都用它。 */
+export function lineCells([x0, y0], [x1, y1]) {
+  const out = []
+  const dx = Math.abs(x1 - x0)
+  const dy = -Math.abs(y1 - y0)
+  const sx = x0 < x1 ? 1 : -1
+  const sy = y0 < y1 ? 1 : -1
+  let err = dx + dy
+  let x = x0
+  let y = y0
+  for (;;) {
+    out.push([x, y])
+    if (x === x1 && y === y1) break
+    const e2 = 2 * err
+    if (e2 >= dy) {
+      err += dy
+      x += sx
+    }
+    if (e2 <= dx) {
+      err += dx
+      y += sy
+    }
+  }
+  return out
+}
+
+// 出入口 / 画笔覆盖：在路网上按方格盖章，open = 开成真线、block = 封死。r 是半径（格）
+function stampGates(gates, strokes) {
   if (!walkGrid._raw) walkGrid._raw = [...walkGrid.rows]
   const rows = walkGrid._raw.map((r) => r.split(''))
-  for (const g of [...mapGates, ...(gates || [])]) {
-    const cx = Math.round(g.x * walkGrid.w)
-    const cy = Math.round(g.y * walkGrid.h)
-    const r = Math.max(0, Math.round(g.r ?? 3))
-    const ch = g.mode === 'block' ? '0' : '2'
+  const put = (cx, cy, r, ch) => {
     for (let y = cy - r; y <= cy + r; y++) {
       for (let x = cx - r; x <= cx + r; x++) {
         if (x < 0 || y < 0 || x >= walkGrid.w || y >= walkGrid.h) continue
         rows[y][x] = ch
       }
     }
+  }
+  for (const g of [...mapGates, ...(gates || [])]) {
+    put(Math.round(g.x * walkGrid.w), Math.round(g.y * walkGrid.h), Math.max(0, Math.round(g.r ?? 3)), g.mode === 'block' ? '0' : '2')
+  }
+  for (const s of [...mapStrokes, ...(strokes || [])]) {
+    const pts = s.pts || []
+    if (!pts.length) continue
+    const r = Math.max(0, Math.round(s.r ?? 0))
+    const ch = s.mode === 'block' ? '0' : '2'
+    put(pts[0][0], pts[0][1], r, ch)
+    for (let i = 1; i < pts.length; i++) for (const [x, y] of lineCells(pts[i - 1], pts[i])) put(x, y, r, ch)
   }
   walkGrid.rows = rows.map((r) => r.join(''))
 }
@@ -545,7 +583,7 @@ export function applyDev(ov) {
     if (v) mapDoors[no] = v
   }
   if (o.start) Object.assign(mapStart, o.start)
-  stampGates(o.gates)
+  stampGates(o.gates, o.strokes)
   // 路网 / 代价表是按 grid 缓存的，改完要作废重算
   walkGrid._cells = null
   walkGrid._base = null
@@ -556,6 +594,14 @@ export function applyDev(ov) {
 function rebuildSpotList() {
   mapSpotList.length = 0
   mapSpotList.push(...buildSpotList())
+}
+
+// 原始值快照（在合并本机覆盖之前拍）：开发者模式「已改 N 处」气泡里单独撤销某一处时，
+// 热区 / 到达门 / 起点要靶回这里的值（覆盖是原地改的，不留快照就找不回来了）
+export const mapOrig = {
+  spots: Object.fromEntries(Object.entries(mapSpots).map(([no, r]) => [no, [...r]])),
+  doors: { ...mapDoors },
+  start: { ...mapStart },
 }
 
 if (typeof localStorage !== 'undefined') applyDev(loadDev())

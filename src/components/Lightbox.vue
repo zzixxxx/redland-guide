@@ -128,6 +128,8 @@ const props = defineProps({
   index: { type: Number, default: null },
   // 待打卡清单的整条路线：{ legs: [{ to, points }] }，传了就常显在地图上
   plan: { type: Object, default: null },
+  // 展位号（如 'A06'）：打开带热区的平面图时自动画一条起点 → 该展位的路线（详情页「导航」按钮，用户 9/17）
+  navTo: { type: String, default: null },
 })
 const emit = defineEmits(['update:index', 'open'])
 
@@ -307,6 +309,10 @@ watch(cur, (v) => {
   facKey.value = null
   hi.value = null
   resetView()
+  if (v?.spots && props.navTo) {
+    const sp = v.spots.find((s) => s.no === props.navTo)
+    if (sp) nav(sp)
+  }
   if (v?.full) {
     const pre = new Image()
     pre.onload = () => {

@@ -179,8 +179,10 @@
             {{ planResult.manual ? '按你调好的顺序' : '已按最少回头路排好' }}：全程约
             {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
           </div>
-          <!-- 一行一个 IP；同一展位号下加了多个 IP 时并排成相邻几行，距离只标在第一行 -->
-          <ol class="plan-list mt-6">
+          <!-- 一行一个 IP；同一展位号下加了多个 IP 时并排成相邻几行，距离只标在第一行。
+               最多显示 5 行，多了在这个容器里滚（用户 9/17） -->
+          <div class="plan-scroll mt-6" :class="{ more: planCount > 5 }">
+          <ol class="plan-list">
             <template v-for="(no, i) in planResult ? planResult.order : []" :key="no">
               <li v-for="(b, k) in pickedOf(no)" :key="b.id" :class="{ sub: k > 0 }">
                 <span v-if="k === 0" class="plan-no">{{ i + 1 }}</span>
@@ -205,6 +207,8 @@
               </li>
             </template>
           </ol>
+          </div>
+          <div v-if="planCount > 5" class="small muted mt-4">共 {{ planCount }} 行，在清单里上下滚动查看</div>
           <div class="row wrap mt-10" style="gap:8px">
             <button class="pbtn sm" @click="openImgs(mapSlices, MAP_P2)">在地图上看路线</button>
             <button v-if="planResult && planResult.manual" class="pbtn sm ghost" @click="autoPlan()">重排最短</button>

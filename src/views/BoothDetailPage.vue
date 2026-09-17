@@ -16,12 +16,15 @@
       <div class="pcard-body">
         <div class="row wrap">
           <span class="tag">{{ booth.no }}</span>
-          <span class="tag blue text">{{ booth.zone }} 区</span>
+          <!-- 页头已写「A 区 · 展位 A06」，这里带上区域名才不重复（用户 9/17） -->
+          <span class="tag blue text">{{ booth.zone }} 区 · {{ regionName }}</span>
           <span v-if="detail" class="tag green text">已收录展台详情</span>
         </div>
         <div class="mt-10" style="font-size:15px;color:var(--brown);font-weight:700">{{ booth.blurb }}</div>
         <div class="small muted mt-6">—— 官方「IP 展位一览」</div>
         <div class="row wrap mt-10" style="gap:8px">
+          <!-- 在官方平面图上画出从登岛起点到这个展位的路线（用户 9/17） -->
+          <button v-if="mapNo" type="button" class="pbtn sm" @click="navOnMap()">🧭 地图上导航到 {{ mapNo }}</button>
           <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, booth.xhs.uid)">📕 小红书主页 @{{ booth.xhs.name }}</a>
           <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener" @click="openSearch($event, keyword)">🔍 搜「{{ booth.ip }} RED LAND」</a>
         </div>
@@ -269,7 +272,7 @@
       </div>
     </div>
 
-    <Lightbox :items="lb.items" v-model:index="lb.i" />
+    <Lightbox :items="lb.items" v-model:index="lb.i" :nav-to="lb.navTo" @open="goBooth" />
   </div>
   <div v-else class="page">
     <PageHeader title="未找到展位" back />
@@ -279,16 +282,17 @@
 
 <script setup>
 import { ref, reactive, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import StepList from '../components/StepList.vue'
 import PostCopyBtn from '../components/PostCopyBtn.vue'
-import { boothMap } from '../data/booths.js'
+import { boothMap, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { indieGames, indieSource, indieCount } from '../data/indie.js'
-import { event } from '../data/rules.js'
+import { event, venueMap } from '../data/rules.js'
 import { pins, zoneThumbs } from '../data/pins.js'
-import { mapSpots } from '../data/mapSpots.js'
+import { mapSpots, mapSpotList } from '../data/mapSpots.js'
 import { useChecked, usePlan } from '../composables/useStore.js'
 import { profileUrl, searchUrl, boothSearchKeyword, openProfile, openSearch, isMobile } from '../utils/xhs.js'
 
@@ -297,11 +301,16 @@ const booth = computed(() => boothMap[props.id])
 const detail = computed(() => boothDetails[props.id])
 const { isChecked, toggle } = useChecked()
 const { inPlan, togglePlan } = usePlan()
-// 清单按展位 id 存（同号的多个 IP 各加各的，用户 9/15）；图上没有热区的展位不给这个按钮
-const onMap = computed(() => {
-  const no = String(booth.value?.no || '').split('/')[0].trim()
-  return !!mapSpots[no]
+const router = useRouter()
+const regionName = computed(() => zones.find((z) => z.key === booth.value?.zone)?.region || '')
+// 这个展位在平面图上的展位号：id 去掉 a/b/c 后缀（A25a → A25），再退回官方展位号原文里的各段（B02 / B17）；
+// 图上没有热区的展位（待解锁 / 游荡）拿不到，就不给「加清单」「导航」按钮
+const mapNo = computed(() => {
+  if (!booth.value) return null
+  const cands = [props.id.replace(/[a-z]$/, ''), ...String(booth.value.no || '').split('/').map((s) => s.trim())]
+  return cands.find((no) => mapSpots[no]) || null
 })
+const onMap = computed(() => !!mapNo.value)
 const base = import.meta.env.BASE_URL
 const mobile = isMobile()
 const copied = ref(false)
@@ -323,11 +332,27 @@ const keyword = computed(() => (booth.value ? boothSearchKeyword(booth.value) : 
 // 多 IP 共用展位的其他官方账号（去掉与 booth.xhs 重复的主账号）
 const extraAccounts = computed(() => (detail.value?.accounts || []).filter((a) => a.uid !== booth.value?.xhs?.uid))
 
-// ---- 灯箱：笔记原图 / PIN 预览共用 ----
-const lb = reactive({ items: [], i: null })
-const openImgs = (items, i) => {
+// ---- 灯箱：笔记原图 / PIN 预览 / 平面图导航共用 ----
+const lb = reactive({ items: [], i: null, navTo: null })
+const openImgs = (items, i, navTo = null) => {
+  lb.navTo = navTo
   lb.items = items
   lb.i = i
+}
+// 官方平面图三切片（与首页同一套），P2 带热区；「导航」打开 P2 并让灯箱自动画起点 → 本展位的路线
+const mapSlices = venueMap.slices.map((m) => ({
+  src: base + m.src,
+  caption: m.alt,
+  full: m.full ? base + m.full : undefined,
+  spots: m.spots ? mapSpotList : undefined,
+  fitH: m.fitH,
+}))
+const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
+const navOnMap = () => mapNo.value && openImgs(mapSlices, MAP_P2, mapNo.value)
+// 灯箱气泡里点了别的 IP：关灯箱、换到那个展位的攻略
+function goBooth(id) {
+  lb.i = null
+  if (id && id !== props.id) router.push(`/booth/${id}`)
 }
 // images 每项可以是路径字符串，或 { src, caption }（阅文拼接长图带子页说明）
 const imgSrc = (x) => base + (typeof x === 'string' ? x : x.src)
