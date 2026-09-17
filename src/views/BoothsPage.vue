@@ -64,6 +64,20 @@
             <img v-for="(im, i) in mainline.images" :key="im.src" :src="base + im.src" :alt="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(mainlineImages, i)" />
           </div>
           <div class="small muted mt-6">图源：{{ mainline.source.author }}「{{ mainline.source.title }}」{{ mainline.source.publishedAt }} · <a :href="mainline.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
+          <!-- 主角专属装备包（RED LAND 官方号 9/15）：入场安检后到装备区人人可领，是主线的第一步，所以放在主线玩法卡里（用户 9/17） -->
+          <div class="hr" />
+          <div class="pcard-title" style="font-size:15px">🎒 {{ equipPack.title }}</div>
+          <div class="small mt-6" style="color:var(--brown)">{{ equipPack.desc }}</div>
+          <div v-for="(it, i) in equipPack.items" :key="it.name" class="small mt-6">
+            <b>{{ i + 1 }}. {{ it.name }}</b>
+            <div>{{ it.desc }}</div>
+            <div class="muted">* {{ it.note }}</div>
+          </div>
+          <div v-for="n in equipPack.notes" :key="n" class="small mt-6" style="color:var(--brown)">⚠️ {{ n }}</div>
+          <div class="mt-6" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <img v-for="(im, i) in equipPack.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(equipImages, i)" />
+          </div>
+          <div class="small muted mt-6">图源：{{ equipPack.source.author }}「{{ equipPack.source.title }}」{{ equipPack.source.publishedAt }} · <a :href="equipPack.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
           <div class="hr" />
           <div class="pcard-title" style="font-size:15px">🎈 {{ eggs.title }}</div>
           <div v-for="e in eggs.items" :key="e.name" class="mt-6 small">
@@ -85,30 +99,6 @@
             <div class="mt-6">{{ p.desc }}</div>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- 主角专属装备包（RED LAND 官方号 9/15）：入场安检后到装备区人人可领；默认收起，与主线玩法卡一致 -->
-    <div class="pcard sand mt-14">
-      <div class="pcard-body">
-        <div class="fold-head" @click="openEquip = !openEquip">
-          <div class="pcard-title">🎒 {{ equipPack.title }}</div>
-          <span class="fold-arrow" :class="{ open: openEquip }">&gt;</span>
-        </div>
-        <div class="small mt-6" style="color:var(--brown)">{{ equipPack.desc }}</div>
-        <template v-if="openEquip">
-          <div v-for="(it, i) in equipPack.items" :key="it.name" class="small mt-6">
-            <b>{{ i + 1 }}. {{ it.name }}</b>
-            <div>{{ it.desc }}</div>
-            <div class="muted">* {{ it.note }}</div>
-          </div>
-          <div class="hr" />
-          <div v-for="n in equipPack.notes" :key="n" class="small" style="color:var(--brown)">⚠️ {{ n }}</div>
-          <div class="mt-10" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
-            <img v-for="(im, i) in equipPack.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(equipImages, i)" />
-          </div>
-          <div class="small muted mt-6">图源：{{ equipPack.source.author }}「{{ equipPack.source.title }}」{{ equipPack.source.publishedAt }} · <a :href="equipPack.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
-        </template>
       </div>
     </div>
 
@@ -355,7 +345,6 @@ const { plan, planOrder, planNos, inPlan, togglePlan, clearPlan, movePlan, autoP
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
-const openEquip = ref(false)
 const openMap = ref(false)
 const openTips = ref(false)
 const openMap26 = ref(false)
