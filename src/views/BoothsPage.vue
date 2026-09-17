@@ -88,6 +88,30 @@
       </div>
     </div>
 
+    <!-- 主角专属装备包（RED LAND 官方号 9/15）：入场安检后到装备区人人可领；默认收起，与主线玩法卡一致 -->
+    <div class="pcard sand mt-14">
+      <div class="pcard-body">
+        <div class="fold-head" @click="openEquip = !openEquip">
+          <div class="pcard-title">🎒 {{ equipPack.title }}</div>
+          <span class="fold-arrow" :class="{ open: openEquip }">&gt;</span>
+        </div>
+        <div class="small mt-6" style="color:var(--brown)">{{ equipPack.desc }}</div>
+        <template v-if="openEquip">
+          <div v-for="(it, i) in equipPack.items" :key="it.name" class="small mt-6">
+            <b>{{ i + 1 }}. {{ it.name }}</b>
+            <div>{{ it.desc }}</div>
+            <div class="muted">* {{ it.note }}</div>
+          </div>
+          <div class="hr" />
+          <div v-for="n in equipPack.notes" :key="n" class="small" style="color:var(--brown)">⚠️ {{ n }}</div>
+          <div class="mt-10" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            <img v-for="(im, i) in equipPack.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(equipImages, i)" />
+          </div>
+          <div class="small muted mt-6">图源：{{ equipPack.source.author }}「{{ equipPack.source.title }}」{{ equipPack.source.publishedAt }} · <a :href="equipPack.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
+        </template>
+      </div>
+    </div>
+
     <!-- 场馆平面图：上半部分为 RED LAND 官方号 2026-09-11 公布的官方功能地图（原 LOADING 占位处），下半部分保留 2025 年网友参考图 -->
     <div class="pcard dark mt-14">
       <div class="pcard-body">
@@ -318,7 +342,7 @@ import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities, equipPack } from '../data/rules.js'
 import { mapSpotList, mapSpots } from '../data/mapSpots.js'
 import { planRoute } from '../utils/plan.js'
 import { roaming } from '../data/roaming.js'
@@ -331,6 +355,7 @@ const { plan, planOrder, planNos, inPlan, togglePlan, clearPlan, movePlan, autoP
 const q = ref('')
 const zone = ref('ALL')
 const openRules = ref(false)
+const openEquip = ref(false)
 const openMap = ref(false)
 const openTips = ref(false)
 const openMap26 = ref(false)
@@ -372,6 +397,7 @@ const MAP_P2 = venueMap.slices.findIndex((m) => m.spots)
 const boothSource = { url: 'https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true' }
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const equipImages = equipPack.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
 
 const hasDetail = (id) => !!boothDetails[id]

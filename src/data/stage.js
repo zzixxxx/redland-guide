@@ -54,7 +54,14 @@ export const stageDays = [
       { performer: '钱润玉', songs: ['妄梦', '向黑夜发问'], ip: '第五人格' },
       { performer: 'i-Link 心跳连结女团', songs: ['冒险岛版·庄园女团出道'], ip: '第五人格' },
       { performer: '第五人格', songs: ['庄园 QQ 人登岛'], ip: '第五人格' },
-      { performer: '拳头游戏音乐', songs: ['演出曲目待公布'], ip: '无畏契约 / 英雄联盟' },
+      {
+        // RED LAND 官方号 9/15「欢迎登岛，拳头游戏音乐参演数据同步完成」：10 月 3 日 19:00–21:00
+        performer: '拳头游戏音乐 · 特邀 DJ Willim缪维霖',
+        songs: ['TICKING AWAY', '2 WORLDS', '「VALORANT SOUND 音脉共振」电音秀精选曲目', '《英雄联盟》经典曲目 DJ 串烧秀'],
+        ip: '无畏契约 / 英雄联盟',
+        note: '10 月 3 日 19:00 – 21:00。《无畏契约》视听狂欢：「VALORANT SOUND 音脉共振」电音秀精选曲目，解锁《TICKING AWAY》《2 WORLDS》等更多惊喜现场；伴随踏入英雄联盟音乐赛季，另有《英雄联盟》经典曲目 DJ 串烧秀。',
+        images: ['img/stage/riot/00.jpg', 'img/stage/riot/01.jpg', 'img/stage/riot/02.jpg'],
+      },
     ],
   },
   {
@@ -116,3 +123,17 @@ export const stageDays = [
     ],
   },
 ]
+
+// 舞台页页尾「来源」卡（可折叠，默认展开）：主来源 = 官方活动页「冒险者营地上线」半层；其余 = 补充演出情报的官方笔记
+export const stageSources = {
+  main: {
+    title: '官方活动页「冒险者营地上线」半层',
+    url: 'https://fe.xiaohongshu.com/ditto/vincent/1875a92b788843718d0b335dd77b1a41?naviHidden=yes&fullscreen=true',
+    author: 'RED LAND 官方活动页',
+    publishedAt: '2026-09-09 版',
+  },
+  more: [
+    { title: '欢迎登岛，拳头游戏音乐参演数据同步完成（DAY2 · 10/3 无畏契约 / 英雄联盟 DJ 专场）', url: 'https://xhslink.cn/o/ASkJyTHPx1v', noteId: '6aa933340000000011036bad', author: 'RED LAND 官方号', publishedAt: '2026-09-15' },
+    { title: 'RED LAND2026 | 星布谷地惊喜活动预告（DAY4 · 10/5 王男 & 王广联合演绎全新单曲）', url: 'https://xhslink.cn/o/6fb3vuIQh9Q', noteId: '6aa9233f000000001103b6c0', author: '星布谷地', publishedAt: '2026-09-16' },
+  ],
+}

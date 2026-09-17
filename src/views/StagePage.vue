@@ -21,6 +21,10 @@
           <span v-for="s in p.songs" :key="s" class="song">{{ s }}</span>
         </div>
         <div v-if="p.note" class="note">{{ p.note }}</div>
+        <!-- 补充演出情报笔记的图（如拳头游戏音乐 DJ 专场）：小缩略图一排，点开灯箱 -->
+        <div v-if="p.images" class="fl-thumbs">
+          <img v-for="(im, i) in p.images" :key="im" :src="base + im" :alt="p.performer" loading="lazy" @click="openImgs(p.images.map((x) => ({ src: base + x, caption: p.performer })), i)" />
+        </div>
       </div>
     </div>
     <div class="small mt-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">* 节目及顺序以现场实际演出为准</div>
@@ -57,6 +61,25 @@
     <div class="pcard dark mt-14">
       <div class="pcard-body small">{{ campInfo.disclaimer }}</div>
     </div>
+
+    <!-- 来源：可收起，默认展开；样式与详情页来源卡一致（用户 9/17） -->
+    <div class="pcard mt-14">
+      <div class="pcard-body">
+        <div class="fold-head" @click="openSrc = !openSrc">
+          <div class="pcard-title">📎 来源</div>
+          <span class="fold-arrow" :class="{ open: openSrc }">&gt;</span>
+        </div>
+        <template v-if="openSrc">
+          <div class="small muted mt-6">来源：{{ stageSources.main.author }} · {{ stageSources.main.publishedAt }}</div>
+          <div class="small mt-6"><b>{{ stageSources.main.title }}</b></div>
+          <a class="pbtn red block mt-10" :href="stageSources.main.url" target="_blank" rel="noopener">去官方活动页看原文</a>
+          <div class="small muted mt-10">补充演出情报的官方笔记</div>
+          <a v-for="m in stageSources.more" :key="m.url" class="pbtn block mt-6" :href="m.url" target="_blank" rel="noopener">{{ m.author }} · {{ m.title }}</a>
+        </template>
+      </div>
+    </div>
+
+    <Lightbox :items="lb.items" v-model:index="lb.i" />
   </div>
 </template>
 
@@ -65,11 +88,12 @@ export default { name: 'StagePage' }
 </script>
 
 <script setup>
-import { computed, watch, nextTick, onActivated } from 'vue'
+import { ref, reactive, computed, watch, nextTick, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import DayChips from '../components/DayChips.vue'
-import { campInfo, stageDays } from '../data/stage.js'
+import Lightbox from '../components/Lightbox.vue'
+import { campInfo, stageDays, stageSources } from '../data/stage.js'
 import { boothMap } from '../data/booths.js'
 import { useDay } from '../composables/useStore.js'
 import { ipRefersTo } from '../utils/ipMatch.js'
@@ -77,6 +101,15 @@ import { flashAnchor } from '../utils/anchor.js'
 
 const { day } = useDay()
 const current = computed(() => stageDays.find((d) => d.day === day.value) || stageDays[0])
+const base = import.meta.env.BASE_URL
+const openSrc = ref(true)
+
+// 灯箱：节目条目里补充笔记的图
+const lb = reactive({ items: [], i: null })
+const openImgs = (items, i) => {
+  lb.items = items
+  lb.i = i
+}
 
 // 详情页「月光舞台 DAYx」快捷跳转过来带 ?day=&booth=：切 DAY 后滚到该 IP 的节目条目闪一下（用户 9/17）。
 // 本页在 keep-alive 里，用 onActivated 而不是 onMounted；已在本页时 query 变了也要响应
