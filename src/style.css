@@ -295,6 +295,9 @@ img { max-width: 100%; display: block; }
 /* 专属花车用同一套 .pr-entry：右栏改成竖排文字 + 一排 56px 缩略图（用户 9/17：与头号花车样式一致，不要只有图片） */
 .pr-entry .chars.fl-body { display: block; min-width: 0; }
 .fl-thumbs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+/* 专属花车左栏：透明底抠图 + 融合花车的子 IP 灰字（用户 9/17） */
+.fl-cut { display: block; width: 100%; max-width: 124px; height: auto; margin-top: 4px; cursor: pointer; image-rendering: auto; }
+.fl-sub { font-weight: 600; line-height: 1.35; margin-top: 2px; }
 .fl-thumbs img { width: 56px; height: 56px; object-fit: cover; border: 2px solid var(--navy); border-radius: 3px; cursor: pointer; background: #fff; }
 
 /* 图片画廊 */

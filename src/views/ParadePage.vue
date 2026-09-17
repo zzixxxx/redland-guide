@@ -60,19 +60,23 @@
       <template v-else>
         <div class="pcard mt-10">
           <div v-for="f in themeFloats" :key="f.ip" :id="'fl-' + f.id" class="pr-entry">
+            <!-- 左栏：IP 短名 → 透明底抠图（点开效果图）→ 融合花车的子 IP 灰字 → 造型（用户 9/17） -->
             <div class="ip">
               {{ f.ip }}
+              <img class="fl-cut" :src="base + 'img/parade/' + f.id + '/cut.png'" :alt="f.ip + ' 专属花车'" loading="lazy" @click="openImgs(floatImages(f), 0)" />
+              <div v-if="f.ips" class="small muted fl-sub">{{ f.ips.join(' / ') }}</div>
               <div class="small muted" style="font-weight:600;margin-top:2px">🚗 {{ f.look }}</div>
             </div>
+            <!-- 右栏：标题固定「出席嘉宾」，名单按所选 DAY 列（day 'all' 为全程通用）；不再显示一句话文案 desc（用户 9/17） -->
             <div class="chars fl-body">
-              <div class="small muted">{{ f.desc }}</div>
-              <!-- 专属花车笔记（9/5）：出席嘉宾按当前 DAY 显示，day 'all' 为 DAY1–DAY5 全程 -->
+              <div class="small" style="font-weight:700;color:var(--brown)">出席嘉宾</div>
               <template v-if="guestsFor(f)">
-                <div class="small mt-4" style="font-weight:700;color:var(--brown)">{{ guestLabel(f) }}</div>
                 <!-- 嘉宾名单用普通文字顿号拼接，不套胶囊（用户 9/17），与详情页 .sched-guests 一致 -->
                 <div class="small sched-guests">{{ guestsFor(f).chars.join('、') }}</div>
-                <div v-if="f.guestNote" class="small muted mt-4">* {{ f.guestNote }}</div>
+                <div v-if="guestsFor(f).label" class="small muted">{{ guestsFor(f).label }}</div>
               </template>
+              <div v-else class="small muted">当日名单待公布</div>
+              <div v-if="f.guestNote" class="small muted mt-4">* {{ f.guestNote }}</div>
               <div v-if="f.images" class="fl-thumbs">
                 <img v-for="(im, i) in f.images" :key="im" :src="base + im" :alt="f.ip + ' 专属花车'" loading="lazy" @click="openImgs(floatImages(f), i)" />
               </div>
@@ -146,14 +150,10 @@ const tab = ref('head')
 const openRoute = ref(true)
 const openSrc = ref(true)
 
-// 专属花车出席嘉宾：优先当前 DAY 的名单，没有按日名单的取 'all'
+// 专属花车出席嘉宾：优先当前 DAY 的名单，没有按日名单的取 'all'；标题固定「出席嘉宾」，官方分段标题（label）灰字放名单下面
 const guestsFor = (f) => f.guests?.find((g) => g.day === day.value) || f.guests?.find((g) => g.day === 'all')
-const guestLabel = (f) => {
-  const g = guestsFor(f)
-  if (!g) return ''
-  const head = g.day === 'all' ? 'DAY1–DAY5 出席嘉宾' : `DAY${current.value.day} · ${current.value.date} 出席嘉宾`
-  return g.label ? `${head} · ${g.label}` : head
-}
+// 融合花车（阅文 / 米哈游）按子 IP 也能对上展位
+const floatRefers = (f, b) => ipRefersTo([f.ip, ...(f.ips || [])].join(' / '), b)
 
 // 页尾「来源」卡：主来源 = 官方半层（paradeInfo.source）；其余 = 路线图笔记 + 每台专属花车的笔记，按「作者 · 标题」列成按钮
 const otherSources = [{ ...paradeRoute.source, author: 'RED LAND 官方号' }, ...themeFloats.filter((f) => f.source).map((f) => f.source)]
@@ -182,7 +182,7 @@ function applyQuery() {
     setTimeout(() => {
       let el = null
       if (tab.value === 'theme') {
-        const f = themeFloats.find((x) => ipRefersTo(x.ip, b))
+        const f = themeFloats.find((x) => floatRefers(x, b))
         el = f && document.getElementById('fl-' + f.id)
       } else {
         const i = current.value.entries.findIndex((e) => ipRefersTo(e.ip, b))

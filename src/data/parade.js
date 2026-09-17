@@ -131,7 +131,9 @@ export const paradeRoute = {
   },
 }
 
-// IP 主题花车（官方「花车巡礼」半层 7 台 + RED LAND 官方号 9/5「前方高能！XX 专属花车准备发车！」系列笔记）
+// IP 主题花车（官方「花车巡礼」半层 7 台 + RED LAND 官方号 9/5「前方高能！XX 专属花车准备发车！」系列笔记 + 9/16 米哈游四大 IP 花车）
+// ip 用短名（逆水寒 / 永劫无间 / 无畏契约 / 米哈游），融合花车用 ips 列子 IP；desc 是官方一句话文案，页面上不再显示（用户 9/17）；
+// 每台 public/img/parade/<id>/cut.png 是从 00.jpg 效果图抠出的透明底花车，显示在 IP 名下方
 // guests：出席嘉宾角色名单。day 1–5 按日；day 'all' 表示 DAY1–DAY5 全程；chars 逐字照官方图；label 为官方图上的分段标题。
 // 笔记正文里的「点击【大麦APP】进入购买主角通行证页面」属票务，不收；图注「花车效果图仅供参考，最终呈现效果以实际为准」。
 const floatSrc = (title, url, noteId) => ({ title, url, noteId, author: 'RED LAND 官方号', publishedAt: '2026-09-05' })
@@ -154,7 +156,7 @@ export const themeFloats = [
   },
   {
     id: 'nishuihan',
-    ip: '逆水寒手游 · 新世界',
+    ip: '逆水寒',
     desc: '百变同门闪耀江湖，华服美学大秀惊艳来袭！',
     look: '青花瓷 + 桃花花车',
     intro: '汴京灯起，霓裳翩翩！从三清山一路驶向黄金海岸线。',
@@ -194,7 +196,7 @@ export const themeFloats = [
   },
   {
     id: 'naraka',
-    ip: '永劫无间 · 中式竞技',
+    ip: '永劫无间',
     desc: '糕手胡桃大王能飞？糕手胡桃大王能飞！',
     look: '粉色蛋糕旋转木马船',
     intro: '率先出击！快来加入这场热血奔赴吧！',
@@ -204,7 +206,7 @@ export const themeFloats = [
   },
   {
     id: 'valorant',
-    ip: '无畏契约 VALORANT + 源能行动',
+    ip: '无畏契约',
     desc: '全开麦移动皮蛋 DJ 台，放肆音浪“嗨爆全场”！',
     look: '紫色快艇',
     intro: '弹道划过城市天际。特工请入场！把巅峰操作搬进动感电音与炸裂节奏之间~',
@@ -215,8 +217,9 @@ export const themeFloats = [
   {
     id: 'yuewen',
     ip: '阅文',
+    ips: ['全职高手', '诡秘之主', '一人之下', '狐妖小红娘', '道诡异仙'],
     desc: '阅文顶流齐聚一堂，现实版穿书局正式开局！',
-    look: '书本船（全职高手 / 诡秘之主 / 一人之下 / 狐妖小红娘 / 道诡异仙）',
+    look: '书本船',
     intro: '从书页之间到同频共鸣，你曾读过的那些世界，将随着花车缓缓展开。',
     images: ['img/parade/yuewen/00.jpg', 'img/parade/yuewen/01.jpg', 'img/parade/yuewen/02.jpg'],
     // 官方图按「作品：角色」列，这里保留作品前缀
@@ -231,9 +234,11 @@ export const themeFloats = [
   },
   {
     id: 'mihoyo',
-    ip: '米哈游 · 原神 / 崩坏：星穹铁道 / 绝区零 / 星布谷地',
+    ip: '米哈游',
+    // 融合花车：子 IP 灰字显示在抠图下方，也参与详情页「专属花车」跳转匹配（用户 9/17）
+    ips: ['原神', '崩坏：星穹铁道', '绝区零', '星布谷地'],
     desc: '「米家四大 IP 同框，在线发车！」不同的冒险，同样的热忱！',
-    look: '车站顶棚造型花车：挂钟 + 「下一站 NEXT STOP RED LAND 2026」站牌，车身四 IP logo（按效果图，最终以实际为准）',
+    look: '车站顶棚造型花车（按效果图）',
     intro: '冒险、星际旅行、战斗、种田一站式集齐，属于米家玩家的狂欢即将开启！主角们！锁定巡礼路线，准备开启四个不同幻想世界的同台巡游吧！',
     images: ['img/parade/mihoyo/00.jpg', 'img/parade/mihoyo/01.jpg'],
     // 官方图「出席嘉宾角色名单」只按 IP 列、没有按日区分，先按全程记
@@ -244,25 +249,6 @@ export const themeFloats = [
       url: 'https://xhslink.cn/o/5aSRuJEF9LL',
       noteId: '6aaa5df70000000028038eb5',
       author: 'RED LAND 官方号',
-      publishedAt: '2026-09-16',
-    },
-  },
-  {
-    id: 'xingbugudi',
-    ip: '星布谷地',
-    desc: '奥陌陌登上专属花车，和观众一起庆祝 RED LAND 高光时刻！',
-    look: '奥陌陌专属花车（造型待公布）',
-    intro: '请留意，冒险者大道上有毛茸茸出没！与奥陌陌一起加入花车巡游吧！',
-    // 图来自星布谷地 9/16「惊喜活动预告」笔记，同一张已在 public/img/booths/A06/ 下，不另存一份
-    images: ['img/booths/A06/surprise-01.jpg'],
-    guests: [{ day: 'all', chars: ['奥陌陌', '其他伙伴（待公布）'] }],
-    guestNote:
-      '官方原文「奥陌陌将与其他伙伴一起登上专属花车」，同行伙伴未点名；巡游时间每日 17:00 – 17:30，地点冒险者大道，具体出场时间以当日节目单为准。',
-    source: {
-      title: 'RED LAND2026 | 星布谷地惊喜活动预告',
-      url: 'https://xhslink.cn/o/6fb3vuIQh9Q',
-      noteId: '6aa9233f000000001103b6c0',
-      author: '星布谷地',
       publishedAt: '2026-09-16',
     },
   },

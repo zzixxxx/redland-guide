@@ -324,7 +324,7 @@ const crossLinks = computed(() => {
   for (const d of paradeDays) {
     if (d.entries.some((e) => ipRefersTo(e.ip, b))) out.push({ key: 'p' + d.day, label: `🎏 头号花车 DAY${d.day}`, to: { path: '/parade', query: { tab: 'head', day: d.day, booth: b.id } } })
   }
-  if (themeFloats.some((f) => ipRefersTo(f.ip, b))) out.push({ key: 'f', label: '🚗 专属花车', to: { path: '/parade', query: { tab: 'theme', booth: b.id } } })
+  if (themeFloats.some((f) => ipRefersTo([f.ip, ...(f.ips || [])].join(' / '), b))) out.push({ key: 'f', label: '🚗 专属花车', to: { path: '/parade', query: { tab: 'theme', booth: b.id } } })
   return out
 })
 // 这个展位在平面图上的展位号：id 去掉 a/b/c 后缀（A25a → A25），再退回官方展位号原文里的各段（B02 / B17）；
