@@ -16,18 +16,24 @@
     <!-- 花车巡礼路线图（RED LAND 官方号 9/11） -->
     <div class="pcard mt-14">
       <div class="pcard-body">
-        <div class="pcard-title">🗺 {{ paradeRoute.title }}</div>
-        <div class="gallery mt-10">
-          <img class="span-all" :src="base + paradeRoute.image" :alt="paradeRoute.title" :title="paradeRoute.title" loading="lazy" @click="openImgs(routeImages, 0)" />
+        <!-- 标题行可收起 / 展开，默认展开（用户 9/17）；箭头样式与首页「主线玩法」、详情页三张卡一致 -->
+        <div class="fold-head" @click="openRoute = !openRoute">
+          <div class="pcard-title">🗺 {{ paradeRoute.title }}</div>
+          <span class="fold-arrow" :class="{ open: openRoute }">&gt;</span>
         </div>
-        <div class="small mt-6">{{ paradeRoute.desc }}</div>
-        <div class="small mt-6">🚩 {{ paradeRoute.route }}</div>
-        <div class="small mt-6">🎉 {{ paradeRoute.encounters }}</div>
-        <div class="small muted mt-6">{{ paradeRoute.legend }}</div>
-        <div class="small muted mt-6">
-          来源：RED LAND 官方号 · {{ paradeRoute.source.publishedAt }}
-          <a :href="paradeRoute.source.url" target="_blank" rel="noopener">原笔记</a>
-        </div>
+        <template v-if="openRoute">
+          <div class="gallery mt-10">
+            <img class="span-all" :src="base + paradeRoute.image" :alt="paradeRoute.title" :title="paradeRoute.title" loading="lazy" @click="openImgs(routeImages, 0)" />
+          </div>
+          <div class="small mt-6">{{ paradeRoute.desc }}</div>
+          <div class="small mt-6">🚩 {{ paradeRoute.route }}</div>
+          <div class="small mt-6">🎉 {{ paradeRoute.encounters }}</div>
+          <div class="small muted mt-6">{{ paradeRoute.legend }}</div>
+          <div class="small muted mt-6">
+            来源：RED LAND 官方号 · {{ paradeRoute.source.publishedAt }}
+            <a :href="paradeRoute.source.url" target="_blank" rel="noopener">原笔记</a>
+          </div>
+        </template>
       </div>
     </div>
 
@@ -101,7 +107,7 @@ export default { name: 'ParadePage' }
 </script>
 
 <script setup>
-import { computed, reactive } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import PageHeader from '../components/PageHeader.vue'
 import DayChips from '../components/DayChips.vue'
 import Lightbox from '../components/Lightbox.vue'
@@ -128,5 +134,7 @@ const openImgs = (items, i) => {
   lb.i = i
 }
 const routeImages = [{ src: base + paradeRoute.image, caption: paradeRoute.title }]
+// 路线图卡的收起 / 展开，默认展开（用户 9/17）
+const openRoute = ref(true)
 const floatImages = (f) => f.images.map((x) => ({ src: base + x, caption: `${f.ip} 专属花车` }))
 </script>
