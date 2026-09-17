@@ -175,9 +175,9 @@
           <span class="fold-arrow" :class="{ open: openPlan }">&gt;</span>
         </div>
         <template v-if="openPlan">
+          <!-- 不显示距离（用户 9/17）：现场人的位置一直在变，从固定起点算的米数没意义；排序仍按最少回头路 -->
           <div v-if="planResult" class="small muted mt-6">
-            {{ planResult.manual ? '按你调好的顺序' : '已按最少回头路排好' }}：全程约
-            {{ fmtDist(planResult.total) }}（从登岛起点出发，图上直线量级）
+            {{ planResult.manual ? '按你调好的顺序（↑↓ 可再调，或点「重排最短」）' : '已按最少回头路排好，↑↓ 可自己调' }}
           </div>
           <!-- 一行一个 IP；同一展位号下加了多个 IP 时并排成相邻几行，距离只标在第一行。
                最多显示 5 行，多了在这个容器里滚（用户 9/17） -->
@@ -190,8 +190,7 @@
                 <span class="plan-body">
                   <b class="plan-bno">{{ no }}</b>
                   <button type="button" class="plan-ip" :class="{ done: isChecked(b.id) }" @click="go(b)">{{ b.ip }}</button>
-                  <span v-if="k === 0" class="muted small">· {{ fmtDist(planResult.steps[i]) }}</span>
-                  <span v-else class="muted small">· 同一展位</span>
+                  <span v-if="k > 0" class="muted small">· 同一展位</span>
                 </span>
                 <span class="plan-acts">
                   <button
@@ -321,7 +320,7 @@ import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities } from '../data/rules.js'
 import { mapSpotList, mapSpots } from '../data/mapSpots.js'
-import { planRoute, fmtDist } from '../utils/plan.js'
+import { planRoute } from '../utils/plan.js'
 import { roaming } from '../data/roaming.js'
 import { useChecked, usePlan } from '../composables/useStore.js'
 import { profileUrl, openProfile, openPage } from '../utils/xhs.js'
