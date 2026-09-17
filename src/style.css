@@ -108,7 +108,6 @@ img { max-width: 100%; display: block; }
 /* 从详情页跳到舞台 / 花车页的锚点：滚到位后黄红双框闪一下再退掉 */
 .anchor-hit { animation: anchorHit 2.6s ease-out; border-radius: 3px; }
 @keyframes anchorHit { 0%, 55% { box-shadow: 0 0 0 3px var(--yellow), 0 0 0 6px var(--red); } 100% { box-shadow: 0 0 0 3px transparent, 0 0 0 6px transparent; } }
-.srclink { color: var(--navy); text-decoration: underline; margin-left: 6px; }
 
 /* 像素按钮 */
 .pbtn {
@@ -293,6 +292,10 @@ img { max-width: 100%; display: block; }
 .pr-entry + .pr-entry { border-top: 2px dashed #e6d6b2; }
 .pr-entry .ip { flex: 0 0 38%; font-weight: 800; color: var(--brown); font-size: 13.5px; }
 .pr-entry .chars { flex: 1; display: flex; flex-wrap: wrap; }
+/* 专属花车用同一套 .pr-entry：右栏改成竖排文字 + 一排 56px 缩略图（用户 9/17：与头号花车样式一致，不要只有图片） */
+.pr-entry .chars.fl-body { display: block; min-width: 0; }
+.fl-thumbs { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.fl-thumbs img { width: 56px; height: 56px; object-fit: cover; border: 2px solid var(--navy); border-radius: 3px; cursor: pointer; background: #fff; }
 
 /* 图片画廊 */
 .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }

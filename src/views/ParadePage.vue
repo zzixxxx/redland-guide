@@ -55,22 +55,25 @@
         <div class="small mt-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy)">* {{ paradeInfo.disclaimer }}</div>
       </template>
 
-      <!-- 专属花车：8 台，出席嘉宾按当前 DAY 显示 -->
+      <!-- 专属花车：8 台，与头号花车同款 .pr-entry 行式布局（IP 左 / 内容右，用户 9/17），出席嘉宾按当前 DAY 显示；
+           笔记图缩成小缩略图放在文字下面，点开灯箱看大图（用户 9/17：不要只有图片） -->
       <template v-else>
         <div class="pcard mt-10">
-          <div v-for="f in themeFloats" :key="f.ip" :id="'fl-' + f.id" class="booth">
-            <div class="body">
-              <div class="ip">{{ f.ip }}</div>
-              <div class="blurb">{{ f.desc }}</div>
-              <div class="small muted">🚗 {{ f.look }}</div>
+          <div v-for="f in themeFloats" :key="f.ip" :id="'fl-' + f.id" class="pr-entry">
+            <div class="ip">
+              {{ f.ip }}
+              <div class="small muted" style="font-weight:600;margin-top:2px">🚗 {{ f.look }}</div>
+            </div>
+            <div class="chars fl-body">
+              <div class="small muted">{{ f.desc }}</div>
               <!-- 专属花车笔记（9/5）：出席嘉宾按当前 DAY 显示，day 'all' 为 DAY1–DAY5 全程 -->
               <template v-if="guestsFor(f)">
-                <div class="small mt-6" style="font-weight:700;color:var(--brown)">{{ guestLabel(f) }}</div>
+                <div class="small mt-4" style="font-weight:700;color:var(--brown)">{{ guestLabel(f) }}</div>
                 <!-- 嘉宾名单用普通文字顿号拼接，不套胶囊（用户 9/17），与详情页 .sched-guests 一致 -->
                 <div class="small sched-guests">{{ guestsFor(f).chars.join('、') }}</div>
-                <div v-if="f.guestNote" class="small muted mt-6">* {{ f.guestNote }}</div>
+                <div v-if="f.guestNote" class="small muted mt-4">* {{ f.guestNote }}</div>
               </template>
-              <div v-if="f.images" class="gallery mt-6">
+              <div v-if="f.images" class="fl-thumbs">
                 <img v-for="(im, i) in f.images" :key="im" :src="base + im" :alt="f.ip + ' 专属花车'" loading="lazy" @click="openImgs(floatImages(f), i)" />
               </div>
             </div>
@@ -98,13 +101,14 @@
           <div class="pcard-title">📎 来源</div>
           <span class="fold-arrow" :class="{ open: openSrc }">&gt;</span>
         </div>
-        <ul v-if="openSrc" class="dot-list small">
-          <li v-for="s in sources" :key="s.key">
-            <b style="color:var(--brown)">{{ s.what }}</b>
-            <span class="muted"> · {{ s.author }} · {{ s.publishedAt }}</span>
-            <a v-if="s.url" class="srclink" :href="s.url" target="_blank" rel="noopener">{{ s.linkText || '原笔记' }}</a>
-          </li>
-        </ul>
+        <!-- 样式与详情页来源卡一致（用户 9/17）：来源行 + 标题 + 红色大按钮，其余笔记一列 .pbtn.block -->
+        <template v-if="openSrc">
+          <div class="small muted mt-6">来源：{{ paradeInfo.source.author }} · {{ paradeInfo.source.publishedAt }}</div>
+          <div class="small mt-6"><b>{{ paradeInfo.source.title }}</b></div>
+          <a class="pbtn red block mt-10" :href="paradeInfo.source.url" target="_blank" rel="noopener">去官方活动页看原文</a>
+          <div class="small muted mt-10">路线图与各专属花车的官方笔记</div>
+          <a v-for="m in otherSources" :key="m.url" class="pbtn block mt-6" :href="m.url" target="_blank" rel="noopener">{{ m.author }} · {{ m.title }}</a>
+        </template>
       </div>
     </div>
 
@@ -151,14 +155,8 @@ const guestLabel = (f) => {
   return g.label ? `${head} · ${g.label}` : head
 }
 
-// 页尾「来源」卡：官方半层 + 路线图笔记 + 每台专属花车的笔记
-const sources = computed(() => [
-  { key: 'info', what: '打卡 / 巡游时间、头号花车出场角色、主角方阵', ...paradeInfo.source, linkText: '官方活动页' },
-  { key: 'route', what: paradeRoute.title, author: 'RED LAND 官方号', publishedAt: paradeRoute.source.publishedAt, url: paradeRoute.source.url },
-  ...themeFloats
-    .filter((f) => f.source)
-    .map((f) => ({ key: f.id, what: `${f.ip} 专属花车`, author: f.source.author, publishedAt: f.source.publishedAt, url: f.source.url })),
-])
+// 页尾「来源」卡：主来源 = 官方半层（paradeInfo.source）；其余 = 路线图笔记 + 每台专属花车的笔记，按「作者 · 标题」列成按钮
+const otherSources = [{ ...paradeRoute.source, author: 'RED LAND 官方号' }, ...themeFloats.filter((f) => f.source).map((f) => f.source)]
 
 // 灯箱：路线图 / 各花车笔记图
 const lb = reactive({ items: [], i: null })
