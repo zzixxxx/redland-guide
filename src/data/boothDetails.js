@@ -446,11 +446,13 @@ const naruto = {
   location: '翻身时空港 A-22',
   // 皮乐中国的 A-22 展位同时有《魔法天使小甜甜》与蓬蓬狗（蓬蓬狗官方号写「活动地点 复兴岛 A-22」）
   accounts: [
+    { uid: '61e7bc8f0000000010006e30', name: '魔法天使小甜甜（皮乐中国）' },
     { uid: '66173ae0000000000303359f', name: '蓬蓬狗潮玩品牌' },
     { uid: '600244330000000001006e4e', name: 'EAKi亿奇' },
   ],
   moreSources: [
     { title: '《魔法天使小甜甜》确认登岛RED LAND2026', url: 'https://xhslink.cn/o/A026qQzkJth', noteId: '6a9a91d7000000002601caa8', author: '皮乐动漫', publishedAt: '2026-09-04' },
+    { title: '魔法降临RED LAND《魔法天使小甜甜》确认登岛', url: 'https://xhslink.cn/o/5UgfX15dHc3', noteId: '6aaa40cf0000000029010e68', author: '魔法天使小甜甜（皮乐中国）', publishedAt: '2026-09-16' },
     { title: '《蓬蓬狗》确认登岛RED LAND2026', url: 'https://xhslink.cn/o/3zHFWBFuPSB', noteId: '6a9a92280000000028030554', author: '蓬蓬狗潮玩品牌', publishedAt: '2026-09-04' },
     { title: '来火影忍者RED LAND现场，你会解锁.....（神秘角色见面会）', url: 'https://xhslink.cn/o/5hXPVryXhtN', noteId: '6a9fb33c000000002901bea3', author: '皮乐动漫', publishedAt: '2026-09-11' },
     { title: 'REDLAND 2026｜火影忍者试炼等你开启！（EAKi亿奇 售卖区，仅收录 RED LAND 参展情报部分）', url: 'https://xhslink.cn/o/4ob1BZOcLE', noteId: '6aa3c5200000000012003189', author: 'EAKi亿奇', publishedAt: '2026-09-11' },
@@ -459,7 +461,7 @@ const naruto = {
   notes: [
     'A-22 上的火影忍者分两条不同的授权线，看笔记角标的 logo 区分：皮乐中国「火影忍者 NARUTO」是展台玩法（集章 + 见面会），EAKi亿奇「火影忍者疾风传 NARUTO SHIPPUDEN」是旗舰摊位售卖区（新品首发 + 忍道试炼挑战）；宝藏码头 B16 的摊位名单也把「火影忍者疾风传」与「火影忍者」列为两个摊位。另有 B18「火影忍者手游」是腾讯手游的独立展位，与 A-22 无关。',
     '所有奖品先到先得，发完即止',
-    '同一展位还有《魔法天使小甜甜》（皮乐动漫 9/4 确认登岛，「更多参展内容、现场活动和惊喜情报将在官方账号陆续公布」）与蓬蓬狗（蓬蓬狗潮玩品牌 9/4 确认登岛，活动地点 A-22；宝藏码头 B16 另有蓬蓬狗摊位）',
+    '同一展位还有《魔法天使小甜甜》（皮乐动漫 9/4 确认登岛；小甜甜官方号「魔法天使小甜甜（皮乐中国）」9/16 再发确认登岛，展位 A-22，「更多参展内容、现场活动和惊喜情报，将在官方账号陆续公开」）与蓬蓬狗（蓬蓬狗潮玩品牌 9/4 确认登岛，活动地点 A-22；宝藏码头 B16 另有蓬蓬狗摊位）',
   ],
   activities: [
     {
