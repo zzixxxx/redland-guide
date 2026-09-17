@@ -65,15 +65,23 @@
               {{ f.ip }}
               <img class="fl-cut" :src="base + 'img/parade/' + f.id + '/cut.png'" :alt="f.ip + ' 专属花车'" loading="lazy" @click="openImgs(floatImages(f), 0)" />
               <div v-if="f.ips" class="small muted fl-sub">{{ f.ips.join(' / ') }}</div>
-              <div class="small muted" style="font-weight:600;margin-top:2px">🚗 {{ f.look }}</div>
             </div>
             <!-- 右栏：标题固定「出席嘉宾」，名单按所选 DAY 列（day 'all' 为全程通用）；不再显示一句话文案 desc（用户 9/17） -->
             <div class="chars fl-body">
               <div class="small" style="font-weight:700;color:var(--brown)">出席嘉宾</div>
               <template v-if="guestsFor(f)">
-                <!-- 嘉宾名单用普通文字顿号拼接，不套胶囊（用户 9/17），与详情页 .sched-guests 一致 -->
-                <div class="small sched-guests">{{ guestsFor(f).chars.join('、') }}</div>
-                <div v-if="guestsFor(f).label" class="small muted">{{ guestsFor(f).label }}</div>
+                <!-- 嘉宾用 .pill 胶囊，与头号花车同款（用户 9/17 定稿：先要过顿号拼接、后又改回胶囊）；
+                     融合花车（阅文 / 米哈游）按作品分组，每个作品一行、行首蓝色作品标识 -->
+                <template v-if="guestsFor(f).groups">
+                  <div v-for="g in guestsFor(f).groups" :key="g.ip" class="fl-pills fl-group">
+                    <span class="tag blue text fl-tag">{{ g.ip }}</span>
+                    <span v-for="c in g.chars" :key="c" class="pill" :class="{ warm: /神秘|人气|待/.test(c) }">{{ c }}</span>
+                  </div>
+                </template>
+                <div v-else class="fl-pills">
+                  <span v-for="c in guestsFor(f).chars" :key="c" class="pill" :class="{ warm: /神秘|人气|待/.test(c) }">{{ c }}</span>
+                </div>
+                <div v-if="guestsFor(f).label" class="small muted mt-4">{{ guestsFor(f).label }}</div>
               </template>
               <div v-else class="small muted">当日名单待公布</div>
               <div v-if="f.guestNote" class="small muted mt-4">* {{ f.guestNote }}</div>
@@ -156,7 +164,11 @@ const guestsFor = (f) => f.guests?.find((g) => g.day === day.value) || f.guests?
 const floatRefers = (f, b) => ipRefersTo([f.ip, ...(f.ips || [])].join(' / '), b)
 
 // 页尾「来源」卡：主来源 = 官方半层（paradeInfo.source）；其余 = 路线图笔记 + 每台专属花车的笔记，按「作者 · 标题」列成按钮
-const otherSources = [{ ...paradeRoute.source, author: 'RED LAND 官方号' }, ...themeFloats.filter((f) => f.source).map((f) => f.source)]
+const otherSources = [
+  { ...paradeRoute.source, author: 'RED LAND 官方号' },
+  ...themeFloats.filter((f) => f.source).map((f) => f.source),
+  ...themeFloats.filter((f) => f.extraSource).map((f) => f.extraSource),
+]
 
 // 灯箱：路线图 / 各花车笔记图
 const lb = reactive({ items: [], i: null })

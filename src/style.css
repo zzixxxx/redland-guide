@@ -298,6 +298,10 @@ img { max-width: 100%; display: block; }
 /* 专属花车左栏：透明底抠图 + 融合花车的子 IP 灰字（用户 9/17） */
 .fl-cut { display: block; width: 100%; max-width: 124px; height: auto; margin-top: 4px; cursor: pointer; image-rendering: auto; }
 .fl-sub { font-weight: 600; line-height: 1.35; margin-top: 2px; }
+/* 专属花车嘉宾胶囊（与头号花车同款 .pill）；融合花车按作品分行，行首蓝色作品标识（与舞台页节目条目的 IP 标同款） */
+.fl-pills { display: flex; flex-wrap: wrap; align-items: center; }
+.fl-group + .fl-group { margin-top: 2px; }
+.fl-tag { font-size: 10px; padding: 2px 6px; margin: 3px 6px 0 0; }
 .fl-thumbs img { width: 56px; height: 56px; object-fit: cover; border: 2px solid var(--navy); border-radius: 3px; cursor: pointer; background: #fff; }
 
 /* 图片画廊 */
