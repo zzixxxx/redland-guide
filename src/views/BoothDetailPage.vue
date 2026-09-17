@@ -18,15 +18,22 @@
           <span class="tag">{{ booth.no }}</span>
           <!-- 页头已写「A 区 · 展位 A06」，这里带上区域名才不重复（用户 9/17） -->
           <span class="tag blue text">{{ booth.zone }} 区 · {{ regionName }}</span>
-          <span v-if="detail" class="tag green text">已收录展台详情</span>
+          <span v-if="detail" class="tag green text">已收录</span>
         </div>
         <div class="mt-10" style="font-size:15px;color:var(--brown);font-weight:700">{{ booth.blurb }}</div>
         <div class="small muted mt-6">—— 官方「IP 展位一览」</div>
         <div class="row wrap mt-10" style="gap:8px">
           <!-- 在官方平面图上画出从登岛起点到这个展位的路线（用户 9/17） -->
-          <button v-if="mapNo" type="button" class="pbtn sm" @click="navOnMap()">🧭 地图上导航到 {{ mapNo }}</button>
+          <button v-if="mapNo" type="button" class="pbtn sm" :title="`在平面图上导航到 ${mapNo}`" @click="navOnMap()">🧭 导航</button>
           <a v-if="booth.xhs" class="pbtn sm red" :href="profileUrl(booth.xhs.uid)" target="_blank" rel="noopener" @click="openProfile($event, booth.xhs.uid)">📕 小红书主页 @{{ booth.xhs.name }}</a>
           <a class="pbtn sm ghost" :href="searchUrl(keyword)" target="_blank" rel="noopener" @click="openSearch($event, keyword)">🔍 搜「{{ booth.ip }} RED LAND」</a>
+        </div>
+        <!-- 这个 IP 在月光舞台节目单 / 头号花车名单 / 专属花车里出现过：一键跳过去并定位到那一条（用户 9/17） -->
+        <div v-if="crossLinks.length" class="mt-10">
+          <div class="small muted">这个 IP 还出现在</div>
+          <div class="row wrap mt-6" style="gap:6px">
+            <router-link v-for="l in crossLinks" :key="l.key" class="pbtn sm ghost" :to="l.to">{{ l.label }}</router-link>
+          </div>
         </div>
         <div v-if="extraAccounts.length" class="mt-10">
           <div class="small muted">各 IP 官方账号</div>
@@ -291,6 +298,9 @@ import { boothMap, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
 import { indieGames, indieSource, indieCount } from '../data/indie.js'
 import { event, venueMap } from '../data/rules.js'
+import { stageDays } from '../data/stage.js'
+import { paradeDays, themeFloats } from '../data/parade.js'
+import { ipRefersTo } from '../utils/ipMatch.js'
 import { pins, zoneThumbs } from '../data/pins.js'
 import { mapSpots, mapSpotList } from '../data/mapSpots.js'
 import { useChecked, usePlan } from '../composables/useStore.js'
@@ -303,6 +313,20 @@ const { isChecked, toggle } = useChecked()
 const { inPlan, togglePlan } = usePlan()
 const router = useRouter()
 const regionName = computed(() => zones.find((z) => z.key === booth.value?.zone)?.region || '')
+// 月光舞台 / 头号花车按日各一颗按钮，专属花车一颗；目标页读 query 切 DAY / tab 并滚到那一条（utils/ipMatch.js 对名字）
+const crossLinks = computed(() => {
+  const b = booth.value
+  if (!b) return []
+  const out = []
+  for (const d of stageDays) {
+    if (d.items.some((it) => it.ip && ipRefersTo(it.ip, b))) out.push({ key: 's' + d.day, label: `🎤 月光舞台 DAY${d.day}`, to: { path: '/stage', query: { day: d.day, booth: b.id } } })
+  }
+  for (const d of paradeDays) {
+    if (d.entries.some((e) => ipRefersTo(e.ip, b))) out.push({ key: 'p' + d.day, label: `🎏 头号花车 DAY${d.day}`, to: { path: '/parade', query: { tab: 'head', day: d.day, booth: b.id } } })
+  }
+  if (themeFloats.some((f) => ipRefersTo(f.ip, b))) out.push({ key: 'f', label: '🚗 专属花车', to: { path: '/parade', query: { tab: 'theme', booth: b.id } } })
+  return out
+})
 // 这个展位在平面图上的展位号：id 去掉 a/b/c 后缀（A25a → A25），再退回官方展位号原文里的各段（B02 / B17）；
 // 图上没有热区的展位（待解锁 / 游荡）拿不到，就不给「加清单」「导航」按钮
 const mapNo = computed(() => {

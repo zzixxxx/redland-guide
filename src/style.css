@@ -102,6 +102,13 @@ img { max-width: 100%; display: block; }
   box-shadow: 3px 3px 0 var(--red-dark);
   transform: rotate(-2deg);
 }
+/* 贴纸当 tab（花车页「头号花车 / 专属花车」，用户 9/17）：未选中的用纸色 */
+.sticker.tab { cursor: pointer; line-height: 1.3; }
+.sticker.off { background: var(--paper); color: var(--brown-2); border-color: var(--brown-2); box-shadow: 3px 3px 0 var(--brown-2); }
+/* 从详情页跳到舞台 / 花车页的锚点：滚到位后黄红双框闪一下再退掉 */
+.anchor-hit { animation: anchorHit 2.6s ease-out; border-radius: 3px; }
+@keyframes anchorHit { 0%, 55% { box-shadow: 0 0 0 3px var(--yellow), 0 0 0 6px var(--red); } 100% { box-shadow: 0 0 0 3px transparent, 0 0 0 6px transparent; } }
+.srclink { color: var(--navy); text-decoration: underline; margin-left: 6px; }
 
 /* 像素按钮 */
 .pbtn {

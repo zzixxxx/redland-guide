@@ -11,7 +11,8 @@
     </div>
 
     <div class="pcard mt-10">
-      <div v-for="(p, i) in current.items" :key="i" class="prog">
+      <!-- id 供详情页「月光舞台 DAYx」锚点定位 -->
+      <div v-for="(p, i) in current.items" :key="i" :id="'st-' + i" class="prog">
         <div class="who">
           {{ p.performer }}
           <span v-if="p.ip" class="tag blue text" style="font-size:10px;padding:2px 6px">{{ p.ip }}</span>
@@ -64,12 +65,35 @@ export default { name: 'StagePage' }
 </script>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, watch, nextTick, onActivated } from 'vue'
+import { useRoute } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import DayChips from '../components/DayChips.vue'
 import { campInfo, stageDays } from '../data/stage.js'
+import { boothMap } from '../data/booths.js'
 import { useDay } from '../composables/useStore.js'
+import { ipRefersTo } from '../utils/ipMatch.js'
+import { flashAnchor } from '../utils/anchor.js'
 
 const { day } = useDay()
 const current = computed(() => stageDays.find((d) => d.day === day.value) || stageDays[0])
+
+// 详情页「月光舞台 DAYx」快捷跳转过来带 ?day=&booth=：切 DAY 后滚到该 IP 的节目条目闪一下（用户 9/17）。
+// 本页在 keep-alive 里，用 onActivated 而不是 onMounted；已在本页时 query 变了也要响应
+const route = useRoute()
+function applyQuery() {
+  if (route.name !== 'stage') return
+  const d = Number(route.query.day)
+  if (d && stageDays.some((x) => x.day === d)) day.value = d
+  const b = route.query.booth && boothMap[route.query.booth]
+  if (!b) return
+  nextTick(() =>
+    setTimeout(() => {
+      const i = current.value.items.findIndex((p) => p.ip && ipRefersTo(p.ip, b))
+      flashAnchor(i >= 0 && document.getElementById('st-' + i))
+    }, 80),
+  )
+}
+onActivated(applyQuery)
+watch(() => route.query, applyQuery)
 </script>
