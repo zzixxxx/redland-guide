@@ -69,9 +69,8 @@
             <!-- 专属花车笔记（9/5）：出席嘉宾按当前 DAY 显示，day 'all' 为 DAY1–DAY5 全程 -->
             <template v-if="guestsFor(f)">
               <div class="small mt-6" style="font-weight:700;color:var(--brown)">{{ guestLabel(f) }}</div>
-              <div class="row wrap">
-                <span v-for="c in guestsFor(f).chars" :key="c" class="pill" :class="{ warm: /神秘|人气|待/.test(c) }">{{ c }}</span>
-              </div>
+              <!-- 嘉宾名单用普通文字顿号拼接，不套胶囊（用户 9/17），与详情页 .sched-guests 一致 -->
+              <div class="small sched-guests">{{ guestsFor(f).chars.join('、') }}</div>
               <div v-if="f.guestNote" class="small muted mt-6">* {{ f.guestNote }}</div>
             </template>
             <div v-if="f.images" class="gallery mt-6">
