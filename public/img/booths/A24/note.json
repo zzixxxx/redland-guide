@@ -27,8 +27,8 @@
   "fileIds": [
     "spectrum/1040g0k0324t1vb49j4005n3js6241uji8k032dg",
     "spectrum/1040g0k0324t1vb49j40g5n3js6241uji2u33ar8",
-    "spectrum/1040g0k0324t1vb49j4105n3js6241ujig5s542o",
-    "spectrum/1040g0k0324t1vb49j41g5n3js6241ujiv39r3og",
+    "spectrum/1040g0k032560iulf460g5n3js6241ujis5i9jag",
+    "spectrum/1040g0k032560iulf46005n3js6241ujimrd6al0",
     "spectrum/1040g0k0324t1vb49j4205n3js6241ujip6s66g8"
   ],
   "clean": true,
@@ -38,5 +38,9 @@
     "02.jpg": 2,
     "03.jpg": 3,
     "04.jpg": 4
-  }
+  },
+  "refetched": [
+    "2026-09-20 复核：官方替换了第 2 张图，已重下",
+    "2026-09-20 复核：官方替换了第 3 张图，已重下"
+  ]
 }

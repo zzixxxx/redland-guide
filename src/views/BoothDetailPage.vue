@@ -207,7 +207,7 @@
           <div v-for="r in detail.rewards" :key="r.name" class="row between small" style="padding:6px 0;border-top:1.5px dashed #eadfc4">
             <span>
               <b>{{ r.name }}</b>
-              <button v-if="r.pin && pinsFor(r).length" class="tag text btn" style="font-size:10px;padding:1px 5px;margin-left:4px" @click="showPins(r)">PIN</button>
+              <button v-if="r.pin && pinsFor(r).length" class="tag text btn" style="font-size:10px;padding:1px 5px;margin-left:4px" @click="showPins(r)">PIN<template v-if="pinsFor(r).length > 1"> ×{{ pinsFor(r).length }}</template></button>
               <span v-else-if="r.pin" class="tag text" style="font-size:10px;padding:1px 5px;margin-left:4px">PIN</span>
             </span>
             <span class="muted" style="text-align:right;flex:0 0 45%">{{ r.how }}</span>

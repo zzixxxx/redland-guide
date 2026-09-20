@@ -172,7 +172,7 @@ export const themeFloats = [
       { day: 5, label: '闪耀新世界，花车时尚大秀开幕 · 不落幕的圆舞曲', chars: ['梅莉', '小溪Liz'] },
     ],
     // 嘉宾名单的出处（进页尾来源卡）
-    extraSource: { title: '【内含门票】滴滴，您有一份登岛邀请请查收（花车巡游嘉宾按日名单）', url: 'https://xhslink.cn/o/32b4sTIG4RJ', noteId: '6aa8e678000000000d027c19', author: '逆水寒', publishedAt: '2026-09-15' },
+    extraSource: { title: '【已开奖】滴滴，您有一份登岛邀请请查收（花车巡游嘉宾按日名单）', url: 'https://xhslink.cn/o/32b4sTIG4RJ', noteId: '6aa8e678000000000d027c19', author: '逆水寒', publishedAt: '2026-09-15' },
     source: floatSrc('前方高能！逆水寒专属花车准备发车！', 'https://xhslink.cn/o/W41HoYtgoG', '6a9b1099000000002803bdb0'),
   },
   {

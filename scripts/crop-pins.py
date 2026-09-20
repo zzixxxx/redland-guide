@@ -26,9 +26,10 @@ CROPS = {
     # id: (源图, (left, top, right, bottom))
     'A06': ('public/img/booths/A06/07.jpg', (555, 850, 665, 970), {'upscale': True}),
     'A09-1': ('public/img/booths/A09/01.jpg', (125, 730, 398, 1008)),
-    # B09 两枚徽章在图里只有 ~110px，且夜场款被日场款压住左半边，只能抠可见部分
-    'B09-1': ('public/img/booths/B09/05.jpg', (94, 381, 210, 492), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
-    'B09-2': ('public/img/booths/B09/05.jpg', (182, 462, 290, 557), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
+    # B09 两枚徽章在图里只有 ~110px：日场款右下角被夜场款压住、底边被「日场款」红标压住，只取到红标上沿；
+    # 夜场款左半边被日场款压住，左边会带一点日场款的边，底边贴着「夜场款」红标上沿（9/20 重抠，原框把两枚都切残了）
+    'B09-1': ('public/img/booths/B09/05.jpg', (98, 389, 208, 492), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
+    'B09-2': ('public/img/booths/B09/05.jpg', (186, 457, 283, 561), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
     'A09-2': ('public/img/booths/A09/01.jpg', (425, 730, 698, 1008)),
     'A24-1': ('public/img/booths/A24/02.jpg', (516, 608, 702, 792)),
     'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),
