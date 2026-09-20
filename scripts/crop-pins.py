@@ -39,6 +39,12 @@ CROPS = {
     'A17c': ('public/img/booths/A17c/02.jpg', (152, 808, 349, 999), {'fileId': 'spectrum/1040g0k03254npqkik2105o798t908et3lr8shvg', 'upscale': True}),
     # 逆水寒 REDLAND PIN（黄 = B 区），图里只有 ~145px
     'B15': ('public/img/booths/B15/02.jpg', (450, 477, 595, 617), {'fileId': 'spectrum/1040g0k03254k0cq52u105o6g01o85eeu44mul50', 'upscale': True}),
+    # 绝区零《绝区零》限定「存档碎片」（橙 = A 区），官方图里是卡套里的日场 / 夜场两款，单枚约 120px
+    'A11-1': ('public/img/booths/A11/03.jpg', (236, 498, 352, 617), {'fileId': 'spectrum/1040g0k03258ndqeq44005o6j15no53lg8ntiqm0', 'upscale': True}),
+    'A11-2': ('public/img/booths/A11/03.jpg', (466, 498, 582, 617), {'fileId': 'spectrum/1040g0k03258ndqeq44005o6j15no53lg8ntiqm0', 'upscale': True}),
+    # 暴雪游戏 REDLAND 2026「存档碎片」（黄 = B 区），官方图里两枚叠着斜放，右边那枚左半被左边压住
+    'B04b-1': ('public/img/booths/B04b/guide-04.jpg', (172, 1044, 442, 1308), {'fileId': 'spectrum/1040g34o3258linbd58b05ocjcikk1gas7cn0e78', 'rotate': -8}),
+    'B04b-2': ('public/img/booths/B04b/guide-04.jpg', (436, 1038, 664, 1302), {'fileId': 'spectrum/1040g34o3258linbd58b05ocjcikk1gas7cn0e78', 'rotate': -5}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

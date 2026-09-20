@@ -111,7 +111,7 @@ export const stageDays = [
       { performer: 'ChiliChill 乐团', songs: ['Pink Flavor', '飞鸟说', '别让我担心', '我不曾忘记'] },
       { performer: '茶理理', songs: ['星间旅行'], ip: '崩坏：星穹铁道' },
       { performer: '茶理理', songs: ['荆棘鸟', 'ROVE'] },
-      { performer: 'DMYoung', songs: ['极限委托 2026'], ip: '绝区零' },
+      { performer: 'DMYoung', songs: ['极限委托 2026'], ip: '绝区零', note: '绝区零官方号 9/19：10月6日 19:00 – 21:00 锁定「冒险者营地 - 月光舞台」' },
       {
         performer: '伍六七剧组',
         songs: ['我想和你一起去海边', '陪在你左右', '连备胎都不是', '相遇就是好天气', '暗影刺客', '无论你多怪异我还是会喜欢你'],
@@ -135,5 +135,6 @@ export const stageSources = {
   more: [
     { title: '欢迎登岛，拳头游戏音乐参演数据同步完成（DAY2 · 10/3 无畏契约 / 英雄联盟 DJ 专场）', url: 'https://xhslink.cn/o/ASkJyTHPx1v', noteId: '6aa933340000000011036bad', author: 'RED LAND 官方号', publishedAt: '2026-09-15' },
     { title: 'RED LAND2026 | 星布谷地惊喜活动预告（DAY4 · 10/5 王男 & 王广联合演绎全新单曲）', url: 'https://xhslink.cn/o/6fb3vuIQh9Q', noteId: '6aa9233f000000001103b6c0', author: '星布谷地', publishedAt: '2026-09-16' },
+    { title: 'RED LAND 2026 | 绝区零展台活动前瞻（DAY5 · 10/6 19:00 – 21:00 DMYoung 月光舞台）', url: 'https://xhslink.cn/o/4EjuUWy7p6j', noteId: '6aad1a23000000000b00c5a8', author: '绝区零', publishedAt: '2026-09-19' },
   ],
 }

@@ -18,6 +18,8 @@ export const zoneThumbs = { A: 'img/pins/zone-A.jpg', B: 'img/pins/zone-B.jpg', 
 export const pins = [
   // ---- 区域 IP PIN（已从各 IP 官方笔记确认的）----
   { id: 'A06-pin', no: 'A06', type: 'region', zone: 'A', name: '星布谷地存档碎片', booth: 'A06', how: '集章满 4 个', thumb: 'img/pins/A06.jpg', image: 'img/booths/A06/07.jpg' },
+  { id: 'A11-1', no: 'A11-1', type: 'region', zone: 'A', name: '《绝区零》限定「存档碎片」· 日场发放', booth: 'A11', how: '线上预约后到展位「布连邦」雕像完成现场互动领取（预约预计 9/28 开放）', thumb: 'img/pins/A11-1.jpg', image: 'img/booths/A11/03.jpg' },
+  { id: 'A11-2', no: 'A11-2', type: 'region', zone: 'A', name: '《绝区零》限定「存档碎片」· 夜场发放', booth: 'A11', how: '线上预约后到展位「布连邦」雕像完成现场互动领取（预约预计 9/28 开放）', thumb: 'img/pins/A11-2.jpg', image: 'img/booths/A11/03.jpg' },
   { id: 'A09-pin-1', no: 'A09-1', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · 角色款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-1.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A09-pin-2', no: 'A09-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-2.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A34-pin-1', no: 'A34-1', type: 'region', zone: 'A', name: '我的世界联名徽章 · 苦力怕款', booth: 'A34', how: '现场互动打卡', thumb: 'img/pins/A34-1.jpg', image: 'img/booths/A34/01.jpg' },
@@ -27,6 +29,8 @@ export const pins = [
   { id: 'A24-pin-1', no: 'A24-1', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 假面骑士 / 奥特曼 / 哥斯拉 / 超级战队款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', thumb: 'img/pins/A24-1.jpg', image: 'img/booths/A24/02.jpg' },
   { id: 'A24-pin-2', no: 'A24-2', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章 · 犬夜叉 / 初音未来 / EVA / 面包超人 / 柯南款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线，每人每日限领 1 枚', thumb: 'img/pins/A24-2.jpg', image: 'img/booths/A24/02.jpg' },
   { id: 'B01-pin', no: 'B01', type: 'region', zone: 'B', name: '蛋仔派对 小红书 PIN（样式待公布）', booth: 'B01', how: 'Step1 完成原胚生产 / 表情写入 / 外观装配三个车间认证，与基础周边一同发放（官方 9/15 改版，原先挂在拍照发帖上）', thumb: null, image: 'img/booths/B01/16.jpg' },
+  { id: 'B04b-1', no: 'B04b-1', type: 'region', zone: 'B', name: '暴雪游戏 REDLAND 2026「存档碎片」· RED LAND × BLIZZARD × 網易 款', booth: 'B04b', how: '集齐全部展位印章后在暴雪游戏展台领取', thumb: 'img/pins/B04b-1.jpg', image: 'img/booths/B04b/guide-04.jpg' },
+  { id: 'B04b-2', no: 'B04b-2', type: 'region', zone: 'B', name: '暴雪游戏 REDLAND 2026「存档碎片」· BLIZZARD 蓝面款', booth: 'B04b', how: '集齐全部展位印章后在暴雪游戏展台领取', thumb: 'img/pins/B04b-2.jpg', image: 'img/booths/B04b/guide-04.jpg' },
   { id: 'B09-1', no: 'B09-1', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 日场款', booth: 'B09', how: '完成展台互动问答领取；12:30–17:30，每日 800 份', thumb: 'img/pins/B09-1.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B09-2', no: 'B09-2', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 夜场款', booth: 'B09', how: '完成展台互动问答领取；17:30–21:30，每日 400 份', thumb: 'img/pins/B09-2.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },

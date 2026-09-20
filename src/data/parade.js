@@ -256,6 +256,7 @@ export const themeFloats = [
         ],
       },
     ],
+    extraSource: { title: 'RED LAND 2026 | 绝区零展台活动前瞻（伊埃斯登车，每天 17:00 – 17:30）', url: 'https://xhslink.cn/o/4EjuUWy7p6j', noteId: '6aad1a23000000000b00c5a8', author: '绝区零', publishedAt: '2026-09-19' },
     source: {
       title: '前方高能！米哈游四大IP花车准备出发！',
       url: 'https://xhslink.cn/o/5aSRuJEF9LL',
