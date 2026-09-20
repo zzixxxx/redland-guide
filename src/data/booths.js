@@ -79,10 +79,10 @@ export const booths = [
   { id: 'B18', zone: 'B', no: 'B18', ip: '火影忍者手游', blurb: '《火影忍者》手游启动！来修炼你的忍道，成为最强忍者学员！', xhs: { uid: '650b9eb20000000012007285', name: '火影忍者手游情报君' } },
   { id: 'B19', zone: 'B', no: 'B19', ip: 'CLUTCH', alias: '离合：红线 离合红线', blurb: '摩纳哥海岸的昼夜双面世界，解锁速度与激情！' },
   { id: 'B20', zone: 'B', no: 'B20', ip: '待解锁', blurb: '官方场馆平面图标注「待解锁」，IP 待公布' },
-  { id: 'B21a', zone: 'B', no: 'B21', ip: '华硕 a豆', alias: 'ASUS adol 华硕', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'B21a', zone: 'B', no: 'B21', ip: '康师傅冰红茶', alias: '冰红茶 饮料 低糖高纤 低GI', blurb: '「低 GI 痛快海滩」限时营业，玩游戏解锁好礼，冰红茶男团 coser 空降', xhs: { uid: '667636f90000000003032dfe', name: '康师傅冰红茶' } },
   { id: 'B21b', zone: 'B', no: 'B21', ip: 'Danisa 皇冠丹麦曲奇', alias: '丹麦曲奇 饼干', blurb: '趣味烘焙屋上岛，邀你一起解锁美味「曲奇食光」～', xhs: { uid: '5cdd6863000000001700ecd9', name: 'Danisa皇冠丹麦曲奇' } },
   { id: 'B21c', zone: 'B', no: 'B21', ip: '中国银联', alias: 'UnionPay 云闪付', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
-  { id: 'B21d', zone: 'B', no: 'B21', ip: '康师傅冰红茶', alias: '冰红茶 饮料 低糖高纤 低GI', blurb: '「低 GI 痛快海滩」限时营业，玩游戏解锁好礼，冰红茶男团 coser 空降', xhs: { uid: '667636f90000000003032dfe', name: '康师傅冰红茶' } },
+  { id: 'B21d', zone: 'B', no: 'B21', ip: '华硕 a豆', alias: 'ASUS adol 华硕', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
   { id: 'B22', zone: 'B', no: 'B22', ip: '心「DONG」冰品补给点', alias: '代号神不言 冰淇淋', blurb: '火热解冻中！@代号神不言 为主角输送冰淇淋！', xhs: { uid: '69df3c6c00000000330389e3', name: '代号：神不言' } },
 
   // ---------- C 区 ----------
