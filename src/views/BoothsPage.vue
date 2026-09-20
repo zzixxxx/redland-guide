@@ -102,6 +102,57 @@
       </div>
     </div>
 
+    <!-- 展位活动预约指南（RED LAND 官方号 2026-09-19）：只有少数展位的限额活动要预约，9/25 上线心愿单、9/28–9/30 开放预约 -->
+    <div class="pcard mt-14">
+      <div class="pcard-body">
+        <div class="fold-head" @click="openBooking = !openBooking">
+          <div class="pcard-title" style="font-size:15px">🗓 {{ booking.title }}</div>
+          <span class="fold-arrow" :class="{ open: openBooking }">&gt;</span>
+        </div>
+        <div class="small muted mt-6">{{ booking.subtitle }}</div>
+        <div class="row wrap mt-6">
+          <span v-for="t in booking.timeline" :key="t.date" class="pill" :class="{ hot: t.date === '9月28日 – 9月30日' }">{{ t.date }} {{ t.name }}</span>
+        </div>
+
+        <div v-if="openBooking" class="mt-10">
+          <div v-for="t in booking.timeline" :key="t.date" class="mt-6 small">
+            <span class="tag text">{{ t.date }}</span>
+            <b style="margin-left:6px">{{ t.name }}</b>
+            <div class="mt-6">{{ t.desc }}</div>
+            <div class="muted">⚠️ {{ t.warn }}</div>
+          </div>
+          <div class="hr" />
+          <ol class="steps">
+            <li v-for="s in booking.steps" :key="s.no">
+              <span class="step-no cjk">{{ s.no }}</span>
+              <div class="step-body">
+                <b class="step-title">{{ s.title }}</b>
+                <div v-for="it in s.items" :key="it" class="small mt-4">{{ it }}</div>
+              </div>
+            </li>
+          </ol>
+          <div class="hr" />
+          <button class="linkbtn foldline small" style="font-weight:700;text-decoration:none" @click="openBookRules = !openBookRules">📜 预约规则全文（{{ booking.rules.length }} 组）{{ openBookRules ? '▴' : '▾' }}</button>
+          <div v-if="openBookRules">
+            <div v-for="g in booking.rules" :key="g.title" class="mt-10">
+              <b class="small">{{ g.title }}</b>
+              <ul class="small mt-6" style="padding-left:18px">
+                <li v-for="it in g.items" :key="it">{{ it }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="small mt-10" style="color:var(--brown)">💡 {{ booking.note }}</div>
+          <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <img v-for="(im, i) in booking.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(bookingImages, i)" />
+          </div>
+        </div>
+        <div class="small muted mt-6">
+          来源：{{ booking.source.author }}「{{ booking.source.title }}」{{ booking.source.publishedAt }} ·
+          <a :href="booking.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a>
+        </div>
+      </div>
+    </div>
+
     <!-- 场馆平面图：上半部分为 RED LAND 官方号 2026-09-11 公布的官方功能地图（原 LOADING 占位处），下半部分保留 2025 年网友参考图 -->
     <div class="pcard dark mt-14">
       <div class="pcard-body">
@@ -332,7 +383,7 @@ import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
-import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities, equipPack } from '../data/rules.js'
+import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities, equipPack, booking } from '../data/rules.js'
 import { mapSpotList, mapSpots } from '../data/mapSpots.js'
 import { planRoute } from '../utils/plan.js'
 import { roaming } from '../data/roaming.js'
@@ -350,6 +401,8 @@ const openTips = ref(false)
 const openMap26 = ref(false)
 const openTips26 = ref(false)
 const openFac = ref(false)
+const openBooking = ref(false)
+const openBookRules = ref(false)
 const openPlan = ref(true)
 // 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）；planOrder 非空就按用户调好的顺序走。
 // 清单按 IP（展位 id）存，但地图上同号多 IP 是同一个点，所以先去重成展位号再排路线
@@ -387,6 +440,7 @@ const boothSource = { url: 'https://fe.xiaohongshu.com/ditto/vincent/1875a92b788
 const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const equipImages = equipPack.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const bookingImages = booking.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
 
 const hasDetail = (id) => !!boothDetails[id]

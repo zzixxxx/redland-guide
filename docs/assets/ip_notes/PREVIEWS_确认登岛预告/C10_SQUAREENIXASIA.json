@@ -1,0 +1,28 @@
+{
+  "noteId": "6aa9265f000000000d0203ed",
+  "title": "📢SQUARE ENIX ASIA官方账号开设通知",
+  "desc": "《FINAL FANTASY RESONANCE》即将于10/2登陆RED LAND🎉 为纪念这一好消息，SQUARE ENIX官方账号正式入驻小红书！\n今后我们将陆续为大家带来更多作品资讯。 在RED LAND与大家见面之前，我们将率先为大家介绍在本作中登場，点亮历代\"FINAL FANTASY\"系列的主角们，敬请期待✨\n期待与大家的全新相遇，欢迎关注！\n#SQUAREENIX[话题]#  #FF[话题]# #FFRESONANCE[话题]# #FFRS[话题]#  #REDLAND2026[话题]#",
+  "user": {
+    "userId": "6a859028000000000301c941",
+    "nickName": "SQUARE ENIX ASIA",
+    "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/1040g2jo3253o3tjjjg005qk5i0k0ria13p4hcmo?imageView2/2/w/120/format/jpg",
+    "redOfficialVerifyType": 0
+  },
+  "tags": [
+    "SQUAREENIX",
+    "FF",
+    "FFRESONANCE",
+    "FFRS",
+    "REDLAND2026"
+  ],
+  "time": 1789470303000,
+  "finalUrl": "https://www.xiaohongshu.com/discovery/item/6aa9265f000000000d0203ed?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CBMyAVjePBPuuBqwbb-2WmDrlL85JO27dR90XVmG1v9zs=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1789874767&share_id=a2a79d8b10f842e7ad4784949e4e5491",
+  "images": [
+    "docs/assets/ip_notes/PREVIEWS_确认登岛预告/C10_SQUAREENIXASIA.jpg"
+  ],
+  "fileIds": [
+    "oss-sg/spectrum/1040g3ug3254rvicjii005qk5i0k0ria18ip3avg"
+  ],
+  "boothId": "C10",
+  "keptOnly": "没有展台玩法（只有品牌登岛预告 / 送票），按 CLAUDE.md §4 只补 booths.js 的 xhs，不建 boothDetails；public/img 不留文件。"
+}

@@ -31,6 +31,7 @@ export const pins = [
   { id: 'B01-pin', no: 'B01', type: 'region', zone: 'B', name: '蛋仔派对 小红书 PIN（样式待公布）', booth: 'B01', how: 'Step1 完成原胚生产 / 表情写入 / 外观装配三个车间认证，与基础周边一同发放（官方 9/15 改版，原先挂在拍照发帖上）', thumb: null, image: 'img/booths/B01/16.jpg' },
   { id: 'B04b-1', no: 'B04b-1', type: 'region', zone: 'B', name: '暴雪游戏 REDLAND 2026「存档碎片」· RED LAND × BLIZZARD × 網易 款', booth: 'B04b', how: '集齐全部展位印章后在暴雪游戏展台领取', thumb: 'img/pins/B04b-1.jpg', image: 'img/booths/B04b/guide-04.jpg' },
   { id: 'B04b-2', no: 'B04b-2', type: 'region', zone: 'B', name: '暴雪游戏 REDLAND 2026「存档碎片」· BLIZZARD 蓝面款', booth: 'B04b', how: '集齐全部展位印章后在暴雪游戏展台领取', thumb: 'img/pins/B04b-2.jpg', image: 'img/booths/B04b/guide-04.jpg' },
+  { id: 'B07', no: 'B07', type: 'region', zone: 'B', name: '第五人格 REDLAND 存档碎片', booth: 'B07', how: '入学指南「墨痕答辩」课程获得满分', thumb: 'img/pins/B07.jpg', image: 'img/booths/B07/01.jpg' },
   { id: 'B09-1', no: 'B09-1', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 日场款', booth: 'B09', how: '完成展台互动问答领取；12:30–17:30，每日 800 份', thumb: 'img/pins/B09-1.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B09-2', no: 'B09-2', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 夜场款', booth: 'B09', how: '完成展台互动问答领取；17:30–21:30，每日 400 份', thumb: 'img/pins/B09-2.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },

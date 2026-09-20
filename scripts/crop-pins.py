@@ -45,6 +45,8 @@ CROPS = {
     # 暴雪游戏 REDLAND 2026「存档碎片」（黄 = B 区），官方图里两枚叠着斜放，右边那枚左半被左边压住
     'B04b-1': ('public/img/booths/B04b/guide-04.jpg', (172, 1044, 442, 1308), {'fileId': 'spectrum/1040g34o3258linbd58b05ocjcikk1gas7cn0e78', 'rotate': -8}),
     'B04b-2': ('public/img/booths/B04b/guide-04.jpg', (436, 1038, 664, 1302), {'fileId': 'spectrum/1040g34o3258linbd58b05ocjcikk1gas7cn0e78', 'rotate': -5}),
+    # 第五人格 REDLAND 存档碎片（黄 = B 区），入学指南图里只有 ~127px
+    'B07': ('public/img/booths/B07/01.jpg', (477, 395, 604, 515), {'fileId': 'notes_pre_post/1040g3k83257fk4fekecg4bmt3euv0bijn2d33fg', 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

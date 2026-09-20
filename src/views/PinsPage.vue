@@ -13,7 +13,8 @@
             <div class="bar mt-6"><i :style="{ width: Math.min(100, (zoneCollected(z.key) / z.need) * 100) + '%', background: z.color }" /></div>
           </div>
         </div>
-        <div class="small muted mt-6">* 编号为按展位号的占位编码（官方未给 PIN 编号）；未公布的展位先以「?」软盘占位，公布后替换。</div>
+        <div class="small muted mt-6">* 编号为按展位号的占位编码（官方未给 PIN 编号）；灰色「?」软盘是<b>暂无 PIN 情报</b>的展位占位，公布后替换。</div>
+        <div class="small muted mt-6">* <b>不是每个展位都发 PIN</b>：官方规则只要求每区集齐 4 / 2 / 2 枚就能兑换该区拼图，「?」卡不代表该展位一定会有。勾选「只看已公布」可只看实图已公布的 PIN。</div>
       </div>
     </div>
 
@@ -21,7 +22,7 @@
     <div class="chips mt-14">
       <button v-for="f in filters" :key="f.key" class="chip" :class="{ on: filter === f.key }" @click="filter = f.key">{{ f.label }}<small v-if="f.count != null">（{{ f.count }}）</small></button>
     </div>
-    <label class="row small mt-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy);gap:6px"><input v-model="onlyKnown" type="checkbox" /> 只看已公布</label>
+    <label class="row small mt-6" style="color:#fff;text-shadow:1px 1px 0 var(--navy);gap:6px"><input v-model="onlyKnown" type="checkbox" /> 只看已公布 PIN（隐藏「?」占位）</label>
 
     <!-- 图鉴网格 -->
     <div class="pin-grid mt-10">
@@ -82,7 +83,7 @@ const zones = boothZones
 const knownBooths = new Set(pins.filter((p) => p.booth).map((p) => p.booth))
 const placeholders = booths
   .filter((b) => !knownBooths.has(b.id))
-  .map((b) => ({ id: 'booth:' + b.id, no: b.id, type: 'region', zone: b.zone, booth: b.id, name: `${b.ip} PIN（待公布）`, how: '该展位尚未公布 PIN 样式与获取方式', thumb: null }))
+  .map((b) => ({ id: 'booth:' + b.id, no: b.id, type: 'region', zone: b.zone, booth: b.id, name: `${b.ip}（暂无 PIN 情报）`, how: '还没公布 PIN，也可能本来就不发', thumb: null }))
 
 const all = computed(() => {
   const region = [...pins.filter((p) => p.type === 'region'), ...placeholders].sort((a, b) => a.no.localeCompare(b.no, 'en', { numeric: true }))

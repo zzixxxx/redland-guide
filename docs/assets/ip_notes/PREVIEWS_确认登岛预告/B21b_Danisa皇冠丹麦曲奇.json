@@ -1,0 +1,27 @@
+{
+  "noteId": "6aabb4ad0000000028029933",
+  "title": "Danisa皇冠曲奇x REDLAND丨邀你登岛啦！",
+  "desc": "全网都在求RED LAND 2026登岛门票？\n别蹲了！Danisa直接送你上岛🎫\nDanisa皇冠丹麦曲奇已进入RED LAND 2026！\n趣味烘焙屋上岛，邀你一起解锁美味“曲奇食光” ~\n参与互动，登岛门票免费送👇\n\t\n✅参与条件\n1️⃣关注@Danisa皇冠丹麦曲奇 官方账号并点赞本篇笔记\n2️⃣评论区分享你喜欢的游戏/二次元IP并@好友\n\t\n我们将抽取3位玩家分别赠送登岛门票1张\n玩家可自行预约登岛日期\n\t\n📅开奖时间：9月19日 12:00\n🔛抽奖方式：将从符合参与条件的评论中，使用抽奖小助手随机抽取~\n🗓展期：10月2日-10月6日\n📍地点：上海・杨浦区复兴岛\n\t\n速来get你的主角通行证，我们岛上见！\n\t\n#Danisa皇冠丹麦曲奇[话题]# #REDLAND2026[话题]# #REDLAND[话题]# #永远的主角[话题]#",
+  "user": {
+    "nickName": "Danisa皇冠丹麦曲奇",
+    "avatar": "https://sns-avatar-qc.xhscdn.com/avatar/5efaef745e5f4a00010b227a.jpg?imageView2/2/w/120/format/jpg",
+    "redOfficialVerifyType": 0,
+    "userId": "5cdd6863000000001700ecd9"
+  },
+  "tags": [
+    "Danisa皇冠丹麦曲奇",
+    "REDLAND2026",
+    "REDLAND",
+    "永远的主角"
+  ],
+  "time": 1789642895000,
+  "finalUrl": "https://www.xiaohongshu.com/discovery/item/6aabb4ad0000000028029933?app_platform=ios&app_version=9.37&share_from_user_hidden=true&xsec_source=app_share&type=normal&xsec_token=CB0Dzdvf-6C6peh65EF6XcyfEeolh3I_h1c4GHnXgMLLs=&author_share=1&xhsshare=CopyLink&shareRedId=N0g7Qzk4SD1JOz1GPDgwNjY0O0k5RkhC&apptime=1789874601&share_id=7368c868394247c88bb0d65dfb4ee4a2",
+  "images": [
+    "docs/assets/ip_notes/PREVIEWS_确认登岛预告/B21b_Danisa皇冠丹麦曲奇.jpg"
+  ],
+  "fileIds": [
+    "spectrum/1040g34o3257bj5pp4c205n6td1hlpr6plmoefao"
+  ],
+  "boothId": "B21b",
+  "keptOnly": "没有展台玩法（只有品牌登岛预告 / 送票），按 CLAUDE.md §4 只补 booths.js 的 xhs，不建 boothDetails；public/img 不留文件。"
+}
