@@ -24,6 +24,7 @@ export const pins = [
   { id: 'A09-pin-2', no: 'A09-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-2.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A25-1', no: 'A25-1', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 日场款（橙）', booth: 'A25b', how: 'Aniplex 展台内拍照打卡 + 带 #国庆节在ANIPLEX展台当牛马 投稿小红书，随限定福袋发放；第一弹鬼灭之刃福袋与第二弹孤独摇滚福袋是同一对款式', thumb: 'img/pins/A25-1.jpg', image: 'img/booths/A25/second-00.jpg' },
   { id: 'A25-2', no: 'A25-2', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 夜场款（黑绿）', booth: 'A25b', how: '与日场款为两款不同设计，同随限定福袋发放（第一弹 / 第二弹通用）', thumb: 'img/pins/A25-2.jpg', image: 'img/booths/A25/second-00.jpg' },
+  { id: 'A33', no: 'A33', type: 'region', zone: 'A', name: '光·遇「存档碎片」（光之子草原款）', booth: 'A33', how: '参与光遇「每日任务」等多种互动体验，有机会领取；数量有限先到先得', thumb: 'img/pins/A33.jpg', image: 'img/booths/A33/04.jpg' },
   { id: 'A34-pin-1', no: 'A34-1', type: 'region', zone: 'A', name: '我的世界联名徽章 · 苦力怕款', booth: 'A34', how: '现场互动打卡', thumb: 'img/pins/A34-1.jpg', image: 'img/booths/A34/01.jpg' },
   { id: 'A36-1', no: 'A36-1', type: 'region', zone: 'A', name: '如鸢「存档碎片」· 日场款（样式待公布）', booth: 'A36', how: '凭整理券在【如鸢无料兑换台】领伴手礼时同时领取；每日 13:30 – 17:30 发放，数量有限先到先得', thumb: null, image: 'img/booths/A36/07.jpg' },
   { id: 'A36-2', no: 'A36-2', type: 'region', zone: 'A', name: '如鸢「存档碎片」· 夜场款（可夜光，样式待公布）', booth: 'A36', how: '每日 17:30 – 21:30 发放；需同时出示整理券及绣衣楼爵位 35 级以上界面（截图无效）', thumb: null, image: 'img/booths/A36/07.jpg' },
