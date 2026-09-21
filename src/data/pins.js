@@ -22,6 +22,10 @@ export const pins = [
   { id: 'A11-2', no: 'A11-2', type: 'region', zone: 'A', name: '《绝区零》限定「存档碎片」· 夜场发放', booth: 'A11', how: '线上预约后到展位「布连邦」雕像完成现场互动领取（预约预计 9/28 开放）', thumb: 'img/pins/A11-2.jpg', image: 'img/booths/A11/03.jpg' },
   { id: 'A09-pin-1', no: 'A09-1', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · 角色款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-1.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A09-pin-2', no: 'A09-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-2.jpg', image: 'img/booths/A09/01.jpg' },
+  // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）
+  { id: 'A17b-1', no: 'A17b-1', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型一（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b-1.jpg', image: 'img/booths/A17b/04.jpg' },
+  { id: 'A17b-2', no: 'A17b-2', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型二（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '同造型一，为官方奖品图里的第二款', thumb: 'img/pins/A17b-2.jpg', image: 'img/booths/A17b/04.jpg' },
+  { id: 'A35', no: 'A35', type: 'region', zone: 'A', name: '阅文小伙伴集结 PIN 卡（官方未放图，是否属区域 PIN 待确认）', booth: 'A35', how: '道诡异仙「坐忘麻将馆」参与趣味游戏互动即得（与湿巾一同发放）；日场限时记忆绕口令、夜场反向指令游戏', thumb: null, image: 'img/booths/A35/daogui.jpg' },
   { id: 'A25-1', no: 'A25-1', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 日场款（橙）', booth: 'A25b', how: 'Aniplex 展台内拍照打卡 + 带 #国庆节在ANIPLEX展台当牛马 投稿小红书，随限定福袋发放；第一弹鬼灭之刃福袋与第二弹孤独摇滚福袋是同一对款式', thumb: 'img/pins/A25-1.jpg', image: 'img/booths/A25/second-00.jpg' },
   { id: 'A25-2', no: 'A25-2', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 夜场款（黑绿）', booth: 'A25b', how: '与日场款为两款不同设计，同随限定福袋发放（第一弹 / 第二弹通用）', thumb: 'img/pins/A25-2.jpg', image: 'img/booths/A25/second-00.jpg' },
   { id: 'A33', no: 'A33', type: 'region', zone: 'A', name: '光·遇「存档碎片」（光之子草原款）', booth: 'A33', how: '参与光遇「每日任务」等多种互动体验，有机会领取；数量有限先到先得', thumb: 'img/pins/A33.jpg', image: 'img/booths/A33/04.jpg' },

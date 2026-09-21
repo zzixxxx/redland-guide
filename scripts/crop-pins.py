@@ -53,6 +53,9 @@ CROPS = {
     'A25-2': ('public/img/booths/A25/second-00.jpg', (608, 547, 702, 624), {'fileId': 'spectrum/1040g34o3258kiftm46105oijm22418dael158p8', 'upscale': True, 'rotate': -5}),
     # 光·遇「存档碎片」（橙 = A 区），限定赠礼长图里只有 ~113px
     'A33': ('public/img/booths/A33/04.jpg', (134, 451, 247, 564), {'fileId': 'notes_pre_post/1040g3k8325b462eq4q7g5ndsvnjg8si4p8cea60', 'upscale': True}),
+    # 归环「PIN 卡」（官方奖品图里的卡片实物，约 136×82，横长比 1.66:1 —— 不是 RED LAND 软盘造型，是否属区域 PIN 待确认）
+    'A17b-1': ('public/img/booths/A17b/04.jpg', (249, 562, 387, 646), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
+    'A17b-2': ('public/img/booths/A17b/04.jpg', (247, 662, 385, 746), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
