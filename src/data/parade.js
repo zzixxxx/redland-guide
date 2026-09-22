@@ -138,6 +138,8 @@ export const paradeRoute = {
 // label 为官方图上的分段标题（灰字放名单下）。look 是官方写的造型，页面已不显示（用户 9/17）。extraSource 是嘉宾名单的额外出处，进页尾来源卡
 // 笔记正文里的「点击【大麦APP】进入购买主角通行证页面」属票务，不收；图注「花车效果图仅供参考，最终呈现效果以实际为准」。
 const floatSrc = (title, url, noteId) => ({ title, url, noteId, author: 'RED LAND 官方号', publishedAt: '2026-09-05' })
+// 9/22 追加的三台共用同一条笔记
+const newFloatSrc = () => ({ title: '薯到普？根本没有的事！花车阵容再追加！！', url: 'https://xhslink.cn/o/3PIgUHcLsMM', noteId: '6ab20a420000000033039f31', author: 'RED LAND 官方号', publishedAt: '2026-09-22' })
 export const themeFloats = [
   {
     id: 'eggy',
@@ -264,6 +266,39 @@ export const themeFloats = [
       author: 'RED LAND 官方号',
       publishedAt: '2026-09-16',
     },
+  },
+  // 9/22 RED LAND 官方号「花车阵容再追加」一条里公布的三台：湖之仆从 / 奶龙 / 巫师。
+  // 官方这条只给了各自的 KV 海报（不是前 8 台那种统一模板的花车效果图），所以 cut.png 抠的是主体角色；
+  // 也没有按日名单，按官方文案能点到的角色记 day: 'all'
+  {
+    id: 'rustlake',
+    ip: '湖之仆从',
+    desc: '带你达成锈湖现实版隐藏成就：1:1 还原的骏马和车夫将穿越游戏界面来到大家面前！',
+    look: '1:1 还原的马车（骏马 + 车夫）',
+    intro: '主角们熟悉的锈湖经典角色将登上马车前来参与巡游，现场超多惊喜等着主角们揭秘。',
+    images: ['img/parade/rustlake/00.jpg'],
+    guests: [{ day: 'all', chars: ['骏马与车夫（1:1 还原）', '锈湖经典角色（官方未点名）', '神秘嘉宾（待公布）'] }],
+    source: newFloatSrc(),
+  },
+  {
+    id: 'nailong',
+    ip: '奶龙',
+    desc: '《奶龙》花车带着吵吵闹闹的鲜活生活，蹦蹦跳跳地来啦！',
+    look: '奶龙 + 移动床',
+    intro: '薯捕捉到一只正在赖床的萌萌奶龙，带着移动床懒洋洋地就来了～这一次，奶龙又将和主角们一起解锁什么样的趣味日常呢？',
+    images: ['img/parade/nailong/00.jpg'],
+    guests: [{ day: 'all', chars: ['奶龙（带移动床）'] }],
+    source: newFloatSrc(),
+  },
+  {
+    id: 'witcher',
+    ip: '巫师3：狂猎',
+    desc: '《巫师》将在给主角的花车巡礼中铺展记忆里并肩前行的旅伴，令人难忘的冒险奇观。',
+    look: '猎魔人骑马（《旧时曲》主视觉）',
+    intro: '猎魔人杰洛特将骑马惊喜现身，属于你的冒险篇章，这次将在现实中等待大家亲自来书写！',
+    images: ['img/parade/witcher/00.jpg'],
+    guests: [{ day: 'all', chars: ['猎魔人杰洛特（骑马）'] }],
+    source: newFloatSrc(),
   },
 ]
 

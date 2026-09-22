@@ -1443,6 +1443,7 @@ const partyAnimals = {
     publishedAt: '2026-09-11',
   },
   boothNo: 'C-08',
+  hours: '每日 13:00 – 22:00',
   location: '重生试炼场 C-08',
   intro: '登岛秘籍抢先看 —— 猛兽限时觉醒，快来小屋报到！',
   notes: ['彩蛋掉落的专属限定无料数量有限，先到先得'],
@@ -1486,9 +1487,19 @@ const partyAnimals = {
     { name: '专属限定无料', how: '彩蛋掉落：指定时段与带周边彩蛋现身的猛兽主角趣味互动；数量有限' },
   ],
   footnote: '各项无料数量有限，先到先得；具体时段以现场公告为准。',
+  moreSources: [
+    {
+      title: '《猛兽派对》即将登岛 REDLAND！（补展台营业时间）',
+      url: 'https://xhslink.cn/o/2dnXD0buiUo',
+      noteId: '6ab1ffc70000000031027b4d',
+      author: '猛兽派对',
+      publishedAt: '2026-09-22',
+    },
+  ],
   images: [
     { src: 'img/booths/C08/00.jpg', caption: '登岛秘籍 · 展台四大亮点（先开一局 / 猛兽出片 / 猛兽出没 / 彩蛋掉落）' },
     { src: 'img/booths/C08/01.jpg', caption: '线上投稿 · 带 #猛兽派对 #REDLAND 发笔记' },
+    { src: 'img/booths/C08/info-00.jpg', caption: '活动信息 · 每日 13:00 – 22:00，重生试炼场 C-08（猛兽派对 9/22）' },
   ],
 }
 
