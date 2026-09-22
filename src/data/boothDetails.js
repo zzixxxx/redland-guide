@@ -3436,10 +3436,17 @@ const deltaForce = {
       author: '三角洲行动',
       publishedAt: '2026-09-21',
     },
+    {
+      title: 'REDLAND吧唧抢先看（第三弹）',
+      url: 'https://xhslink.cn/o/8rFACLIM5V9',
+      noteId: '6aad18cb000000001001dfb8',
+      author: '三角洲行动',
+      publishedAt: '2026-09-22',
+    },
   ],
   boothNo: 'A02',
   location: '翻身时空港 A02',
-  intro: '来洲洲大红街区观光做客，解锁干员撤离后的另一种生活 —— 快来大红街区和 mini 干员们见面吧！',
+  intro: '来洲洲大红街区观光做客，解锁干员撤离后的另一种生活 —— 快来大红街区和 mini 干员们见面，解锁「洲」的另一面！',
   notes: [
     '官方目前只放了吧唧（徽章）的款式预览，**没有公布获取方式**（是否售卖、是否属无料 / 任务奖励均未说明）。',
     '官方注明：吧唧实物和设计图有细微差别。',
@@ -3448,7 +3455,7 @@ const deltaForce = {
   activities: [
     {
       title: '大红街区 · mini 干员吧唧抢先看',
-      desc: '展台周边「mini 干员」Q 版吧唧两弹已公布设计图（第一弹 5 款 + 第二弹 4 款，均标注「三角洲行动官方出品，仿冒必究」），获取方式待官方公布。',
+      desc: '展台周边「mini 干员」Q 版吧唧已公布三弹设计图（第一弹 5 款 + 第二弹 4 款 + 第三弹 5 款，共 14 款，均标注「三角洲行动官方出品，仿冒必究」），获取方式待官方公布。',
     },
   ],
   stage: [],
@@ -3467,6 +3474,12 @@ const deltaForce = {
     { src: 'img/booths/A02/bajji2-02.jpg', caption: '第二弹 · mini 干员款式' },
     { src: 'img/booths/A02/bajji2-03.jpg', caption: '第二弹 · mini 干员款式' },
     { src: 'img/booths/A02/bajji2-04.jpg', caption: '第二弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji3-00.jpg', caption: '吧唧抢先看 第三弹 · 主视觉（三角洲行动 9/22）' },
+    { src: 'img/booths/A02/bajji3-01.jpg', caption: '第三弹 · Vinder' },
+    { src: 'img/booths/A02/bajji3-02.jpg', caption: '第三弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji3-03.jpg', caption: '第三弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji3-04.jpg', caption: '第三弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji3-05.jpg', caption: '第三弹 · mini 干员款式' },
   ],
 }
 
