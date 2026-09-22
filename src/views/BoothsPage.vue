@@ -149,6 +149,49 @@
             </div>
           </template>
 
+          <!-- 岛上吃喝与场外福利：餐饮指南（RED LAND 官方号 2026-09-21）+ 商圈票根联动优惠（2026-09-20）。
+               用户 9/22 要求这两节也并进主线玩法卡，与装备包 / 彩蛋 / 预约指南并列，各自折叠、默认收起 -->
+          <div class="hr" />
+          <div class="fold-head" @click="openDining = !openDining">
+            <div class="pcard-title" style="font-size:15px">🍴 {{ dining.title }}</div>
+            <span class="fold-arrow" :class="{ open: openDining }">&gt;</span>
+          </div>
+          <div class="small muted mt-6">{{ dining.subtitle }}</div>
+          <template v-if="openDining">
+            <div v-for="t in dining.points" :key="t" class="small mt-6" style="color:var(--brown)">{{ t }}</div>
+            <div class="hr" />
+            <b class="small">📊 {{ dining.survey.title }}</b>
+            <ul class="small mt-6" style="padding-left:18px">
+              <li v-for="it in dining.survey.items" :key="it">{{ it }}</li>
+            </ul>
+            <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+              <img v-for="(im, i) in dining.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(diningImages, i)" />
+            </div>
+            <div class="small mt-6" style="color:var(--brown)">💡 {{ dining.note }}</div>
+            <div class="small muted mt-6">图源：{{ dining.source.author }}「{{ dining.source.title }}」{{ dining.source.publishedAt }} · <a :href="dining.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
+          </template>
+
+          <div class="hr" />
+          <div class="fold-head" @click="openMall = !openMall">
+            <div class="pcard-title" style="font-size:15px">🛒 {{ mallDeals.title }}</div>
+            <span class="fold-arrow" :class="{ open: openMall }">&gt;</span>
+          </div>
+          <div class="small muted mt-6">{{ mallDeals.subtitle }}</div>
+          <template v-if="openMall">
+            <div class="row wrap mt-6">
+              <span v-for="m in mallDeals.malls" :key="m" class="pill">{{ m }}</span>
+            </div>
+            <div class="row wrap mt-6">
+              <span v-for="k in mallDeals.kinds" :key="k" class="tag text" style="font-size:10px;padding:2px 5px">{{ k }}</span>
+            </div>
+            <div v-for="t in mallDeals.points" :key="t" class="small mt-6" style="color:var(--brown)">· {{ t }}</div>
+            <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+              <img v-for="(im, i) in mallDeals.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(mallImages, i)" />
+            </div>
+            <div class="small mt-6" style="color:var(--brown)">💡 {{ mallDeals.note }}</div>
+            <div class="small muted mt-6">图源：{{ mallDeals.source.author }}「{{ mallDeals.source.title }}」{{ mallDeals.source.publishedAt }} · <a :href="mallDeals.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
+          </template>
+
           <div class="hr" />
           <div v-for="p in places" :key="p.key" class="mt-6 small">
             <span class="tag text" :class="p.key === 'night' ? 'blue' : p.key === 'camp' ? 'green' : ''">{{ p.tag }}</span>
@@ -235,52 +278,6 @@
           来源：网友 @{{ venueMapRef.source.author }} 整理 · {{ venueMapRef.source.publishedAt }}（非官方）
           <a :href="venueMapRef.source.url" target="_blank" rel="noopener" style="color:#ffe27a">原笔记</a>
         </div>
-      </div>
-    </div>
-
-    <!-- 岛上吃喝与场外福利：餐饮指南（RED LAND 官方号 2026-09-21）+ 商圈票根联动优惠（2026-09-20）。
-         两个小节各自折叠、默认收起；逐家展商 / 逐家商场的清单太细，数据只留要点，明细按官方原图看 -->
-    <div class="pcard mt-14">
-      <div class="pcard-body">
-        <div class="fold-head" @click="openDining = !openDining">
-          <div class="pcard-title" style="font-size:15px">🍴 {{ dining.title }}</div>
-          <span class="fold-arrow" :class="{ open: openDining }">&gt;</span>
-        </div>
-        <div class="small muted mt-6">{{ dining.subtitle }}</div>
-        <template v-if="openDining">
-          <div v-for="t in dining.points" :key="t" class="small mt-6" style="color:var(--brown)">{{ t }}</div>
-          <div class="hr" />
-          <b class="small">📊 {{ dining.survey.title }}</b>
-          <ul class="small mt-6" style="padding-left:18px">
-            <li v-for="it in dining.survey.items" :key="it">{{ it }}</li>
-          </ul>
-          <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-            <img v-for="(im, i) in dining.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(diningImages, i)" />
-          </div>
-          <div class="small mt-6" style="color:var(--brown)">💡 {{ dining.note }}</div>
-          <div class="small muted mt-6">图源：{{ dining.source.author }}「{{ dining.source.title }}」{{ dining.source.publishedAt }} · <a :href="dining.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
-        </template>
-
-        <div class="hr" />
-        <div class="fold-head" @click="openMall = !openMall">
-          <div class="pcard-title" style="font-size:15px">🛒 {{ mallDeals.title }}</div>
-          <span class="fold-arrow" :class="{ open: openMall }">&gt;</span>
-        </div>
-        <div class="small muted mt-6">{{ mallDeals.subtitle }}</div>
-        <template v-if="openMall">
-          <div class="row wrap mt-6">
-            <span v-for="m in mallDeals.malls" :key="m" class="pill">{{ m }}</span>
-          </div>
-          <div class="row wrap mt-6">
-            <span v-for="k in mallDeals.kinds" :key="k" class="tag text" style="font-size:10px;padding:2px 5px">{{ k }}</span>
-          </div>
-          <div v-for="t in mallDeals.points" :key="t" class="small mt-6" style="color:var(--brown)">· {{ t }}</div>
-          <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
-            <img v-for="(im, i) in mallDeals.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(mallImages, i)" />
-          </div>
-          <div class="small mt-6" style="color:var(--brown)">💡 {{ mallDeals.note }}</div>
-          <div class="small muted mt-6">图源：{{ mallDeals.source.author }}「{{ mallDeals.source.title }}」{{ mallDeals.source.publishedAt }} · <a :href="mallDeals.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
-        </template>
       </div>
     </div>
 
