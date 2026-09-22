@@ -1,0 +1,66 @@
+{
+  "pageId": "9ec1507a92164e1b854b0cb560298bf4",
+  "finalUrl": "https://ditto.xiaohongshu.net/ditto/vincent/9ec1507a92164e1b854b0cb560298bf4/dynpath178300e7?naviHidden=yes&fullscreen=true&source=share&countryCode=CN&lang=zh_cn&xhs-statusbar-height=54&instance_id=9ec1507a92164e1b854b0cb560298bf4&page_instance=2683",
+  "pageName": "活动页",
+  "shareTitle": "《古剑》邀您登岛",
+  "shareDesc": "来长生酒肆一叙",
+  "lastEditTime": "2026-09-16 20:31:16",
+  "startTime": "2026-09-14T16:00:00.000Z",
+  "endTime": "2026-10-08T15:59:59.000Z",
+  "follow": [],
+  "images": [
+    {
+      "file": "00.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-1",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0325519ugj5006fk928g26s000000000cv7heio",
+      "width": 1125,
+      "height": 1573,
+      "links": []
+    },
+    {
+      "file": "01.png",
+      "component": "OnixDittoHotArea",
+      "remark": "热区图-1",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n03254kr7kmjo06fk928g26s000000000eobklr6",
+      "width": 1125,
+      "height": 1075,
+      "links": [
+        {
+          "id": "neytux",
+          "left": 93,
+          "top": 300,
+          "width": 181,
+          "height": 41
+        }
+      ]
+    },
+    {
+      "file": "02.png",
+      "component": "OnixDittoHotArea",
+      "remark": "热区图-2",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n03254lv5ehji06fk928g26s0000000009s4r2n8",
+      "width": 1125,
+      "height": 1434,
+      "links": [
+        {
+          "id": "a9xnyg",
+          "left": 95,
+          "top": 422,
+          "width": 180,
+          "height": 41
+        }
+      ]
+    },
+    {
+      "file": "03.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-2",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n03254ofa803u06fk928g26s0000000009bmppqa",
+      "width": 1112,
+      "height": 171,
+      "links": []
+    }
+  ],
+  "keptOnly": "未保留任何图：专题页 4 张图里，00 = 线下活动一览 KV（新排版，无新情报）、01 = 展区内容六格图（与已收的 A15/00.jpg 下半部分同一张分区图）、02 + 03 = 内容征集（线上活动，按项目约定不收）。本页仅作为 moreSources 链接收录，展台情报全部沿用古剑官方号 9/15 笔记。"
+}
