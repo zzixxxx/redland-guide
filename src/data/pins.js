@@ -22,6 +22,10 @@ export const pins = [
   { id: 'A11-2', no: 'A11-2', type: 'region', zone: 'A', name: '《绝区零》限定「存档碎片」· 夜场发放', booth: 'A11', how: '线上预约后到展位「布连邦」雕像完成现场互动领取（预约预计 9/28 开放）', thumb: 'img/pins/A11-2.jpg', image: 'img/booths/A11/03.jpg' },
   { id: 'A09-pin-1', no: 'A09-1', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · 角色款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-1.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A09-pin-2', no: 'A09-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-2.jpg', image: 'img/booths/A09/01.jpg' },
+  { id: 'A40', no: 'A40', type: 'region', zone: 'A', name: '《光与夜之恋》展台存档碎片（蓝鸟窗台款，橙）', booth: 'A40', how: '完成【窗畔花影】互动 或【绮梦花园】打卡，由工作人员在出口处发放（两项都需提前预约）', thumb: 'img/pins/A40.jpg', image: 'img/booths/A40/guide-16.jpg' },
+  // 原神的徽章是 RED LAND 软盘造型（灰条 + 小红书角标齐全），但**软盘是蓝色**——A 区已确认的存档碎片都是橙色（见 A11 / A17c / A25 / A33），
+  // 官方原文也只写「徽章一份」而不是「存档碎片」，所以是否计入 A 区拼图结算待确认，已写在 name 里
+  { id: 'A10', no: 'A10', type: 'region', zone: 'A', name: '《原神》REDLAND 2026 徽章 · 派蒙点赞款（软盘为蓝色，非 A 区橙，是否计入区域拼图待确认）', booth: 'A10', how: '在 RED LAND 主会场页面预约后，参与展台【体验互动】领取', thumb: 'img/pins/A10.jpg', image: 'img/booths/A10/03.jpg' },
   // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）
   { id: 'A17b-1', no: 'A17b-1', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型一（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b-1.jpg', image: 'img/booths/A17b/04.jpg' },
   { id: 'A17b-2', no: 'A17b-2', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型二（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '同造型一，为官方奖品图里的第二款', thumb: 'img/pins/A17b-2.jpg', image: 'img/booths/A17b/04.jpg' },

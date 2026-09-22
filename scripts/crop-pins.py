@@ -52,6 +52,10 @@ CROPS = {
     'A25-1': ('public/img/booths/A25/second-00.jpg', (519, 445, 599, 527), {'fileId': 'spectrum/1040g34o3258kiftm46105oijm22418dael158p8', 'upscale': True, 'rotate': -5}),
     'A25-2': ('public/img/booths/A25/second-00.jpg', (608, 547, 702, 624), {'fileId': 'spectrum/1040g34o3258kiftm46105oijm22418dael158p8', 'upscale': True, 'rotate': -5}),
     # 光·遇「存档碎片」（橙 = A 区），限定赠礼长图里只有 ~113px
+    # 光与夜之恋《光与夜之恋》展台存档碎片（橙 = A 区；官方图里正面 / 背面并排，只裁左边正面那枚，303×303 够大不用放大）
+    'A40': ('public/img/booths/A40/guide-16.jpg', (74, 347, 377, 650)),
+    # 原神 体验互动徽章（软盘造型但**蓝色**，与 A 区橙色分色规则不同，见 pins.js 备注；图里只有 185px，拉原图放大）
+    'A10': ('public/img/booths/A10/03.jpg', (306, 392, 491, 577), {'fileId': 'spectrum/1040g0k0325b21ei5kc105oo4n4pkg55cdovb0tg', 'upscale': True}),
     'A33': ('public/img/booths/A33/04.jpg', (134, 451, 247, 564), {'fileId': 'notes_pre_post/1040g3k8325b462eq4q7g5ndsvnjg8si4p8cea60', 'upscale': True}),
     # 归环「PIN 卡」（官方奖品图里的卡片实物，约 136×82，横长比 1.66:1 —— 不是 RED LAND 软盘造型，是否属区域 PIN 待确认）
     'A17b-1': ('public/img/booths/A17b/04.jpg', (249, 562, 387, 646), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
