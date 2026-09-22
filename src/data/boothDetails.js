@@ -3488,8 +3488,39 @@ const qijie = {
   ],
 }
 
+const gundamAssemble = {
+  source: {
+    title: '【活动预告】《GUNDAM ASSEMBLE 高达汇战》即将亮相REDLAND！',
+    url: 'https://xhslink.cn/o/8CewNXalODu',
+    noteId: '6aacf7d50000000012036262',
+    author: '高达汇战',
+    publishedAt: '2026-09-20',
+  },
+  boothNo: 'C19',
+  location: '重生试炼场 C19',
+  intro: '《GUNDAM ASSEMBLE 高达汇战》即将亮相 REDLAND！经典机体集结，开启你的创作之旅！',
+  notes: [
+    '官方只给了三个现场亮点，周边款式、涂装体验的场次 / 是否需要排队或预约都未公布。',
+    '海报标注为 Global Launch Tour 的一站，另注「微信搜索「万代桌游」小程序了解更多」（非小红书渠道，仅记录原文）。',
+  ],
+  activities: [
+    { title: '产品实物展示', desc: '现场展示《GUNDAM ASSEMBLE 高达汇战》的产品实物。' },
+    { title: '涂装体验活动', desc: '亲手为经典机体赋予全新色彩，发挥创意，创作独一无二的专属高达。' },
+    { title: '活动周边领取', desc: '现场提供活动周边领取，款式与领取条件官方未公布。', rewards: ['活动周边（款式待公布）'] },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [{ name: '活动周边（款式与领取条件待公布）', how: '在 C19 展台现场领取，具体规则以现场为准' }],
+  footnote: '涂装体验与周边领取的具体规则、数量限制官方均未公布。',
+  images: [
+    { src: 'img/booths/C19/00.jpg', caption: '高达汇战 · RED LAND 参展确认（C 区 C19 展台，高达汇战 9/20）' },
+    { src: 'img/booths/C19/01.jpg', caption: 'GUNDAM ASSEMBLE Global Launch Tour · Redland 参展确认' },
+  ],
+}
+
 export default {
   A40: lightAndNight,
+  C19: gundamAssemble,
   A14b: cyberpunk2077,
   A02: deltaForce,
   A30: qijie,

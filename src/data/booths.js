@@ -105,7 +105,7 @@ export const booths = [
   { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },
   { id: 'C17', zone: 'C', no: 'C17', ip: '航海王卡牌对战', blurb: '让我们一起扬帆出海开启冒险之旅！', xhs: { uid: '680dbd12000000000a03c298', name: '航海王卡牌对战' } },
   { id: 'C18', zone: 'C', no: 'C18', ip: '闪魂', blurb: '穿越次元裂缝，觉醒你的主角之魂', xhs: { uid: '64be22f6000000002b00b37a', name: '闪魂ShiningSoul' } },
-  { id: 'C19', zone: 'C', no: 'C19', ip: '高达汇战', alias: 'GUNDAM 敢达', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'C19', zone: 'C', no: 'C19', ip: '高达汇战', alias: 'GUNDAM 敢达 GUNDAM ASSEMBLE', blurb: '经典机体集结，开启你的创作之旅 —— 产品展示 / 涂装体验 / 周边领取', xhs: { uid: '6a8274390000000013031c03', name: '高达汇战' } },
   { id: 'C20', zone: 'C', no: 'C20', ip: '符文战场', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
 ]
 
