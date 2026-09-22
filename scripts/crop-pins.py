@@ -26,10 +26,11 @@ CROPS = {
     # id: (源图, (left, top, right, bottom))
     'A06': ('public/img/booths/A06/07.jpg', (555, 850, 665, 970), {'upscale': True}),
     'A09-1': ('public/img/booths/A09/01.jpg', (125, 730, 398, 1008)),
-    # B09 两枚徽章在图里只有 ~110px：日场款右下角被夜场款压住、底边被「日场款」红标压住，只取到红标上沿；
-    # 夜场款左半边被日场款压住，左边会带一点日场款的边，底边贴着「夜场款」红标上沿（9/20 重抠，原框把两枚都切残了）
-    'B09-1': ('public/img/booths/B09/05.jpg', (98, 389, 208, 492), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
-    'B09-2': ('public/img/booths/B09/05.jpg', (186, 457, 283, 561), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
+    # B09 两枚徽章在原图里只有 ~112px 且**互相叠压**（日场款右下角被夜场款盖住，两枚底边各被「日场款」/「夜场款」红标盖住）。
+    # 9/22 第三次重抠：不再沿着「能看到的部分」切（那样软盘被削成长方形、夜场款还会带进日场款的灰条文字），
+    # 改成按软盘本身的正方形轮廓取整枚（112×112），底部因此会带一点官方红标与邻枚的黄边 —— 形状完整优先（用户 9/22）
+    'B09-1': ('public/img/booths/B09/05.jpg', (98, 393, 210, 505), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
+    'B09-2': ('public/img/booths/B09/05.jpg', (159, 461, 270, 571), {'fileId': 'spectrum/1040g34o3253i1j3m30b05obic3kgkjin8ofehvo', 'upscale': True}),
     'A09-2': ('public/img/booths/A09/01.jpg', (425, 730, 698, 1008)),
     'A24-1': ('public/img/booths/A24/02.jpg', (516, 608, 702, 792)),
     'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),
@@ -60,6 +61,9 @@ CROPS = {
     # 归环「PIN 卡」（官方奖品图里的卡片实物，约 136×82，横长比 1.66:1 —— 不是 RED LAND 软盘造型，是否属区域 PIN 待确认）
     'A17b-1': ('public/img/booths/A17b/04.jpg', (249, 562, 387, 646), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
     'A17b-2': ('public/img/booths/A17b/04.jpg', (247, 662, 385, 746), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
+    # B03 Lovania「RED LAND 存档碎片」：官方只在「集章礼」格子里画了软盘造型的粉色图案（方形 + 中间浅色标签），没给成品实拍。
+    # 图案在原图里**斜着摆**，按投影扫描定角 18°（逆时针转正后 92×93 的方形），转正后按同一个框裁（用户 9/22 要求这种也进图鉴）
+    'B03-pin': ('public/img/booths/B03/03.jpg', (296, 515, 395, 615), {'fileId': 'spectrum/1040g34o3254quebmkc1043d79goggb4aakpvmig', 'rotate': 18, 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

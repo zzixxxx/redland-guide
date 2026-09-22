@@ -18,7 +18,7 @@ export const booths = [
   { id: 'A04', zone: 'A', no: 'A04', ip: '待解锁', blurb: '官方场馆平面图标注「待解锁」，IP 待公布' },
   { id: 'A05', zone: 'A', no: 'A05', ip: '心动小镇', blurb: '小镇庆典日开张，庆典派对狂欢不停！', xhs: { uid: '60e29bf70000000020029ea6', name: '心动小镇' } },
   { id: 'A06', zone: 'A', no: 'A06', ip: '星布谷地', blurb: '米哈游最新生活模拟游戏国内首展，感受治愈新生活！', xhs: { uid: '619603700000000021028fc6', name: '星布谷地' } },
-  { id: 'A07', zone: 'A', no: 'A07', ip: '京东 101HOME', alias: 'JD 京东101HOME', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'A07', zone: 'A', no: 'A07', ip: '京东 101HOME', alias: 'JD 京东101HOME', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布', xhs: { uid: '6315d8ba000000001501a9e9', name: '京东101HOME' } },
   { id: 'A08', zone: 'A', no: 'A08', ip: '代号如意', blurb: '探索他的生活与秘密，完成只属于妳的心动任务。', xhs: { uid: '64a191bc000000000b01488b', name: '代号如意' } },
   { id: 'A09', zone: 'A', no: 'A09', ip: '崩坏：星穹铁道', blurb: '快来看看银河球棒侠和 TA 的小伙伴们吧！', xhs: { uid: '61dd94d3000000001000b155', name: '崩坏：星穹铁道' } },
   { id: 'A10', zone: 'A', no: 'A10', ip: '原神', blurb: '这是于严寒中淬炼的文明，至冬已至', xhs: { uid: '5eb67f19000000000100787f', name: '原神' } },

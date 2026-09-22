@@ -410,3 +410,95 @@ export const equipPack = {
     publishedAt: '2026-09-15',
   },
 }
+
+// 岛上餐饮指南（RED LAND 官方号 2026-09-21「Let´s 嚼嚼嚼！主角们请查收小岛餐饮指南」）
+// 三个区域各一处餐饮区 + 自助贩卖机；逐家展商的商品清单太细（27 家 / 116 种），数据只留要点，清单按图看
+export const dining = {
+  title: '岛上餐饮指南',
+  subtitle: '三个区域各设一处餐饮区，另配零食 / 饮品自助贩卖机',
+  intro: '大家关心的餐饮问题，本薯必须安排到位！',
+  points: [
+    '🏝️ 登岛见面礼：成功登岛后前往【装备区】领装备包，里面有能量补给包 —— 曲奇随机二选一（皇冠抱抱曲奇 / 皇冠醇巧黄油曲奇）、饮品随机二选一（统一阿萨姆茉莉奶绿 / 统一冰红茶）。',
+    '🍴 三个区域各设有一处【餐饮区】，供应各类美食，并且每处餐饮区都配备了零食 / 饮品自助贩卖机，逛累了随时补体力。',
+    '📍 三处餐饮区分别在 A 翻身时空港 / B 黄金海岸线 / C 重生试炼场，具体位置可翻阅装备包里的冒险者手册。',
+  ],
+  survey: {
+    title: '官方价格调查',
+    items: [
+      '全岛餐饮均明码标价，大部分餐饮设置了登岛专属优惠',
+      '全岛餐饮商（含带餐 IP 展商）共 27 家，餐饮品类共 116 种',
+      '低于市场价餐食约 37%、与市场价持平约 63%、高于市场价 0 种',
+    ],
+  },
+  images: [
+    { src: 'img/rules/dining/00.jpg', alt: '小岛餐饮指南主视觉' },
+    { src: 'img/rules/dining/01.jpg', alt: 'A 区 翻身时空港 · 展商与主要产品（1/4）' },
+    { src: 'img/rules/dining/02.jpg', alt: 'A 区 翻身时空港 · 展商与主要产品（2/4）' },
+    { src: 'img/rules/dining/03.jpg', alt: 'A 区 翻身时空港 · 展商与主要产品（3/4）' },
+    { src: 'img/rules/dining/04.jpg', alt: 'A 区 翻身时空港 · 展商与主要产品（4/4）' },
+    { src: 'img/rules/dining/05.jpg', alt: 'B 区 黄金海岸线 · 展商与主要产品（1/4）' },
+    { src: 'img/rules/dining/06.jpg', alt: 'B 区 黄金海岸线 · 展商与主要产品（2/4）' },
+    { src: 'img/rules/dining/07.jpg', alt: 'B 区 黄金海岸线 · 展商与主要产品（3/4）' },
+    { src: 'img/rules/dining/08.jpg', alt: 'B 区 黄金海岸线 · 展商与主要产品（4/4）' },
+    { src: 'img/rules/dining/09.jpg', alt: 'C 区 重生试炼场 · 展商与主要产品（1/3）' },
+    { src: 'img/rules/dining/10.jpg', alt: 'C 区 重生试炼场 · 展商与主要产品（2/3）' },
+    { src: 'img/rules/dining/11.jpg', alt: 'C 区 重生试炼场 · 展商与主要产品（3/3）' },
+  ],
+  note: '各展商的商品与价格以现场实际为准。',
+  source: {
+    title: 'Let´s 嚼嚼嚼！主角们请查收小岛餐饮指南',
+    url: 'https://xhslink.cn/o/4VHFJv28Ihc',
+    noteId: '6ab13b44000000003703e7e9',
+    author: 'RED LAND',
+    publishedAt: '2026-09-21',
+  },
+}
+
+// 商圈票根联动优惠（RED LAND 官方号 2026-09-20「展示薯脉！摇来了冒险岛周边商场联动优惠！」）
+// 凭主角通行证票根到 7 家联动商场的合作门店解锁优惠；不是购票渠道 / 票价信息，属到场后的场外福利
+export const mallDeals = {
+  title: '商圈票根联动优惠',
+  subtitle: '10 月 2 日 – 10 月 6 日 · 凭主角通行证票根在 7 家联动商场解锁专享优惠',
+  malls: [
+    '上海五角场万达广场',
+    '上海五角场合生汇',
+    '百联ZX造趣场',
+    '五角场百联又一城',
+    'KIC 创智天地',
+    '上海国华广场',
+    '上海国际时尚中心',
+  ],
+  kinds: ['进场即赠', '折扣', '优惠券', '满赠', '满减', '买赠'],
+  points: [
+    '一定要保管好主角通行证票根，前往联动商场的合作门店出示票根即可解锁福利。',
+    '餐饮、饮品、服饰零售、娱乐休闲、数码等多种类型商家的优惠都有。',
+    '部分商户福利数量有限，先到先得；具体福利以现场实际为准。',
+    '官方写「商圈合作更多福利加载中」，10 月前可能还会追加。',
+  ],
+  images: [
+    { src: 'img/rules/mall/00.jpg', alt: '商圈票根联动优惠主视觉' },
+    { src: 'img/rules/mall/01.jpg', alt: '上海五角场万达广场 · 票根专享优惠（1/2）' },
+    { src: 'img/rules/mall/02.jpg', alt: '上海五角场万达广场 · 票根专享优惠（2/2）' },
+    { src: 'img/rules/mall/03.jpg', alt: '联动商场详情（Rollin´Wild × TOON MAX 联名场 1/3）' },
+    { src: 'img/rules/mall/04.jpg', alt: '联动商场详情（Rollin´Wild × TOON MAX 联名场 2/3）' },
+    { src: 'img/rules/mall/05.jpg', alt: '联动商场详情（Rollin´Wild × TOON MAX 联名场 3/3）' },
+    { src: 'img/rules/mall/06.jpg', alt: '联动商场详情' },
+    { src: 'img/rules/mall/07.jpg', alt: '联动商场详情' },
+    { src: 'img/rules/mall/08.jpg', alt: 'KIC 创智天地 · 票根专享优惠（1/5）' },
+    { src: 'img/rules/mall/09.jpg', alt: 'KIC 创智天地 · 票根专享优惠（2/5）' },
+    { src: 'img/rules/mall/10.jpg', alt: 'KIC 创智天地 · 票根专享优惠（3/5）' },
+    { src: 'img/rules/mall/11.jpg', alt: 'KIC 创智天地 · 票根专享优惠（4/5）' },
+    { src: 'img/rules/mall/12.jpg', alt: 'KIC 创智天地 · 票根专享优惠（5/5）' },
+    { src: 'img/rules/mall/13.jpg', alt: '联动商场详情' },
+    { src: 'img/rules/mall/14.jpg', alt: '上海国际时尚中心 · 票根专享优惠（1/2）' },
+    { src: 'img/rules/mall/15.jpg', alt: '上海国际时尚中心 · 票根专享优惠（2/2）' },
+  ],
+  note: '逐张图对应哪家商场只标了图头能确认的部分，其余按官方原图收录、不猜。',
+  source: {
+    title: '展示薯脉！摇来了冒险岛周边商场联动优惠！',
+    url: 'https://xhslink.cn/o/1kVpi26uLjX',
+    noteId: '6aaffdd3000000000d02712a',
+    author: 'RED LAND',
+    publishedAt: '2026-09-20',
+  },
+}

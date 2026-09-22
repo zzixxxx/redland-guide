@@ -26,6 +26,8 @@ export const pins = [
   // 原神的徽章是 RED LAND 软盘造型（灰条 + 小红书角标齐全），但**软盘是蓝色**——A 区已确认的存档碎片都是橙色（见 A11 / A17c / A25 / A33），
   // 官方原文也只写「徽章一份」而不是「存档碎片」，所以是否计入 A 区拼图结算待确认，已写在 name 里
   { id: 'A10', no: 'A10', type: 'region', zone: 'A', name: '《原神》REDLAND 2026 徽章 · 派蒙点赞款（软盘为蓝色，非 A 区橙，是否计入区域拼图待确认）', booth: 'A10', how: '在 RED LAND 主会场页面预约后，参与展台【体验互动】领取', thumb: 'img/pins/A10.jpg', image: 'img/booths/A10/03.jpg' },
+  // C-04 独立游戏大食堂（RED LAND 官方 9/21）：试玩 3 款游戏 + 出口结算处的「心选菜单小票」解锁，官方未放实物图
+  { id: 'C04', no: 'C04', type: 'region', zone: 'C', name: '独立游戏大食堂存档碎片（样式待公布）', booth: 'C04', how: '在食堂各档口试玩满 3 款游戏，到出口结算处核验、生成「心选菜单小票」后解锁；数量有限先到先得', thumb: null, image: 'img/booths/C04/hall-00.jpg' },
   // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）
   { id: 'A17b-1', no: 'A17b-1', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型一（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b-1.jpg', image: 'img/booths/A17b/04.jpg' },
   { id: 'A17b-2', no: 'A17b-2', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型二（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '同造型一，为官方奖品图里的第二款', thumb: 'img/pins/A17b-2.jpg', image: 'img/booths/A17b/04.jpg' },
@@ -49,7 +51,7 @@ export const pins = [
   { id: 'B09-2', no: 'B09-2', type: 'region', zone: 'B', name: '《重返未来：1999》徽章 · 夜场款', booth: 'B09', how: '完成展台互动问答领取；17:30–21:30，每日 400 份', thumb: 'img/pins/B09-2.jpg', image: 'img/booths/B09/05.jpg' },
   { id: 'B02-pin-1', no: 'B02-1', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 皮卡丘款', booth: 'B02', how: '护照集章任务 1·2·3，12:30–17:30 领，每日 2500', thumb: 'img/pins/B02-1.jpg', image: 'img/booths/B02/04.jpg' },
   { id: 'B02-pin-2', no: 'B02-2', type: 'region', zone: 'B', name: '宝可梦江畔乐游主题 PIN · 谜拟丘款', booth: 'B02', how: '护照集章任务 1·2·3·6，17:30–21:30 领，每日 2000', thumb: 'img/pins/B02-2.jpg', image: 'img/booths/B02/04.jpg' },
-  { id: 'B03-pin', no: 'B03', type: 'region', zone: 'B', name: 'RED LAND 存档碎片（Lovania，样式待公布）', booth: 'B03', how: '在「不忘乡」展台完成指定集章任务，与「神秘气球」一同发放', thumb: null, image: 'img/booths/B03/03.jpg' },
+  { id: 'B03-pin', no: 'B03', type: 'region', zone: 'B', name: 'RED LAND 存档碎片（Lovania，官方只给了粉色软盘造型图案，未出成品实拍）', booth: 'B03', how: '在「不忘乡」展台完成指定集章任务，与「神秘气球」一同发放', thumb: 'img/pins/B03-pin.jpg', image: 'img/booths/B03/03.jpg' },
   { id: 'B15-pin', no: 'B15', type: 'region', zone: 'B', name: 'REDLAND PIN（逆水寒 · 血河小狗款）', booth: 'B15', how: '参与逆水寒展台现场趣味互动', thumb: 'img/pins/B15.jpg', image: 'img/booths/B15/02.jpg' },
   { id: 'C16-pin', no: 'C16', type: 'region', zone: 'C', name: '宝可梦卡牌「存档碎片」· 超梦 & 梦幻款', booth: 'C16', how: '卡牌体验营完成 3 个任务领取；日场款 12:30–17:30 每日 2000 个，夜场款（夜光）17:30–21:30 每日 1200 个，每人每次限领 1 个', thumb: 'img/pins/C16.jpg', image: 'img/booths/B02/card-03.jpg' },
   { id: 'C08-pin', no: 'C08', type: 'region', zone: 'C', name: 'REDLAND 官方 PIN（猛兽派对，样式待公布）', booth: 'C08', how: '完成《猛兽派对》手游试玩得限定贴纸后到吧台兑换；或与随机现身的猛兽主角合影互动有机会获得', thumb: null, image: 'img/booths/C08/00.jpg' },

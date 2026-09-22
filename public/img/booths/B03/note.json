@@ -30,5 +30,12 @@
     "spectrum/1040g34o3254qucbg441043d79goggb4ahip4qq8",
     "spectrum/1040g34o3254quebmkc1043d79goggb4aakpvmig",
     "spectrum/1040g34o3254qugb0ka1043d79goggb4a6mk2fn0"
-  ]
+  ],
+  "keptIndex": {
+    "00.jpg": 0,
+    "01.jpg": 1,
+    "02.jpg": 2,
+    "03.jpg": 3,
+    "04.jpg": 4
+  }
 }

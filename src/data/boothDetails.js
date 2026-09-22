@@ -1620,7 +1620,7 @@ const eggy = {
     {
       title: 'Step2 解锁附加认证',
       items: [
-        { title: '竞技性能车间｜限时水友赛', desc: '提前预约现场限时水友赛，开启蛋仔竞技对决，奖品拿不停。', note: '需提前预约' },
+        { title: '竞技性能车间｜限时水友赛', needBooking: true, desc: '提前预约现场限时水友赛，开启蛋仔竞技对决，奖品拿不停。', note: '需提前预约' },
         { title: '道路测试车间｜蛋仔冲冲冲', desc: '通过身体动作操控屏幕中的蛋仔，体验现实版蛋仔派对。' },
       ],
       rewards: ['升级周边', '水友赛奖品'],
@@ -2180,6 +2180,7 @@ const lovania = {
       items: [
         {
           title: '游戏试玩',
+          needBooking: true,
           desc: '参与现场试玩，抢先体验 Lovania',
           note: '需提前预约，预约开放时间请关注后续情报',
           rewards: ['牧牧星相机衍射卡'],
@@ -3255,28 +3256,50 @@ const genshin = {
 
 const indieHall = {
   source: {
-    title: 'RED LAND 独立游戏试玩区 · 近百款独立游戏集中上桌，欢迎登岛品鉴',
-    url: 'https://xhslink.com/m/4VL27MmQ48U',
-    noteId: '93f070416d60405ea59f29bb691a0df3',
-    author: 'RED LAND 官方',
-    publishedAt: '2026-09-09',
+    title: '震撼美味独立游戏大食堂 主角请慢用🍚',
+    url: 'https://xhslink.cn/o/742GZ7Nnuk8',
+    noteId: '6ab0b56500000000290135f1',
+    author: 'RED LAND',
+    publishedAt: '2026-09-21',
   },
   boothNo: 'C-04',
   location: '重生试炼场「独立游戏大食堂」',
-  intro: '',
+  intro: '铛铛铛~「独立游戏大食堂」开张啦！独立游戏试玩豪华套餐主角请慢用~',
   notes: [
-    '84 款试玩名单见本页下方「🕹 独立游戏试玩名单」，来源为官方独立游戏聚合页；各摊位的具体无料 / 试玩情报由参展团队自己发布，收到一条补一条。',
+    '官方这条写「80 款独立游戏硬菜」，而独立游戏聚合页 9/9 版的名单是 84 款（见本页下方「🕹 独立游戏试玩名单」），两边口径不同，以现场档口为准。',
+    '各摊位的具体无料 / 试玩情报由参展团队自己发布，收到一条补一条；摊位号也只能从各家自己的笔记里拿到（聚合页只给名单）。',
     '「愿望单」指该游戏的愿望单加入记录，领无料时需现场出示。',
   ],
   activities: [
+    {
+      title: '展区分区（按官方效果图）',
+      items: [
+        { title: '主创区', desc: '「独游主理人私房菜」区域，设试玩机位、独家特供档口与「勇者请开动」拍照墙。' },
+        { title: '公共区', desc: '各档口试玩区与休息区（红黄小板凳 + 长桌），出口处设结算处，另有零食饮料贩卖机。' },
+      ],
+    },
     {
       ip: '救世阿姨',
       title: '摊位位置与线下限定试玩版',
       desc: '摊位在 C-04 独立游戏大食堂 Z34 – Z35（离出口处最近的角落）。现场有线下限定试玩版公开中，可体验阿姨们拯救世界的冒险。',
     },
   ],
-  stage: [],
+  stage: [
+    {
+      title: '10+ 位独立游戏制作人亲临现场',
+      desc: '展位现场集结 10+ 位独立游戏制作人，与主角们面对面安利自己的心选游戏菜单、挖掘幕后开发小故事；具体到场名单、日期与时段官方未公布。',
+    },
+  ],
   tasks: [
+    {
+      title: '独立游戏大食堂 · 试玩打卡（两步）',
+      items: [
+        { title: '前往食堂各个档口自由排队试玩', desc: '完成试玩即可收获独立游戏试玩打卡印章。' },
+        { title: '体验结束前往出口结算处核验', desc: '生成专属「心选菜单小票」，凭小票解锁相应奖励。' },
+      ],
+      note: '奖励数量有限，先到先得',
+      rewards: ['试吃 3 道游戏：独立游戏大食堂存档碎片 ×1 枚', '试吃 7 道游戏：触发「福利加菜」，可抽取神秘好礼'],
+    },
     {
       ip: '救世阿姨',
       title: '摊位无料领取（4 款）',
@@ -3298,14 +3321,30 @@ const indieHall = {
     },
   ],
   rewards: [
-    { name: '香薰卡挂件', how: '《救世阿姨》摊位（Z34 – Z35）到场即可领取' },
-    { name: '邮票贴纸（随机款式 1 张）', how: '出示愿望单加入记录，或关注其小红书账号' },
-    { name: '像素风贴纸 5 枚套装', how: '出示愿望单加入记录 + 现场试玩并留下反馈；限量先到先得' },
-    { name: 'Q 版粒牌 5 个套装', how: '出示愿望单加入记录 + 发布含现场照片、带 #救世阿姨 话题的公开笔记；限量先到先得' },
+    {
+      name: '独立游戏大食堂存档碎片',
+      how: '试玩（官方写「试吃」）3 道游戏后，凭出口结算处生成的「心选菜单小票」解锁；数量有限先到先得',
+      pin: true,
+      pinId: 'C04',
+    },
+    { name: '「福利加菜」神秘好礼（抽取）', how: '试玩 7 道游戏后触发，可抽取一次；数量有限先到先得' },
+    { name: '独立游戏试玩打卡印章', how: '在各档口完成一款游戏的试玩即可获得' },
+    { name: '香薰卡挂件（救世阿姨）', how: '《救世阿姨》摊位（Z34 – Z35）到场即可领取' },
+    { name: '邮票贴纸 随机 1 张（救世阿姨）', how: '出示愿望单加入记录，或关注其小红书账号' },
+    { name: '像素风贴纸 5 枚套装（救世阿姨）', how: '出示愿望单加入记录 + 现场试玩并留下反馈；限量先到先得' },
+    { name: 'Q 版粒牌 5 个套装（救世阿姨）', how: '出示愿望单加入记录 + 发布含现场照片、带 #救世阿姨 话题的公开笔记；限量先到先得' },
   ],
-  footnote: '以上无料由《救世阿姨》摊位（陆生海胆LandUni）发放，限量款先到先得。',
+  footnote:
+    '大食堂的存档碎片与「福利加菜」由 RED LAND 官方发放，救世阿姨那四款无料由该摊位（陆生海胆LandUni）自己发放，限量款先到先得。',
   accounts: [{ uid: '67b540ad000000000a03c4ee', name: '陆生海胆LandUni（救世阿姨）' }],
   moreSources: [
+    {
+      title: 'RED LAND 独立游戏试玩区 · 近百款独立游戏集中上桌（官方聚合页，84 款名单出处）',
+      url: 'https://xhslink.com/m/4VL27MmQ48U',
+      noteId: '93f070416d60405ea59f29bb691a0df3',
+      author: 'RED LAND 官方',
+      publishedAt: '2026-09-09',
+    },
     {
       title: 'REDLAND福利！来救世阿姨摊位领取无料吧！',
       url: 'https://xhslink.cn/o/7tgUsMYiy4k',
@@ -3315,13 +3354,145 @@ const indieHall = {
     },
   ],
   images: [
-    { src: 'img/booths/C04/jiushiayi-00.jpg', caption: '救世阿姨 · REDLAND 参展无料公开（摊位 C-04 独游区 Z34 – Z35，陆生海胆LandUni 9/21）' },
+    { src: 'img/booths/C04/hall-00.jpg', caption: '独立游戏大食堂 · 打卡攻略与兑换福利（RED LAND 官方 9/21）' },
+    { src: 'img/booths/C04/hall-01.jpg', caption: '主创区效果图 ·「独游主理人私房菜」与独家特供档口' },
+    { src: 'img/booths/C04/hall-02.jpg', caption: '公共区效果图 · 各档口试玩区与休息区' },
+    { src: 'img/booths/C04/jiushiayi-00.jpg', caption: '救世阿姨 · REDLAND 参展无料公开（摊位 Z34 – Z35，陆生海胆LandUni 9/21）' },
     { src: 'img/booths/C04/jiushiayi-01.jpg', caption: '救世阿姨 · 四款无料的领取规则' },
+  ],
+}
+
+const cyberpunk2077 = {
+  source: {
+    title: 'REDLAND 2026 | 《赛博朋克 2077》展台介绍',
+    url: 'https://xhslink.cn/o/JtCs3GTaSD',
+    noteId: '6aad1e01000000002b027218',
+    author: 'CD PROJEKT RED',
+    publishedAt: '2026-09-19',
+  },
+  boothNo: 'A14（CD PROJEKT RED 展台，三 IP 共用）',
+  location: '翻身时空港 A14',
+  intro:
+    '要是去海伍德谷地区转一圈，第一站应该去哪儿？当然是野狼酒吧！展台以瓦伦蒂诺帮的老地方「野狼酒吧」为主题，全新街机摩托「夜城狂飙」及集换式卡牌《赛博朋克TCG》将惊喜登场。',
+  notes: [
+    'A-14 是 CD PROJEKT RED 一个展台，巫师3（A14a）/ 赛博朋克2077（A14b）/ 赛博朋克：边缘行者2（A14c）三条 IP 线各发各的笔记，展位号相同。',
+    '本条没有公布任何预约、任务或 PIN 情报，现场规则以官方后续公告为准。',
+  ],
+  activities: [
+    {
+      title: 'PART 01 · 野狼酒吧（Wild Wolf Bar）',
+      desc: '既然到了瓦伦蒂诺帮的地盘，当然得来野狼酒吧坐坐。这里除了酒和故事，还会随机刷新一些新朋友、老朋友。',
+      items: [
+        { title: '新老朋友出没', desc: '留意四周 —— 强尼 · 银手可能就在附近晃悠。' },
+        { title: '体验夜之城最新超梦', desc: '使用 VITURE XR 眼镜试玩《赛博朋克 2077》。' },
+      ],
+    },
+    {
+      title: 'PART 02 · 竞速街机「夜城狂飙」',
+      desc: '骑上草薙 CT-3X 在夜之城尽兴狂飙，和其他佣兵来场正面较量。官方原话：规矩很简单 —— 车够快，话就不用多，油门到底，choom！',
+    },
+    {
+      title: 'PART 03 · 中文首曝《赛博朋克TCG》集换式卡牌',
+      desc: '《赛博朋克TCG》集换式卡牌的简体中文版将在现场首次亮相。夜之城什么都能拿来交易「情报、义体、人情」，现在还多了一样：你的卡牌。',
+    },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [],
+  footnote: '展台位于 A14，与巫师3、赛博朋克：边缘行者2 共用；卡牌是否发售 / 如何获取官方未公布。',
+  images: [
+    { src: 'img/booths/A14b/00.jpg', caption: '《赛博朋克 2077》展台介绍主视觉（CD PROJEKT RED 9/19）' },
+    { src: 'img/booths/A14b/01.jpg', caption: '欢迎来到瓦伦蒂诺帮的老地方 ——「野狼酒吧」' },
+    { src: 'img/booths/A14b/02.jpg', caption: 'PART 01 野狼酒吧 · 新老朋友出没与 VITURE XR 超梦试玩' },
+    { src: 'img/booths/A14b/03.jpg', caption: 'PART 02 竞速街机「夜城狂飙」· 草薙 CT-3X' },
+    { src: 'img/booths/A14b/04.jpg', caption: 'PART 03 中文首曝 ·《赛博朋克TCG》集换式卡牌' },
+  ],
+}
+
+const deltaForce = {
+  source: {
+    title: 'REDLAND吧唧抢先看（第一弹）',
+    url: 'https://xhslink.cn/o/5cTl3Nl4OXv',
+    noteId: '6aad18c5000000002502cba3',
+    author: '三角洲行动',
+    publishedAt: '2026-09-20',
+  },
+  moreSources: [
+    {
+      title: 'REDLAND吧唧抢先看（第二弹）',
+      url: 'https://xhslink.cn/o/8YfTDBIDUJ3',
+      noteId: '6aad18c800000000110327fb',
+      author: '三角洲行动',
+      publishedAt: '2026-09-21',
+    },
+  ],
+  boothNo: 'A02',
+  location: '翻身时空港 A02',
+  intro: '来洲洲大红街区观光做客，解锁干员撤离后的另一种生活 —— 快来大红街区和 mini 干员们见面吧！',
+  notes: [
+    '官方目前只放了吧唧（徽章）的款式预览，**没有公布获取方式**（是否售卖、是否属无料 / 任务奖励均未说明）。',
+    '官方注明：吧唧实物和设计图有细微差别。',
+    '这两条笔记里没有展台玩法、预约与 PIN 情报。',
+  ],
+  activities: [
+    {
+      title: '大红街区 · mini 干员吧唧抢先看',
+      desc: '展台周边「mini 干员」Q 版吧唧两弹已公布设计图（第一弹 5 款 + 第二弹 4 款，均标注「三角洲行动官方出品，仿冒必究」），获取方式待官方公布。',
+    },
+  ],
+  stage: [],
+  tasks: [],
+  rewards: [],
+  footnote: '吧唧款式以官方设计图为准，实物可能有细微差别；获取方式待公布。',
+  images: [
+    { src: 'img/booths/A02/bajji1-00.jpg', caption: '吧唧抢先看 第一弹 · 主视觉（三角洲行动 9/20）' },
+    { src: 'img/booths/A02/bajji1-01.jpg', caption: '第一弹 · Hackelaw' },
+    { src: 'img/booths/A02/bajji1-02.jpg', caption: '第一弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji1-03.jpg', caption: '第一弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji1-04.jpg', caption: '第一弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji1-05.jpg', caption: '第一弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji2-00.jpg', caption: '吧唧抢先看 第二弹 · 主视觉（三角洲行动 9/21）' },
+    { src: 'img/booths/A02/bajji2-01.jpg', caption: '第二弹 · Shepherd' },
+    { src: 'img/booths/A02/bajji2-02.jpg', caption: '第二弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji2-03.jpg', caption: '第二弹 · mini 干员款式' },
+    { src: 'img/booths/A02/bajji2-04.jpg', caption: '第二弹 · mini 干员款式' },
+  ],
+}
+
+const qijie = {
+  source: {
+    title: '七界到底有谁在？REDLAND首批嘉宾官宣！',
+    url: 'https://xhslink.cn/o/9hdmDM9rDhn',
+    noteId: '6a90fa2f000000002103037f',
+    author: '七界梦谭',
+    publishedAt: '2026-08-28',
+  },
+  boothNo: 'A30',
+  location: '翻身时空港 A30',
+  intro: '中式志怪冒险横跨昼夜，诡市修仙搓丹一展通 —— 首批嘉宾「诡市来客」已官宣。',
+  notes: ['官方写「更多活动资讯将于后续陆续公布」，展台玩法、任务与 PIN 情报均待公布。'],
+  activities: [],
+  stage: [
+    {
+      title: '首批嘉宾 ·「诡市来客」',
+      desc: '@王瀚哲（中国BOY）与 @张恩恩NNN 将与七界一同登上 REDLAND 2026，海报标注日期均为 10 月 4 日、地点 A30；具体时段与内容待官方公布。',
+      schedule: [{ day: '10月4日', guests: ['中国BOY · 王瀚哲', '张恩恩NNN'] }],
+    },
+  ],
+  tasks: [],
+  rewards: [],
+  footnote: '两位嘉宾的到场时段、互动形式官方尚未公布。',
+  images: [
+    { src: 'img/booths/A30/00.jpg', caption: '首批嘉宾「诡市来客」· 中国BOY · 王瀚哲（10 月 4 日 · A30）' },
+    { src: 'img/booths/A30/01.jpg', caption: '首批嘉宾「诡市来客」· 张恩恩NNN（10 月 4 日 · A30）' },
   ],
 }
 
 export default {
   A40: lightAndNight,
+  A14b: cyberpunk2077,
+  A02: deltaForce,
+  A30: qijie,
   A10: genshin,
   C04: indieHall,
   A17b: guihuan,
