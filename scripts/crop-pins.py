@@ -69,6 +69,9 @@ CROPS = {
     'B11': ('public/img/booths/B11/03.jpg', (542, 1294, 673, 1424), {'fileId': 'spectrum/1040g0k0325dsd06p581g5p9hsuoaja0bogarnqo', 'upscale': True}),
     'C01-1': ('public/img/booths/C01/00.jpg', (583, 954, 671, 1043), {'fileId': 'spectrum/1040g0k0325dnfnbs58005qhq95m36204i0762k8', 'upscale': True}),
     'C01-2': ('public/img/booths/C01/00.jpg', (664, 946, 748, 1043), {'fileId': 'spectrum/1040g0k0325dnfnbs58005qhq95m36204i0762k8', 'upscale': True}),
+    # 蛋仔派对 9/22 第二弹周边图鉴：存档碎片日 / 夜两款并排（810 基准各 ~80px，用 fileId 拉 1080 原图放大）
+    'B01-1': ('public/img/booths/B01/guide-05.jpg', (146, 466, 231, 549), {'fileId': 'spectrum/1040g0k0325e1qh2o4a2g5n305p34lh64i4ba4eg', 'upscale': True}),
+    'B01-2': ('public/img/booths/B01/guide-05.jpg', (240, 465, 325, 549), {'fileId': 'spectrum/1040g0k0325e1qh2o4a2g5n305p34lh64i4ba4eg', 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
