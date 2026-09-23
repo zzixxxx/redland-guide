@@ -94,7 +94,7 @@ const all = computed(() => {
 const filters = computed(() => [
   { key: 'ALL', label: '全部' },
   ...zones.map((z) => ({ key: z.key, label: z.region, count: all.value.filter((p) => p.zone === z.key && p.type === 'region').length })),
-  { key: 'special', label: '夜间 / NPC / 老玩家', count: pins.filter((p) => ['night', 'npc', 'veteran'].includes(p.type)).length },
+  { key: 'special', label: '夜间 / NPC / 老玩家 / 营地', count: pins.filter((p) => ['night', 'npc', 'veteran', 'camp'].includes(p.type)).length },
   { key: 'reward', label: '拼图', count: pins.filter((p) => p.type === 'reward').length },
 ])
 
@@ -102,7 +102,7 @@ const list = computed(() =>
   all.value.filter((p) => {
     if (onlyKnown.value && !p.thumb) return false
     if (filter.value === 'ALL') return true
-    if (filter.value === 'special') return ['night', 'npc', 'veteran'].includes(p.type)
+    if (filter.value === 'special') return ['night', 'npc', 'veteran', 'camp'].includes(p.type)
     if (filter.value === 'reward') return p.type === 'reward'
     return p.type === 'region' && p.zone === filter.value
   }),

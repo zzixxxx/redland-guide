@@ -9,6 +9,7 @@ export const pinTypes = [
   { key: 'night', name: '夜间 PIN', desc: '黑色夜间限定，夜间发放', color: '#1f2a1f' },
   { key: 'veteran', name: '老玩家专属 PIN', desc: '1.0 登岛老玩家线下兑换，每人限一个', color: '#c9a24a' },
   { key: 'npc', name: 'NPC 互动 PIN', desc: '与岛上 NPC 聊天互动、合拍打卡随机掉落，库存有限', color: '#ff4b4b' },
+  { key: 'camp', name: '冒险者营地 PIN', desc: '在冒险者营地官摄出片区参与互动拍摄（子弹时间）有机会解锁，样式待公布', color: null },
   { key: 'reward', name: '冒险者拼图', desc: '各区域集齐 PIN 后到结算点兑换，三块拼成冒险岛拼图完整体', color: null },
 ]
 
@@ -23,11 +24,18 @@ export const pins = [
   { id: 'A09-pin-1', no: 'A09-1', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · 角色款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-1.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A09-pin-2', no: 'A09-2', type: 'region', zone: 'A', name: '星穹铁道联名徽章 · LOGO 款', booth: 'A09', how: '现场互动打卡', thumb: 'img/pins/A09-2.jpg', image: 'img/booths/A09/01.jpg' },
   { id: 'A40', no: 'A40', type: 'region', zone: 'A', name: '《光与夜之恋》展台存档碎片（蓝鸟窗台款，橙）', booth: 'A40', how: '完成【窗畔花影】互动 或【绮梦花园】打卡，由工作人员在出口处发放（两项都需提前预约）', thumb: 'img/pins/A40.jpg', image: 'img/booths/A40/guide-16.jpg' },
-  // 原神的徽章是 RED LAND 软盘造型（灰条 + 小红书角标齐全），但**软盘是蓝色**——A 区已确认的存档碎片都是橙色（见 A11 / A17c / A25 / A33），
+  // 原神的徽章是 RED LAND 软盘造型（灰条 + 小红书角标齐全），但软盘是蓝色——A 区已确认的存档碎片都是橙色（见 A11 / A17c / A25 / A33），
   // 官方原文也只写「徽章一份」而不是「存档碎片」，所以是否计入 A 区拼图结算待确认，已写在 name 里
   { id: 'A10', no: 'A10', type: 'region', zone: 'A', name: '《原神》REDLAND 2026 徽章 · 派蒙点赞款（软盘为蓝色，非 A 区橙，是否计入区域拼图待确认）', booth: 'A10', how: '在 RED LAND 主会场页面预约后，参与展台【体验互动】领取', thumb: 'img/pins/A10.jpg', image: 'img/booths/A10/03.jpg' },
   // C-04 独立游戏大食堂（RED LAND 官方 9/21）：试玩 3 款游戏 + 出口结算处的「心选菜单小票」解锁，官方未放实物图
   { id: 'C04', no: 'C04', type: 'region', zone: 'C', name: '独立游戏大食堂存档碎片（样式待公布）', booth: 'C04', how: '在食堂各档口试玩满 3 款游戏，到出口结算处核验、生成「心选菜单小票」后解锁；数量有限先到先得', thumb: null, image: 'img/booths/C04/hall-00.jpg' },
+  { id: 'A27', no: 'A27', type: 'region', zone: 'A', name: '《无限暖暖》RED LAND 存档碎片（暖暖拍立得款，橙）', booth: 'A27', how: '在展区旋转木马区域参与指定互动活动，限量 2000 份、发完即止', thumb: 'img/pins/A27.jpg', image: 'img/booths/A27/07.jpg' },
+  { id: 'B10', no: 'B10', type: 'region', zone: 'B', name: '《明日方舟》REDLAND 存档碎片（罗德厨房款，黄）', booth: 'B10', how: '领随机食谱、规定时间内集齐指定食材后抽奖，金牌 / 主管 / 助理三档都有；每人一次', thumb: 'img/pins/B10.jpg', image: 'img/booths/B10/03.jpg' },
+  { id: 'B11', no: 'B11', type: 'region', zone: 'B', name: '《明日方舟：终末地》REDLAND 存档碎片（钓鳞款，黄）', booth: 'B11', how: '完成钓鳞挑战后抽奖，金 / 银 / 铜三档都有；每人一次', thumb: 'img/pins/B11.jpg', image: 'img/booths/B11/03.jpg' },
+  { id: 'C01-1', no: 'C01-1', type: 'region', zone: 'C', name: '《刺客信条：黑旗 记忆重置》RED LAND 2026 存档碎片 · 款一（蓝）', booth: 'C01', how: '参与展台活动（15 分钟实机试玩 / Coser 合影 / 历代角色投票榜）赢取，具体条件未公布', thumb: 'img/pins/C01-1.jpg', image: 'img/booths/C01/00.jpg' },
+  { id: 'C01-2', no: 'C01-2', type: 'region', zone: 'C', name: '《刺客信条：黑旗 记忆重置》RED LAND 2026 存档碎片 · 款二（蓝）', booth: 'C01', how: '同款一，官方图里两款并列', thumb: 'img/pins/C01-2.jpg', image: 'img/booths/C01/00.jpg' },
+  // 冒险者营地专属 PIN（RED LAND 官方号 9/22）：不属任何展位 / 区域，归到「夜间 / NPC / 老玩家 / 营地」那一筹
+  { id: 'CAMP', no: 'CAMP', type: 'camp', zone: null, name: '冒险者营地专属 PIN（样式待公布）', booth: null, how: '在冒险者营地「官摄出片区」参与互动拍摄（子弹时间），每日 12:30 – 16:00 / 18:00 – 21:00，有机会解锁', thumb: null, image: 'img/rules/camp/02.jpg' },
   // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）
   { id: 'A17b-1', no: 'A17b-1', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型一（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b-1.jpg', image: 'img/booths/A17b/04.jpg' },
   { id: 'A17b-2', no: 'A17b-2', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型二（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '同造型一，为官方奖品图里的第二款', thumb: 'img/pins/A17b-2.jpg', image: 'img/booths/A17b/04.jpg' },

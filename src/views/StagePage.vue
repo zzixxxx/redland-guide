@@ -43,6 +43,42 @@
           <span class="tag blue text">🌙 {{ campInfo.moon.name }} {{ campInfo.moon.time }}</span>
         </div>
         <div class="small mt-6">{{ campInfo.moon.desc }}</div>
+
+        <!-- 头车小舞台每日日程（RED LAND 官方号 9/22）：主理人 / 团建小赛 / ending 跟随页面 DAY，可折叠、默认收起 -->
+        <div class="hr" />
+        <div class="fold-head" @click="openCamp = !openCamp">
+          <div class="pcard-title" style="font-size:15px">🎪 {{ campProgram.title }}</div>
+          <span class="fold-arrow" :class="{ open: openCamp }">&gt;</span>
+        </div>
+        <div class="small muted mt-6">{{ campProgram.subtitle }}</div>
+        <template v-if="openCamp">
+          <div class="row wrap mt-10">
+            <span class="tag text">DAY{{ current.day }} 主理人</span>
+            <span class="pill warm">{{ hostOf(current.day).name }} ·「{{ hostOf(current.day).role }}」</span>
+          </div>
+          <div v-for="s in campProgram.schedule" :key="s.time" class="small mt-6">
+            <span class="pill">{{ s.time }}</span> <b>{{ s.name }}</b>
+            <div v-if="s.desc" class="mt-4 muted">{{ s.desc }}</div>
+          </div>
+          <div class="hr" />
+          <div class="small"><b>DAY{{ current.day }} 团建小赛 · {{ contestOf(current.day).theme }}</b><span v-if="contestOf(current.day).sub" class="muted">（{{ contestOf(current.day).sub }}）</span></div>
+          <div class="small mt-4" style="color:var(--brown)">任务：{{ contestOf(current.day).task }}</div>
+          <div class="small mt-4">{{ contestOf(current.day).content }}</div>
+          <div class="small mt-10"><b>DAY{{ current.day }} ending 大合影</b></div>
+          <div class="small mt-4">{{ endingOf(current.day) }}</div>
+          <div class="hr" />
+          <div class="small"><b>📷 拍照出片</b></div>
+          <div v-for="ph in campProgram.photo" :key="ph.name" class="small mt-6">
+            <b>{{ ph.name }}</b> <span class="pill" style="margin-left:4px">{{ ph.time }}</span>
+            <div class="mt-4">{{ ph.desc }}</div>
+          </div>
+          <div class="small mt-6">📰 DAY{{ current.day }} 主题报纸：{{ newspaperOf(current.day) }}</div>
+          <div class="small mt-6" style="color:var(--brown)">💡 {{ campProgram.tip }}</div>
+          <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+            <img v-for="(im, i) in campProgram.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(campImages, i)" />
+          </div>
+          <div class="small muted mt-6">图源：{{ campProgram.source.author }}「{{ campProgram.source.title }}」{{ campProgram.source.publishedAt }} · <a :href="campProgram.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a></div>
+        </template>
       </div>
     </div>
 
@@ -93,15 +129,23 @@ import { useRoute } from 'vue-router'
 import PageHeader from '../components/PageHeader.vue'
 import DayChips from '../components/DayChips.vue'
 import Lightbox from '../components/Lightbox.vue'
-import { campInfo, stageDays, stageSources } from '../data/stage.js'
+import { campInfo, campProgram, stageDays, stageSources } from '../data/stage.js'
 import { boothMap } from '../data/booths.js'
 import { useDay } from '../composables/useStore.js'
 import { ipRefersTo } from '../utils/ipMatch.js'
 import { flashAnchor } from '../utils/anchor.js'
 
 const { day } = useDay()
+
 const current = computed(() => stageDays.find((d) => d.day === day.value) || stageDays[0])
 const base = import.meta.env.BASE_URL
+// 头车小舞台日程按 DAY 取当日主理人 / 团建 / ending / 报纸
+const openCamp = ref(false)
+const hostOf = (d) => campProgram.hosts.find((h) => h.day === d) || { name: '待公布', role: '' }
+const contestOf = (d) => campProgram.contests.find((c) => c.day === d) || { theme: '待公布', task: '', content: '' }
+const endingOf = (d) => campProgram.endings.find((e) => e.day === d)?.desc || '待公布'
+const newspaperOf = (d) => campProgram.newspapers.find((n) => n.day === d)?.name || '待公布'
+const campImages = campProgram.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const openSrc = ref(true)
 
 // 灯箱：节目条目里补充笔记的图

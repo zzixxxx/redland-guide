@@ -64,6 +64,12 @@ CROPS = {
     # B03 Lovania「RED LAND 存档碎片」：官方只在「集章礼」格子里画了软盘造型的粉色图案（方形 + 中间浅色标签），没给成品实拍。
     # 图案在原图里**斜着摆**，按投影扫描定角 18°（逆时针转正后 92×93 的方形），转正后按同一个框裁（用户 9/22 要求这种也进图鉴）
     'B03-pin': ('public/img/booths/B03/03.jpg', (296, 515, 395, 615), {'fileId': 'spectrum/1040g34o3254quebmkc1043d79goggb4aakpvmig', 'rotate': 18, 'upscale': True}),
+    # 9/23 这批：无限暖暖（橙，178px 直接够）、明日方舟 / 终末地（黄，奖品图里只有 80–120px）、刺客信条两枚（蓝，并排各 ~80px）
+    'A27': ('public/img/booths/A27/07.jpg', (308, 538, 494, 724), {'fileId': 'spectrum/1040g0k0325dsisbjk6hg5oq6aam65v73p15sido', 'upscale': True}),
+    'B10': ('public/img/booths/B10/03.jpg', (494, 1478, 584, 1568), {'fileId': 'spectrum/1040g0k0325b1qso4kc005nsdhqcg85448fnd0k0', 'upscale': True}),
+    'B11': ('public/img/booths/B11/03.jpg', (542, 1294, 673, 1424), {'fileId': 'spectrum/1040g0k0325dsd06p581g5p9hsuoaja0bogarnqo', 'upscale': True}),
+    'C01-1': ('public/img/booths/C01/00.jpg', (583, 954, 671, 1043), {'fileId': 'spectrum/1040g0k0325dnfnbs58005qhq95m36204i0762k8', 'upscale': True}),
+    'C01-2': ('public/img/booths/C01/00.jpg', (664, 946, 748, 1043), {'fileId': 'spectrum/1040g0k0325dnfnbs58005qhq95m36204i0762k8', 'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

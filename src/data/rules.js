@@ -362,7 +362,7 @@ export const venueMapRef = {
 
 export const dailySchedule = [
   { time: '12:30 – 16:30', name: '花车打卡', where: '冒险者营地', kind: 'parade' },
-  { time: '13:30 – 16:00', name: '日光冒险（日光舞台）', where: '冒险者营地', kind: 'stage' },
+  { time: '13:30 – 16:00', name: '日光冒险（日光舞台）', where: '冒险者营地 · 头车小舞台：13:30 主理人见面会 → 14:30 团建小赛 → 15:00 整活 → 15:30 大合影', kind: 'stage' },
   { time: '15:00', name: '展台嘉宾刷新', where: '星布谷地等展台（以各展台公告为准）', kind: 'ip' },
   { time: '17:30 – 18:00', name: '花车巡游', where: '冒险者大道', kind: 'parade' },
   { time: '19:00 – 21:00', name: '月光舞台 LIVE', where: '冒险者营地', kind: 'stage' },
