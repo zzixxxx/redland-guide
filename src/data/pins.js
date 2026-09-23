@@ -36,9 +36,9 @@ export const pins = [
   { id: 'C01-2', no: 'C01-2', type: 'region', zone: 'C', name: '《刺客信条：黑旗 记忆重置》RED LAND 2026 存档碎片 · 款二（蓝）', booth: 'C01', how: '同款一，官方图里两款并列', thumb: 'img/pins/C01-2.jpg', image: 'img/booths/C01/00.jpg' },
   // 冒险者营地专属 PIN（RED LAND 官方号 9/22）：不属任何展位 / 区域，归到「夜间 / NPC / 老玩家 / 营地」那一筹
   { id: 'CAMP', no: 'CAMP', type: 'camp', zone: null, name: '冒险者营地专属 PIN（样式待公布）', booth: null, how: '在冒险者营地「官摄出片区」参与互动拍摄（子弹时间），每日 12:30 – 16:00 / 18:00 – 21:00，有机会解锁', thumb: null, image: 'img/rules/camp/02.jpg' },
-  // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）
-  { id: 'A17b-1', no: 'A17b-1', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型一（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b-1.jpg', image: 'img/booths/A17b/04.jpg' },
-  { id: 'A17b-2', no: 'A17b-2', type: 'region', zone: 'A', name: '归环 PIN 卡 · 造型二（卡片实物，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '同造型一，为官方奖品图里的第二款', thumb: 'img/pins/A17b-2.jpg', image: 'img/booths/A17b/04.jpg' },
+  // 归环 / 阅文的「PIN 卡」：官方都没给 RED LAND 软盘造型的成品图，是否算冒险者拼图用的区域 PIN 待确认（名字里已注明）。
+  // 归环 9/23 更正：奖品图里右上角黄色的 Q 版点赞卡才是 PIN 卡，之前抠的两张黑金「唱盘」卡片是透卡
+  { id: 'A17b', no: 'A17b', type: 'region', zone: 'A', name: '归环 PIN 卡（黄色 Q 版点赞卡片，非软盘造型，是否属区域 PIN 待确认）', booth: 'A17b', how: '在归环展位完成 1 项指定互动（开业免单大作战 / 开业好礼运送中 / 万物可归环）可得 1 个礼品，PIN 卡是「木剧场 / PIN 卡 / 透卡 / 立牌」四种礼品之一；同一互动重复参与只有首次给', thumb: 'img/pins/A17b.jpg', image: 'img/booths/A17b/04.jpg' },
   { id: 'A35', no: 'A35', type: 'region', zone: 'A', name: '阅文小伙伴集结 PIN 卡（官方未放图，是否属区域 PIN 待确认）', booth: 'A35', how: '道诡异仙「坐忘麻将馆」参与趣味游戏互动即得（与湿巾一同发放）；日场限时记忆绕口令、夜场反向指令游戏', thumb: null, image: 'img/booths/A35/daogui.jpg' },
   { id: 'A25-1', no: 'A25-1', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 日场款（橙）', booth: 'A25b', how: 'Aniplex 展台内拍照打卡 + 带 #国庆节在ANIPLEX展台当牛马 投稿小红书，随限定福袋发放；第一弹鬼灭之刃福袋与第二弹孤独摇滚福袋是同一对款式', thumb: 'img/pins/A25-1.jpg', image: 'img/booths/A25/second-00.jpg' },
   { id: 'A25-2', no: 'A25-2', type: 'region', zone: 'A', name: 'ANIPLEX「存档碎片」· 夜场款（黑绿）', booth: 'A25b', how: '与日场款为两款不同设计，同随限定福袋发放（第一弹 / 第二弹通用）', thumb: 'img/pins/A25-2.jpg', image: 'img/booths/A25/second-00.jpg' },

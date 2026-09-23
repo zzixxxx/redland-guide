@@ -58,9 +58,8 @@ CROPS = {
     # 原神 体验互动徽章（软盘造型但**蓝色**，与 A 区橙色分色规则不同，见 pins.js 备注；图里只有 185px，拉原图放大）
     'A10': ('public/img/booths/A10/03.jpg', (306, 392, 491, 577), {'fileId': 'spectrum/1040g0k0325b21ei5kc105oo4n4pkg55cdovb0tg', 'upscale': True}),
     'A33': ('public/img/booths/A33/04.jpg', (134, 451, 247, 564), {'fileId': 'notes_pre_post/1040g3k8325b462eq4q7g5ndsvnjg8si4p8cea60', 'upscale': True}),
-    # 归环「PIN 卡」（官方奖品图里的卡片实物，约 136×82，横长比 1.66:1 —— 不是 RED LAND 软盘造型，是否属区域 PIN 待确认）
-    'A17b-1': ('public/img/booths/A17b/04.jpg', (249, 562, 387, 646), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
-    'A17b-2': ('public/img/booths/A17b/04.jpg', (247, 662, 385, 746), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
+    # 归环「PIN 卡」= 奖品图右上角那张黄色 Q 版点赞卡片（106×85，卡片实物、非软盘造型）。9/23 用户指出：之前抠的两张黑金「唱盘」卡是透卡，抠错了
+    'A17b': ('public/img/booths/A17b/04.jpg', (425, 422, 539, 515), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
     # B03 Lovania「RED LAND 存档碎片」：官方只在「集章礼」格子里画了软盘造型的粉色图案（方形 + 中间浅色标签），没给成品实拍。
     # 图案在原图里**斜着摆**，按投影扫描定角 18°（逆时针转正后 92×93 的方形），转正后按同一个框裁（用户 9/22 要求这种也进图鉴）
     'B03-pin': ('public/img/booths/B03/03.jpg', (296, 515, 395, 615), {'fileId': 'spectrum/1040g34o3254quebmkc1043d79goggb4aakpvmig', 'rotate': 18, 'upscale': True}),
