@@ -337,12 +337,14 @@
         <a class="sticker" :href="boothSource.url" target="_blank" rel="noopener" @click="openPage($event, boothSource.url)">IP 展位一览</a>
         <span class="small" style="color:#fff;text-shadow:1px 1px 0 var(--navy);text-align:right">点击展位看活动 / 任务 / 奖励<br />📕 跳转该 IP 小红书主页</span>
       </div>
-      <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 编号，如 星布谷地、A06" />
+      <input v-model.trim="q" class="search" placeholder="搜索 IP 名 / 拼音 / 编号，如 星布谷地、xbgd、A06" />
       <div class="chips mt-10">
         <button class="chip" :class="{ on: zone === 'ALL' }" @click="zone = 'ALL'">全部<small>{{ booths.length }}</small></button>
         <button v-for="z in zones" :key="z.key" class="chip" :class="{ on: zone === z.key }" @click="zone = z.key">
           {{ z.name }}<small>{{ z.region }}（{{ z.count }}）</small>
         </button>
+        <!-- 需预约：boothDetails 里带 needBooking 的展位（用户 9/23 要求放在 C 区之后） -->
+        <button class="chip" :class="{ on: zone === 'BOOK' }" @click="zone = 'BOOK'">需预约<small>{{ bookingCount }}</small></button>
         <button class="chip" :class="{ on: zone === 'DETAIL' }" @click="zone = 'DETAIL'">有攻略<small>{{ detailCount }}</small></button>
         <button class="chip" :class="{ on: zone === 'DONE' }" @click="zone = 'DONE'">已打卡<small>{{ count }}</small></button>
       </div>
@@ -434,6 +436,7 @@ import PageHeader from '../components/PageHeader.vue'
 import Lightbox from '../components/Lightbox.vue'
 import { booths, zones } from '../data/booths.js'
 import boothDetails from '../data/boothDetails.js'
+import boothPinyin from '../data/boothPinyin.js'
 import { event, venueNav, mainline, eggs, places, dailySchedule, venueMap, venueMapRef, venueFacilities, equipPack, booking, dining, mallDeals } from '../data/rules.js'
 import { mapSpotList, mapSpots } from '../data/mapSpots.js'
 import { planRoute } from '../utils/plan.js'
@@ -514,6 +517,7 @@ const bookingIds = new Set(
     .map(([id]) => id),
 )
 const needsBooking = (id) => bookingIds.has(id)
+const bookingCount = booths.filter((b) => bookingIds.has(b.id)).length
 // 搜索附加关键词：主账号昵称 + 详情里各 IP 官方账号 / 其他官方笔记作者（多 IP 共用展位时能搜到子 IP，如搜「魔兽」「炉石」出暴雪游戏，搜「假面骑士」出 SCLA）
 const extraKeys = Object.fromEntries(
   booths.map((b) => {
@@ -530,15 +534,23 @@ const list = computed(() => {
   let arr = booths
   if (zone.value === 'DETAIL') arr = arr.filter((b) => hasDetail(b.id))
   else if (zone.value === 'DONE') arr = arr.filter((b) => isChecked(b.id))
+  else if (zone.value === 'BOOK') arr = arr.filter((b) => needsBooking(b.id))
   else if (zone.value !== 'ALL') arr = arr.filter((b) => b.zone === zone.value)
   const k = q.value.toLowerCase()
   if (k) {
+    // 纯字母输入再走拼音（scripts/gen-pinyin.mjs 预生成的 boothPinyin）：全拼按包含、首字母按前缀，如 xingbu / xbgd 都出星布谷地
+    const py = /^[a-z\s-]+$/.test(k) ? k.replace(/[\s-]/g, '') : ''
+    const hitPy = (b) => {
+      const e = py && boothPinyin[b.id]
+      return !!e && (e.f.some((t) => t.includes(py)) || e.i.some((t) => t.startsWith(py)))
+    }
     arr = arr.filter((b) =>
       b.ip.toLowerCase().includes(k) ||
       b.no.toLowerCase().replace(/\s/g, '').includes(k.replace(/\s|-/g, '')) ||
       (b.alias || '').toLowerCase().includes(k) ||
       searchExtra(b).includes(k) ||
-      b.blurb.includes(k),
+      b.blurb.includes(k) ||
+      hitPy(b),
     )
   }
   return arr

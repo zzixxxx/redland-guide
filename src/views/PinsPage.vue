@@ -96,12 +96,15 @@ const filters = computed(() => [
   ...zones.map((z) => ({ key: z.key, label: z.region, count: all.value.filter((p) => p.zone === z.key && p.type === 'region').length })),
   { key: 'special', label: '夜间 / NPC / 老玩家 / 营地', count: pins.filter((p) => ['night', 'npc', 'veteran', 'camp'].includes(p.type)).length },
   { key: 'reward', label: '拼图', count: pins.filter((p) => p.type === 'reward').length },
+  // 已收集：本机勾过的全部（含「?」占位卡，现场先勾也算），用户 9/23 要求
+  { key: 'got', label: '已收集', count: all.value.filter((p) => has(p.id)).length },
 ])
 
 const list = computed(() =>
   all.value.filter((p) => {
     if (onlyKnown.value && !p.thumb) return false
     if (filter.value === 'ALL') return true
+    if (filter.value === 'got') return has(p.id)
     if (filter.value === 'special') return ['night', 'npc', 'veteran', 'camp'].includes(p.type)
     if (filter.value === 'reward') return p.type === 'reward'
     return p.type === 'region' && p.zone === filter.value

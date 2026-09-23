@@ -5,6 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host",
+    "pinyin": "node scripts/gen-pinyin.mjs",
+    "prebuild": "node scripts/gen-pinyin.mjs",
     "build": "vite build",
     "preview": "vite preview --host"
   },
@@ -14,6 +16,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.5",
+    "pinyin-pro": "^3.29.4",
     "vite": "^8.0.4"
   }
 }

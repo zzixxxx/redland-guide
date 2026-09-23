@@ -52,6 +52,7 @@ scripts/fetch-note.mjs        抓小红书笔记正文 + 图片（按 fileId 拉
 scripts/refetch-clean.mjs     把已抓的带水印图按 note.json 的 fileIds 重拉成无水印版（历史目录一次性用过，新目录不需要）
 scripts/crop-pins.py          按裁切框从笔记图抠单枚 PIN 缩略图到 public/img/pins/
 scripts/map-spots.py          从官方平面图识别展位方框，生成 src/data/mapSpots.js 的归一化热区坐标
+scripts/gen-pinyin.mjs        用 pinyin-pro（devDependency）给 93 个展位的 IP 名 / alias / 账号名预生成拼音索引 → src/data/boothPinyin.js（自动生成勿手改；`npm run build` 的 prebuild 会自动跑，本地改了 booths.js / boothDetails.js 后 `npm run pinyin`）
 scripts/fetch-ditto.mjs       抓 ditto 专题页（目录页 + --sub 子页）全部图片、热区跳转、关注组件 uid → ditto.json
 scripts/xhs-profile.mjs       按 uid 读小红书主页公开信息（昵称 / 小红书号 / 认证类型 2=官方 / 粉丝），`--all` 核对 booths.js 里已填账号；有风控，连续约 3 个后要等
 docs/                         总资料底稿：REDLAND2026_信息汇总.md + assets/（官方页面图、各 IP 笔记归档）+ raw/（DSL JSON、逐图转录、KOL id）；不参与构建，见 §9
@@ -162,6 +163,7 @@ docs/                         总资料底稿：REDLAND2026_信息汇总.md + as
 - 平面图的三张切片在卡片里**排一行**（`.gallery.slices`，列宽按三张在原图里的实际占比 0.2205 / 0.561 / 0.2185，这样三张缩略图高度才一致），保持原图从左到右的顺序、地图在中间；点哪张开哪张，不要默认跳某一张（用户 9/14）。
 - 首页展位行右侧的按钮列**最多两颗高**（★ 打卡 / 📕 小红书主页），「＋ 清单」不要塞进这一列、也不要套 `.star` 的星星样式——它是 IP 名那一行后面的蓝色小标签 `.tag.text.btn.plan-add`（用户 9/15：三颗竖着排太丑、把行撑得太高）。
 - **首页「🕹 主线玩法」卡里有五个各自可折叠的小节**（用户 9/22）：`🎒 主角专属装备包` / `🎈 彩蛋` / `🗓 展位活动预约指南` / `🍴 岛上餐饮指南` / `🛒 商圈票根联动优惠`，都用 `.fold-head` + `.fold-arrow` 与首页其他折叠保持一致，**默认都收起**（`openEquip` / `openEggs` / `openBooking` / `openDining` / `openMall`，只存组件内）。预约指南是 9/22 从独立卡并进来的，**收起时仍显示三枚时间胶囊**（9/28–9/30 那枚 `.pill.hot`），展开才出 subtitle / 时间轴详情 / STEP 列表 / 规则全文 / 9 张图 / 图源行。
+- **展位列表的筹选 chip 顺序**：全部 / A / B / C / **需预约** / 有攻略 / 已打卡（用户 9/23 要求「需预约」放 C 区之后，`zone === 'BOOK'`，判定同下面的 `needsBooking`）。**搜索支持拼音**（用户 9/23）：输入是纯字母时走 `boothPinyin`（`scripts/gen-pinyin.mjs` 预生成，运行时不带字典）——全拼按包含（`xingbu` → 星布谷地）、首字母按前缀（`xbgd`）；含汉字的输入仍走原来的中文匹配。**PIN 图鉴筹选末尾多了「已收集」**（`filter === 'got'`，本机 `useCollected` 勾过的全部、含「?」占位卡）。
 - **展位列表行的「需预约」亮黄标签**（用户 9/22）：`.tag.yellow.text`，放在 IP 名之后、「攻略」绿标之前。判定在 `BoothsPage` 的 `bookingIds`：`boothDetails` 里任一 `activities / tasks / stage` 条目（含 `items` 分步项）带 `needBooking` 就算。**补详情时要预约的活动别忘了加这个字段**，否则列表不会标。
 - **餐饮指南与商圈票根联动是主线玩法卡的后两个小节**（用户 9/22 先让它们单独成卡、当天又要求并进主线玩法，以并入为准）：同样 `.fold-head` 折叠、默认收起，收起时各显示一行 subtitle。数据是 `rules.js` 的 `dining` / `mallDeals`，逐家展商与逐家商场的明细只放图（点开走 `Lightbox`）。**首页现在只剩四张卡**：每日时刻 / 主线玩法 / 场馆平面图 / 待打卡清单（+ 展位列表）。
 - **没有明确要求就不要改已有样式**（用户 9/11 反馈：把见面会胶囊改成时间列 + 去前缀被要求改回）。功能性改动（分行、可点击、折叠）要在保留原有视觉的前提下做；新增元素复用现有类，不给旧元素加图标 / 换布局。
