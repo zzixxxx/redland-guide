@@ -3873,6 +3873,13 @@ const unionpay = {
 
 export default {
   A40: lightAndNight,
+  // A16 光夜展陈与 A40 同一 IP，打开同一份攻略（用户 9/23）；展陈本身无需预约，预约制的是 A40 主展台，notes 首条点明
+  A16: {
+    ...lightAndNight,
+    boothNo: 'A16（光夜立牌公共展陈，攻略与 A40 主展台共用）',
+    location: '翻身时空港 A16',
+    notes: ['A-16 是《光与夜之恋》的公共立牌展陈（五位男主亚克力立牌 + 花艺拱门），由 RED LAND2026 组委会统一管理，无需预约、不设打卡拍照限时；下面的预约制活动、无料与存档碎片都在 A40 主展台，公共展位出现的内容物不会出现在主展台。', ...lightAndNight.notes],
+  },
   A27: nikki,
   B10: arknights,
   B11: endfield,
