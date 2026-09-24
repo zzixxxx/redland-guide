@@ -36,8 +36,8 @@ CROPS = {
     'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),
     'A34-1': ('public/img/booths/A34/01.jpg', (108, 635, 368, 895)),
     'A34-2': ('public/img/booths/A34/01.jpg', (432, 635, 698, 895)),
-    # 剑网3 9/24 攻略图 02 里的 PIN 卡比 9/11 那张大且正，改从这张裁（用 fileId 拉原图）
-    'A38': ('public/img/booths/A38/guide-02.jpg', (485, 815, 722, 1052), {'fileId': 'spectrum/1040g0k0325g17blcka005n32if540gvjcshij38', 'upscale': True}),
+    # 剑网3 PIN 卡：9/11「发鸡蛋啦」图 02 里那张是**正的**（9/24 攻略图里的斜了约 8°，用户 9/24 指出），从 02 裁、用 fileId 拉原图
+    'A38': ('public/img/booths/A38/02.jpg', (493, 732, 702, 941), {'fileId': 'spectrum/1040g0k0324v7dt4hj2005n32if540gvjnd2kklg', 'upscale': True}),
     # 命运扳机「存档碎片」PIN 套装（橙 = A 区），官方图里是单款内卡效果示意
     'A17c': ('public/img/booths/A17c/02.jpg', (152, 808, 349, 999), {'fileId': 'spectrum/1040g0k03254npqkik2105o798t908et3lr8shvg', 'upscale': True}),
     # 逆水寒 REDLAND PIN（黄 = B 区），图里只有 ~145px

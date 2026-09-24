@@ -49,7 +49,7 @@ export const pins = [
   { id: 'A34-pin-1', no: 'A34-1', type: 'region', zone: 'A', name: '我的世界联名徽章 · 苦力怕款', booth: 'A34', how: '现场互动打卡', thumb: 'img/pins/A34-1.jpg', image: 'img/booths/A34/01.jpg' },
   { id: 'A36-1', no: 'A36-1', type: 'region', zone: 'A', name: '如鸢「存档碎片」· 日场款（样式待公布）', booth: 'A36', how: '凭整理券在【如鸢无料兑换台】领伴手礼时同时领取；每日 13:30 – 17:30 发放，数量有限先到先得', thumb: null, image: 'img/booths/A36/07.jpg' },
   { id: 'A36-2', no: 'A36-2', type: 'region', zone: 'A', name: '如鸢「存档碎片」· 夜场款（可夜光，样式待公布）', booth: 'A36', how: '每日 17:30 – 21:30 发放；需同时出示整理券及绣衣楼爵位 35 级以上界面（截图无效）', thumb: null, image: 'img/booths/A36/07.jpg' },
-  { id: 'A38-pin', no: 'A38', type: 'region', zone: 'A', name: '剑网3 展台专属 PIN 卡（黄鸡大笑）', booth: 'A38', how: '展台【江湖笔记】留言寄语，每日限量先到先得', thumb: 'img/pins/A38.jpg', image: 'img/booths/A38/guide-02.jpg' },
+  { id: 'A38-pin', no: 'A38', type: 'region', zone: 'A', name: '剑网3 展台专属 PIN 卡（黄鸡大笑）', booth: 'A38', how: '展台【江湖笔记】留言寄语，每日限量先到先得', thumb: 'img/pins/A38.jpg', image: 'img/booths/A38/02.jpg' },
   { id: 'A34-pin-2', no: 'A34-2', type: 'region', zone: 'A', name: '我的世界联名徽章 · LOGO 款', booth: 'A34', how: '现场互动打卡', thumb: 'img/pins/A34-2.jpg', image: 'img/booths/A34/01.jpg' },
   { id: 'A17c-pin', no: 'A17c', type: 'region', zone: 'A', name: '命运扳机「存档碎片」PIN 套装', booth: 'A17c', how: '预约游戏并关注命运扳机小红书账号；套装含「外包装 + 三 IP 合一内卡」成品一件，另附《命运扳机》单款内卡', thumb: 'img/pins/A17c.jpg', image: 'img/booths/A17c/02.jpg' },
   { id: 'A24-pin-1', no: 'A24-1', type: 'region', zone: 'A', name: 'SCLA 小红书 PIN 徽章（存档碎片）· 假面骑士 / 奥特曼 / 哥斯拉 / 超级战队款', booth: 'A24', how: 'BINGO 完成 2 条及以上连线；每日礼品兑换 14:00 开始，每人每日限领 1 枚', thumb: 'img/pins/A24-1.jpg', image: 'img/booths/A24/02.jpg' },
