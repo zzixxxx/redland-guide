@@ -71,7 +71,7 @@ export default {
   B21b: { f: ["danisa","huangguandanmaiquqi","danmaiquqi","binggan","danisahuangguandanmaiquqi"], i: ["hgdmqq","dmqq","bg","dhgdmqq"] },
   B21c: { f: ["zhongguoyinlian","unionpay","yunshanfu","yinyuanyuan"], i: ["zgyl","ysf","yyy"] },
   B21d: { f: ["huashuo","adou","asus","adol"], i: ["hs","ad"] },
-  B22: { f: ["xindongbingpinbujidian","daihaoshenbuyan","bingqilin"], i: ["xdbpbjd","dhsby","bql"] },
+  B22: { f: ["xindongbingpinbujidian","daihaoshenbuyan","bingqilin","red","land"], i: ["xdbpbjd","dhsby","bql"] },
   C01: { f: ["cikexintiaoheiqi","jiyizhongzhi","ubisoftyubi","cikexintiao"], i: ["ckxthq","jyzz","uyb","ckxt"] },
   C02: { f: ["huijinzhiguo","cinderia","huijinzhiguocinderia"], i: ["hjzg","hjzgc"] },
   C03a: { f: ["wuhezhizhong","nanzhaigongzuoshi"], i: ["whzz","nzgzs"] },
