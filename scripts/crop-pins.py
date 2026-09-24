@@ -36,7 +36,8 @@ CROPS = {
     'A24-2': ('public/img/booths/A24/02.jpg', (516, 784, 702, 966)),
     'A34-1': ('public/img/booths/A34/01.jpg', (108, 635, 368, 895)),
     'A34-2': ('public/img/booths/A34/01.jpg', (432, 635, 698, 895)),
-    'A38': ('public/img/booths/A38/02.jpg', (482, 729, 718, 948)),
+    # 剑网3 9/24 攻略图 02 里的 PIN 卡比 9/11 那张大且正，改从这张裁（用 fileId 拉原图）
+    'A38': ('public/img/booths/A38/guide-02.jpg', (485, 815, 722, 1052), {'fileId': 'spectrum/1040g0k0325g17blcka005n32if540gvjcshij38', 'upscale': True}),
     # 命运扳机「存档碎片」PIN 套装（橙 = A 区），官方图里是单款内卡效果示意
     'A17c': ('public/img/booths/A17c/02.jpg', (152, 808, 349, 999), {'fileId': 'spectrum/1040g0k03254npqkik2105o798t908et3lr8shvg', 'upscale': True}),
     # 逆水寒 REDLAND PIN（黄 = B 区），图里只有 ~145px
@@ -75,6 +76,8 @@ CROPS = {
     # 超自然行动组 9/23 无料图：日 / 夜两枚橙软盘各 ~92px，用 fileId 拉原图放大
     'A12-1': ('public/img/booths/A12/02.jpg', (585, 436, 685, 535), {'fileId': 'notes_pre_post/1040g3k8325f2a7dml0105p5ttajl6pd0ovl1ll0', 'upscale': True}),
     'A12-2': ('public/img/booths/A12/02.jpg', (439, 705, 538, 804), {'fileId': 'notes_pre_post/1040g3k8325f2a7dml0105p5ttajl6pd0ovl1ll0', 'upscale': True}),
+    # 粒粒的小人国 9/24「交房仪式」图里的「粒?」存档碎片（橙），~100px 用 fileId 拉原图放大
+    'A39': ('public/img/booths/A39/guide-05.jpg', (174, 801, 268, 895), {'upscale': True}),  # 该图 fileId 的 sns-img-qc 返回非图片，9/24 起直接用 810 图放大
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
