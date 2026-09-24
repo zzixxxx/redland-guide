@@ -36,7 +36,8 @@
         <div class="pin-name">{{ p.name }}</div>
         <div class="small muted pin-how">{{ p.how }}</div>
         <div class="row between mt-6">
-          <router-link v-if="p.booth" class="small" style="color:var(--navy);font-weight:700" :to="{ name: 'booth', params: { id: p.booth } }">展位 {{ p.booth }} →</router-link>
+          <!-- 展位跳转做成蓝色标签按钮，点击面积更大（用户 9/24） -->
+          <router-link v-if="p.booth" class="tag blue text btn" style="font-size:11px;padding:3px 8px" :to="{ name: 'booth', params: { id: p.booth } }">展位 {{ p.booth }} →</router-link>
           <span v-else class="small muted">{{ typeName(p.type) }}</span>
           <button class="pbtn sm" :class="has(p.id) ? 'red' : 'ghost'" @click="toggle(p.id)">{{ has(p.id) ? '★ 已收集' : '☆ 收集' }}</button>
         </div>

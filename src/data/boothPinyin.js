@@ -85,7 +85,7 @@ export default {
   C10: { f: ["final","fantasy","resonance","zuizhonghuanxiang","gongming","square","enix","asia"], i: ["zzhx","gm"] },
   C11: { f: ["mard","mardmaerde","pindou"], i: ["mmed","pd"] },
   C12: { f: ["moelive","hololive","production"], i: [] },
-  C13: { f: ["gse","rentiantang","sipuladun","ladadang","splatoon"], i: ["rtt","spld","ldd"] },
+  C13: { f: ["gse","rentiantang","sipuladun","ladadang","splatoon","ratatan","latagang"], i: ["rtt","spld","ldd","ltg"] },
   C14: { f: ["shengtanyiyun","shengtanyiyunsoundagent"], i: ["styy","styys"] },
   C15: { f: ["laruiangongzuoshi","shenjie","shenjieyuanzui2","larian"], i: ["lragzs","sj","sjyz2"] },
   C16: { f: ["baokemengjihuanshikapaiyouxi","ptcg","pokemonbaokemeng","red","land","guanfang"], i: ["bkmjhskpyx","pbkm","gf"] },

@@ -1,0 +1,46 @@
+{
+  "pageId": "c34d413cc89d4c80bef6f3aeae92c3d9",
+  "finalUrl": "https://ditto.xiaohongshu.net/ditto/vincent/c34d413cc89d4c80bef6f3aeae92c3d9/dynpath2b0606b0?fullscreen=true&resource_instance_id=328017&naviHidden=yes&source=share&countryCode=CN&lang=zh_cn&xhs-statusbar-height=54&instance_id=c34d413cc89d4c80bef6f3aeae92c3d9&page_instance=2683",
+  "pageName": "主页面",
+  "shareTitle": "《啦嗒铛》登陆REDLAND！",
+  "shareDesc": "2026年10月15日正式发售，先来线下体验一下吧！",
+  "lastEditTime": "2026-09-23 22:22:24",
+  "startTime": "2026-08-29T16:00:00.000Z",
+  "endTime": "2026-10-07T15:59:59.000Z",
+  "follow": [],
+  "images": [
+    {
+      "file": "00.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-1",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0325f9jm4el676fk928g26s000000000el8953i",
+      "width": 1125,
+      "height": 2248,
+      "links": []
+    },
+    {
+      "file": "01.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-2",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0325f4u3us5606fk928g26s000000000fgkegr4",
+      "width": 1172,
+      "height": 1838,
+      "links": []
+    },
+    {
+      "file": "02.png",
+      "component": "OnixDittoBanner",
+      "remark": "自定义图片-3",
+      "url": "https://growth-img.xhscdn.com/ditto/104100n0325f4ubjnke06fk928g26s0000000008ar8g3g",
+      "width": 1172,
+      "height": 2601,
+      "links": []
+    }
+  ],
+  "images_local": [
+    "img/booths/C13/hub-00.jpg",
+    "img/booths/C13/hub-01.jpg",
+    "img/booths/C13/hub-02.jpg"
+  ],
+  "keptOnly": "ditto 专题页 3 张全留：00 KV（RED LAND × RATATAN）/ 01 游戏特色三张截图 / 02 充气啦嗒铛拍照打卡 + 存档碎片获得方式（日场 12:30–17:30 / 夜场 17:30–21:30，GSE 展位试玩任何游戏后均可获得一个）。用户 9/24 提供链接 https://xhslink.com/m/3wxCPwedz6K"
+}

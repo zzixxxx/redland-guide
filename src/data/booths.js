@@ -99,7 +99,7 @@ export const booths = [
   { id: 'C10', zone: 'C', no: 'C10', ip: 'FINAL FANTASY RESONANCE', alias: '最终幻想 共鸣 SQUARE ENIX', blurb: '（最终幻想：共鸣）历代系列主角集结，幻兵水晶之中召唤共鸣记忆！', xhs: { uid: '6a859028000000000301c941', name: 'SQUARE ENIX ASIA' } },
   { id: 'C11', zone: 'C', no: 'C11', ip: 'MARD', alias: 'MARD马尔德 拼豆', blurb: '一不小心就会掉进去的拼豆奇境，巨型拼豆工具与体验工坊等你闯。', xhs: { uid: '5bf5a202a75f750001fdb8cc', name: 'MARD' } },
   { id: 'C12', zone: 'C', no: 'C12', ip: 'MoeLive / hololive production', blurb: '偶像降临！解锁专属你的跨次元羁绊', xhs: { uid: '6535efeb000000000301ca6b', name: 'hololive' } },
-  { id: 'C13', zone: 'C', no: 'C13', ip: 'GSE', alias: '任天堂 斯普拉遁 啦嗒铛 Splatoon', blurb: '等身比充气啦嗒铛打卡，斯普拉遁 涂击队合照区以及多款游戏试玩' },
+  { id: 'C13', zone: 'C', no: 'C13', ip: 'GSE', alias: '任天堂 斯普拉遁 啦嗒铛 Splatoon RATATAN 拉塔港', blurb: '等身比充气啦嗒铛打卡，斯普拉遁 涂击队合照区以及多款游戏试玩' },
   { id: 'C14', zone: 'C', no: 'C14', ip: '声探疑云', blurb: '首创声音探案体验馆，化身声探，推理破案！', xhs: { uid: '6180bffe000000000201f379', name: '声探疑云SoundAgent' } },
   { id: 'C15', zone: 'C', no: 'C15', ip: '拉瑞安工作室', alias: '神界 神界原罪2 Larian', blurb: '闯入地图外的阿克斯市集，开启一场奇货冒险', xhs: { uid: '6870fe9b000000000d02fd5a', name: '拉瑞安工作室' } },
   { id: 'C16', zone: 'C', no: 'C16', ip: '宝可梦集换式卡牌游戏', alias: 'PTCG', blurb: '宝可梦卡牌体验营开启，教学、对战、打卡，等你来玩！', xhs: { uid: '65d54e280000000017014262', name: 'Pokemon宝可梦' } },

@@ -78,6 +78,8 @@ CROPS = {
     'A12-2': ('public/img/booths/A12/02.jpg', (439, 705, 538, 804), {'fileId': 'notes_pre_post/1040g3k8325f2a7dml0105p5ttajl6pd0ovl1ll0', 'upscale': True}),
     # 粒粒的小人国 9/24「交房仪式」图里的「粒?」存档碎片（橙），~100px 用 fileId 拉原图放大
     'A39': ('public/img/booths/A39/guide-05.jpg', (174, 801, 268, 895), {'upscale': True}),  # 该图 fileId 的 sns-img-qc 返回非图片，9/24 起直接用 810 图放大
+    # 啦嗒铛：ditto 专题页 02 图里左边那枚（两枚同款），810 宽图上量的，页面图没有 fileId
+    'C13': ('public/img/booths/C13/hub-02.jpg', (169, 970, 410, 1194), {'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

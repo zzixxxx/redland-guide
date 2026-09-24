@@ -51,7 +51,8 @@
       <div class="pcard mt-14">
         <div class="pcard-body">
           <div class="pcard-title">📌 展会信息</div>
-          <div class="mt-6">{{ detail.intro }}</div>
+          <!-- intro 与顶部卡的 blurb 相同时不重复（用户 9/24：展会信息冗余） -->
+          <div v-if="detail.intro && !detail.intro.startsWith(booth.blurb)" class="mt-6">{{ detail.intro }}</div>
           <div class="row wrap mt-6">
             <span class="pill">⏰ {{ event.dateText }}</span>
             <span v-if="detail.hours" class="pill hot">🕒 {{ detail.hours }}</span>
