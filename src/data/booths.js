@@ -82,7 +82,7 @@ export const booths = [
   { id: 'B21a', zone: 'B', no: 'B21', ip: '康师傅冰红茶', alias: '冰红茶 饮料 低糖高纤 低GI', blurb: '「低 GI 痛快海滩」限时营业，玩游戏解锁好礼，冰红茶男团 coser 空降', xhs: { uid: '667636f90000000003032dfe', name: '康师傅冰红茶' } },
   { id: 'B21b', zone: 'B', no: 'B21', ip: 'Danisa 皇冠丹麦曲奇', alias: '丹麦曲奇 饼干', blurb: '趣味烘焙屋上岛，邀你一起解锁美味「曲奇食光」～', xhs: { uid: '5cdd6863000000001700ecd9', name: 'Danisa皇冠丹麦曲奇' } },
   { id: 'B21c', zone: 'B', no: 'B21', ip: '中国银联', alias: 'UnionPay 云闪付 银圆圆', blurb: '红支付 联结热爱 —— 带上银圆圆去冒险；9/28 起线上福利与登岛出行优惠开启', xhs: { uid: '6367125e000000001f01fca1', name: '中国银联' } },
-  { id: 'B21d', zone: 'B', no: 'B21', ip: '华硕 a豆', alias: 'ASUS adol 华硕', blurb: '官方场馆平面图（2026-09-11）新增，展台详情待公布' },
+  { id: 'B21d', zone: 'B', no: 'B21', ip: '华硕 a豆', alias: 'ASUS adol 华硕', blurb: '「豆」来领好礼：现场互动领氮化镓充电器 / 毛绒挂件 / 串珠手链 / 小熊玩偶等专属好礼', xhs: { uid: '5d0e0d1b0000000011004433', name: '华硕a豆' } },
   { id: 'B22', zone: 'B', no: 'B22', ip: '心「DONG」冰品补给点', alias: '代号神不言 冰淇淋', blurb: '火热解冻中！@代号神不言 为主角输送冰淇淋！', xhs: { uid: '69df3c6c00000000330389e3', name: '代号：神不言' } },
 
   // ---------- C 区 ----------

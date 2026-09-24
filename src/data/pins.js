@@ -69,7 +69,7 @@ export const pins = [
   { id: 'C16-pin', no: 'C16', type: 'region', zone: 'C', name: '宝可梦卡牌「存档碎片」· 超梦 & 梦幻款', booth: 'C16', how: '卡牌体验营完成 3 个任务领取；日场款 12:30–17:30 每日 2000 个，夜场款（夜光）17:30–21:30 每日 1200 个，每人每次限领 1 个', thumb: 'img/pins/C16.jpg', image: 'img/booths/B02/card-03.jpg' },
   { id: 'C08-pin', no: 'C08', type: 'region', zone: 'C', name: 'REDLAND 官方 PIN（猛兽派对，样式待公布）', booth: 'C08', how: '完成《猛兽派对》手游试玩得限定贴纸后到吧台兑换；或与随机现身的猛兽主角合影互动有机会获得', thumb: null, image: 'img/booths/C08/00.jpg' },
   { id: 'C17-pin', no: 'C17', type: 'region', zone: 'C', name: 'RED LAND 2026 限定徽章（航海王卡牌对战，样式待公布）', booth: 'C17', how: '集齐 3 枚航海王卡牌对战印章（SNS 打卡 / 策牌破局 / 互动游戏各 1 枚），扫码填问卷并下载万代卡牌 APP 后现场兑换；共限量 1600 枚', thumb: null, image: 'img/booths/C17/00.jpg' },
-  { id: 'C07-pin', no: 'C07', type: 'region', zone: 'C', name: '苏丹的游戏徽章', booth: 'C07', how: '走完舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座全流程，向苏丹献上美味大餐；参与互动的玩家均可获得', thumb: 'img/pins/C07.jpg', image: 'img/booths/C07/02.jpg' },
+  { id: 'C07-pin', no: 'C07', type: 'region', zone: 'C', name: 'REDLAND2026 存档碎片（苏丹的游戏；夜场款可夜光）', booth: 'C07', how: '预约后走完舍馆 → 集市 → 冒险者酒吧 → 哈比卜的厨房 → 苏丹的王座全流程，向苏丹献上美味大餐博得青睐即得；数量有限先到先得', thumb: 'img/pins/C07.jpg', image: 'img/booths/C07/02.jpg' },
   { id: 'C13-pin', no: 'C13', type: 'region', zone: 'C', name: '存档碎片（RED LAND 2026 × 啦嗒铛）', booth: 'C13', how: 'GSE 展位试玩任何游戏后即得 1 个；日场 12:30–17:30 / 夜场 17:30–21:30，数量有限派完即止', thumb: 'img/pins/C13.jpg', image: 'img/booths/C13/hub-02.jpg' },
 
   // ---- 夜间 ----
