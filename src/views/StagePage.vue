@@ -51,6 +51,7 @@
           <span class="fold-arrow" :class="{ open: openCamp }">&gt;</span>
         </div>
         <div class="small muted mt-6">{{ campProgram.subtitle }}</div>
+        <div v-if="campProgram.booking" class="small mt-6" style="color:var(--brown)">🗓 {{ campProgram.booking }}</div>
         <template v-if="openCamp">
           <div class="row wrap mt-10">
             <span class="tag text">DAY{{ current.day }} 主理人</span>

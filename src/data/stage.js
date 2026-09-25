@@ -144,6 +144,8 @@ export const stageSources = {
 export const campProgram = {
   title: '头车小舞台 · 每日日程',
   subtitle: '主理人见面会 → 主题团建小赛 → 整活表演 → 集体大合影，每天 13:30 起',
+  // RED LAND 官方 9/25 预约日历：冒险者营地「冒险者见面会」是 2 个官方预约活动之一，9/27 开约（最早一批）
+  booking: '「冒险者见面会」（来花车营地和每天的冒险者进行 1v1 见面互动）需在 RED LAND 主会场预约，官方 9/25 预约日历列在 9 月 27 日开约',
   hosts: [
     { day: 1, date: '10月2日', name: '泷吟 & 阿季', role: '江湖搭子 / 睡教双侠' },
     { day: 2, date: '10月3日', name: '柴阿狗', role: '热血啦啦队' },

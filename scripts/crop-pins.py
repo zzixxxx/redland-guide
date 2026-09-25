@@ -81,6 +81,11 @@ CROPS = {
     # 啦嗒铛：ditto 专题页 02 图里左边那枚（两枚同款），810 宽图上量的，页面图没有 fileId
     'C13': ('public/img/booths/C13/hub-02.jpg', (169, 970, 410, 1194), {'upscale': True}),
     'C07': ('public/img/booths/C07/02.jpg', (187, 1017, 312, 1140), {'fileId': 'notes_pre_post/1040g3k0324vgbc37iu105plpn5u7ed8vkbbvego', 'upscale': True}),
+    # 9/25 这批：P4R 两枚蓝软盘并排（810 图上各 ~266px，够大不用 fileId）、奇遇动物城橙软盘（~116px）、世界之外蓝软盘（原图 750 宽，~148px）
+    'C05-1': ('public/img/booths/C05/guide-00.jpg', (112, 2298, 378, 2578), {'upscale': True}),
+    'C05-2': ('public/img/booths/C05/guide-00.jpg', (432, 2298, 698, 2578), {'upscale': True}),
+    'A37': ('public/img/booths/A37/06.jpg', (556, 752, 672, 868), {'fileId': 'spectrum/1040g0k0325gjfuijka305qjk78rks703t2fcag8', 'upscale': True}),
+    'C09': ('public/img/booths/C09/08.jpg', (487, 782, 635, 920), {'fileId': 'notes_pre_post/1040g3k8325hifdaq4ee05oi6o5kod20po0l5th0', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
     'C16': ('public/img/booths/B02/card-03.jpg', (428, 600, 652, 842), {'fileId': 'spectrum/1040g0k0324vi29ubj2005pel9ok5qgj2bg30r70', 'upscale': True, 'rotate': 15}),
@@ -110,7 +115,7 @@ for k in ids:
     opts = rest[0] if rest else {}
     if opts.get('fileId'):
         im = fetch_orig(opts['fileId'])
-        r = im.size[0] / 810  # 裁切框按 810 宽写，换算到原图
+        r = im.size[0] / Image.open(src).size[0]  # 裁切框按本地图写（一般 810 宽，C09 原图只有 750），按宽度比换算到原图
         box = tuple(round(v * r) for v in box)
     else:
         im = Image.open(src).convert('RGB')

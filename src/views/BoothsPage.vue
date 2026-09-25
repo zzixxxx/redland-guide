@@ -139,6 +139,34 @@
                 </ul>
               </div>
             </div>
+            <!-- RED LAND 官方 9/25「预约日历」：按开约日列全部预约活动，点展位标签跳该展位攻略；图另放一排（数据在 rules.js booking.calendar） -->
+            <button class="linkbtn foldline small mt-6" style="font-weight:700;text-decoration:none" @click="openBookCal = !openBookCal">📅 官方预约日历（{{ calCount }} 个展位，按开约日）{{ openBookCal ? '▴' : '▾' }}</button>
+            <div v-if="openBookCal">
+              <div class="small mt-6">{{ booking.calendar.intro }}</div>
+              <ul class="small muted mt-6" style="padding-left:18px">
+                <li v-for="t in booking.calendar.tips" :key="t">{{ t }}</li>
+              </ul>
+              <div v-for="d in booking.calendar.days" :key="d.date" class="mt-10">
+                <span class="tag text" :class="{ hot: d.date === '9月28日' }">{{ d.date }} 开约</span>
+                <div v-for="e in d.entries" :key="e.ip" class="mt-6 small" style="padding-left:8px;border-left:3px solid var(--sky)">
+                  <b>{{ e.ip }}</b>
+                  <button v-for="id in calBooths(e)" :key="id" class="tag blue text btn" style="margin-left:6px" @click="openBooth(id)">{{ id }} →</button>
+                  <div v-for="a in e.acts" :key="a.name" class="mt-4">
+                    <span class="tag text" :class="calKind(a.kind)" style="font-size:10px;padding:2px 6px">{{ a.kind }}</span>
+                    <b style="margin-left:4px">{{ a.name }}</b>
+                    <div class="muted">{{ a.desc }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="small muted mt-6">{{ booking.calendar.note }}</div>
+              <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+                <img v-for="(im, i) in booking.calendar.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(calImages, i)" />
+              </div>
+              <div class="small muted mt-6">
+                图源：{{ booking.calendar.source.author }}「{{ booking.calendar.source.title }}」{{ booking.calendar.source.publishedAt }} ·
+                <a :href="booking.calendar.source.url" target="_blank" rel="noopener" style="text-decoration:underline">原笔记</a>
+              </div>
+            </div>
             <div class="small mt-10" style="color:var(--brown)">💡 {{ booking.note }}</div>
             <div class="mt-10" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
               <img v-for="(im, i) in booking.images" :key="im.src" :src="base + im.src" :alt="im.alt" :title="im.alt" loading="lazy" style="border:2px solid var(--navy);border-radius:2px" @click="openImgs(bookingImages, i)" />
@@ -460,6 +488,7 @@ const openEggs = ref(false)
 const openDining = ref(false)
 const openMall = ref(false)
 const openBooking = ref(false)
+const openBookCal = ref(false)
 const openBookRules = ref(false)
 const openPlan = ref(true)
 // 清单变化时重算（12 个点约 50ms，全 81 个约 370ms）；planOrder 非空就按用户调好的顺序走。
@@ -499,6 +528,11 @@ const mapImages = venueMapRef.images.map((m) => ({ src: base + m.src, caption: m
 const facImages = venueFacilities.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const equipImages = equipPack.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const bookingImages = booking.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+const calImages = booking.calendar.images.map((m) => ({ src: base + m.src, caption: m.alt }))
+// 日历条目 → 展位 id 数组（多 IP 共用展位给的是数组，官方活动是 null）；同一 IP 按场次分几天开约的只按 IP 名计一次
+const calBooths = (e) => [].concat(e.booth || [])
+const calCount = new Set(booking.calendar.days.flatMap((d) => d.entries.map((e) => e.ip.replace(/（.*$/, '')))).size
+const calKind = (k) => (k === '展台互动' ? 'blue' : k === '无料领取' ? 'yellow' : 'gray')
 const diningImages = dining.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const mallImages = mallDeals.images.map((m) => ({ src: base + m.src, caption: m.alt }))
 const facCount = venueFacilities.groups.reduce((n, g) => n + g.items.length, 0)
@@ -516,6 +550,8 @@ const bookingIds = new Set(
     )
     .map(([id]) => id),
 )
+// RED LAND 官方 9/25 预约日历里列出的展位也算「需预约」（IP 自己还没发笔记、只有日历轻量详情的 A32 / C18 / B14 靠这个兜底）
+for (const d of booking.calendar.days) for (const e of d.entries) for (const id of calBooths(e)) bookingIds.add(id)
 const needsBooking = (id) => bookingIds.has(id)
 const bookingCount = booths.filter((b) => bookingIds.has(b.id)).length
 // 搜索附加关键词：主账号昵称 + 详情里各 IP 官方账号 / 其他官方笔记作者（多 IP 共用展位时能搜到子 IP，如搜「魔兽」「炉石」出暴雪游戏，搜「假面骑士」出 SCLA）
