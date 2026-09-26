@@ -63,7 +63,7 @@ CROPS = {
     'A17b': ('public/img/booths/A17b/04.jpg', (425, 422, 539, 515), {'fileId': 'spectrum/1040g0k0325b4gl4l4c005pmqd42ncdo3q6ir2gg', 'upscale': True}),
     # B03 Lovania「RED LAND 存档碎片」：官方只在「集章礼」格子里画了软盘造型的粉色图案（方形 + 中间浅色标签），没给成品实拍。
     # 图案在原图里**斜着摆**，按投影扫描定角 18°（逆时针转正后 92×93 的方形），转正后按同一个框裁（用户 9/22 要求这种也进图鉴）
-    'B03-pin': ('public/img/booths/B03/03.jpg', (296, 515, 395, 615), {'fileId': 'spectrum/1040g34o3254quebmkc1043d79goggb4aakpvmig', 'rotate': 18, 'upscale': True}),
+    'B03-pin': ('public/img/booths/B03/guide-04.jpg', (608, 652, 746, 792), {'fileId': 'spectrum/1040g0k0325cm579uk41043d79goggb4aa40mh6g', 'upscale': True}),  # 9/21 攻略里的黄色实图（9/15 只有粉色剪影，那条框已作废）
     # 9/23 这批：无限暖暖（橙，178px 直接够）、明日方舟 / 终末地（黄，奖品图里只有 80–120px）、刺客信条两枚（蓝，并排各 ~80px）
     'A27': ('public/img/booths/A27/07.jpg', (308, 538, 494, 724), {'fileId': 'spectrum/1040g0k0325dsisbjk6hg5oq6aam65v73p15sido', 'upscale': True}),
     'B10': ('public/img/booths/B10/03.jpg', (494, 1478, 584, 1568), {'fileId': 'spectrum/1040g0k0325b1qso4kc005nsdhqcg85448fnd0k0', 'upscale': True}),
@@ -87,6 +87,11 @@ CROPS = {
     'A37': ('public/img/booths/A37/06.jpg', (556, 752, 672, 868), {'fileId': 'spectrum/1040g0k0325gjfuijka305qjk78rks703t2fcag8', 'upscale': True}),
     'C09': ('public/img/booths/C09/08.jpg', (487, 782, 635, 920), {'fileId': 'notes_pre_post/1040g3k8325hifdaq4ee05oi6o5kod20po0l5th0', 'upscale': True}),
     # 阅文集团存档碎片（暗红软盘，五 IP Q 版）：诡秘之主 9/26 图 05（存为 guimi-03）左边那枚正面，810 图上 ~230px，用 fileId 拉原图
+    # 9/27 这批：心动小镇（橙，04 右下两枚叠放取前面那枚）/ 遗忘之海（黄，03 互动周边格）/ PlayStation（橙，04 奖品图，略斜不转）
+    'A05': ('public/img/booths/A05/04.jpg', (496, 918, 612, 1026), {'fileId': 'spectrum/1040g34o325iuuosf4a2g5o72jfro57l6900loto', 'upscale': True}),
+    'B08': ('public/img/booths/B08/03.jpg', (365, 410, 455, 499), {'fileId': 'spectrum/1040g34o325gn1o4ik4b05oon0dd4g8ara8oticg', 'upscale': True}),
+    'A13': ('public/img/booths/A13/04.jpg', (169, 517, 300, 638), {'fileId': 'spectrum/1040g34o325ghc5df4a5g5q2ssop2773g7ts3fv0', 'upscale': True}),
+    'A30': ('public/img/booths/A30/guide-04.jpg', (516, 700, 660, 838), {'fileId': 'spectrum/1040g0k0325f1eat2k61g5p52ojnl7cnv0tgm78o', 'upscale': True}),
     'A35': ('public/img/booths/A35/guimi-03.jpg', (159, 403, 390, 623), {'fileId': 'spectrum/1040g34o325gknpeekc105p13ojukc96miismp2g', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),

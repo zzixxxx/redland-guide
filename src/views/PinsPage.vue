@@ -13,7 +13,7 @@
             <div class="bar mt-6"><i :style="{ width: Math.min(100, (zoneCollected(z.key) / z.need) * 100) + '%', background: z.color }" /></div>
           </div>
         </div>
-        <div class="small muted mt-6">* 编号为按展位号的占位编码（官方未给 PIN 编号）；灰色「?」软盘是<b>暂无 PIN 情报</b>的展位占位，公布后替换。</div>
+        <div class="small muted mt-6">* 编号为按展位号的占位编码（官方未给 PIN 编号）；灰色「?」软盘是<b>暂无 PIN 情报</b>的展位占位，公布后替换；宝藏码头 / 补给点 / 赞助区 / 待解锁展位本来就不发 PIN，不列。</div>
         <div class="small muted mt-6">* <b>不是每个展位都发 PIN</b>：官方规则只要求每区集齐 4 / 2 / 2 枚就能兑换该区拼图，「?」卡不代表该展位一定会有。勾选「只看已公布」可只看实图已公布的 PIN。</div>
       </div>
     </div>
@@ -80,10 +80,10 @@ function openPin(p) {
 // 区域信息（名称 / 颜色 / 兑换所需 PIN 数）直接用 booths.js zones
 const zones = boothZones
 
-// 未公布 PIN 的展位 → 占位卡（一个展位一枚）
+// 未公布 PIN 的展位 → 占位卡（一个展位一枚）；booths.js 标了 noPin 的（宝藏码头 / 补给点 / 赞助区 / 待解锁 / 展陈）本来就不发 PIN，不出占位卡（用户 9/27）
 const knownBooths = new Set(pins.filter((p) => p.booth).map((p) => p.booth))
 const placeholders = booths
-  .filter((b) => !knownBooths.has(b.id))
+  .filter((b) => !knownBooths.has(b.id) && !b.noPin)
   .map((b) => ({ id: 'booth:' + b.id, no: b.id, type: 'region', zone: b.zone, booth: b.id, name: `${b.ip}（暂无 PIN 情报）`, how: '还没公布 PIN，也可能本来就不发', thumb: null }))
 
 const all = computed(() => {
