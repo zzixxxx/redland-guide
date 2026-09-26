@@ -4957,6 +4957,7 @@ const assassins = {
     publishedAt: '2026-09-25',
   },
   moreSources: [
+    { title: '黑旗登船指南！复兴岛展台周边全攻略（UBISOFT育碧 主号版：长图与刺客信条 9/25 那条相同，另切成 4 段；活动四的每日暗号就在这个账号的置顶笔记里）', url: 'https://xhslink.cn/o/VXDZ7fq7ma', noteId: '6ab509140000000015013a16', author: 'UBISOFT育碧', publishedAt: '2026-09-25' },
     { title: '一个闪身步，寒鸦号即将靠岸复兴岛', url: 'https://xhslink.cn/o/AMulkNLb0ck', noteId: '6ab24396000000003501505b', author: '刺客信条', publishedAt: '2026-09-22' },
   ],
   boothNo: 'C01',
