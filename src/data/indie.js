@@ -31,7 +31,7 @@ export const indieGames = [
   { letter: 'Q', games: [g('千里山河录'), { name: '囚生症', xhs: { uid: '63c63aa0000000002702a7fc', name: '囚生症制作组' } }, g('栖霞日记'), g('去月球 传奇RPG之最终一小时')] },
   { letter: 'R', games: [{ name: 'Rain 98', xhs: { uid: '69dee110000000002603aadb', name: 'Rain98_official' } }, g('Roman Sands RE:Build')] },
   { letter: 'S', games: [{ name: '睡个好觉', xhs: { uid: '6535138e00000000040089e8', name: 'Mecrew games' } }, g('三国叶子戏'), { name: '神力科莎EVO', xhs: { uid: '61b58621000000002102629f', name: '505 Games' } }, { name: '神力科莎：拉力', xhs: { uid: '61b58621000000002102629f', name: '505 Games' } }, { name: '睡前派对', xhs: { uid: '68d0fdd8000000001a017fcf', name: '睡前派对 Sleepover' } }, g('神缺席'), g('杀死影子'), g('死亡日：狂杀末路')] },
-  { letter: 'T', games: [g('唐宫诗与谋'), { name: '天津1924', xhs: { uid: '61e7af7600000000100082b9', name: '倍儿哏儿工作室' } }, { name: '弹企鹅', xhs: { uid: '695a1d89000000002b016759', name: '弹企鹅PengPong' } }] },
+  { letter: 'T', games: [{ name: '唐宫诗与谋', xhs: { uid: '662b4bf10000000007004559', name: '木兰舟工作室' } }, { name: '天津1924', xhs: { uid: '61e7af7600000000100082b9', name: '倍儿哏儿工作室' } }, { name: '弹企鹅', xhs: { uid: '695a1d89000000002b016759', name: '弹企鹅PengPong' } }] },
   { letter: 'W', games: [{ name: '我不是胖虎：小岛大当家', xhs: { uid: '6853da70000000001b020c82', name: '我不是胖虎：小岛大当家' } }] },
   {
     letter: 'X',

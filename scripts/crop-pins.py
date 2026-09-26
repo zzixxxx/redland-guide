@@ -86,6 +86,8 @@ CROPS = {
     'C05-2': ('public/img/booths/C05/guide-00.jpg', (432, 2298, 698, 2578), {'upscale': True}),
     'A37': ('public/img/booths/A37/06.jpg', (556, 752, 672, 868), {'fileId': 'spectrum/1040g0k0325gjfuijka305qjk78rks703t2fcag8', 'upscale': True}),
     'C09': ('public/img/booths/C09/08.jpg', (487, 782, 635, 920), {'fileId': 'notes_pre_post/1040g3k8325hifdaq4ee05oi6o5kod20po0l5th0', 'upscale': True}),
+    # 阅文集团存档碎片（暗红软盘，五 IP Q 版）：诡秘之主 9/26 图 05（存为 guimi-03）左边那枚正面，810 图上 ~230px，用 fileId 拉原图
+    'A35': ('public/img/booths/A35/guimi-03.jpg', (159, 403, 390, 623), {'fileId': 'spectrum/1040g34o325gknpeekc105p13ojukc96miismp2g', 'upscale': True}),
     'B02-1': ('public/img/booths/B02/04.jpg', (555, 335, 710, 480), {'upscale': True}),
     'B02-2': ('public/img/booths/B02/04.jpg', (555, 485, 710, 630), {'upscale': True}),
     'C16': ('public/img/booths/B02/card-03.jpg', (428, 600, 652, 842), {'fileId': 'spectrum/1040g0k0324vi29ubj2005pel9ok5qgj2bg30r70', 'upscale': True, 'rotate': 15}),

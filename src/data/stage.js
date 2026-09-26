@@ -94,7 +94,7 @@ export const stageDays = [
       },
       { performer: '蛋仔派对', songs: ['蛋仔成团曲'], ip: '蛋仔派对', note: '所有人举起手，一起嘎达嘎达！' },
       { performer: '伊莫', songs: ['接着奏乐接着舞 伊莫扭动小屁股'], ip: '伊莫' },
-      { performer: 'OPG 舞团', songs: ['扶摇直上', '异人 Disco'], ip: '一人之下', note: '节目名《可恶！身为异人世界的青年翘楚们却被拐来 REDLAND 月光舞台表演，现世吧，扶摇 Disco！》' },
+      { performer: 'OPG 舞团', songs: ['扶摇直上', '异人 Disco'], ip: '一人之下', note: '节目名《可恶！身为异人世界的青年翘楚们却被拐来 REDLAND 月光舞台表演，现世吧，扶摇 Disco！》；一人之下 9/26 登岛指南写 10 月 5 日 19:00，具体演出时间以现场节目安排为准' },
       { performer: '呦猫UNEKO', songs: ['予光'] },
       { performer: '呦猫UNEKO', songs: ['愿我', '铭记'], ip: '狐妖小红娘' },
       { performer: '祈Inory', songs: ['Glimmer', '唤梦', '命运之镰', 'Keep On Fighting'] },
